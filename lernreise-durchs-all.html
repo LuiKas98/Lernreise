@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lernreise durchs All – Klasse 2</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:20px/1.45 "Comic Sans MS","Chalkboard SE","Trebuchet MS",sans-serif;background:#1b1464 radial-gradient(#ffffff33 1.5px,transparent 1.5px) 0 0/46px 46px;color:#fff;min-height:100vh}
+main{max-width:880px;margin:auto;padding:12px}
+h1,h2{margin:.3em 0}h2{font-size:1.25em}
+.card{background:#fff;color:#1b1464;border:4px solid #ffd23f;border-radius:26px;padding:16px;margin:12px 0;box-shadow:0 7px 0 #0005}
+.c{text-align:center}.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+button{font:inherit;font-weight:bold;min-height:52px;min-width:52px;padding:8px 18px;margin:3px;border:3px solid #1b1464;border-radius:18px;background:#ffd23f;color:#1b1464;cursor:pointer;box-shadow:0 4px 0 #1b1464}
+button:hover{background:#ffe680}button:disabled{opacity:.75;cursor:default}
+button:focus-visible,input:focus-visible{outline:5px solid #ff4d6d;outline-offset:2px}
+.sec{background:#e8e6ff}.big{font-size:1.2em;padding:12px 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.pl{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding:14px;border-radius:26px}
+.em{font-size:3em;line-height:1.1}.pl small{font-weight:normal}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.opt{font-size:1.1em}.good{background:#7ae582!important}
+input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-height:52px;width:200px;max-width:100%;margin:3px}
+.tx{background:#fff7d6;border-radius:14px;padding:10px;border-left:8px solid #ffd23f}
+.prog{height:18px;background:#ffffff44;border-radius:9px;overflow:hidden}.prog i{display:block;height:100%;background:#ffd23f}
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.pool,.bkt{min-height:64px;border:3px dashed #1b1464;border-radius:16px;padding:6px;margin:6px 0}
+.bkt{background:#eefaff}.bk{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.chip{background:#c9f0ff}.chip.on{background:#ff8fa3;outline:4px solid #1b1464}
+#fb{font-weight:bold;min-height:1.5em}li{text-align:left;margin:4px 0}ul{list-style:none;padding:0}
+.nm{font-size:1.8em;font-weight:bold}
+@media print{body{background:#fff}.noprint{display:none!important}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<main><noscript>Bitte schalte JavaScript ein.</noscript></main>
+<script>
+const $=s=>document.querySelector(s),M=$('main');
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>[...a].sort(()=>Math.random()-.5);
+const MC=(q,a,w,h,x={})=>({t:'mc',q,a:String(a),o:[a,...w].map(String),h,...x});
+const IN=(q,a,h,x={})=>({t:'in',q,a:String(a),h,...x});
+const DD=(q,b,it,h)=>({t:'dd',q,b,it,h});
+const NM=a=>{const s=new Set();for(const x of [a+10,a-10,a+1,a-1,a+2,a-2,a+5])if(x>=0&&x!==a&&s.size<3)s.add(x);return[...s]};
+const NQ=(q,a,h)=>MC(q,a,NM(a),h);
+const L=['Leicht','Mittel','Schwierig'],LC=['🟢','🟡','🔴'];
+/* ---------- Planet 1: Plus und Minus ---------- */
+function calc(l,s){let a,b;
+ if(l==0){a=s?R(10,20):R(2,10);b=s?R(2,9):R(2,10)}
+ else if(l==1){if(!s){a=10*R(1,6)+R(1,7);b=10*R(1,3)+R(1,9-a%10)}else{a=10*R(4,9)+R(3,9);b=10*R(1,3)+R(1,a%10)}}
+ else{if(!s){a=10*R(1,5)+R(4,9);b=10*R(1,3)+R(10-a%10,9)}else{a=10*R(3,9)+R(0,5);b=10*R(1,2)+R(a%10+1,9)}}
+ return[a,b,s?a-b:a+b]}
+const rech=l=>[0,1,0,1].map((s,i)=>{const[a,b,r]=calc(l,s),q=`Rechne: ${a} ${s?'−':'+'} ${b} = ?`,h=['Zähle dazu oder weg. Deine Finger helfen dir.','Rechne erst die Zehner, dann die Einer.','Gehe in zwei Schritten: erst bis zum nächsten Zehner, dann den Rest.'][l];return i<2?NQ(q,r,h):IN(q+' (nur die Zahl)',r,h)}).sort((x,y)=>x.t<y.t?-1:0);
+/* ---------- Planet 2: Uhr, Geld, Größen ---------- */
+const fm=(h,m)=>h+':'+String(m).padStart(2,'0')+' Uhr';
+const clk=(h,m)=>`<svg viewBox="0 0 100 100" width="150" role="img" aria-label="Eine Uhr"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#1b1464" stroke-width="5"/><g font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1464"><text x="50" y="22">12</text><text x="82" y="55">3</text><text x="50" y="92">6</text><text x="18" y="55">9</text></g><line x1="50" y1="50" x2="50" y2="28" stroke="#e63757" stroke-width="6" stroke-linecap="round" transform="rotate(${(h%12+m/60)*30} 50 50)"/><line x1="50" y1="50" x2="50" y2="12" stroke="#1b1464" stroke-width="4" stroke-linecap="round" transform="rotate(${m*6} 50 50)"/></svg>`;
+const ct=l=>{const h=R(1,12),m=l==0?0:l==1?[0,30][R(0,1)]:5*R(1,11),n=h%12+1,p=(h+10)%12+1,o=l==2?(m+30)%60:m?0:30;
+ return MC('Wie spät ist es?',fm(h,m),[fm(n,m),fm(p,m),fm(h,o)],'Der kurze rote Zeiger zeigt die Stunde. Der lange dunkle Zeiger zeigt die Minuten (bei 6 sind es 30, bei 3 sind es 15).',{v:clk(h,m)})};
+const mo=l=>{const a=l==0?R(1,5):10*R(1,5),b=l==0?R(1,4):10*R(1,4),p=5*R(2,19);
+ return l==0?IN(`Du hast ${a} € und bekommst ${b} € dazu. Wie viele Euro hast du jetzt? (nur die Zahl)`,a+b,'Zähle die Euro zusammen.'):l==1?IN(`Du hast ${a} Cent und bekommst ${b} Cent dazu. Wie viele Cent hast du jetzt? (nur die Zahl)`,a+b,'Zähle erst die Zehner zusammen.'):IN(`Du zahlst 1 € (das sind 100 Cent). Dein Eis kostet ${p} Cent. Wie viele Cent bekommst du zurück? (nur die Zahl)`,100-p,'Rechne 100 minus den Preis.')};
+const gr=l=>[MC('Was ist schwerer?','Ein Elefant',['Eine Maus','Eine Feder'],'Denke an die Größe der Tiere.'),MC('1 m sind wie viele cm?','100 cm',['10 cm','1000 cm'],'Ein Meterstab hat 100 Striche. Jeder Strich ist 1 cm.'),MC('1 kg sind wie viele g?','1000 g',['100 g','10 g'],'In ein Kilo passen tausend Gramm.')][l];
+const zeit=l=>[ct(l),ct(l),mo(l),gr(l)];
+/* ---------- Planet 3: Zahlenrätsel und Sachaufgaben ---------- */
+const kn=l=>{let a,b,c,x,s,d,q,t=[];
+ if(l==0){a=R(3,9);b=R(2,8);t.push(IN(`Mia hat ${a} Sticker. Sie bekommt ${b} dazu. Wie viele Sticker hat Mia jetzt?`,a+b))}
+ if(l==1){a=R(20,50);b=R(10,40);t.push(IN(`Im Zoo sind ${a} Affen und ${b} Papageien. Wie viele Tiere sind das zusammen?`,a+b))}
+ if(l==2){a=R(40,70);b=R(11,30);c=R(11,25);t.push(IN(`Im Bus sitzen ${a} Kinder. An der Haltestelle steigen ${b} Kinder aus und ${c} Kinder ein. Wie viele Kinder sind jetzt im Bus?`,a-b+c))}
+ if(l==0){a=R(10,20);b=R(2,9);t.push(IN(`Ben hat ${a} Murmeln. Er verschenkt ${b}. Wie viele Murmeln hat Ben noch?`,a-b))}
+ if(l==1){a=R(40,90);b=R(11,39);t.push(IN(`Im Korb liegen ${a} Äpfel. ${b} Äpfel werden gegessen. Wie viele Äpfel bleiben?`,a-b))}
+ if(l==2){a=R(90,100);b=R(23,67);t.push(IN(`Ein Buch hat ${a} Seiten. Lena hat schon ${b} Seiten gelesen. Wie viele Seiten fehlen noch?`,a-b))}
+ t.forEach(k=>k.h='Lies genau. Rechnest du plus oder minus? Schreibe dir die Rechnung auf.');
+ x=l==0?R(2,9):l==1?R(10,50):R(50,90);b=l==0?R(2,9):l==1?R(10,30):R(11,40);
+ t.push(NQ(l<2?`Ich denke mir eine Zahl. Wenn ich ${b} dazu zähle, erhalte ich ${x+b}. Welche Zahl ist es?`:`Ich denke mir eine Zahl. Wenn ich ${b} abziehe, bleiben ${x-b} übrig. Welche Zahl ist es?`,x,'Rechne rückwärts: Aus Plus wird Minus, aus Minus wird Plus.'));
+ s=l==0?R(1,10):l==1?5*R(0,4):R(60,95);d=l==0?R(1,2):l==1?[5,10][R(0,1)]:-R(3,9);
+ t.push(IN(`Welche Zahl kommt als Nächstes? ${[0,1,2,3].map(i=>s+i*d).join(', ')}, ?`,s+4*d,'Wie groß ist der Abstand von einer Zahl zur nächsten?'));
+ return t};
+/* ---------- Planet 4: Lesen ---------- */
+const LS=[
+{tx:'Der Hund heißt Rex. Er ist braun und groß. Rex spielt gern im Garten. Er jagt einen roten Ball.',q:[['Wie heißt der Hund?','Rex',['Max','Bello']],['Welche Farbe hat der Ball?','rot',['blau','grün']],['Wo spielt Rex gern?','im Garten',['im Haus','im Wald']],['Welche Farbe hat Rex? (ein Wort)','braun']]},
+{tx:'Am Samstag fährt Lena mit ihrer Oma zum See. Sie packen Brote, Äpfel und Saft ein. Auf dem See schwimmen Enten. Lena wirft den Enten Körner hin. Danach bauen sie eine Sandburg.',q:[['Mit wem fährt Lena zum See?','mit ihrer Oma',['mit ihrem Opa','mit ihrer Freundin']],['Was packen sie ein?','Brote, Äpfel und Saft',['Eis und Kuchen','Nudeln und Tee']],['Was schwimmt auf dem See?','Enten',['Boote','Fische']],['Was bauen sie am Ende? (ein Wort)','Sandburg']]},
+{tx:'Tom findet im Park einen kleinen Igel. Der Igel sitzt unter einem Busch und zittert. Es ist kalt, denn es ist Herbst. Tom holt seine Mutter. Gemeinsam legen sie den Igel in eine Kiste mit Laub.',q:[['Warum zittert der Igel?','Es ist kalt.',['Er ist hungrig.','Er hat Angst vor dem Hund.']],['In welcher Jahreszeit spielt die Geschichte?','im Herbst',['im Sommer','im Frühling']],['Wer hilft Tom?','seine Mutter',['sein Vater','seine Lehrerin']],['In was legen sie den Igel? (ein Wort)','Kiste|eine Kiste']]}];
+const les=l=>LS[l].q.map(q=>{const x={tx:LS[l].tx},h='Lies den Text noch einmal genau.';return q.length==2?IN(q[0],q[1],h,x):MC(q[0],q[1],q[2],h,x)});
+/* ---------- Planet 5: Rechtschreibung ---------- */
+const SP=[
+[MC('Welches Wort ist richtig geschrieben?','Biene',['Bihne','Biehne'],'Das lange i hörst du in Bi-e-ne. Man schreibt es oft mit ie.'),MC('Welches Wort ist richtig geschrieben?','Spiegel',['Spigel','Spihgel'],'Das lange i schreibt man oft mit ie.'),IN('Schreibe das ganze Wort: Br_f (Das schickst du mit der Post.)','Brief','Das lange i schreibt man oft mit ie.'),DD('Wird das Wort mit ie oder mit i geschrieben?',['ie','i'],[['Biene',0],['Brief',0],['Tier',0],['Tisch',1],['Kind',1],['Licht',1]],'Bei Tisch, Kind und Licht hörst du ein kurzes i.')],
+[MC('Welches Wort ist richtig geschrieben?','Sonne',['Sone','Zonne'],'Nach einem kurzen Selbstlaut kommt oft ein doppelter Mitlaut.'),MC('Welches Wort ist richtig geschrieben?','Mutter',['Muter','Mutta'],'Sprich langsam: Mut-ter. Das u ist kurz, also zwei t.'),IN('Schreibe das ganze Wort mit zwei gleichen Mitlauten: Ke__e (Schmuck für den Hals)','Kette','Nach dem kurzen e kommt ein doppelter Mitlaut.'),DD('Hat das Wort einen doppelten Mitlaut?',['mit doppeltem Mitlaut','ohne doppelten Mitlaut'],[['Sonne',0],['Mutter',0],['Kamm',0],['Hase',1],['Nase',1],['Lampe',1]],'Bei Hase und Nase ist der Selbstlaut lang. Das hörst du.')],
+[MC('Welches Wort ist richtig geschrieben?','Jacke',['Jake','Jaccke'],'Nach einem kurzen Selbstlaut schreibt man ck.'),MC('Welches Wort ist richtig geschrieben?','Katze',['Katse','Kaze'],'Nach einem kurzen Selbstlaut schreibt man tz.'),IN('Verlängere und schreibe das Wort: Hun_ (Mehrzahl: die Hunde)','Hund','Bei „Hunde“ hörst du das d. Also schreibt man Hund.'),DD('Schreibt man das Wort mit ck oder mit tz?',['ck','tz'],[['Jacke',0],['Rock',0],['Decke',0],['Katze',1],['Platz',1],['Mütze',1]],'Das hörst du nicht, das musst du dir merken. Übe die Wörter!')]];
+const sch=l=>SP[l];
+/* ---------- Planet 6: Wortarten ---------- */
+const WT=[
+[DD('Nomen (Namenwort) oder Verb (Tunwort)?',['Nomen','Verb'],[['Hund',0],['Tisch',0],['Ball',0],['laufen',1],['singen',1],['malen',1]],'Nomen kannst du sehen oder anfassen. Verben sagen, was man tut.'),MC('Welches Wort ist ein Nomen?','Haus',['rennen','schön'],'Ein Nomen ist ein Ding, Tier oder Mensch.'),MC('Welches Wort ist ein Verb (Tunwort)?','springen',['Baum','rot'],'Ein Verb sagt, was jemand tut.'),IN('Schreibe das Nomen richtig auf: katze','Katze','Nomen schreibt man mit großem Anfangsbuchstaben.',{cs:1})],
+[DD('Nomen, Verb oder Adjektiv (Wiewort)?',['Nomen','Verb','Adjektiv'],[['Blume',0],['Katze',0],['lachen',1],['malen',1],['schön',2],['klein',2]],'Adjektive sagen, wie etwas ist.'),MC('Welches Wort ist ein Adjektiv (Wiewort)?','schnell',['Schnecke','rennen'],'Ein Adjektiv sagt, wie etwas ist.'),MC('Welches Wort passt? Die ___ Blume duftet.','rote',['rennen','Tisch'],'Gesucht ist ein Wiewort, das die Blume beschreibt.'),IN('Schreibe das Gegenteil von „groß“:','klein','Wie ist etwas, das nicht groß ist?')],
+[DD('Nomen, Verb oder Adjektiv?',['Nomen','Verb','Adjektiv'],[['Freude',0],['Winter',0],['tanzen',1],['backen',1],['mutig',2],['warm',2]],'Nomen sind groß geschrieben. Verben sagen, was man tut. Adjektive sagen, wie etwas ist.'),MC('Wie viele Nomen hat der Satz? „Der Hund jagt die Katze im Garten.“','3',['2','4'],'Die Nomen sind Hund, Katze und Garten.'),MC('Welches Wort ist das Verb? „Das Mädchen liest ein Buch.“','liest',['Mädchen','Buch'],'Was tut das Mädchen?'),IN('Setze das Verb passend ein: Der Vogel ___ hoch. (fliegen)','fliegt','Bei „der Vogel“ endet das Verb auf -t.')]];
+const wor=l=>WT[l];
+const PL=[
+{n:'Rechni',e:'🪐',c:'#ff9db0',f:'Mathe',d:'Plus und Minus',g:rech},
+{n:'Zeitola',e:'🌕',c:'#ffe07a',f:'Mathe',d:'Uhr, Geld, Größen',g:zeit},
+{n:'Knobelix',e:'🟣',c:'#c9b6ff',f:'Mathe',d:'Rätsel und Sachaufgaben',g:kn},
+{n:'Lesaro',e:'🌍',c:'#8fe3b0',f:'Deutsch',d:'Lesen und Verstehen',g:les},
+{n:'Schreibo',e:'🔴',c:'#ffb38a',f:'Deutsch',d:'Rechtschreibung',g:sch},
+{n:'Wortus',e:'🔵',c:'#8fd3ff',f:'Deutsch',d:'Nomen, Verben, Adjektive',g:wor}];
+/* ---------- Speicher ---------- */
+let D={};try{D=JSON.parse(localStorage.getItem('lernreise2'))||{}}catch(e){}
+const save=()=>{try{localStorage.setItem('lernreise2',JSON.stringify(D))}catch(e){}};
+const st=(p,l)=>D[''+p+l]||0,total=()=>Object.values(D).reduce((a,b)=>a+b,0);
+const stars=n=>n?'⭐'.repeat(n):'☆';
+const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
+/* ---------- Raumschiff ---------- */
+const ship=t=>{const n=[1,6,15,30].filter(x=>t>=x).length;return`<svg viewBox="0 0 120 150" width="110" role="img" aria-label="Dein Raumschiff, Ausbaustufe ${n} von 4"><g stroke="#1b1464" stroke-width="4" stroke-linejoin="round">${n>=3?'<path d="M48 128Q60 158 72 128Z" fill="#ff9f1c"/>':''}${n>=2?'<path d="M36 90L10 124L36 112Z M84 90L110 124L84 112Z" fill="#ff4d6d"/>':''}<path d="M60 8Q86 40 86 112H34Q34 40 60 8Z" fill="#fff"/><path d="M60 8Q73 22 79 42H41Q47 22 60 8Z" fill="#ff4d6d"/><circle cx="60" cy="72" r="12" fill="${n>=1?'#4cc9f0':'#ccc'}"/>${n>=4?'<path d="M60 8V0" /><circle cx="60" cy="3" r="3" fill="#ffd23f"/>':''}</g></svg>`};
+/* ---------- Ansichten ---------- */
+let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={};
+function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total();
+ M.innerHTML=`<h1>🚀 Lernreise durchs All</h1><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><h2>Wähle einen Planeten:</h2><div class="grid">${PL.map((p,i)=>`<button class="pl" style="background:${p.c}" onclick="lv(${i})"><span class="em" aria-hidden="true">${p.e}</span><b>${p.n}</b><small>${p.f}: ${p.d}</small><span>${[0,1,2].map(l=>LC[l]+stars(st(i,l))).join(' ')}</span></button>`).join('')}</div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
+function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>${p.e} ${p.n}</h1><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
+function go(l){LV=l;T=PL[P].g(l).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
+const fb=h=>{$('#fb').innerHTML=h};
+function show(){const t=T[I];tr=0;sel=null;pl={};
+ M.innerHTML=`<div class="bar"><button class="sec" onclick="lv(${P})">⬅ Zurück</button><b>${PL[P].n} · Aufgabe ${I+1} von 4 · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${I*25}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*25}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?`<p class="tx">${t.tx}</p>`:''}<h2>${t.q}</h2>${t.v||''}<div id="a">${t.t=='mc'?`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`:t.t=='in'?`<input id="in" autocomplete="off" aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`:ddui()}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
+ const i=$('#in');if(i)i.focus()}
+/* Drag-and-drop (auch per Tippen/Tastatur) */
+const chip=(k,x)=>`<button class="chip${sel===k?' on':''}" draggable="true" ondragstart="event.dataTransfer.setData('text',${k})" onclick="selc(${k})">${x[0]}</button>`;
+function ddui(){const t=T[I],e=`<i>Alle Wörter sind sortiert.</i>`;
+ return`<p><small>Tippe ein Wort an und dann auf die richtige Gruppe. Du kannst es auch ziehen.</small></p><div class="pool" ondragover="event.preventDefault()" ondrop="drop(event,-1)">${t.it.map((x,k)=>pl[k]===undefined?chip(k,x):'').join('')||e}</div><div class="bk">${t.b.map((b,j)=>`<div class="bkt" ondragover="event.preventDefault()" ondrop="drop(event,${j})"><button class="sec" onclick="put(${j})">📥 ${b}</button><br>${t.it.map((x,k)=>pl[k]===j?chip(k,x):'').join('')}</div>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+const redo=()=>{$('#a').innerHTML=ddui()};
+function selc(k){if(pl[k]!==undefined){delete pl[k];sel=null}else sel=k;redo()}
+function put(j){if(sel!==null){pl[sel]=j;sel=null;redo()}else fb('Tippe zuerst ein Wort an. 👆')}
+function drop(e,j){e.preventDefault();const k=+e.dataTransfer.getData('text');if(j<0)delete pl[k];else pl[k]=j;sel=null;redo()}
+/* Prüfen */
+function pick(k){const t=T[I],ok=t.o[k]==t.a;if(!ok)document.querySelectorAll('.opt')[k].disabled=true;fin(ok,t.a)}
+function chk(){const t=T[I];let ok,ans;
+ if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');ans=t.a.split('|')[0];ok=t.a.split('|').some(a=>t.cs?v==a:v.toLowerCase()==a.toLowerCase())}
+ else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Wörter ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok){redo();}}
+ fin(ok,ans)}
+function lock(){document.querySelectorAll('#a button,#a input').forEach(b=>b.disabled=true);document.querySelectorAll('.opt').forEach(b=>{if(b.textContent==T[I].a)b.classList.add('good')});$('#nx').innerHTML=`<button class="big" onclick="nxt()">${I<3?'Weiter ➡':'Fertig 🏁'}</button>`;$('#nx button').focus()}
+function fin(ok,ans){const t=T[I];tr++;
+ if(ok){const p=tr==1?10:5;PT+=p;RS.push(tr);fb(`✅ ${['Super!','Toll gemacht!','Richtig!','Spitze!'][R(0,3)]} +${p} Punkte`+(t.t=='dd'?'':''));lock()}
+ else if(tr==1)fb('🤔 Das war noch nicht richtig. Aus Fehlern lernt man! Versuche es noch einmal. Der Tipp 💡 hilft dir.');
+ else{RS.push(0);fb(`Das war knifflig! Die richtige Lösung:<br><b>${ans}</b><br>💡 ${t.h}`);lock()}}
+function nxt(){I++;I<4?show():res()}
+function tip(){fb('💡 '+T[I].h)}
+function say(){const t=T[I];if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain((t.tx||'')+' '+t.q+(t.o?'. Antworten: '+t.o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/_+/g,' Lücke '));u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
+function res(){const s=PT>=36?3:PT>=24?2:PT>=12?1:0;D[''+P+LV]=Math.max(st(P,LV),s);save();
+ M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von 40 Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="go(${LV})">🔁 Nochmal</button><button class="big sec" onclick="lv(${P})">Andere Stufe</button><button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`}
+function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p>${ship(t)}<p>${PL.map((p,i)=>`${p.e} ${p.n}: ${[0,1,2].reduce((a,l)=>a+st(i,l),0)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
+function rst(){if(confirm('Möchtest du wirklich alle Sterne löschen?')){D={};try{localStorage.removeItem('lernreise2')}catch(e){}map()}}
+map();
+</script>
+</body>
+</html>
