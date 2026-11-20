@@ -15,9 +15,6 @@ button{font:inherit;font-weight:bold;min-height:52px;min-width:52px;padding:8px 
 button:hover{background:#ffe680}button:disabled{opacity:.75;cursor:default}
 button:focus-visible,input:focus-visible{outline:5px solid #ff4d6d;outline-offset:2px}
 .sec{background:#e8e6ff}.big{font-size:1.2em;padding:12px 24px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.pl{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding:14px;border-radius:26px}
-.em{font-size:3em;line-height:1.1}.pl small{font-weight:normal}
 .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
 .opt{font-size:1.1em}.good{background:#7ae582!important}
 input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-height:52px;width:200px;max-width:100%;margin:3px}
@@ -29,20 +26,21 @@ input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-
 .chip{background:#c9f0ff}.chip.on{background:#ff8fa3;outline:4px solid #1b1464}
 #fb{font-weight:bold;min-height:1.5em}li{text-align:left;margin:4px 0}ul{list-style:none;padding:0}
 .nm{font-size:1.8em;font-weight:bold}
-.snake{position:relative;margin:10px 0}
-.snake svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.snake path{fill:none;stroke:#ffd23f;stroke-width:5;stroke-dasharray:3 14;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.sh{display:none}
-.pls{position:relative;z-index:1;display:grid;height:1260px;grid-template-rows:repeat(6,1fr)}
-.pls .pl{width:min(300px,76%);min-height:180px;align-self:center;justify-self:start;border:4px solid #1b1464}
-.pls .pl:nth-child(odd){margin-left:calc(38% - min(150px,38%))}
-.pls .pl:nth-child(even){margin-left:calc(62% - min(150px,38%))}
-@media(min-width:900px){
-.snake{width:min(1100px,calc(100vw - 24px));margin-left:50%;transform:translateX(-50%)}
-.sv{display:none}.sh{display:block}
-.pls{height:330px;grid-template-rows:none;grid-template-columns:repeat(6,1fr);column-gap:8px;align-items:start}
-.pls .pl:nth-child(n){width:100%;margin-left:0;min-height:200px;align-self:start;font-size:.85em}
-.pls .pl:nth-child(even){margin-top:120px}}
+.sys{container-type:inline-size;position:relative;width:min(100%,700px);aspect-ratio:1;margin:8px auto}
+.orb{position:absolute;left:50%;top:50%;border:3px dashed #ffffff44;border-radius:50%;transform:translate(-50%,-50%);animation:spin var(--t) linear infinite;animation-delay:var(--d,0s)}
+.o0{width:42%;height:42%;--t:100s;--w:33.3%}.o1{width:64%;height:64%;--t:140s;--w:21.9%;--d:-50s}.o2{width:86%;height:86%;--t:180s;--w:16.3%;--d:-100s}
+.pw{position:absolute;left:50%;top:0;width:var(--w);transform:translate(-50%,-50%)}.pw.b{top:100%}
+.pb{display:block;width:100%;min-width:0;min-height:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:#fff;border-radius:50%;animation:unspin var(--t) linear infinite;animation-delay:var(--d,0s)}
+.gw{display:block}.pic{display:block;width:100%;container-type:inline-size}
+span.pic{aspect-ratio:1;display:grid;place-items:center}.emo{font-size:85cqw;line-height:1}
+.pn{display:block;margin:0 -50%;text-align:center;font-size:max(11px,2.5cqw);text-shadow:0 0 4px #000,0 2px 2px #000}
+.sun{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);min-width:0;min-height:0;padding:0;margin:0;border:0;border-radius:50%;background:none;box-shadow:none;color:#1b1464;filter:drop-shadow(0 0 14px #ffb703)}
+.sun svg{width:100%;display:block}.sun span{position:absolute;inset:0;display:grid;place-items:center;font-size:max(11px,2.6cqw)}
+.sys:hover .orb,.sys:hover .pb,.sys:focus-within .orb,.sys:focus-within .pb{animation-play-state:paused}
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes unspin{to{transform:rotate(-360deg)}}
+@media(prefers-reduced-motion:reduce){.orb,.pb{animation:none}}
+.bigpl{width:150px;margin:8px auto}
 @media print{body{background:#fff}.noprint{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
@@ -126,14 +124,23 @@ const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.tex
 const ship=t=>{const n=[1,6,15,30].filter(x=>t>=x).length;return`<svg viewBox="0 0 120 150" width="110" role="img" aria-label="Dein Raumschiff, Ausbaustufe ${n} von 4"><g stroke="#1b1464" stroke-width="4" stroke-linejoin="round">${n>=3?'<path d="M48 128Q60 158 72 128Z" fill="#ff9f1c"/>':''}${n>=2?'<path d="M36 90L10 124L36 112Z M84 90L110 124L84 112Z" fill="#ff4d6d"/>':''}<path d="M60 8Q86 40 86 112H34Q34 40 60 8Z" fill="#fff"/><path d="M60 8Q73 22 79 42H41Q47 22 60 8Z" fill="#ff4d6d"/><circle cx="60" cy="72" r="12" fill="${n>=1?'#4cc9f0':'#ccc'}"/>${n>=4?'<path d="M60 8V0" /><circle cx="60" cy="3" r="3" fill="#ffd23f"/>':''}</g></svg>`};
 /* ---------- Ansichten ---------- */
 let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={};
-const pth=h=>{const p=[...Array(6)].map((_,i)=>h?[i*100+50,i%2?67:30]:[i%2?62:38,i*100+50]);return'M'+p[0]+p.slice(1).map((q,i)=>{const o=p[i];return h?`C${(o[0]+q[0])/2} ${o[1]} ${(o[0]+q[0])/2} ${q[1]} ${q}`:`C${o[0]} ${(o[1]+q[1])/2} ${q[0]} ${(o[1]+q[1])/2} ${q}`}).join('')};
+const ART={
+2:`<svg class="pic" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="ck"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="#a78bfa"/><g clip-path="url(#ck)"><rect y="28" width="100" height="12" fill="#7c5ce0"/><rect y="50" width="100" height="9" fill="#d4c4ff"/><rect y="68" width="100" height="12" fill="#7c5ce0"/></g><g stroke="#1b1464" stroke-width="4"><circle cx="50" cy="50" r="44" fill="none"/><circle cx="86" cy="18" r="9" fill="#fff"/></g></svg>`,
+4:`<svg class="pic" viewBox="0 0 100 100" aria-hidden="true"><g stroke="#1b1464" stroke-width="4"><circle cx="50" cy="50" r="44" fill="#ff7b54"/><g fill="#d9482b" stroke-width="3"><circle cx="33" cy="36" r="10"/><circle cx="66" cy="58" r="13"/><circle cx="38" cy="70" r="6"/><circle cx="68" cy="28" r="5"/></g></g></svg>`,
+5:`<svg class="pic" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="cw"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="#4cc9f0"/><g clip-path="url(#cw)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"><path d="M0 38Q25 22 50 38T100 34"/><path d="M0 62Q25 46 50 62T100 58"/><path d="M20 84Q50 70 80 84"/></g><circle cx="50" cy="50" r="44" fill="none" stroke="#1b1464" stroke-width="4"/></svg>`};
+const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
+const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #fff) drop-shadow(0 0 ${b+3}px rgba(255,210,63,${.4+p/15}))`:''};
+const pic=i=>ART[i]||`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
+const SUN=`<svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#ff9f1c" stroke-width="6" stroke-linecap="round">${[...Array(12)].map((_,k)=>{const a=k*Math.PI/6,s=Math.sin(a),c=Math.cos(a);return`<line x1="${50+38*s}" y1="${50-38*c}" x2="${50+48*s}" y2="${50-48*c}"/>`}).join('')}</g><circle cx="50" cy="50" r="33" fill="#ffd23f" stroke="#1b1464" stroke-width="4"/></svg>`;
 function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total();
- M.innerHTML=`<h1>🚀 Lernreise durchs All</h1><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><h2>Wähle einen Planeten:</h2><div class="snake"><svg class="sh" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true"><path d="${pth(1)}"/></svg><svg class="sv" viewBox="0 0 100 600" preserveAspectRatio="none" aria-hidden="true"><path d="${pth(0)}"/></svg><div class="pls">${PL.map((p,i)=>`<button class="pl" style="background:${p.c}" onclick="lv(${i})"><span class="em" aria-hidden="true">${p.e}</span><b>${p.n}</b><small>${p.f}: ${p.d}</small><span>${[0,1,2].map(l=>LC[l]+stars(st(i,l))).join(' ')}</span></button>`).join('')}</div></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
-function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>${p.e} ${p.n}</h1><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
+ M.innerHTML=`<h1>🚀 Lernreise durchs All</h1><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun" onclick="sun()" aria-label="Sonnen-Mission starten">${SUN}<span>Mission</span></button></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
+function sun(){const q=p=>{let l=[0,1,2].findIndex(x=>st(p,x)<2);if(l<0)l=2;const a=PL[p].g(l);return a[R(0,a.length-1)]};
+ P=-1;LV=0;T=sh([0,1,2].map(()=>q(R(0,2))).concat([0,1,2].map(()=>q(R(3,5))))).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
+function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
 function go(l){LV=l;T=PL[P].g(l).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
 const fb=h=>{$('#fb').innerHTML=h};
 function show(){const t=T[I];tr=0;sel=null;pl={};
- M.innerHTML=`<div class="bar"><button class="sec" onclick="lv(${P})">⬅ Zurück</button><b>${PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?`<p class="tx">${t.tx}</p>`:''}<h2>${t.q}</h2>${t.v||''}<div id="a">${t.t=='mc'?`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`:t.t=='in'?`<input id="in" autocomplete="off" aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`:ddui()}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
+ M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'☀️ Sonnen-Mission':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?`<p class="tx">${t.tx}</p>`:''}<h2>${t.q}</h2>${t.v||''}<div id="a">${t.t=='mc'?`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`:t.t=='in'?`<input id="in" autocomplete="off" aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`:ddui()}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
  const i=$('#in');if(i)i.focus()}
 /* Drag-and-drop (auch per Tippen/Tastatur) */
 const chip=(k,x)=>`<button class="chip${sel===k?' on':''}" draggable="true" ondragstart="event.dataTransfer.setData('text',${k})" onclick="selc(${k})">${x[0]}</button>`;
@@ -158,8 +165,8 @@ function nxt(){I++;I<T.length?show():res()}
 function tip(){fb('💡 '+T[I].h)}
 function say(){const t=T[I];if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain((t.tx||'')+' '+t.q+(t.o?'. Antworten: '+t.o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/_+/g,' Lücke '));u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
-function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;D[''+P+LV]=Math.max(st(P,LV),s);save();
- M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="go(${LV})">🔁 Nochmal</button><button class="big sec" onclick="lv(${P})">Andere Stufe</button><button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`}
+function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;if(P>=0){D[''+P+LV]=Math.max(st(P,LV),s);save()}
+ M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`}
 function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p>${ship(t)}<p>${PL.map((p,i)=>`${p.e} ${p.n}: ${[0,1,2].reduce((a,l)=>a+st(i,l),0)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
 function rst(){if(confirm('Möchtest du wirklich alle Sterne löschen?')){D={};try{localStorage.removeItem('lernreise2')}catch(e){}map()}}
 map();
