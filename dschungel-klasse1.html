@@ -144,6 +144,14 @@ h2,.tx,.card p{overflow-wrap:anywhere;hyphens:auto}
 .dc.fg{z-index:6}
 .bigpl .emo{display:block;animation:idle 3s ease-in-out infinite;transform-origin:50% 100%}
 @media(prefers-reduced-motion:reduce){.an,.dc,.bigpl .emo{animation:none!important}.pb:hover .an,.pb:focus-visible .an,.jt:hover .an{transform:scale(1.15)}}
+.kmap{position:relative;width:min(100%,460px);aspect-ratio:100/108;margin:8px auto;border:3px solid #1b1464;border-radius:14px;overflow:hidden;background:#d4ebbb;container-type:inline-size}
+.kmap>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.kmap .mp,.kmap .pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;margin:0;min-height:0;min-width:0;width:auto;max-width:36%;padding:2px 3px 3px;border-radius:12px;line-height:1.05;background:#fffdf0f2;border:2px solid #1b1464;box-shadow:0 2px 0 #1b146455;color:#1b1464}
+.kmap .pin{font-style:normal}.kmap .pin .n{font-style:normal}
+.kmap .e{font-size:clamp(20px,8.4cqw,38px);line-height:1.1}
+.kmap .n{font-size:clamp(9px,3.1cqw,15px);font-weight:800;line-height:1.1;overflow-wrap:anywhere;hyphens:auto}
+.kmap .mp:hover{transform:translate(-50%,-50%) scale(1.06)}
+.kmap .im[aria-pressed=true]{background:#ffd23f;outline:4px solid #1b1464}
 </style>
 </head>
 <body>
@@ -170,7 +178,7 @@ const draw=(pool,l,n,cnt={})=>{const out=[],used=new Set;
 const bal=(gen,k,i=1)=>{let it;for(let n=0;n<80;n++){it=gen();if(new Set(it.map(x=>x[i])).size>=k)return it}return it};
 const uniq=(n,gen)=>{const s=new Set;for(let i=0;i<500&&s.size<n;i++)s.add(gen());return[...s]};
 /* ===== Dschungel-Abenteuer · Klasse 1 ===== */
-const KLASSE=1;
+const KLASSE=1,KOMPASS=false,DIAGL=2;
 /* ---------- Helfer ---------- */
 const qa=(A,l)=>{let p=A.filter(x=>x[0]==l);if(!p.length||R(0,2)==0)p=A.filter(x=>x[0]<=l);const x=pk(p);return MC(x[1],x[2],x[3],x[4])};
 const tap=(q,G,B,h,ng=3,nb=3,x={})=>IMG(q,[...sh(G).slice(0,ng).map(a=>[a[0],a[1],1]),...sh(B).slice(0,nb).map(a=>[a[0],a[1],0])],h,x);
@@ -180,15 +188,15 @@ const lvn=(l,a,b,c)=>l==0?a:l==1?b:c;
 /* ---------- Bilder (SVG) ---------- */
 const SVGH=(vb,inner,w=110)=>`<svg class="vsvg" width="${w}" viewBox="${vb}" role="img" aria-label="Bild">${inner}</svg>`;
 const SGN={
- stop:SVGH('0 0 100 100','<polygon points="30,4 70,4 96,30 96,70 70,96 30,96 4,70 4,30" fill="#d62828" stroke="#fff" stroke-width="3"/><polygon points="31,9 69,9 91,31 91,69 69,91 31,91 9,69 9,31" fill="none" stroke="#fff" stroke-width="2"/><text x="50" y="60" font-size="26" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial,sans-serif">STOP</text>',70),
- vg:SVGH('0 0 100 100','<polygon points="50,94 4,10 96,10" fill="#fff" stroke="#d62828" stroke-width="9" stroke-linejoin="round"/>',70),
- vs:SVGH('0 0 100 100','<polygon points="50,3 97,50 50,97 3,50" fill="#fff" stroke="#222" stroke-width="3"/><polygon points="50,14 86,50 50,86 14,50" fill="#ffc400" stroke="#222" stroke-width="3"/>',70),
- ev:SVGH('0 0 100 100','<circle cx="50" cy="50" r="46" fill="#d62828" stroke="#fff" stroke-width="2"/><rect x="18" y="42" width="64" height="16" fill="#fff"/>',70),
- eb:SVGH('0 0 100 100','<rect x="4" y="22" width="92" height="56" rx="8" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><path d="M18 50H72M56 34L76 50 56 66" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',70),
- pk:SVGH('0 0 100 100','<rect x="6" y="6" width="88" height="88" rx="10" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><text x="50" y="74" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial,sans-serif">P</text>',70),
- fu:SVGH('0 0 100 100','<rect x="4" y="4" width="92" height="92" rx="10" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><polygon points="50,14 88,80 12,80" fill="#fff"/><circle cx="50" cy="42" r="5.5" fill="#111"/><path d="M50 48V64M50 54L41 60M50 54L59 59M50 64L44 74M50 64L56 74" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>',70),
- ak:SVGH('0 0 100 100','<polygon points="50,6 96,88 4,88" fill="#fff" stroke="#d62828" stroke-width="9" stroke-linejoin="round"/><circle cx="41" cy="48" r="5" fill="#111"/><circle cx="60" cy="54" r="4" fill="#111"/><path d="M41 54V68M41 58L34 64M41 58L49 62M41 68L37 77M41 68L46 77M60 59V70M60 62L54 67M60 62L66 66M60 70L57 77M60 70L64 77" stroke="#111" stroke-width="3.4" fill="none" stroke-linecap="round"/>',70),
- rw:SVGH('0 0 100 100','<circle cx="50" cy="50" r="46" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><circle cx="33" cy="62" r="11" stroke="#fff" stroke-width="4" fill="none"/><circle cx="69" cy="62" r="11" stroke="#fff" stroke-width="4" fill="none"/><path d="M33 62L45 40H60L69 62M45 40L52 62H33M41 34H50M56 34L60 40" stroke="#fff" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>',70)};
+ stop:SVGH('0 0 100 100','<polygon points="29,3 71,3 97,29 97,71 71,97 29,97 3,71 3,29" fill="#c8102e" stroke="#999" stroke-width=".6"/><polygon points="30.5,7.5 69.5,7.5 92.5,30.5 92.5,69.5 69.5,92.5 30.5,92.5 7.5,69.5 7.5,30.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><text x="50" y="60" font-size="26" font-weight="900" fill="#fff" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" textLength="62" lengthAdjust="spacingAndGlyphs">STOP</text>',70),
+ vg:SVGH('0 0 100 100','<polygon points="50,92 7,15 93,15" fill="#fff" stroke="#c8102e" stroke-width="11" stroke-linejoin="round"/>',70),
+ vs:SVGH('0 0 100 100','<polygon points="50,2 98,50 50,98 2,50" fill="#fff" stroke="#999" stroke-width=".8"/><polygon points="50,10 90,50 50,90 10,50" fill="#ffc800" stroke="#111" stroke-width="3" stroke-linejoin="round"/>',70),
+ ev:SVGH('0 0 100 100','<circle cx="50" cy="50" r="47" fill="#fff" stroke="#999" stroke-width=".8"/><circle cx="50" cy="50" r="43" fill="#c8102e"/><rect x="19" y="41" width="62" height="18" fill="#fff"/>',70),
+ eb:SVGH('0 0 100 100','<rect x="3" y="20" width="94" height="60" rx="5" fill="#fff" stroke="#999" stroke-width=".8"/><rect x="6.5" y="23.5" width="87" height="53" rx="3" fill="#0b5fae"/><polygon points="18,43 60,43 60,31 84,50 60,69 60,57 18,57" fill="#fff"/>',70),
+ pk:SVGH('0 0 100 100','<rect x="3" y="3" width="94" height="94" rx="8" fill="#fff" stroke="#999" stroke-width=".8"/><rect x="7" y="7" width="86" height="86" rx="5" fill="#0b5fae"/><path fill="#fff" fill-rule="evenodd" d="M33 78V23H55Q75 23 75 40Q75 57 55 57H46V78ZM46 34V46H54Q62 46 62 40Q62 34 54 34Z"/>',70),
+ fu:SVGH('0 0 100 100','<rect x="3" y="3" width="94" height="94" rx="8" fill="#fff" stroke="#999" stroke-width=".8"/><rect x="7" y="7" width="86" height="86" rx="5" fill="#0b5fae"/><polygon points="50,15 88,82 12,82" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><circle cx="48" cy="34" r="4.8" fill="#111"/><path d="M48 41L50 54M49 44L57 50M49 44L41 50M50 54L45 63M50 54L56 63" stroke="#111" stroke-width="4.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="26" y="66" width="48" height="3.4" fill="#111"/><rect x="22" y="72" width="56" height="3.4" fill="#111"/>',70),
+ ak:SVGH('0 0 100 100','<polygon points="50,10 91,86 9,86" fill="#fff" stroke="#c8102e" stroke-width="10" stroke-linejoin="round"/><circle cx="41" cy="51" r="4.4" fill="#111"/><path d="M41 57V69M41 60L33 65M41 60L53 64M41 69L37 80M41 69L45 80" stroke="#111" stroke-width="4.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="58" r="3.4" fill="#111"/><path d="M60 63V72M60 65L53 64M60 65L66 69M60 72L57 80M60 72L63 80" stroke="#111" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',70),
+ rw:SVGH('0 0 100 100','<circle cx="50" cy="50" r="47" fill="#fff" stroke="#999" stroke-width=".8"/><circle cx="50" cy="50" r="43" fill="#0b5fae"/><g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="31" cy="62" r="11"/><circle cx="69" cy="62" r="11"/><path d="M31 62L43 42L62 42L50 62Z M43 42L50 62 M62 42L69 62 M62 42L60 34L67 34 M43 42L41 37L47 37"/></g>',70)};
 const SGM=[['stop','Anhalten (Stopp)'],['vg','Vorfahrt gewähren'],['vs','Vorfahrtstraße'],['ev','Einfahrt verboten'],['eb','Einbahnstraße'],['pk','Parkplatz'],['fu','Fußgängerüberweg'],['ak','Achtung Kinder'],['rw','Radweg']];
 const circ=k=>{const lit=k=='zu'||k=='sz',W='stroke="#222" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"';
  let top=k=='lueck'?`<path d="M20 20H52M72 20H100V30" ${W}/>`:k=='so'?`<path d="M20 20H48M72 20H100V30" ${W}/><path d="M48 20L68 6" ${W}/>`:k=='sz'?`<path d="M20 20H48M48 20H72H100V30" ${W}/>`:`<path d="M20 20H100V30" ${W}/>`;
@@ -202,6 +210,25 @@ const BRK={
  bogen:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><path d="M18 50Q60 -2 102 50" fill="none" stroke="#8a7a66" stroke-width="9"/><rect x="8" y="26" width="104" height="8" rx="2" fill="#555"/><path d="M32 33V36M46 33V28M60 33V22M74 33V28M88 33V36" stroke="#8a7a66" stroke-width="3"/>',120),
  haenge:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><rect x="26" y="8" width="7" height="42" fill="#8a7a66"/><rect x="87" y="8" width="7" height="42" fill="#8a7a66"/><path d="M4 30L29 8Q60 44 91 8L116 30" fill="none" stroke="#333" stroke-width="2.5"/><path d="M38 20V30M48 27V30M60 28V30M72 27V30M82 20V30" stroke="#333" stroke-width="1.6"/><rect x="4" y="29" width="112" height="5" rx="2" fill="#555"/>',120),
  schraeg:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><rect x="56" y="4" width="8" height="46" fill="#8a7a66"/><path d="M60 8L14 29M60 8L30 29M60 8L46 29M60 8L106 29M60 8L90 29M60 8L74 29" stroke="#333" stroke-width="1.8"/><rect x="6" y="28" width="108" height="6" rx="2" fill="#555"/>',120)};
+
+/* ---------- Karten-Aufgaben: richtige Karte mit Orten zum Antippen ---------- */
+const LAND=[['🌳','Baum','der Baum','des Baums','beim Baum'],['🏫','Schule','die Schule','der Schule','bei der Schule'],['⛪','Kirche','die Kirche','der Kirche','bei der Kirche'],['🏊','Schwimmbad','das Schwimmbad','des Schwimmbads','beim Schwimmbad'],['🛒','Supermarkt','der Supermarkt','des Supermarkts','beim Supermarkt'],['🏞️','See','der See','des Sees','beim See'],['🚉','Bahnhof','der Bahnhof','des Bahnhofs','beim Bahnhof'],['🏥','Krankenhaus','das Krankenhaus','des Krankenhauses','beim Krankenhaus'],['⚽','Sportplatz','der Sportplatz','des Sportplatzes','beim Sportplatz'],['🌲','Wald','der Wald','des Waldes','beim Wald'],['🏠','Haus','das Haus','des Hauses','beim Haus']];
+const DIRK=[['nördlich','Norden',0,-1],['östlich','Osten',1,0],['südlich','Süden',0,1],['westlich','Westen',-1,0]],DIRKZ=[['nordöstlich','Nordosten',1,-1],['südöstlich','Südosten',1,1],['südwestlich','Südwesten',-1,1],['nordwestlich','Nordwesten',-1,-1]];
+const DIRQ=[['oberhalb','oben',0,-1],['rechts','rechts',1,0],['unterhalb','unten',0,1],['links','links',-1,0]],DIRQZ=[['rechts oberhalb','rechts oben',1,-1],['rechts unterhalb','rechts unten',1,1],['links unterhalb','links unten',-1,1],['links oberhalb','links oben',-1,-1]];
+const kRel=(a,b,d)=>{const dx=b.c-a.c,dy=b.r-a.r;if(!d[2]||!d[3]){return d[2]?(dy==0&&dx*d[2]>0):(dx==0&&dy*d[3]>0)}return dx*d[2]>0&&dy*d[3]>0};
+const kSzene=l=>{const D=KOMPASS?(l>=DIAGL?DIRK.concat(DIRKZ):DIRK):(l>=DIAGL?DIRQ.concat(DIRQZ):DIRQ);
+ for(let n=0;n<400;n++){const cs=sh([0,1,2,3,4,5,6,7,8]).slice(0,7).sort((x,y)=>x-y),nm=sh(LAND).slice(0,7);
+  const P=cs.map((c,i)=>({c:c%3,r:Math.floor(c/3),L:nm[i],x:0,y:0}));P.forEach(p=>{p.x=+(7+(p.c+.5)/3*86+R(-1,1)).toFixed(1);p.y=+((20+(p.r+.5)/3*86+R(-3,3))/108*100).toFixed(1)});
+  const cand=[];for(const a of P)for(const d of D){const hit=P.filter(b=>b!==a&&kRel(a,b,d));if(hit.length==1){const b=hit[0];if(d[2]&&d[3]&&Math.abs(b.c-a.c)!=Math.abs(b.r-a.r))continue;cand.push([a,d,b])}}
+  if(cand.length){const[a,d,b]=pk(cand);return{P,a,d,b,D}}}
+ throw new Error('Karte')};
+const kBg=()=>{const rose=KOMPASS?'<g transform="translate(86 10.5)"><circle r="4.4" fill="#fffdf0" stroke="#1b1464" stroke-width=".7"/><polygon points="0,-3.6 -1.3,0 1.3,0" fill="#c8102e"/><polygon points="0,3.6 -1.3,0 1.3,0" fill="#555"/><path d="M-3.6 0H3.6" stroke="#555" stroke-width=".6"/><text y="-5.4" font-size="3.6" font-weight="900" fill="#c8102e" text-anchor="middle" font-family="Arial,sans-serif">N</text><text y="8.4" font-size="3.4" font-weight="800" fill="#1b1464" text-anchor="middle" font-family="Arial,sans-serif">S</text><text x="-7.2" y="1.2" font-size="3.4" font-weight="800" fill="#1b1464" text-anchor="middle" font-family="Arial,sans-serif">W</text><text x="7.2" y="1.2" font-size="3.4" font-weight="800" fill="#1b1464" text-anchor="middle" font-family="Arial,sans-serif">O</text></g>':'';
+ return `<svg viewBox="0 0 100 108" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="108" fill="#d4ebbb"/><ellipse cx="22" cy="40" rx="20" ry="9" fill="#c6e3a8"/><ellipse cx="78" cy="78" rx="22" ry="10" fill="#c6e3a8"/><ellipse cx="60" cy="30" rx="14" ry="6" fill="#dcefc4"/><path d="M-5 70C20 58 38 88 62 74S94 56 105 64" fill="none" stroke="#8fc9ee" stroke-width="7.5"/><path d="M-5 70C20 58 38 88 62 74S94 56 105 64" fill="none" stroke="#b9e0f6" stroke-width="3.2"/><path d="M-5 34C28 46 52 24 105 40" fill="none" stroke="#f1e2b8" stroke-width="3.4"/><path d="M40 16C48 44 38 66 46 106" fill="none" stroke="#f1e2b8" stroke-width="3"/><rect width="100" height="20" fill="#fdf3cf"/><path d="M0 20H100" stroke="#1b1464" stroke-width=".7"/><text x="4" y="12.4" font-size="5.6" font-weight="900" fill="#1b1464" font-family="Arial,sans-serif">KARTE</text>${rose}</svg>`};
+const kStat=P=>`<div class="kmap" role="img" aria-label="Karte mit Orten: ${P.map(p=>p.L[1]).join(', ')}">${kBg()}${P.map(p=>`<span class="pin" style="left:${p.x}%;top:${p.y}%"><b class="e" aria-hidden="true">${p.L[0]}</b><i class="n">${p.L[1]}</i></span>`).join('')}</div>`;
+function mapui(t){return`<p><small>Tippe den richtigen Ort auf der Karte an. Tippe noch einmal, um ihn abzuwählen.</small></p><div class="kmap">${t.map.bg}${t.it.map((x,k)=>`<button class="im mp" data-k="${k}" aria-pressed="${ms.has(k)}" onclick="imgT(${k})" style="left:${t.map.pos[k][0]}%;top:${t.map.pos[k][1]}%"><span class="e">${x[0]}</span><span class="n">${x[1]}</span></button>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+const KHINT=()=>KOMPASS?'Die Windrose zeigt: Norden (N) ist oben, Süden (S) unten, Osten (O) rechts und Westen (W) links.':'Schau genau: Wo steht der Ort, von dem du ausgehst? Dann suche links, rechts, oberhalb oder unterhalb.';
+const g_kimg=l=>{const s=kSzene(l);return IMG(`Schau auf die Karte. Tippe den Ort an, der ${s.d[0]} ${s.a.L[3]} liegt.`,s.P.map(p=>[p.L[0],p.L[1],p===s.b?1:0]),KHINT(),{ns:1,map:{bg:kBg(),pos:s.P.map(p=>[p.x,p.y])}})};
+const g_kmc=l=>{const s=kSzene(l),o=sh(s.D.filter(d=>d!==s.d)).slice(0,3).map(d=>d[1]);return MC(KOMPASS?`Du stehst ${s.a.L[4]}. In welcher Himmelsrichtung liegt ${s.b.L[2]}?`:`Du stehst ${s.a.L[4]}. Wo liegt ${s.b.L[2]}?`,s.d[1],o,KHINT(),{v:kStat(s.P)})};
 
 /* ---------- Gebiet 1: Affendorf (Zusammenleben, Familie, Einkaufen) ---------- */
 const NETT=['Bitte sagen','Danke sagen','Freundlich grüßen','Anderen helfen','Teilen','Gut zuhören'],UNNETT=['Andere auslachen','Jemanden schubsen','Dazwischenrufen','Etwas wegnehmen','Andere beschimpfen'];
@@ -242,6 +269,7 @@ const g_stim=l=>{if(l==0)return null;const a=R(8,12),b=R(3,7);return MC(`Die Kla
 const g_med=l=>l==2?null:tap('Womit bekommt man Nachrichten? Tippe an.',MEDG,MEDB,'Zeitung, Radio, Fernsehen und Handy bringen Nachrichten zu uns.',lvn(l,2,3,3),2);
 const g_inr=l=>{const p=pk(l==0?[['Wie heißt der Mensch, der Brot und Brötchen backt? (ein Wort)','Bäcker|Baecker|Bäckerin|Baeckerin','Er arbeitet früh am Morgen in der Backstube.'],['Womit bezahlst du in Deutschland? (ein Wort)','Euro|Geld','Es hat die Zeichen € und ¢.']]:[['Wie heißt das Kind, das die Klasse vertritt? (ein Wort)','Klassensprecher|Klassensprecherin','Es wird in der Klasse gewählt.'],['Wie heißt das Geld, mit dem man in Deutschland bezahlt? (ein Wort)','Euro','Das Zeichen dafür ist €.']]);return IN(p[0],p[1],p[2])};
 const z0=[g_nett,g_klass,g_fam,g_fest,g_wunsch,g_kauf,g_einkauf,g_streit,g_stim,g_med,g_inr,l=>qa(Q0a,l),l=>qa(Q0b,l)];
+
 /* ---------- Gebiet 2: Papageien-Lichtung (Körper, Gesundheit, Gefühle) ---------- */
 const SIN1=[['Augen','sehen'],['Ohren','hören'],['Nase','riechen'],['Zunge','schmecken'],['Haut','fühlen']];
 const GES1=['Apfel','Wasser','Karotte','Vollkornbrot','Banane','Milch'],UNG1=['Chips','Cola','Bonbons','Schokolade','Kuchen'];
@@ -307,6 +335,7 @@ const g_wetter=l=>matp('Welches Wetter ist das? Ordne zu.',WET,'Das Wetter ände
 const g_schw=l=>dd2('Schwimmt es oder sinkt es? Sortiere.',['Schwimmt','Sinkt'],SCHW,SINK,'Leichte Dinge schwimmen, schwere Metalle und Steine sinken.',lvn(l,2,3,3));
 const g_beine=l=>{const p=pk(l==0?[['Wie viele Beine hat ein Hund? (nur die Zahl)','4','Er läuft auf vier Pfoten.'],['Wie viele Beine hat ein Vogel? (nur die Zahl)','2','Er hat zwei Beine und zwei Flügel.']]:l==1?[['Wie viele Beine hat ein Käfer? (nur die Zahl)','6','Käfer sind Insekten.'],['Wie viele Beine hat eine Kuh? (nur die Zahl)','4','Sie hat vier Beine.']]:[['Wie viele Beine hat eine Spinne? (nur die Zahl)','8','Spinnen sind keine Insekten.'],['Wie viele Beine hat ein Schmetterling? (nur die Zahl)','6','Schmetterlinge sind Insekten.']]);return IN(p[0],p[1],p[2])};
 const z2=[g_haus,g_nutz,g_jung,g_pfl,g_wachs,g_muell,g_wetter,g_schw,g_beine,l=>qa(Q2a,l),l=>qa(Q2b,l)];
+
 /* ---------- Gebiet 4: Tempel der Zeit (Zeit, früher und heute) ---------- */
 const TAGE=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
 const JZ={Frühling:['Schneeglöckchen blühen','Vögel bauen Nester','Der Osterhase kommt'],Sommer:['Baden im See','Sommerferien','Eis essen'],Herbst:['Blätter fallen','Drachen steigen','Äpfel ernten'],Winter:['Schnee fällt','Schlitten fahren','Der Nikolaus kommt']};
@@ -337,10 +366,6 @@ const g_mmem=l=>MEM('Memo: Welcher Monat gehört zu welcher Jahreszeit?',sh(JZM)
 const g_jahr=l=>{const p=pk(l==0?[['Wie viele Tage hat eine Woche? (nur die Zahl)','7','Montag bis Sonntag.'],['Wie viele Monate hat ein Jahr? (nur die Zahl)','12','Januar bis Dezember.']]:l==1?[['Wie viele Jahreszeiten gibt es? (nur die Zahl)','4','Frühling, Sommer, Herbst und Winter.'],['Welcher Tag kommt nach Freitag? (ein Wort)','Samstag','Dann beginnt das Wochenende.']]:[['Welcher Monat kommt nach dem Februar? (ein Wort)','März|Maerz','Januar, Februar, …'],['In welchem Monat feiert man Weihnachten? (ein Wort)','Dezember','Es ist der letzte Monat im Jahr.']]);return IN(p[0],p[1],p[2])};
 const z3=[g_wt,g_jz,g_jzmat,g_jztap,g_tag,g_leben,g_fakt,g_dauer,g_mmem,g_jahr,l=>qa(Q3a,l)];
 /* ---------- Gebiet 5: Fluss der Wege (Orientierung und Verkehr) ---------- */
-const LAND=[['🌳','Baum'],['🏫','Schule'],['⛪','Kirche'],['🏊','Schwimmbad'],['🛒','Supermarkt'],['🏞️','See'],['🚉','Bahnhof'],['🏥','Krankenhaus'],['⚽','Sportplatz'],['🌲','Wald']];
-const REL=[['links vom Haus',3],['rechts vom Haus',5],['über dem Haus',1],['unter dem Haus',7]],REL2=[['links oben vom Haus',0],['rechts oben vom Haus',2],['links unten vom Haus',6],['rechts unten vom Haus',8]];
-const karte=()=>{const o=sh(LAND).slice(0,8),c=[];let k=0;for(let i=0;i<9;i++)c.push(i==4?['🏠','Haus']:o[k++]);return c};
-const grid=c=>`<div class="gm" role="img" aria-label="Kartenausschnitt mit neun Feldern.">${c.map(x=>`<div><b aria-hidden="true">${x[0]}</b>${x[1]}</div>`).join('')}</div>`;
 const SGK=[['fu','Fußgängerüberweg'],['ak','Achtung Kinder'],['rw','Radweg'],['pk','Parkplatz'],['stop','Anhalten (Stopp)']];
 const FZL=['Auto','Fahrrad','Zug','Bus'],FZW=['Schiff','Ruderboot','Fähre'],FZA=['Flugzeug','Hubschrauber','Heißluftballon'];
 const ORTE=[['Bäckerei','Brot kaufen'],['Bücherei','Bücher ausleihen'],['Arztpraxis','gesund werden'],['Bahnhof','mit dem Zug fahren'],['Schwimmbad','schwimmen']];
@@ -355,8 +380,6 @@ const Q4a=[[0,'Was bedeutet eine rote Ampel?','Stehen bleiben',['Gehen','Rennen'
 [2,'Warum trägst du im Dunkeln helle Kleidung?','Damit Autofahrer mich besser sehen.',['Damit ich schöner aussehe.','Damit ich schneller bin.'],'Helle Kleidung und Reflektoren machen dich sichtbar.'],
 [2,'Welches hohe Gebirge liegt im Süden von Bayern?','in den Alpen',['am Meer','in der Wüste'],'Die Alpen sind ein hohes Gebirge.'],
 [2,'Was ist ein Schulwegplan?','Er zeigt den sichersten Weg zur Schule.',['Er zeigt den Stundenplan.','Er zeigt das Wetter.'],'Der Schulweg soll sicher sein.']];
-const g_kimg=l=>{const c=karte(),d=pk(l==0?REL:REL.concat(REL2));return IMG(`Das Haus steht in der Mitte. Tippe das Feld an, das ${d[0]} liegt.`,c.map((x,i)=>[x[0],x[1],i==d[1]?1:0]),'Links ist links, rechts ist rechts, oben ist oben.',{cls:'g3'})};
-const g_kmc=l=>{const c=karte(),D=l==0?REL:REL.concat(REL2),t=pk(D);const o=sh(c.filter((x,i)=>i!=4&&i!=t[1])).slice(0,3).map(x=>x[1]);return MC(`Das Haus steht in der Mitte. Was liegt ${t[0]}?`,c[t[1]][1],o,'Schau genau auf die Felder um das Haus.',{v:grid(c)})};
 const g_sgn=l=>{const s=pk(SGK),o=sh(SGK.filter(x=>x[0]!=s[0])).slice(0,3);return MC('Was bedeutet dieses Verkehrszeichen?',s[1],o.map(x=>x[1]),'Schau auf Form und Bild des Zeichens.',{v:SGN[s[0]]})};
 const g_sgm=l=>MAT('Welches Verkehrszeichen hat welche Bedeutung? Ordne zu.',sh(SGK).slice(0,lvn(l,3,3,4)).map(x=>[SGN[x[0]],x[1]]),'Auf Zeichen kannst du sehen, was gemeint ist.');
 const g_quer=l=>ORD(l==2?'Wie überquerst du an der Ampel sicher die Straße? Bringe die Schritte in die richtige Reihenfolge.':'Wie überquerst du sicher die Straße? Bringe die Schritte in die richtige Reihenfolge.',l==0?['Am Straßenrand stehen bleiben','Links und rechts schauen','Zügig gehen']:l==1?['Am Straßenrand stehen bleiben','Nach links schauen','Nach rechts schauen','Zügig gehen']:['Zur Ampel gehen','Auf Grün warten','Nach links und rechts schauen','Zügig über die Straße gehen'],'Stehen, Schauen, Gehen.');
@@ -365,6 +388,7 @@ const g_helm=l=>tap('Was gehört zum sicheren Radfahren? Tippe an.',[['⛑️','
 const g_orte=l=>matp('Was macht man wo? Ordne zu.',ORTE,'Jeder Ort in der Stadt hat eine Aufgabe.',lvn(l,3,4,4));
 const g_rad=l=>{const p=pk(l==0?[['Wie viele Räder hat ein Fahrrad? (nur die Zahl)','2','Fahrrad heißt: fahren mit zwei Rädern.'],['Wie viele Räder hat ein Auto? (nur die Zahl)','4','Zähle: vorne zwei, hinten zwei.']]:l==1?[['Wie viele Farben hat eine Ampel? (nur die Zahl)','3','Rot, Gelb und Grün.'],['Welche Farbe hat die Ampel zum Stehenbleiben? (ein Wort)','Rot','Rot heißt stehen.']]:[['Wie heißt der Streifen auf der Straße, auf dem Fußgänger gehen dürfen? (ein Wort)','Zebrastreifen|Fußgängerüberweg|Fussgaengerueberweg','Er hat ein Tier im Namen.'],['Wie viele Räder hat ein Dreirad? (nur die Zahl)','3','Drei-Rad.']]);return IN(p[0],p[1],p[2])};
 const z4=[g_kimg,g_kmc,g_sgn,g_sgm,g_quer,g_fz,g_helm,g_orte,g_rad,l=>qa(Q4a,l)];
+
 /* ---------- Gebiet 6: Brücken-Werkstatt (Werkzeuge, Berufe, Bauen) ---------- */
 const WZ1=[['Hammer','Nägel einschlagen'],['Säge','Holz zersägen'],['Schere','Papier schneiden'],['Pinsel','Farbe auftragen'],['Schaufel','Sand graben'],['Zange','Draht zwicken']];
 const BER1=[['Bäckerin','backt Brot'],['Feuerwehrmann','löscht Brände'],['Gärtnerin','pflegt Pflanzen'],['Arzt','hilft Kranken'],['Lehrerin','unterrichtet Kinder'],['Tischler','baut Möbel aus Holz']];
@@ -501,7 +525,7 @@ const f1=()=>{const f=document.querySelector('#a .pool .chip');f&&f.focus()};
 function ordA(k){sq.push(k);redo();f1()}
 function ordB(k){sq=sq.filter(x=>x!=k);redo();f1()}
 /* Felder anklicken (Mehrfachauswahl) */
-function imgui(){const t=T[I];
+function imgui(){const t=T[I];if(t.map)return mapui(t);
  return`<p><small>Tippe alle richtigen Felder an. Tippe noch einmal, um ein Feld abzuwählen.</small></p><div class="imgs${t.cls?' '+t.cls:''}">${t.it.map((x,k)=>`<button class="im${x[0]?'':' txt'}" data-k="${k}" aria-pressed="${ms.has(k)}" onclick="imgT(${k})">${x[0]?`<span class="e">${x[0]}</span>`:''}<span class="n">${x[1]}</span></button>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
 function imgT(k){ms.has(k)?ms.delete(k):ms.add(k);document.querySelector(`.im[data-k="${k}"]`).setAttribute('aria-pressed',ms.has(k))}
 /* Memo */
