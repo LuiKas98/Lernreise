@@ -18,7 +18,7 @@ button:focus-visible,input:focus-visible{outline:5px solid #ff4d6d;outline-offse
 .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
 .opt{font-size:1.1em}.good{background:#7ae582!important}
 input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-height:52px;width:200px;max-width:100%;margin:3px}
-.tx{background:#fff7d6;border-radius:14px;padding:10px;border-left:8px solid #ffd23f}
+.tx{background:#fff7d6;border-radius:14px;padding:10px;border-left:8px solid #ffd23f}details.tx{margin:8px 0}details.tx summary{cursor:pointer;font-weight:800;min-height:44px;display:flex;align-items:center}details.tx p{margin:6px 0 0}
 .prog{height:18px;background:#ffffff44;border-radius:9px;overflow:hidden}.prog i{display:block;height:100%;background:#ffd23f}
 .bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
 .pool,.bkt{min-height:64px;border:3px dashed #1b1464;border-radius:16px;padding:6px;margin:6px 0}
@@ -258,11 +258,34 @@ const LT=[[
  ord:['Im Herbst sammelt das Eichhörnchen Nüsse.','Im Winter schläft es viel.','Wenn es aufwacht, gräbt es die Nüsse wieder aus.'],
  img:['Tippe an, was im Text vorkommt.',[['🐿️','Eichhörnchen',1],['🌰','Nüsse',1],['🌳','Baum',1],['🐠','Fisch',0],['🚗','Auto',0],['🍕','Pizza',0]]]}
 ]];
-const les=l=>{const S=pk(LT[l]),h='Lies den Text noch einmal genau.',x={tx:S.tx};
- const P=[()=>MC('Welche Überschrift passt am besten zum Text?',S.t,S.tw,h,x),...S.mc.map(q=>()=>MC(q[0],q[1],q[2],h,x)),...S.in.map(q=>()=>IN(q[0],q[1],h,x)),()=>DD('Richtig oder falsch? Sortiere die Aussagen.',['richtig','falsch'],S.tf,h,x),()=>IMG(S.img[0],S.img[1],h,x)];
+/* Zusatzfragen je Text: Schlussfolgern (steht nicht wörtlich im Text) und Lückensatz aus dem Gedächtnis */
+const LX={
+'Rex und der Ball':{inf:['Wie fühlt sich Rex im Garten wohl?','fröhlich',['traurig','müde']],cz:['Rex jagt einen roten __.','Ball',['Vogel','Hut']]},
+'Mias Hamster':{inf:['Wann ist Krümel wach?','in der Nacht',['am Tag','am Morgen']],cz:['Krümel läuft in der Nacht im __.','Rad',['Bett','Garten']]},
+'Bens Schulweg':{inf:['Wie ist das Wetter am Morgen?','sonnig',['regnerisch','verschneit']],cz:['Ben nimmt seinen __.','Ranzen',['Drachen','Schirm']]},
+'Der Kuchen':{inf:['Wie schmeckt der Kuchen bestimmt?','lecker',['salzig','bitter']],cz:['Oma nimmt Mehl, Eier und __.','Zucker',['Wurst','Käse']]},
+'Ein Tag am See':{inf:['Warum wirft Lena den Enten Körner hin?','Die Enten sollen fressen.',['Die Enten sollen wegfliegen.','Sie will mit den Körnern spielen.']],cz:['Lena fährt am __ zum See.','Samstag',['Freitag','Mittwoch']]},
+'Der Igel im Park':{inf:['Warum holt Tom seine Mutter?','Er braucht Hilfe für den Igel.',['Er hat Hunger.','Er will nach Hause.']],cz:['Der Igel sitzt unter einem __.','Busch',['Tisch','Dach']]},
+'Ein Tag im Zoo':{inf:['Welches Tier mag das Wasser besonders?','der Pinguin',['der Löwe','der Affe']],cz:['Die Löwen schlafen in der __.','Sonne',['Nacht','Höhle']]},
+'Pauls Geburtstag':{inf:['Warum sind alle am Abend müde?','Sie haben viel gespielt.',['Sie haben viel geschlafen.','Es ist sehr kalt.']],cz:['Paul wird heute __ Jahre alt.','acht',['sechs','zehn']]},
+'Die fleißige Biene':{inf:['Warum nennt man Bibi fleißig?','Sie sammelt viel Nektar.',['Sie schläft den ganzen Tag.','Sie spielt mit den Blumen.']],cz:['Aus Nektar macht die Biene __.','Honig',['Butter','Marmelade']]},
+'Das Vogelhaus':{inf:['Was haben die Kinder geschafft?','Sie haben ein Zuhause für Vögel gebaut.',['Sie haben ein Haus für Hunde gebaut.','Sie haben einen Baum gepflanzt.']],cz:['Jonas sägt die __ zurecht.','Bretter',['Nägel','Steine']]},
+'Der Regentag':{inf:['Wie fühlt sich Finn am Ende?','fröhlich',['wütend','ängstlich']],cz:['Mit einer __ lesen sie ein Buch.','Taschenlampe',['Lupe','Gabel']]},
+'Das Eichhörnchen':{inf:['Warum wächst manchmal ein neuer Baum?','Eine vergessene Nuss wächst aus.',['Das Eichhörnchen pflanzt ihn.','Es regnet viel.']],cz:['Im Winter __ das Eichhörnchen viel.','schläft',['tanzt','singt']]}
+};
+/* Lesen: erst Text in Ruhe lesen (eigener Bildschirm), dann Fragen bei eingeklapptem Text */
+const les=l=>{const S=pk(LT[l]),X=LX[S.t],h='Tipp: Klappe oben „📖 Text noch einmal lesen“ auf und schau nach.',x={tx:S.tx,hid:1},
+ fl=S.tf.filter(a=>a[1]).map(a=>a[0]),tr=S.tf.filter(a=>!a[1]).map(a=>a[0]);
+ const P=[()=>MC('Welche Überschrift passt am besten zum Text?',S.t,S.tw,h,x),...S.mc.map(q=>()=>MC(q[0],q[1],q[2],h,x)),...S.in.map(q=>()=>IN(q[0],q[1],h,x)),
+  ()=>DD('Richtig oder falsch? Sortiere die Aussagen.',['richtig','falsch'],S.tf,h,x),
+  ()=>IMG(S.img[0],S.img[1],h,x),
+  ()=>MC('Welcher Satz stimmt NICHT zum Text?',pk(fl),sh(tr).slice(0,2),h,x),
+  ()=>MC('Welcher Satz stimmt zum Text?',pk(tr),sh(fl).slice(0,2),h,x),
+  ()=>MC(X.inf[0],X.inf[1],X.inf[2],'Denke nach: Die Antwort steht nicht genau im Text. Aber du kannst sie dir überlegen.',x),
+  ()=>MC('Welches Wort fehlt? '+X.cz[0],X.cz[1],X.cz[2],h,x)];
  if(S.ord)P.push(()=>ORD('Bringe die Sätze in die richtige Reihenfolge (wie im Text).',S.ord,h,x));
- if(S.mat)P.push(()=>MAT('Wer macht was? Ordne zu.',S.mat,h,x));
- return draw(P,l,5)};
+ if(S.mat){P.push(()=>MAT('Wer macht was? Ordne zu.',S.mat,h,x));P.push(()=>MEM('Memo: Wer macht was? Finde die Paare!',S.mat,'Du kannst oben den Text noch einmal aufklappen.',x))}
+ const r=draw(P,l,5);r.intro={tx:S.tx};return r};
 
 /* ---------- Planet 5: Schreibo (Rechtschreibung) ---------- */
 /* Wort, falsch 1, falsch 2, Hinweis, Bild */
@@ -403,11 +426,13 @@ const norm=t=>{t={...t};if(t.o)t.o=sh(t.o);
  if(t.t=='mem')t.cards=sh(t.pr.flatMap((p,i)=>[{i,s:p[0]},{i,s:p[1]}]));
  if(t.t=='mat')t.rt=sh(t.pr.map((p,i)=>i));
  return t};
-function go(l){LV=l;T=PL[P].g(l).map(norm);I=0;PT=0;RS=[];show()}
+function go(l){LV=l;const g=PL[P].g(l);T=g.map(norm);I=0;PT=0;RS=[];g.intro?intro(g.intro):show()}
+let IX='';
+function intro(x){IX=x.tx;window.speechSynthesis&&speechSynthesis.cancel();M.innerHTML=`<div class="bar"><button class="sec" onclick="lv(${P})">⬅ Zurück</button><b>${PL[P].n} · Lesen</b></div><div class="card"><h2>📖 Lies den Text in Ruhe</h2><p>Gleich wird der Text versteckt. Dann beantwortest du Fragen dazu. Lies deshalb genau!</p><p class="tx">${x.tx}</p><p><button onclick="speak(IX)">🔊 Vorlesen</button><button class="big" id="rdy" onclick="window.speechSynthesis&&speechSynthesis.cancel();show()">✔ Ich habe gelesen – Fragen starten</button></p><p id="fb" role="status" aria-live="polite"></p></div>`;scrollTo(0,0)}
 const fb=h=>{$('#fb').innerHTML=h};
 const num=a=>/^\d+$/.test(String(a).split('|')[0])?'inputmode="numeric"':'';
 function show(){const t=T[I];tr=0;sel=null;pl={};sq=[];ms=new Set();clearTimeout(mt);
- M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'☀️ Sonnen-Mission':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?`<p class="tx">${t.tx}</p>`:''}<h2>${t.q}</h2>${t.v||''}<div id="a">${ui(t)}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
+ M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'☀️ Sonnen-Mission':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?(t.hid?`<details class="tx" id="dtx"><summary>📖 Text noch einmal lesen</summary><p>${t.tx}</p></details>`:`<p class="tx">${t.tx}</p>`):''}<h2>${t.q}</h2>${t.v||''}<div id="a">${ui(t)}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
  scrollTo(0,0);const i=$('#in')||$('.ins');if(i)i.focus()}
 function ui(t){
  if(t.t=='mc')return`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`;
@@ -471,9 +496,10 @@ function fin(ok,ans,g){const t=T[I];tr++;if(!isAd()){if(ok||tr>1)U.n++;if(ok&&tr
 function nxt(){I++;I<T.length?show():res()}
 function tip(){fb('💡 '+T[I].h)}
 const optsOf=t=>t.o?t.o:t.t=='dd'?t.it.map(x=>x[0]):t.t=='img'?t.it.map(x=>x[1]):t.t=='ord'?t.it:t.t=='mat'?[...t.pr.map(p=>p[0]),...t.rt.map(i=>t.pr[i][1])]:[];
-function say(){const t=T[I];if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
- const o=optsOf(t),extra=t.parts?' '+t.parts.map(p=>typeof p=='string'?p:' Lücke ').join(''):'';
- speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain((t.tx||'')+' '+t.q+extra+(o.length?'. Felder: '+o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/€/g,' Euro ').replace(/_+/g,' Lücke '));u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
+function speak(txt){if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
+function say(){const t=T[I],o=optsOf(t),extra=t.parts?' '+t.parts.map(p=>typeof p=='string'?p:' Lücke ').join(''):'',d=$('#dtx'),tx=t.tx&&(!t.hid||(d&&d.open))?t.tx:'';
+ speak(plain(tx+' '+t.q+extra+(o.length?'. Felder: '+o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/€/g,' Euro ').replace(/_+/g,' Lücke '))}
 function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;POPQ=[];
  if(P>=0){const b0=nParts(total());D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save();for(let k=b0;k<nParts(total());k++)POPQ.push(k)}
  M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`;
