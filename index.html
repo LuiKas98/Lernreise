@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Herr Kastners Lernapps</title>
-<meta name="description" content="Lernspiele für Klasse 2: Wähle dein Abenteuer.">
-<link rel="prefetch" href="weltall.html">
+<meta name="description" content="Lernspiele für Mathe und Deutsch, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer.">
 <style>
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -43,12 +42,35 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .soon .go{background:#dfe6ff;color:#2a2a5e}
 .soon .go::before{content:"🌱 "}
 .foot{margin-top:10px;font-size:.78em;opacity:.7}
-#toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#fff;color:#1b1464;font-weight:800;padding:12px 22px;border-radius:18px;border:3px solid #ffd23f;box-shadow:0 8px 0 #0004;transition:opacity .3s,transform .3s;z-index:50;max-width:92vw}
+#toast{position:fixed;left:50%;width:max-content;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#fff;color:#1b1464;font-weight:800;padding:12px 22px;border-radius:18px;border:3px solid #ffd23f;box-shadow:0 8px 0 #0004;transition:opacity .3s,transform .3s;z-index:50;max-width:92vw}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* Klassenwahl */
+.kl{margin:1.4em auto .2em;max-width:560px}
+.kl h2{margin:0 0 .5em;font-size:1.1em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#cfd8ff;opacity:.95}
+.kl .row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.kb{font:inherit;cursor:pointer;width:78px;height:78px;border-radius:50%;border:3px solid #ffffff66;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;padding:0;
+ background:radial-gradient(circle at 32% 28%,#ffffff3d,#ffffff0f 55%,#00000022);box-shadow:0 6px 0 #0006,inset 0 0 14px #ffffff22;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
+.kb small{font-size:.55em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.85;margin-bottom:2px}
+.kb b{font:900 2em/1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif}
+.kb:hover{transform:translateY(-3px) scale(1.06);border-color:#ffe566}
+.kb:focus-visible{outline:4px solid #ff4d6d;outline-offset:3px}
+.kb[aria-pressed=true]{background:radial-gradient(circle at 32% 28%,#fff6b8,#ffd23f 55%,#e69a00);color:#1b1464;border-color:#1b1464;transform:translateY(-3px) scale(1.1);box-shadow:0 8px 0 #1b1464,0 0 26px #ffd23faa}
+.kl.nudge .row{animation:nudge .6s}
+@keyframes nudge{20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.kl .hint{margin:.7em 0 0;font-size:.85em;opacity:.8}
+.badge{position:absolute;right:4%;bottom:6%;width:22%;aspect-ratio:1;border-radius:50%;display:none;flex-direction:column;align-items:center;justify-content:center;line-height:1;color:#1b1464;background:radial-gradient(circle at 32% 28%,#fff6b8,#ffd23f 60%,#e69a00);border:3px solid #1b1464;box-shadow:0 5px 0 #1b1464,0 0 18px #ffd23f99;pointer-events:none}
+.badge small{font-size:.5em;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.badge b{font:900 1.7em/1 "Baloo 2","Fredoka","Arial Rounded MT Bold",system-ui,sans-serif}
+.badge.on{display:flex}
+/* Raumschiff */
+.shipw{position:fixed;left:0;top:0;z-index:40;pointer-events:none;will-change:transform;opacity:0}
+.shipw svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 4px 8px #0008)}
+#fl{transform-box:fill-box;transform-origin:50% 0}
+@media print{.shipw{display:none}}
 /* Warp */
 .warp{position:fixed;inset:0;width:100%;height:100%;z-index:100;opacity:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0b1260,#02030f 75%);animation:wi .5s forwards}
 @keyframes wi{to{opacity:1}}
-@media(prefers-reduced-motion:reduce){.owl{animation:none}.page{transition:none}}
+@media(prefers-reduced-motion:reduce){.owl{animation:none}.page{transition:none}.kb,.kb:hover{transition:none}.kl.nudge .row{animation:none}}
 </style>
 </head>
 <body>
@@ -81,12 +103,24 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <p><b>Hallo, du kleiner Entdecker, hallo, du kleine Entdeckerin!</b> 👋</p>
   <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe und Deutsch und sammelst dabei Sterne. Such dir eine Reise aus und tippe auf das Portal. Viel Spaß!</p>
  </div>
+
+ <section class="kl" id="klasse" aria-labelledby="kl-h">
+  <h2 id="kl-h">In welche Klasse gehst du?</h2>
+  <div class="row" role="group" aria-labelledby="kl-h">
+   <button class="kb" data-k="1" aria-pressed="false" aria-label="Klasse 1"><small>Klasse</small><b>1</b></button>
+   <button class="kb" data-k="2" aria-pressed="false" aria-label="Klasse 2"><small>Klasse</small><b>2</b></button>
+   <button class="kb" data-k="3" aria-pressed="false" aria-label="Klasse 3"><small>Klasse</small><b>3</b></button>
+   <button class="kb" data-k="4" aria-pressed="false" aria-label="Klasse 4"><small>Klasse</small><b>4</b></button>
+  </div>
+  <p class="hint" id="kl-hint">Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.</p>
+ </section>
+
  <h2 class="pick">Wähle dein Abenteuer</h2>
 
- <a class="pcard" id="c-weltall" href="weltall.html" aria-label="Lernreise im All starten: Mathe und Deutsch, Klasse 2">
-  <div class="pt"><canvas data-scene="weltall" aria-hidden="true"></canvas></div>
+ <a class="pcard" id="c-weltall" href="#klasse" aria-label="Lernreise im All: Mathe und Deutsch. Wähle zuerst deine Klasse.">
+  <div class="pt"><canvas data-scene="weltall" aria-hidden="true"></canvas><span class="badge" id="b-weltall" aria-hidden="true"><small>Klasse</small><b></b></span></div>
   <h3>🚀 Lernreise im All</h3>
-  <p class="sub">Mathe und Deutsch · Klasse 2</p>
+  <p class="sub" id="s-weltall">Mathe und Deutsch · Klasse 1 bis 4</p>
   <span class="go">Los geht’s!</span>
  </a>
 
@@ -97,8 +131,25 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <span class="go">Bald verfügbar</span>
  </a>
 
- <p class="foot">Alles läuft nur auf diesem Gerät. Es gibt keine Anmeldung und kein Tracking.</p>
+ <p class="foot">Alles läuft nur auf diesem Gerät. Es gibt keine Anmeldung und kein Tracking. Dein Fortschritt wird für jede Klasse getrennt gespeichert.</p>
 </main>
+<div class="shipw" id="shipw" aria-hidden="true">
+ <svg viewBox="0 0 60 118">
+  <defs>
+   <linearGradient id="sb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cfe0ff"/><stop offset=".45" stop-color="#ffffff"/><stop offset="1" stop-color="#9db4ee"/></linearGradient>
+   <linearGradient id="sn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7a8a"/><stop offset=".5" stop-color="#ff4d6d"/><stop offset="1" stop-color="#c81d45"/></linearGradient>
+   <radialGradient id="sf" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#fff7c2"/><stop offset=".45" stop-color="#ffb703"/><stop offset="1" stop-color="#ff4d00" stop-opacity="0"/></radialGradient>
+  </defs>
+  <g id="fl"><path d="M22 84Q30 126 38 84Z" fill="url(#sf)"/><path d="M26 84Q30 106 34 84Z" fill="#fffbe0"/></g>
+  <path d="M10 62L1 88Q1 92 6 90L17 82Z" fill="url(#sn)" stroke="#1b1464" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 62L59 88Q59 92 54 90L43 82Z" fill="url(#sn)" stroke="#1b1464" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M30 4C16 18 12 40 13 70L13 84L47 84L47 70C48 40 44 18 30 4Z" fill="url(#sb)" stroke="#1b1464" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M30 4C22 11 17 20 15 31L45 31C43 20 38 11 30 4Z" fill="url(#sn)" stroke="#1b1464" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="30" cy="50" r="9.5" fill="#6fc8ff" stroke="#1b1464" stroke-width="2.6"/><circle cx="27" cy="47" r="3" fill="#fff" opacity=".85"/>
+  <rect x="20" y="84" width="20" height="7" rx="2" fill="#ffd23f" stroke="#1b1464" stroke-width="2.2"/>
+  <path d="M13 70h34" stroke="#1b1464" stroke-width="2" opacity=".35"/>
+ </svg>
+</div>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -204,12 +255,11 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;for(const p 
 if(RM){portals.forEach(p=>zeichne(p,0));addEventListener('resize',()=>portals.forEach(p=>zeichne(p,0)))}else requestAnimationFrame(frame);
 
 /* ---------- Warpantrieb ---------- */
-let going=false;
 function warp(cx,cy,fertig){
  const c=document.createElement('canvas');c.className='warp';c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext('2d');g.scale(dpr,dpr);
  const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:190+Math.random()*80,l:80+Math.random()*18}));
- const DUR=2100,t0=performance.now();
+ const DUR=1700,t0=performance.now();
  (function f(now){const tau=Math.min(1,(now-t0)/DUR),sp=1+90*tau*tau*tau,dt=1/60;
   g.clearRect(0,0,W,H);g.lineCap='round';
   /* Tunnel-Ringe */
@@ -223,17 +273,74 @@ function warp(cx,cy,fertig){
   if(tau>.7){const k=Math.pow((tau-.7)/.3,1.6),q=g.createRadialGradient(cx,cy,0,cx,cy,diag*(.15+1.1*k));q.addColorStop(0,`rgba(255,255,255,${Math.min(1,k*1.4)})`);q.addColorStop(.6,`rgba(190,215,255,${k*.85})`);q.addColorStop(1,'rgba(150,180,255,0)');g.fillStyle=q;g.fillRect(0,0,W,H);if(tau>.97){g.fillStyle='#fff';g.fillRect(0,0,W,H)}}
   tau<1?requestAnimationFrame(f):fertig()})(t0)}
 
-$('#c-weltall').addEventListener('click',e=>{
- if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(going)return;going=true;
- const href=e.currentTarget.getAttribute('href');try{sessionStorage.setItem('warp','1')}catch(_){}
- if(RM){location.href=href;return}
- const r=$('#c-weltall .pt').getBoundingClientRect();document.body.classList.add('warping');
- warp(r.left+r.width/2,r.top+r.height/2,()=>{location.href=href})});
-addEventListener('pageshow',e=>{if(e.persisted){going=false;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove())}});
+/* ---------- Klassenwahl (wird nur in diesem Browser gemerkt) ---------- */
+let K=0;const KEY='kastner-klasse';
+try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
+function zeigeK(){
+ document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
+ const a=$('#c-weltall'),bd=$('#b-weltall');
+ if(K){a.setAttribute('href','weltall-klasse'+K+'.html');a.setAttribute('aria-label','Lernreise im All starten: Mathe und Deutsch, Klasse '+K);
+  $('#s-weltall').textContent='Mathe und Deutsch · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on');
+  $('#kl-hint').textContent='Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.'}
+ else{a.setAttribute('href','#klasse');a.setAttribute('aria-label','Lernreise im All: Mathe und Deutsch. Wähle zuerst deine Klasse.');
+  $('#s-weltall').textContent='Mathe und Deutsch · Klasse 1 bis 4';bd.classList.remove('on');
+  $('#kl-hint').textContent='Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'}
+}
+document.querySelectorAll('.kb').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;try{localStorage.setItem(KEY,String(K))}catch(_){}zeigeK()}));
+zeigeK();
 
-/* ---------- Dschungel: noch nicht fertig ---------- */
+/* ---------- Toast ---------- */
 let tt=0;
-$('#c-dschungel').addEventListener('click',e=>{e.preventDefault();const t=$('#toast');t.textContent='🌴 Das Dschungel-Abenteuer kommt bald! Schau später noch einmal vorbei.';t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),3200)});
+function sag(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),3400)}
+
+/* ---------- Raumschiff: fliegt am linken Rand eine lange Schleife, bei einem Klick in das Portal ---------- */
+const SH={el:$('#shipw'),fl:$('#fl'),t:Math.random()*6,x:0,y:0,a:0,s:1,o:0,mode:'idle',busy:false,t0:0,dur:1100,from:null,to:null,ctl:null,cb:null,boost:0,back:false};
+function geo(){const W=innerWidth,H=innerHeight,sw=W<600?34:W<1000?44:54,m=Math.max(0,(W-900)/2);let x0,A;
+ if(m>=120){x0=m/2;A=Math.max(6,Math.min(34,m/2-sw/2-10))}else{A=W<600?7:10;x0=sw/2+A+4}
+ return{W,H,sw,sh:sw*118/60,x0,A,yc:H*.5,B:Math.max(60,H*.32)}}
+function idleP(t,g){const f=t*.5;return{x:g.x0+g.A*Math.sin(f),y:g.yc-g.B*Math.cos(f),vx:g.A*.5*Math.cos(f),vy:g.B*.5*Math.sin(f)}}
+const wrapA=d=>{while(d>180)d-=360;while(d<-180)d+=360;return d};
+function bez(P,C,Q,u){const k=1-u;return{x:k*k*P.x+2*k*u*C.x+u*u*Q.x,y:k*k*P.y+2*k*u*C.y+u*u*Q.y,dx:2*k*(C.x-P.x)+2*u*(Q.x-C.x),dy:2*k*(C.y-P.y)+2*u*(Q.y-C.y)}}
+function setShip(g){const e=SH.el;e.style.width=g.sw+'px';e.style.opacity=SH.o;e.style.transform=`translate(${SH.x-g.sw/2}px,${SH.y-g.sh/2}px) rotate(${SH.a}deg) scale(${SH.s})`}
+/* Flug zu einem Punkt (Portal-Mitte); danach cb(). back=true: fliegt wieder hinaus zum Rand */
+SH.fly=(tx,ty,cb,back)=>{if(SH.busy)return false;SH.busy=true;SH.back=!!back;SH.mode='fly';SH.t0=performance.now();SH.dur=1150;
+ SH.from={x:SH.x,y:SH.y};SH.to={x:tx,y:ty};const dx=tx-SH.x,dy=ty-SH.y,L=Math.hypot(dx,dy)||1,sgn=SH.x<innerWidth/2?1:-1;
+ SH.ctl={x:(SH.x+tx)/2+dy/L*L*.22*sgn,y:(SH.y+ty)/2-dx/L*L*.22*sgn};SH.cb=cb;return true};
+function ret(){SH.mode='ret';SH.t0=performance.now();SH.dur=1000;SH.from={x:SH.x,y:SH.y};SH.o=0;
+ const g=geo(),q=idleP(SH.t,g),dx=q.x-SH.x,dy=q.y-SH.y,L=Math.hypot(dx,dy)||1;SH.ctl={x:(SH.x+q.x)/2-dy/L*L*.2,y:(SH.y+q.y)/2+dx/L*L*.2}}
+let lt=performance.now();
+function stepShip(now){const dt=Math.min(.05,(now-lt)/1000);lt=now;const g=geo();SH.t+=dt;let head=SH.a,rate=3;
+ if(SH.mode=='idle'){const p=idleP(SH.t,g);SH.x=p.x;SH.y=p.y;head=Math.atan2(p.vx,-p.vy)*180/Math.PI;SH.s=1;SH.o=Math.min(1,SH.o+dt*.9);SH.boost=Math.max(0,SH.boost-dt*2)}
+ else if(SH.mode=='fly'){const u=Math.min(1,(now-SH.t0)/SH.dur),e=u*u*(3-2*u),b=bez(SH.from,SH.ctl,SH.to,e);SH.x=b.x;SH.y=b.y;head=Math.atan2(b.dx,-b.dy)*180/Math.PI;rate=u<.25?5:30;
+  SH.s=1-.84*e*e;SH.o=e>.86?Math.max(0,(1-e)/.14):1;SH.boost=1;
+  if(u>=1){SH.mode='wait';SH.o=0;const f=SH.cb;SH.cb=null;if(SH.back)ret();else if(f)f();if(SH.back&&f)f()}}
+ else if(SH.mode=='ret'){const u=Math.min(1,(now-SH.t0)/SH.dur),e=u*u*(3-2*u),q=idleP(SH.t,g),b=bez(SH.from,SH.ctl,q,e);SH.x=b.x;SH.y=b.y;head=Math.atan2(b.dx,-b.dy)*180/Math.PI;rate=30;
+  SH.s=.2+.8*e;SH.o=Math.min(1,u*3);SH.boost=1-e*.7;if(u>=1){SH.mode='idle';SH.busy=false}}
+ SH.a+=wrapA(head-SH.a)*Math.min(1,dt*rate);
+ SH.fl.style.transform='scaleY('+(1+SH.boost*.9+.16*Math.sin(now/55)+.1*Math.sin(now/31)).toFixed(3)+')';
+ setShip(g);requestAnimationFrame(stepShip)}
+if(RM){const g=geo(),p=idleP(.9,g);SH.x=p.x;SH.y=p.y;SH.a=0;SH.o=1;setShip(g);addEventListener('resize',()=>{const g=geo(),p=idleP(.9,g);SH.x=p.x;SH.y=p.y;setShip(g)})}
+else requestAnimationFrame(stepShip);
+const mitte=sel=>{const r=$(sel).getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
+
+/* ---------- Weltall: Schiff fliegt ins Portal, dann Warp ---------- */
+let going=false;
+function nudge(){sag('👆 Tippe zuerst auf deine Klasse (1, 2, 3 oder 4).');const k=$('#klasse');k.classList.remove('nudge');void k.offsetWidth;k.classList.add('nudge');
+ k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});setTimeout(()=>k.classList.remove('nudge'),800)}
+$('#c-weltall').addEventListener('click',e=>{
+ if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(going||SH.busy)return;
+ if(!K){nudge();return}
+ going=true;const href='weltall-klasse'+K+'.html';try{sessionStorage.setItem('warp','1')}catch(_){}
+ if(RM){location.href=href;return}
+ portals[0].tg=1;const[cx,cy]=mitte('#c-weltall .pt');
+ SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href})})});
+addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
+
+/* ---------- Dschungel: noch nicht fertig, das Schiff schaut kurz hinein ---------- */
+$('#c-dschungel').addEventListener('click',e=>{e.preventDefault();if(going||SH.busy)return;
+ if(RM){sag('🌴 Das Dschungel-Abenteuer kommt bald! Schau später noch einmal vorbei.');return}
+ const[cx,cy]=mitte('#c-dschungel .pt');portals[1].tg=1;
+ SH.fly(cx,cy,()=>{sag('🌴 Das Dschungel-Abenteuer kommt bald! Schau später noch einmal vorbei.');setTimeout(()=>{portals[1].tg=0},600)},true)});
 </script>
 </body>
 </html>
