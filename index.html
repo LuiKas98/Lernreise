@@ -41,7 +41,7 @@ span.pic{aspect-ratio:1;display:grid;place-items:center}.emo{font-size:85cqw;lin
 @keyframes unspin{to{transform:rotate(-360deg)}}
 @media(prefers-reduced-motion:reduce){.orb,.pb{animation:none}}
 .bigpl{width:150px;margin:8px auto}
-.ttl{text-align:center;font:900 2.3em/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;background:linear-gradient(#fff6b0,#ffb703);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:5px #1b1464;paint-order:stroke fill;filter:drop-shadow(0 0 12px #ffb70388)}
+.ttl{text-align:center;font:900 2.3em/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;color:#ffe566;text-shadow:0 2px 0 #c77700,0 0 8px #ffb703,0 0 22px #ff9f1c,0 0 40px #ff9f1c88}
 @media print{body{background:#fff}.noprint{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
@@ -134,8 +134,25 @@ const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #
 const pic=i=>ART[i]||`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
 function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total();
  M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun" onclick="sun()" aria-label="Sonnen-Mission starten"><span class="se">☀️</span><span class="sl">Mission zur Sonne</span></button></div><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
-function sun(){const q=p=>{let l=[0,1,2].findIndex(x=>st(p,x)<2);if(l<0)l=2;const a=PL[p].g(l);return a[R(0,a.length-1)]};
- P=-1;LV=0;T=sh([0,1,2].map(()=>q(R(0,2))).concat([0,1,2].map(()=>q(R(3,5))))).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
+/* ---------- Sonnen-Mission: eigene Aufgaben ---------- */
+const SM=[
+()=>{const a=R(6,25);return IN(`Das Doppelte von ${a} ist ... (nur die Zahl)`,2*a,'Doppelt heißt: die Zahl plus dieselbe Zahl.')},
+()=>{const a=2*R(4,24);return IN(`Die Hälfte von ${a} ist ... (nur die Zahl)`,a/2,'Halbieren heißt: in zwei gleiche Teile teilen.')},
+()=>{const a=R(21,98),t=Math.floor(a/10);return MC(`Wie viele Zehner hat die Zahl ${a}?`,t,[...new Set([a%10,t+1,t-1,t+2])].filter(x=>x!==t).slice(0,3),'Die erste Ziffer sind die Zehner, die zweite die Einer.')},
+()=>{const g=o=>{const s=new Set;while(s.size<3)s.add(2*R(5,49)+o);return[...s]};return DD('Gerade oder ungerade? Sortiere die Zahlen.',['gerade','ungerade'],[...g(0),...g(1)].map(x=>[String(x),x%2]),'Gerade Zahlen enden auf 0, 2, 4, 6 oder 8. Ungerade enden auf 1, 3, 5, 7 oder 9.')},
+()=>{const a=R(5,30),b=R(5,30);return IN(`Zahlenmauer: Unten stehen ${a} und ${b}. Welche Zahl steht oben? (nur die Zahl)`,a+b,'Oben steht die Summe der beiden Zahlen darunter.')},
+()=>{const s=new Set;while(s.size<3)s.add(R(10,99));const a=[...s],m=Math.max(...a);return MC('Welche Zahl ist die größte?',m,a.filter(x=>x!==m),'Vergleiche erst die Zehner. Sind sie gleich, vergleiche die Einer.')},
+()=>{const a=R(11,98),v=R(0,1);return IN(`Welche Zahl kommt direkt ${v?'nach':'vor'} ${a}? (nur die Zahl)`,v?a+1:a-1,'Zähle ein Stück vorwärts oder rückwärts.')},
+()=>{const[n,c]=[['Dreieck',3],['Quadrat',4],['Rechteck',4]][R(0,2)];return MC(`Wie viele Ecken hat ein ${n}?`,c,[3,4,5,6].filter(x=>x!==c),'Zähle die Stellen, an denen zwei Linien zusammenstoßen.')}];
+const SD=[
+()=>{const[w,c]=[['Banane',3],['Sonne',2],['Schmetterling',3],['Fenster',2],['Elefant',3],['Haus',1],['Schokolade',4]][R(0,6)];return MC(`Wie viele Silben hat das Wort „${w}“?`,c,[1,2,3,4,5].filter(x=>x!==c).slice(0,3),'Klatsche das Wort in Silben, zum Beispiel Ba-na-ne.')},
+()=>{const[w,c,o]=[['Kind','Kinder',['Kinde','Kindes']],['Hund','Hunde',['Hunds','Hunden']],['Blume','Blumen',['Blumes','Blumer']],['Auto','Autos',['Autoe','Autoen']]][R(0,3)];return MC(`Was ist die Mehrzahl von „${w}“?`,c,o,'Die Mehrzahl sagt: Es ist mehr als eins.')},
+()=>sh([DD('Zu welchem Oberbegriff gehört das Wort?',['Tiere','Obst'],[['Hund',0],['Katze',0],['Pferd',0],['Apfel',1],['Birne',1],['Banane',1]],'Tiere leben und bewegen sich. Obst wächst an Bäumen und Sträuchern.'),DD('Zu welchem Oberbegriff gehört das Wort?',['Kleidung','Möbel'],[['Hose',0],['Jacke',0],['Mütze',0],['Tisch',1],['Stuhl',1],['Bett',1]],'Kleidung ziehst du an. Möbel stehen in der Wohnung.')])[0],
+()=>{const w=sh(['Apfel','Baum','Clown','Dach','Esel','Fisch','Hase','Igel','Katze','Maus','Nase','Sonne','Tisch','Zebra']).slice(0,3),m=[...w].sort()[0];return MC('Welches Wort steht im ABC ganz vorne?',m,w.filter(x=>x!==m),'Das ABC: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z')},
+()=>{const[s,c,o]=[['Wie heißt du','?',['.','!']],['Ich mag Eis','.',['?','!']],['Hilfe, ein Hund','!',['.','?']]][R(0,2)];return MC(`Welches Zeichen passt ans Ende? „${s}___“`,c,o,'Frage = ?  Aussage = .  Ausruf = !')},
+()=>{const[a,b]=[['Hand','Schuh'],['Tisch','Bein'],['Apfel','Baum'],['Regen','Schirm']][R(0,3)];return IN(`Setze zu einem Wort zusammen: ${a} + ${b} = ?`,a+b.toLowerCase(),'Schreibe beide Wörter ohne Lücke hintereinander.')}];
+function sun(){const pk=(A,n)=>sh(A).slice(0,n).map(f=>f());
+ P=-1;LV=0;T=sh([...pk(SM,3),...pk(SD,3)]).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
 function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
 function go(l){LV=l;T=PL[P].g(l).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
 const fb=h=>{$('#fb').innerHTML=h};
