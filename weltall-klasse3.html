@@ -15,7 +15,7 @@ button{font:inherit;font-weight:bold;min-height:52px;min-width:52px;padding:8px 
 button:hover{background:#ffe680}button:disabled{opacity:.75;cursor:default}
 button:focus-visible,input:focus-visible{outline:5px solid #ff4d6d;outline-offset:2px}
 .sec{background:#e8e6ff}.big{font-size:1.2em;padding:12px 24px}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}.opts.n4{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}.opt{min-width:0;overflow-wrap:anywhere;hyphens:auto;line-height:1.25}
 .opt{font-size:1.1em}.good{background:#7ae582!important}
 input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-height:52px;width:200px;max-width:100%;margin:3px}
 .tx{background:#e3f1ff;color:#0f2a5c;border-radius:14px;padding:10px 12px;border:2px solid #7fb4f5;border-left:8px solid #2f7de1}details.tx{margin:10px 0;box-shadow:0 3px 0 #2f7de1}details.tx[open]{background:#d4e9ff}details.tx summary{cursor:pointer;font-weight:800;color:#0b3a8a;min-height:44px;display:flex;align-items:center;gap:6px}details.tx summary:hover{color:#1d5fc4}details.tx p{margin:6px 0 0}
@@ -473,7 +473,7 @@ function show(){const t=T[I];tr=0;sel=null;pl={};sq=[];ms=new Set();clearTimeout
  M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'☀️ Sonnen-Mission':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?(t.hid?`<details class="tx" id="dtx"><summary>📖 Text noch einmal lesen</summary><p>${t.tx}</p></details>`:`<p class="tx">${t.tx}</p>`):''}<h2>${t.q}</h2>${t.v||''}<div id="a">${ui(t)}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
  scrollTo(0,0);const i=$('#in')||$('.ins');if(i)i.focus()}
 function ui(t){
- if(t.t=='mc')return`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`;
+ if(t.t=='mc')return`<div class="opts n${t.o.length}">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`;
  if(t.t=='in')return`<input id="in" autocomplete="off" ${num(t.a)} aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`;
  if(t.t=='ins')return`<div class="insr">${t.parts.map(p=>typeof p=='string'?`<span>${p}</span>`:`<input class="ins" autocomplete="off" ${num(p.a)} aria-label="Lücke" onkeydown="if(event.key=='Enter')chk()">`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`;
  if(t.t=='dd')return ddui();
