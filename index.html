@@ -31,8 +31,8 @@ input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-
 .o0{width:42%;height:42%;--t:100s;--w:33.3%}.o1{width:64%;height:64%;--t:140s;--w:21.9%;--d:-50s}.o2{width:86%;height:86%;--t:180s;--w:16.3%;--d:-100s}
 .pw{position:absolute;left:50%;top:0;width:var(--w);transform:translate(-50%,-50%)}.pw.b{top:100%}
 .pb{pointer-events:auto;display:block;width:100%;min-width:0;min-height:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:#fff;border-radius:50%;animation:unspin var(--t) linear infinite;animation-delay:var(--d,0s)}
-.gw{display:block}.pic{display:block;width:100%;container-type:inline-size}
-span.pic{aspect-ratio:1;display:grid;place-items:center}.emo{font-size:85cqw;line-height:1}
+.gw{display:block}.pic{display:grid;place-items:center;width:100%;aspect-ratio:1;container-type:inline-size}
+.pic svg{display:block;width:100%;height:100%}.emo{font-size:85cqw;line-height:1}
 .pn{display:block;margin:0 -50%;text-align:center;font-size:max(11px,2.5cqw);text-shadow:0 0 4px #000,0 2px 2px #000}
 .sun{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);min-width:0;min-height:0;padding:0;margin:0;border:0;border-radius:50%;background:none;box-shadow:none;color:#fff;filter:drop-shadow(0 0 14px #ffb703);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .se{font-size:11cqw;line-height:1}.sl{font-size:max(10px,2.2cqw);line-height:1.15;font-weight:bold;text-align:center;text-shadow:0 0 4px #000,0 2px 2px #000}
@@ -46,72 +46,275 @@ span.pic{aspect-ratio:1;display:grid;place-items:center}.emo{font-size:85cqw;lin
 #ab{position:fixed;right:12px;bottom:12px;z-index:10;background:#fff}
 .sun.l{filter:grayscale(.7) drop-shadow(0 0 6px #fff6)}
 table{border-collapse:collapse;width:100%;font-size:.8em}td,th{border:1px solid #1b1464;padding:4px;text-align:left}details{margin:8px 0}summary{cursor:pointer;min-height:44px}
-@media print{body{background:#fff}.noprint{display:none!important}.card{box-shadow:none}}
+/* Raketenkasten */
+.rk{display:flex;align-items:center;gap:16px;max-width:400px;margin:14px auto;padding:12px 18px;border-radius:22px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid #ffffff3d;box-shadow:0 10px 30px #0006;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.rkm{flex:none;width:58px}.rkm svg{display:block;width:100%;height:auto;filter:drop-shadow(0 0 8px #ffc85059)}
+.rkt{display:flex;flex-direction:column;gap:5px;font-size:.85em;line-height:1.3;min-width:0}.rkt b:first-child{font-size:1.2em}.rkt small{opacity:.75}
+.nw{white-space:nowrap}.seg{display:flex;gap:4px}.seg i{flex:1;height:7px;border-radius:4px;background:#ffffff2e}.seg i.on{background:linear-gradient(90deg,#ffd23f,#ff9f1c);box-shadow:0 0 8px #ffb703aa}
+.flame{transform-box:fill-box;transform-origin:50% 0;animation:fl .45s ease-in-out infinite alternate}
+@keyframes fl{to{transform:scaleY(1.14) scaleX(.94)}}
+.cs{display:block;width:96px;margin:6px auto}.cs svg{display:block;width:100%;height:auto}
+/* Pop-up: neues Raketenteil */
+#pop{position:fixed;inset:0;z-index:30;background:#04081ee6;display:grid;place-items:center;padding:16px;overflow:auto}
+.pbox{display:flex;flex-direction:column;align-items:center;gap:6px;width:min(420px,100%);text-align:center}
+.stage{position:relative;width:min(300px,76vw);aspect-ratio:1;display:grid;place-items:center}
+.rays{position:absolute;inset:-22%;background:repeating-conic-gradient(from 0deg,#ffe27a 0 6deg,#ffe27a00 6deg 18deg);-webkit-mask:radial-gradient(circle,#000 6%,#0000 66%);mask:radial-gradient(circle,#000 6%,#0000 66%);animation:rot 16s linear infinite}
+.halo{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,#ffd23fcc,#ffd23f00 70%)}
+.pp{position:relative;width:54%;animation:pin .7s cubic-bezier(.2,1.4,.4,1) both}.pp svg{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 10px #0008)}
+.pt{font-size:1.25em;font-weight:bold;line-height:1.3;margin:4px 0 8px}.pt b{color:#ffe566}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes pin{0%{transform:scale(.15) rotate(-14deg);opacity:0}100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.rays,.pp,.flame{animation:none}}
+/* Neue Aufgabenformate */
+button:disabled.dn,button:disabled.good{opacity:1}
+.insr{font-size:1.05em;line-height:2.9;margin:6px 0}.insr input{width:84px;line-height:1.2;margin:0 4px;vertical-align:middle}
+.seq{display:flex;flex-wrap:wrap;align-items:center;gap:2px;min-height:68px;border:3px solid #1b1464;border-radius:16px;padding:6px;margin:6px 0;background:#f4f2ff}
+.chip.sel{background:#ffd23f}.chip b{display:inline-grid;place-items:center;min-width:1.5em;height:1.5em;border-radius:50%;background:#1b1464;color:#fff;font-size:.8em;margin-right:4px}
+.imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px}.imgs.clocks{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.im{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:92px;margin:0;padding:6px 4px;background:#fff;font-size:.9em;min-width:0}.im .n{font-size:.82em;line-height:1.15;text-align:center;overflow-wrap:anywhere;hyphens:auto;max-width:100%}.im svg{max-width:100%;height:auto}.im .e{font-size:2.2em;line-height:1.1;display:block}.im.txt .n{font-size:1.1em}
+.im[aria-pressed=true]{background:#ffd23f;outline:4px solid #1b1464}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
+.mcd{min-height:82px;margin:0;padding:6px;background:#6c63ff;color:#fff;font-size:.95em;line-height:1.15;overflow-wrap:anywhere;hyphens:auto}.mcd.up{background:#fff;color:#1b1464}.mcd.dn{background:#7ae582;color:#1b1464}
+.mat{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mat>div{display:flex;flex-direction:column;gap:4px}.mt{margin:0;font-size:.9em;line-height:1.2;overflow-wrap:anywhere;background:#fff}.mt.on{background:#ff8fa3;outline:4px solid #1b1464}.mt.dn{background:#7ae582}
+@media print{body{background:#fff}.noprint,#pop{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
 <body>
 <main><noscript>Bitte schalte JavaScript ein.</noscript></main>
 <script>
 const $=s=>document.querySelector(s),M=$('main');
-const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>[...a].sort(()=>Math.random()-.5);
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>[...a].sort(()=>Math.random()-.5),pk=a=>a[R(0,a.length-1)];
+/* Aufgabenformate: mc = Auswahl, in = Eingabe, ins = mehrere Lücken, dd = Sortieren, ord = Reihenfolge, img = Felder anklicken, mem = Memo, mat = Zuordnen */
 const MC=(q,a,w,h,x={})=>({t:'mc',q,a:String(a),o:[a,...w].map(String),h,...x});
 const IN=(q,a,h,x={})=>({t:'in',q,a:String(a),h,...x});
-const DD=(q,b,it,h)=>({t:'dd',q,b,it,h});
+const DD=(q,b,it,h,x={})=>({t:'dd',q,b,it,h,...x});
+const INS=(q,parts,h,x={})=>({t:'ins',q,parts,ans:parts.filter(p=>typeof p!='string').map(p=>String(p.a)),h,...x});
+const ORD=(q,s,h,x={})=>({t:'ord',q,s,it:[...s],h,...x});
+const IMG=(q,it,h,x={})=>({t:'img',q,it,h,...x});
+const MEM=(q,pr,h,x={})=>({t:'mem',q,pr,h,...x});
+const MAT=(q,pr,h,x={})=>({t:'mat',q,pr,h,...x});
 const NM=a=>{const s=new Set();for(const x of [a+10,a-10,a+1,a-1,a+2,a-2,a+5])if(x>=0&&x!==a&&s.size<3)s.add(x);return[...s]};
 const NQ=(q,a,h)=>MC(q,a,NM(a),h);
 const L=['Leicht','Mittel','Schwierig'],LC=['🟢','🟡','🔴'];
-/* ---------- Planet 1: Plus und Minus ---------- */
+/* Zufällige Auswahl aus einem Aufgabenpool: höchstens 2 Aufgaben pro Format, solange der Pool es erlaubt */
+const draw=(pool,l,n,cnt={})=>{const out=[],used=new Set;
+ for(const lim of[2,9])for(const f of sh(pool)){if(out.length>=n)break;if(used.has(f))continue;const t=f(l);if(!t||(cnt[t.t]||0)>=lim)continue;cnt[t.t]=(cnt[t.t]||0)+1;used.add(f);out.push(t)}
+ return sh(out)};
+const bal=(gen,k,i=1)=>{let it;for(let n=0;n<80;n++){it=gen();if(new Set(it.map(x=>x[i])).size>=k)return it}return it};
+const uniq=(n,gen)=>{const s=new Set;for(let i=0;i<500&&s.size<n;i++)s.add(gen());return[...s]};
+/* ---------- Zahlwörter ---------- */
+const W1=['','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'],W10=['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+const nw=n=>n<20?W1[n]:n%10==0?W10[n/10]:(n%10==1?'ein':W1[n%10])+'und'+W10[Math.floor(n/10)];
+/* ---------- Planet 1: Rechni (Plus und Minus) ---------- */
 function calc(l,s){let a,b;
  if(l==0){a=s?R(10,20):R(2,10);b=s?R(2,9):R(2,10)}
  else if(l==1){if(!s){a=10*R(1,6)+R(1,7);b=10*R(1,3)+R(1,9-a%10)}else{a=10*R(4,9)+R(3,9);b=10*R(1,3)+R(1,a%10)}}
  else{if(!s){a=10*R(1,5)+R(4,9);b=10*R(1,3)+R(10-a%10,9)}else{a=10*R(3,9)+R(0,5);b=10*R(1,2)+R(a%10+1,9)}}
  return[a,b,s?a-b:a+b]}
-const rech=l=>{const h=['Zähle dazu oder weg. Deine Finger helfen dir.','Rechne erst die Zehner, dann die Einer.','Gehe in zwei Schritten: erst bis zum nächsten Zehner, dann den Rest.'][l],th=l?50:10,z=R(0,1),
- [a,b,r]=calc(l,0),[c,d,e]=calc(l,1),[f,g,i]=calc(l,0),[j,k,m]=calc(l,1),[n,o,p]=calc(l,z);
- return[NQ(`Rechne: ${a} + ${b} = ?`,r,h),IN(`Rechne: ${c} − ${d} = ? (nur die Zahl)`,e,h),IN(`Welche Zahl fehlt? ${f} + __ = ${i} (nur die Zahl)`,g,h),IN(`Welche Zahl fehlt? ${j} − __ = ${m} (nur die Zahl)`,k,h),
- MC(`Welches Zeichen fehlt? ${n} __ ${o} = ${p}`,z?'−':'+',[z?'+':'−'],'Wird die Zahl größer oder kleiner? Dann weißt du: plus oder minus.'),
- DD(`Sortiere die Rechnungen: Ist das Ergebnis kleiner als ${th} oder mindestens ${th}?`,['kleiner als '+th,th+' oder mehr'],[...Array(6)].map(()=>{const s=R(0,1),[x,y,q]=calc(l,s);return[`${x} ${s?'−':'+'} ${y}`,q<th?0:1]}),'Rechne jede Aufgabe aus und vergleiche mit '+th+'.')]};
-/* ---------- Planet 2: Uhr, Geld, Größen ---------- */
+const sg=s=>s?'−':'+';
+const calcs=(l,n)=>{const r=new Set,o=[];for(let i=0;i<400&&o.length<n;i++){const s=R(0,1),[a,b,c]=calc(l,s);if(r.has(c))continue;r.add(c);o.push([`${a} ${sg(s)} ${b}`,c])}return o};
+const RH=['Zähle dazu oder weg. Deine Finger helfen dir.','Rechne erst die Zehner, dann die Einer.','Gehe in zwei Schritten: erst bis zum nächsten Zehner, dann den Rest.'];
+const rP=[
+ l=>{const[a,b,r]=calc(l,0);return NQ(`Rechne: ${a} + ${b} = ?`,r,RH[l])},
+ l=>{const[a,b,r]=calc(l,1);return IN(`Rechne: ${a} − ${b} = ? (nur die Zahl)`,r,RH[l])},
+ l=>{const[a,b,r]=calc(l,0);return IN(`Welche Zahl fehlt? ${a} + __ = ${r} (nur die Zahl)`,b,RH[l])},
+ l=>{const[a,b,r]=calc(l,1);return IN(`Welche Zahl fehlt? ${a} − __ = ${r} (nur die Zahl)`,b,RH[l])},
+ l=>{const z=R(0,1),[a,b,r]=calc(l,z);return MC(`Welches Zeichen fehlt? ${a} __ ${b} = ${r}`,sg(z),[sg(1-z)],'Wird die Zahl größer oder kleiner? Dann weißt du: plus oder minus.')},
+ l=>{const th=l?50:10;return DD(`Sortiere die Rechnungen: Ist das Ergebnis kleiner als ${th} oder mindestens ${th}?`,['kleiner als '+th,th+' oder mehr'],bal(()=>calcs(l,6).map(([q,r])=>[q,r<th?0:1]),2),'Rechne jede Aufgabe aus und vergleiche mit '+th+'.')},
+ l=>MEM('Memo: Finde zu jeder Rechnung das Ergebnis!',calcs(l,l?4:3).map(([q,r])=>[q,String(r)]),'Rechne die Aufgaben im Kopf. Merke dir, wo die Karten liegen.'),
+ l=>{const o=[],seen=new Set;while(o.length<3){const[a,b]=calc(l,0);if(a==b||seen.has(a+'+'+b)||seen.has(b+'+'+a))continue;seen.add(a+'+'+b);o.push([`${a} + ${b}`,`${b} + ${a}`])}return MAT('Finde die Tauschaufgabe. Ordne zu.',o,'Bei der Tauschaufgabe tauschen die beiden Zahlen ihren Platz. Das Ergebnis bleibt gleich.')},
+ l=>{let s;if(l==0)s=uniq(4,()=>R(1,20));else if(l==1)s=uniq(4,()=>R(10,99));else{const t=10*R(1,9);s=uniq(4,()=>t+R(0,9))}return ORD('Ordne die Zahlen. Die kleinste Zahl steht zuerst.',s.sort((x,y)=>x-y).map(String),'Vergleiche zuerst die Zehner. Sind sie gleich, vergleiche die Einer.')},
+ l=>{const th=[10,40,50][l];return IMG(`Tippe alle Rechnungen an, deren Ergebnis größer als ${th} ist.`,bal(()=>calcs(l,6).map(([q,r])=>['',q,r>th?1:0]),2,2),'Rechne jede Aufgabe aus. Tippe nur die an, deren Ergebnis größer ist.')},
+ l=>{const c=calcs(l,4);return MC(`Welche Rechnung hat das Ergebnis ${c[0][1]}?`,c[0][0],c.slice(1).map(x=>x[0]),RH[l])}];
+const rech=l=>draw(rP,l,5);
+/* ---------- Planet 2: Zeitola (Uhr, Geld, Größen) ---------- */
 const fm=(h,m)=>h+':'+String(m).padStart(2,'0')+' Uhr';
-const clk=(h,m)=>`<svg viewBox="0 0 100 100" width="150" role="img" aria-label="Eine Uhr"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#1b1464" stroke-width="5"/><g font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1464"><text x="50" y="22">12</text><text x="82" y="55">3</text><text x="50" y="92">6</text><text x="18" y="55">9</text></g><line x1="50" y1="50" x2="50" y2="28" stroke="#e63757" stroke-width="6" stroke-linecap="round" transform="rotate(${(h%12+m/60)*30} 50 50)"/><line x1="50" y1="50" x2="50" y2="12" stroke="#1b1464" stroke-width="4" stroke-linecap="round" transform="rotate(${m*6} 50 50)"/></svg>`;
-const ct=l=>{const h=R(1,12),m=l==0?0:l==1?[0,30][R(0,1)]:5*R(1,11),n=h%12+1,p=(h+10)%12+1,o=l==2?(m+30)%60:m?0:30;
- return MC('Wie spät ist es?',fm(h,m),[fm(n,m),fm(p,m),fm(h,o)],'Der kurze rote Zeiger zeigt die Stunde. Der lange dunkle Zeiger zeigt die Minuten (bei 6 sind es 30, bei 3 sind es 15).',{v:clk(h,m)})};
-const mo=l=>{const a=l==0?R(1,5):10*R(1,5),b=l==0?R(1,4):10*R(1,4),p=5*R(2,19);
- return l==0?IN(`Du hast ${a} € und bekommst ${b} € dazu. Wie viele Euro hast du jetzt? (nur die Zahl)`,a+b,'Zähle die Euro zusammen.'):l==1?IN(`Du hast ${a} Cent und bekommst ${b} Cent dazu. Wie viele Cent hast du jetzt? (nur die Zahl)`,a+b,'Zähle erst die Zehner zusammen.'):IN(`Du zahlst 1 € (das sind 100 Cent). Dein Eis kostet ${p} Cent. Wie viele Cent bekommst du zurück? (nur die Zahl)`,100-p,'Rechne 100 minus den Preis.')};
-const gr=l=>[MC('Was ist schwerer?','Ein Elefant',['Eine Maus','Eine Feder'],'Denke an die Größe der Tiere.'),MC('1 m sind wie viele cm?','100 cm',['10 cm','1000 cm'],'Ein Meterstab hat 100 Striche. Jeder Strich ist 1 cm.'),MC('1 kg sind wie viele g?','1000 g',['100 g','10 g'],'In ein Kilo passen tausend Gramm.')][l];
-const zeit=l=>[ct(l),ct(l),mo(l),gr(l)];
-/* ---------- Planet 3: Zahlenrätsel und Sachaufgaben ---------- */
-const kn=l=>{let a,b,c,x,s,d,q,t=[];
- if(l==0){a=R(3,9);b=R(2,8);t.push(IN(`Mia hat ${a} Sticker. Sie bekommt ${b} dazu. Wie viele Sticker hat Mia jetzt?`,a+b))}
- if(l==1){a=R(20,50);b=R(10,40);t.push(IN(`Im Zoo sind ${a} Affen und ${b} Papageien. Wie viele Tiere sind das zusammen?`,a+b))}
- if(l==2){a=R(40,70);b=R(11,30);c=R(11,25);t.push(IN(`Im Bus sitzen ${a} Kinder. An der Haltestelle steigen ${b} Kinder aus und ${c} Kinder ein. Wie viele Kinder sind jetzt im Bus?`,a-b+c))}
- if(l==0){a=R(10,20);b=R(2,9);t.push(IN(`Ben hat ${a} Murmeln. Er verschenkt ${b}. Wie viele Murmeln hat Ben noch?`,a-b))}
- if(l==1){a=R(40,90);b=R(11,39);t.push(IN(`Im Korb liegen ${a} Äpfel. ${b} Äpfel werden gegessen. Wie viele Äpfel bleiben?`,a-b))}
- if(l==2){a=R(90,100);b=R(23,67);t.push(IN(`Ein Buch hat ${a} Seiten. Lena hat schon ${b} Seiten gelesen. Wie viele Seiten fehlen noch?`,a-b))}
- t.forEach(k=>k.h='Lies genau. Rechnest du plus oder minus? Schreibe dir die Rechnung auf.');
- x=l==0?R(2,9):l==1?R(10,50):R(50,90);b=l==0?R(2,9):l==1?R(10,30):R(11,40);
- t.push(NQ(l<2?`Ich denke mir eine Zahl. Wenn ich ${b} dazu zähle, erhalte ich ${x+b}. Welche Zahl ist es?`:`Ich denke mir eine Zahl. Wenn ich ${b} abziehe, bleiben ${x-b} übrig. Welche Zahl ist es?`,x,'Rechne rückwärts: Aus Plus wird Minus, aus Minus wird Plus.'));
- s=l==0?R(1,10):l==1?5*R(0,4):R(60,95);d=l==0?R(1,2):l==1?[5,10][R(0,1)]:-R(3,9);
- t.push(IN(`Welche Zahl kommt als Nächstes? ${[0,1,2,3].map(i=>s+i*d).join(', ')}, ?`,s+4*d,'Wie groß ist der Abstand von einer Zahl zur nächsten?'));
- return t};
-/* ---------- Planet 4: Lesen ---------- */
-const LS=[
-{tx:'Der Hund heißt Rex. Er ist braun und groß. Rex spielt gern im Garten. Er jagt einen roten Ball.',q:[['Wie heißt der Hund?','Rex',['Max','Bello']],['Welche Farbe hat der Ball?','rot',['blau','grün']],['Wo spielt Rex gern?','im Garten',['im Haus','im Wald']],['Welche Farbe hat Rex? (ein Wort)','braun']],x:['Wie ist Rex?','braun und groß',['klein und weiß','schwarz und klein']],r:[['Rex ist ein Hund.',0],['Rex spielt im Garten.',0],['Der Ball ist blau.',1],['Rex ist klein.',1]]},
-{tx:'Am Samstag fährt Lena mit ihrer Oma zum See. Sie packen Brote, Äpfel und Saft ein. Auf dem See schwimmen Enten. Lena wirft den Enten Körner hin. Danach bauen sie eine Sandburg.',q:[['Mit wem fährt Lena zum See?','mit ihrer Oma',['mit ihrem Opa','mit ihrer Freundin']],['Was packen sie ein?','Brote, Äpfel und Saft',['Eis und Kuchen','Nudeln und Tee']],['Was schwimmt auf dem See?','Enten',['Boote','Fische']],['Was bauen sie am Ende? (ein Wort)','Sandburg']],x:['Wann fährt Lena zum See?','am Samstag',['am Sonntag','am Montag']],r:[['Lena fährt mit ihrer Oma.',0],['Sie bauen eine Sandburg.',0],['Sie packen Eis ein.',1],['Auf dem See schwimmen Fische.',1]]},
-{tx:'Tom findet im Park einen kleinen Igel. Der Igel sitzt unter einem Busch und zittert. Es ist kalt, denn es ist Herbst. Tom holt seine Mutter. Gemeinsam legen sie den Igel in eine Kiste mit Laub.',q:[['Warum zittert der Igel?','Es ist kalt.',['Er ist hungrig.','Er hat Angst vor dem Hund.']],['In welcher Jahreszeit spielt die Geschichte?','im Herbst',['im Sommer','im Frühling']],['Wer hilft Tom?','seine Mutter',['sein Vater','seine Lehrerin']],['In was legen sie den Igel? (ein Wort)','Kiste|eine Kiste']],x:['Wo sitzt der Igel?','unter einem Busch',['auf einem Baum','in einem Haus']],r:[['Der Igel zittert.',0],['Es ist Sommer.',1],['Tom holt seine Mutter.',0],['Der Igel ist sehr groß.',1],['Der Igel kommt in eine Kiste.',0]]}];
-const les=l=>{const S=LS[l],h='Lies den Text noch einmal genau.',x={tx:S.tx};return[...S.q.map(q=>q.length==2?IN(q[0],q[1],h,x):MC(q[0],q[1],q[2],h,x)),MC(S.x[0],S.x[1],S.x[2],h,x),{...DD('Richtig oder falsch? Sortiere die Aussagen.',['richtig','falsch'],S.r,h),...x}]};
-/* ---------- Planet 5: Rechtschreibung ---------- */
-const SP=[
-[MC('Welches Wort ist richtig geschrieben?','Biene',['Bihne','Biehne'],'Das lange i hörst du in Bi-e-ne. Man schreibt es oft mit ie.'),MC('Welches Wort ist richtig geschrieben?','Spiegel',['Spigel','Spihgel'],'Das lange i schreibt man oft mit ie.'),IN('Schreibe das ganze Wort: Br_f (Das schickst du mit der Post.)','Brief','Das lange i schreibt man oft mit ie.'),DD('Wird das Wort mit ie oder mit i geschrieben?',['ie','i'],[['Biene',0],['Brief',0],['Tier',0],['Tisch',1],['Kind',1],['Licht',1]],'Bei Tisch, Kind und Licht hörst du ein kurzes i.')],
-[MC('Welches Wort ist richtig geschrieben?','Sonne',['Sone','Zonne'],'Nach einem kurzen Selbstlaut kommt oft ein doppelter Mitlaut.'),MC('Welches Wort ist richtig geschrieben?','Mutter',['Muter','Mutta'],'Sprich langsam: Mut-ter. Das u ist kurz, also zwei t.'),IN('Schreibe das ganze Wort mit zwei gleichen Mitlauten: Ke__e (Schmuck für den Hals)','Kette','Nach dem kurzen e kommt ein doppelter Mitlaut.'),DD('Hat das Wort einen doppelten Mitlaut?',['mit doppeltem Mitlaut','ohne doppelten Mitlaut'],[['Sonne',0],['Mutter',0],['Kamm',0],['Hase',1],['Nase',1],['Lampe',1]],'Bei Hase und Nase ist der Selbstlaut lang. Das hörst du.')],
-[MC('Welches Wort ist richtig geschrieben?','Jacke',['Jake','Jaccke'],'Nach einem kurzen Selbstlaut schreibt man ck.'),MC('Welches Wort ist richtig geschrieben?','Katze',['Katse','Kaze'],'Nach einem kurzen Selbstlaut schreibt man tz.'),IN('Verlängere und schreibe das Wort: Hun_ (Mehrzahl: die Hunde)','Hund','Bei „Hunde“ hörst du das d. Also schreibt man Hund.'),DD('Schreibt man das Wort mit ck oder mit tz?',['ck','tz'],[['Jacke',0],['Rock',0],['Decke',0],['Katze',1],['Platz',1],['Mütze',1]],'Das hörst du nicht, das musst du dir merken. Übe die Wörter!')]];
-const sch=l=>SP[l];
-/* ---------- Planet 6: Wortarten ---------- */
-const WT=[
-[DD('Nomen (Namenwort) oder Verb (Tunwort)?',['Nomen','Verb'],[['Hund',0],['Tisch',0],['Ball',0],['laufen',1],['singen',1],['malen',1]],'Nomen kannst du sehen oder anfassen. Verben sagen, was man tut.'),MC('Welches Wort ist ein Nomen?','Haus',['rennen','schön'],'Ein Nomen ist ein Ding, Tier oder Mensch.'),MC('Welches Wort ist ein Verb (Tunwort)?','springen',['Baum','rot'],'Ein Verb sagt, was jemand tut.'),IN('Schreibe das Nomen richtig auf: katze','Katze','Nomen schreibt man mit großem Anfangsbuchstaben.',{cs:1})],
-[DD('Nomen, Verb oder Adjektiv (Wiewort)?',['Nomen','Verb','Adjektiv'],[['Blume',0],['Katze',0],['lachen',1],['malen',1],['schön',2],['klein',2]],'Adjektive sagen, wie etwas ist.'),MC('Welches Wort ist ein Adjektiv (Wiewort)?','schnell',['Schnecke','rennen'],'Ein Adjektiv sagt, wie etwas ist.'),MC('Welches Wort passt? Die ___ Blume duftet.','rote',['rennen','Tisch'],'Gesucht ist ein Wiewort, das die Blume beschreibt.'),IN('Schreibe das Gegenteil von „groß“:','klein','Wie ist etwas, das nicht groß ist?')],
-[DD('Nomen, Verb oder Adjektiv?',['Nomen','Verb','Adjektiv'],[['Freude',0],['Winter',0],['tanzen',1],['backen',1],['mutig',2],['warm',2]],'Nomen sind groß geschrieben. Verben sagen, was man tut. Adjektive sagen, wie etwas ist.'),MC('Wie viele Nomen hat der Satz? „Der Hund jagt die Katze im Garten.“','3',['2','4'],'Die Nomen sind Hund, Katze und Garten.'),MC('Welches Wort ist das Verb? „Das Mädchen liest ein Buch.“','liest',['Mädchen','Buch'],'Was tut das Mädchen?'),IN('Setze das Verb passend ein: Der Vogel ___ hoch. (fliegen)','fliegt','Bei „der Vogel“ endet das Verb auf -t.')]];
-const wor=l=>WT[l];
+const clk=(h,m,w=150)=>`<svg viewBox="0 0 100 100" width="${w}" role="img" aria-label="Eine Uhr"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#1b1464" stroke-width="5"/><g font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1464"><text x="50" y="22">12</text><text x="82" y="55">3</text><text x="50" y="92">6</text><text x="18" y="55">9</text></g><line x1="50" y1="50" x2="50" y2="28" stroke="#e63757" stroke-width="6" stroke-linecap="round" transform="rotate(${(h%12+m/60)*30} 50 50)"/><line x1="50" y1="50" x2="50" y2="12" stroke="#1b1464" stroke-width="4" stroke-linecap="round" transform="rotate(${m*6} 50 50)"/></svg>`;
+const timeOf=l=>[R(1,12),l==0?0:l==1?pk([0,30]):5*R(1,11)];
+const tw=(h,m)=>{const n=h%12+1;return m==0?(h==1?'ein':W1[h])+' Uhr':m==30?'halb '+W1[n]:m==15?'Viertel nach '+W1[h]:'Viertel vor '+W1[n]};
+const CO=[['5 Cent',5],['10 Cent',10],['20 Cent',20],['50 Cent',50],['1 €',100],['2 €',200],['5 €',500],['10 €',1000]];
+const TF=[[['Wie viele Tage hat eine Woche? (nur die Zahl)',7],['Wie viele Monate hat ein Jahr? (nur die Zahl)',12]],[['Wie viele Minuten hat eine Stunde? (nur die Zahl)',60],['Wie viele Stunden hat ein Tag? (nur die Zahl)',24]],[['Wie viele Minuten hat eine halbe Stunde? (nur die Zahl)',30],['Wie viele Sekunden hat eine Minute? (nur die Zahl)',60]]];
+const UN=[['Ein Bleistift ist etwa 15 ___ lang.','cm',['m','km']],['Dein Schulweg ist etwa 1 ___ lang.','km',['cm','m']],['In eine Flasche Saft passt 1 ___.','Liter',['Meter','Gramm']],['Ein Apfel wiegt etwa 150 ___.','g',['kg','Liter']],['Ein Kind wiegt etwa 25 ___.','kg',['g','cm']],['Ein Klassenzimmer ist etwa 8 ___ lang.','m',['cm','km']],['Eine Schulstunde dauert 45 ___.','Minuten',['Stunden','Sekunden']]];
+const HV=[['Ein Elefant','Eine Maus'],['Ein Auto','Ein Fahrrad'],['Ein Haus','Ein Auto'],['Ein Buch','Eine Feder'],['Eine Kuh','Eine Katze'],['Ein Schulranzen','Ein Radiergummi'],['Ein Apfel','Ein Blatt Papier']];
+const CV=[['1 m','100 cm'],['1 kg','1000 g'],['1 €','100 Cent'],['1 Stunde','60 Minuten'],['1 Tag','24 Stunden'],['1 Woche','7 Tage'],['1 Minute','60 Sekunden']];
+const zP=[
+ l=>{const[h,m]=timeOf(l),n=h%12+1,p=(h+10)%12+1,o=l==2?(m+30)%60:m?0:30;return MC('Wie spät ist es?',fm(h,m),[fm(n,m),fm(p,m),fm(h,o)],'Der kurze rote Zeiger zeigt die Stunde. Der lange dunkle Zeiger zeigt die Minuten (bei 6 sind es 30, bei 3 sind es 15).',{v:clk(h,m)})},
+ l=>{const[h,m]=timeOf(l),k=new Set([h+':'+m]),w=[];while(w.length<3){const[a,b]=timeOf(l),c=a+':'+b;if(k.has(c))continue;k.add(c);w.push([a,b,0])}
+  const it=sh([[h,m,1],...w]).map((x,i)=>[clk(x[0],x[1],96),'Uhr '+'ABCD'[i],x[2]]);return IMG(`Tippe die Uhr an, die ${fm(h,m)} zeigt.`,it,'Der kurze rote Zeiger zeigt die Stunde. Der lange dunkle Zeiger zeigt die Minuten.',{ns:1,cls:'clocks'})},
+ l=>{const ms=[[0],[0,30],[0,15,30,45]][l],k=new Set,o=[];while(o.length<4){const h=R(1,12),m=pk(ms),a=fm(h,m),b=tw(h,m);if(k.has(a)||k.has(b))continue;k.add(a);k.add(b);o.push([a,b])}return MAT('Welche Uhrzeit gehört zusammen? Ordne zu.',o,'Halb acht heißt: eine halbe Stunde vor acht, also 7:30 Uhr. Viertel nach sieben ist 7:15 Uhr.')},
+ l=>{const a=l==0?R(1,5):10*R(1,5),b=l==0?R(1,4):10*R(1,4),p=5*R(2,19);
+  return l==0?IN(`Du hast ${a} € und bekommst ${b} € dazu. Wie viele Euro hast du jetzt? (nur die Zahl)`,a+b,'Zähle die Euro zusammen.'):l==1?IN(`Du hast ${a} Cent und bekommst ${b} Cent dazu. Wie viele Cent hast du jetzt? (nur die Zahl)`,a+b,'Zähle erst die Zehner zusammen.'):IN(`Du zahlst 1 € (das sind 100 Cent). Dein Eis kostet ${p} Cent. Wie viele Cent bekommst du zurück? (nur die Zahl)`,100-p,'Rechne 100 minus den Preis.')},
+ ()=>ORD('Ordne vom kleinsten zum größten Wert.',sh(CO).slice(0,4).sort((x,y)=>x[1]-y[1]).map(x=>x[0]),'Rechne in Cent um: 1 € sind 100 Cent.'),
+ l=>{if(l<2){const a=l?5*R(2,8):10*R(1,4),b=l?5*R(2,8):10*R(1,4),[x,y]=pk([['einen Apfel','eine Birne'],['ein Eis','eine Brezel'],['einen Stift','ein Heft'],['ein Brötchen','einen Keks']]);return IN(`Du kaufst ${x} für ${a} Cent und ${y} für ${b} Cent. Wie viele Cent bezahlst du zusammen? (nur die Zahl)`,a+b,'Zähle die beiden Preise zusammen.')}
+  const a=5*R(4,10),b=5*R(2,8);return IN(`Ein Heft kostet ${a} Cent, ein Stift ${b} Cent. Du bezahlst mit 1 € (das sind 100 Cent). Wie viele Cent bekommst du zurück? (nur die Zahl)`,100-a-b,'Rechne erst die beiden Preise zusammen. Dann 100 minus das Ergebnis.')},
+ ()=>{const[a,b]=pk(HV);return MC('Was ist schwerer?',a,[b,'Beides ist gleich schwer'],'Denke an die Größe und das Material.')},
+ ()=>{const u=pk(UN);return MC(u[0],u[1],u[2],'Denke an Dinge, die du kennst: Wie lang ist dein Lineal? Wie schwer ist ein Brot?')},
+ ()=>DD('Gramm oder Kilogramm? Sortiere.',['Gramm (g)','Kilogramm (kg)'],[...sh(['Feder','Radiergummi','Brief','Büroklammer']).slice(0,3).map(w=>[w,0]),...sh(['Schulranzen','Hund','Kind','Sack Kartoffeln']).slice(0,3).map(w=>[w,1])],'Leichte Dinge wiegt man in Gramm. Schwere Dinge in Kilogramm.'),
+ l=>MEM('Memo: Finde die Paare, die gleich viel sind!',sh(CV).slice(0,l==0?3:4),'Du kennst es: 1 m ist so lang wie 100 cm.'),
+ l=>{const q=pk(TF[l]);return IN(q[0],q[1],'Denke an die Uhr und den Kalender.')},
+ l=>{if(l==0){const h=R(1,8),d=R(1,3);return IN(`Es ist ${h} Uhr. In ${d==1?'einer Stunde':d+' Stunden'} ist es wie viel Uhr? (nur die Zahl)`,h+d,'Zähle die Stunden dazu.')}
+  const[h,m0,dm]=l==1?[R(1,12),30,30]:pk([[R(1,12),15,45],[R(1,12),45,30],[R(1,12),30,45]]),tot=m0+dm,h2=(h-1+Math.floor(tot/60))%12+1,m2=tot%60,a=fm(h2,m2);
+  const w=[...new Set([fm(h2,(m2+30)%60),fm(h2%12+1,m2),fm(h,m2),fm(h2,(m2+15)%60),fm(h2,(m2+45)%60)].filter(x=>x!==a))].slice(0,3);
+  return MC(`Es ist ${fm(h,m0)}. In ${dm} Minuten ist es ...`,a,w,'Gehe in Schritten: erst bis zur vollen Stunde, dann den Rest.')}];
+const zeit=l=>draw(zP,l,5);
+/* ---------- Planet 3: Knobelix (Zahlenrätsel und Sachaufgaben) ---------- */
+const NAMES=['Mia','Ben','Lena','Tom','Eva','Paul','Nele','Jan'],SAW='Lies genau. Rechnest du plus oder minus? Schreibe dir die Rechnung auf.';
+const knP=[
+ l=>{const n=pk(NAMES);if(l==2&&R(0,1)){const a=R(40,70),b=R(11,30),c=R(11,25);return IN(`Im Bus sitzen ${a} Kinder. An der Haltestelle steigen ${b} Kinder aus und ${c} Kinder ein. Wie viele Kinder sind jetzt im Bus?`,a-b+c,SAW)}
+  const[a,b]=l==0?[R(3,9),R(2,8)]:l==1?[R(20,50),R(10,40)]:[R(30,60),R(20,39)];
+  const[q,r]=pk([[`${n} hat ${a} Sticker. ${n} bekommt ${b} dazu. Wie viele Sticker hat ${n} jetzt?`,a+b],[`Im Zoo sind ${a} Affen und ${b} Papageien. Wie viele Tiere sind das zusammen?`,a+b],[`In der Klasse sind ${a} Mädchen und ${b} Jungen. Wie viele Kinder sind das?`,a+b],[`${n} sammelt ${a} rote und ${b} gelbe Blätter. Wie viele Blätter sind das?`,a+b]]);return IN(q,r,SAW)},
+ l=>{const n=pk(NAMES),[a,b]=l==0?[R(10,20),R(2,9)]:l==1?[R(40,90),R(11,39)]:[R(90,100),R(23,67)];
+  const[q,r]=pk([[`${n} hat ${a} Murmeln. ${n} verschenkt ${b}. Wie viele Murmeln hat ${n} noch?`,a-b],[`Im Korb liegen ${a} Äpfel. ${b} Äpfel werden gegessen. Wie viele Äpfel bleiben?`,a-b],[`Ein Buch hat ${a} Seiten. ${n} hat schon ${b} Seiten gelesen. Wie viele Seiten fehlen noch?`,a-b],[`Auf dem Teller liegen ${a} Kekse. ${n} isst ${b} Kekse. Wie viele Kekse liegen noch auf dem Teller?`,a-b]]);return IN(q,r,SAW)},
+ l=>{const x=l==0?R(2,9):l==1?R(10,50):R(50,90),b=l==0?R(2,9):l==1?R(10,30):R(11,40);
+  return NQ(l<2?`Ich denke mir eine Zahl. Wenn ich ${b} dazu zähle, erhalte ich ${x+b}. Welche Zahl ist es?`:`Ich denke mir eine Zahl. Wenn ich ${b} abziehe, bleiben ${x-b} übrig. Welche Zahl ist es?`,x,'Rechne rückwärts: Aus Plus wird Minus, aus Minus wird Plus.')},
+ l=>{const dir=l==2&&R(0,1)?-1:1,d=dir*(l==0?R(1,3):l==1?pk([5,10]):pk([3,4,6,7])),s=l==0?R(1,8):l==1?5*R(0,3):dir>0?R(5,30):R(50,90),v=[0,1,2,3,4,5].map(i=>s+i*d);
+  return INS('Setze die Zahlenreihe fort. Schreibe die beiden fehlenden Zahlen.',[v.slice(0,4).join(', ')+', ',{a:v[4]},', ',{a:v[5]}],'Wie groß ist der Abstand von einer Zahl zur nächsten? Rechne ihn immer wieder dazu oder weg.')},
+ l=>{if(l==0){const t=R(1,9),u=R(0,9);return IN(`Ich habe ${t} Zehner und ${u} Einer. Welche Zahl bin ich? (nur die Zahl)`,t*10+u,'Zehner stehen links, Einer rechts.')}
+  if(l==1){const t=R(2,9),u=R(1,9);return IN(`Ich bin eine Zahl zwischen ${t*10} und ${t*10+10}. Meine Einerzahl ist ${u}. Welche Zahl bin ich? (nur die Zahl)`,t*10+u,'Die Zehnerzahl steht schon fest. Die Einerzahl kommt dahinter.')}
+  const n=2*R(10,48);return IN(`Ich bin gerade. Ich bin größer als ${n-2} und kleiner als ${n+2}. Welche Zahl bin ich? (nur die Zahl)`,n,'Zwischen den beiden Zahlen liegen drei Zahlen. Welche davon ist gerade?')},
+ l=>{const m=[[2,9],[10,40],[20,60]][l],x=uniq(6,()=>R(...m)),[a,b,c,d,e,f]=x,hi=Math.max(c,d),lo=Math.min(c,d);
+  return MAT('Welche Rechnung gehört zur Geschichte? Ordne zu.',[[`Tim hat ${a} Karten und bekommt ${b} dazu.`,`${a} + ${b}`],[`Mia hat ${hi} Bonbons und isst ${lo}.`,`${hi} − ${lo}`],[`Im Bus sind ${e} Kinder und ${f} steigen ein.`,`${e} + ${f}`]],'Bei „dazu“ und „einsteigen“ rechnest du plus. Bei „essen“ oder „verschenken“ rechnest du minus.')},
+ l=>{const d=l==0?pk([1,2]):l==1?pk([5,10]):pk([3,4,6,7]),s=l==0?R(1,10):l==1?5*R(0,5):R(5,30);return ORD('Die Zahlenreihe ist durcheinander. Bringe sie in Ordnung. Die kleinste Zahl steht zuerst.',[0,1,2,3].map(i=>String(s+i*d)),'Die Zahlen werden immer um dieselbe Zahl größer.')},
+ l=>{const[th,lo,hi]=[[10,1,20],[50,10,99],[65,52,78]][l];return DD(`Sortiere die Zahlen: Ist die Zahl kleiner als ${th} oder mindestens ${th}?`,['kleiner als '+th,th+' oder mehr'],bal(()=>uniq(6,()=>R(lo,hi)).map(x=>[String(x),x<th?0:1]),2),'Vergleiche jede Zahl mit '+th+'.')},
+ l=>{let a,b,lo,hi;if(l==0){a=R(2,6);b=a+R(4,6);lo=Math.max(1,a-3);hi=b+3}else if(l==1){a=10*R(2,6);b=a+R(15,25);lo=a-10;hi=b+10}else{a=R(31,70);b=a+R(8,12);lo=a-6;hi=b+6}
+  return IMG(`Tippe alle Zahlen an, die zwischen ${a} und ${b} liegen.`,bal(()=>uniq(6,()=>R(lo,hi)).map(x=>['',String(x),x>a&&x<b?1:0]),2,2),'Die Zahl muss größer als '+a+' und kleiner als '+b+' sein.')},
+ l=>{const s=[10,5,2][l],m=l==0?[1,9]:l==1?[2,19]:[3,49],A=uniq(3,()=>R(...m)).map(x=>x*s),o=R(...m)*s+(s==10?R(1,9):s==5?R(1,4):1),h=['Schau auf die Einerzahl. Welche Zahl endet nicht auf 0?','Zähle in Fünferschritten: 5, 10, 15. Welche Zahl endet nicht auf 0 oder 5?','Gerade Zahlen enden auf 0, 2, 4, 6 oder 8. Welche Zahl ist ungerade?'][l];
+  return MC('Welche Zahl passt nicht zu den anderen drei?',o,A,h)},
+ l=>{const r=l==0?[1,20]:l==1?[21,49]:[21,99];return MEM('Memo: Finde Zahl und Zahlwort!',uniq(l==0?3:4,()=>R(...r)).map(n=>[String(n),nw(n)]),'Sprich das Zahlwort leise. Bei 47 hörst du erst die Einer: sieben-und-vierzig.')}];
+const kn=l=>draw(knP,l,5);
+/* ---------- Planet 4: Lesaro (Lesen) – viele Texte, je Stufe ein Textpool ---------- */
+const LT=[[
+{tx:'Der Hund heißt Rex. Er ist braun und groß. Rex spielt gern im Garten. Er jagt einen roten Ball.',t:'Rex und der Ball',tw:['Die Katze im Haus','Ein Tag im Zoo'],
+ mc:[['Wie heißt der Hund?','Rex',['Max','Bello']],['Welche Farbe hat der Ball?','rot',['blau','grün']],['Wo spielt Rex gern?','im Garten',['im Haus','im Wald']],['Wie ist Rex?','braun und groß',['klein und weiß','schwarz und klein']]],
+ in:[['Welche Farbe hat Rex? (ein Wort)','braun'],['Wie heißt der Hund? (ein Wort)','Rex']],
+ tf:[['Rex ist ein Hund.',0],['Rex spielt im Garten.',0],['Der Ball ist blau.',1],['Rex ist klein.',1],['Rex jagt einen Ball.',0]],
+ img:['Tippe an, was im Text vorkommt.',[['🐶','Hund',1],['⚽','Ball',1],['🐱','Katze',0],['🐟','Fisch',0],['🚗','Auto',0],['📖','Buch',0]]]},
+{tx:'Mia hat einen Hamster. Er heißt Krümel. Krümel schläft am Tag. In der Nacht läuft er im Rad. Mia gibt ihm Körner.',t:'Mias Hamster',tw:['Ein Tag am Meer','Der große Hund'],
+ mc:[['Wie heißt der Hamster?','Krümel',['Rex','Max']],['Wann schläft Krümel?','am Tag',['in der Nacht','am Abend']],['Was bekommt der Hamster von Mia?','Körner',['Äpfel','Brot']],['Wo läuft Krümel in der Nacht?','im Rad',['im Garten','im Bett']]],
+ in:[['Wem gehört der Hamster? (ein Wort)','Mia'],['Was ist Krümel? (ein Wort)','Hamster']],
+ tf:[['Krümel ist ein Hamster.',0],['Krümel schläft in der Nacht.',1],['Mia gibt ihm Körner.',0],['Der Hamster läuft im Rad.',0],['Mia hat einen Hund.',1]],
+ img:['Tippe an, was im Text vorkommt.',[['🐹','Hamster',1],['🌾','Körner',1],['🐴','Pferd',0],['🥕','Möhre',0],['🚲','Fahrrad',0],['🐠','Fisch',0]]]},
+{tx:'Am Morgen scheint die Sonne. Ben zieht seine Jacke an. Er nimmt seinen Ranzen. Dann geht er zur Schule.',t:'Bens Schulweg',tw:['Ben im Zoo','Ein Regentag'],
+ mc:[['Was scheint am Morgen?','die Sonne',['der Mond','der Regen']],['Was zieht Ben an?','seine Jacke',['seine Mütze','seine Schuhe']],['Was nimmt Ben mit?','seinen Ranzen',['seinen Ball','sein Buch']],['Wohin geht Ben?','zur Schule',['zum Spielplatz','zum See']]],
+ in:[['Wer geht zur Schule? (ein Wort)','Ben'],['Was zieht Ben an? (ein Wort)','Jacke|seine Jacke']],
+ tf:[['Es regnet am Morgen.',1],['Ben zieht eine Jacke an.',0],['Ben geht zur Schule.',0],['Ben nimmt seinen Ranzen.',0],['Ben geht zum See.',1]],
+ ord:['Ben zieht seine Jacke an.','Er nimmt seinen Ranzen.','Dann geht er zur Schule.'],
+ img:['Tippe an, was im Text vorkommt.',[['☀️','Sonne',1],['🧥','Jacke',1],['🎒','Ranzen',1],['🌧️','Regen',0],['⛄','Schneemann',0],['🚌','Bus',0]]]},
+{tx:'Oma backt einen Kuchen. Sie nimmt Mehl, Eier und Zucker. Lina hilft ihr. Der Kuchen riecht gut.',t:'Der Kuchen',tw:['Ein Ausflug','Das Fußballspiel'],
+ mc:[['Wer backt einen Kuchen?','Oma',['Mama','Lina']],['Was nimmt Oma?','Mehl, Eier und Zucker',['Milch und Brot','Äpfel und Nüsse']],['Wer hilft Oma?','Lina',['Papa','Ben']],['Wie riecht der Kuchen?','gut',['schlecht','nach Fisch']]],
+ in:[['Was backt Oma? (ein Wort)','Kuchen'],['Wer hilft Oma? (ein Wort)','Lina']],
+ tf:[['Oma backt einen Kuchen.',0],['Lina hilft Oma.',0],['Oma nimmt Mehl, Eier und Zucker.',0],['Der Kuchen riecht schlecht.',1],['Opa backt den Kuchen.',1]],
+ img:['Tippe an, was im Text vorkommt.',[['🍰','Kuchen',1],['🥚','Eier',1],['🐟','Fisch',0],['🍌','Banane',0],['🥕','Möhre',0],['🍕','Pizza',0]]]}
+],[
+{tx:'Am Samstag fährt Lena mit ihrer Oma zum See. Sie packen Brote, Äpfel und Saft ein. Auf dem See schwimmen Enten. Lena wirft den Enten Körner hin. Danach bauen sie eine Sandburg.',t:'Ein Tag am See',tw:['Lena in der Schule','Der kalte Winter'],
+ mc:[['Mit wem fährt Lena zum See?','mit ihrer Oma',['mit ihrem Opa','mit ihrer Freundin']],['Was packen sie ein?','Brote, Äpfel und Saft',['Eis und Kuchen','Nudeln und Tee']],['Was schwimmt auf dem See?','Enten',['Boote','Fische']],['Wann fährt Lena zum See?','am Samstag',['am Sonntag','am Montag']]],
+ in:[['Was bauen sie am Ende? (ein Wort)','Sandburg'],['Wer fährt mit Oma zum See? (ein Wort)','Lena']],
+ tf:[['Lena fährt mit ihrer Oma.',0],['Sie bauen eine Sandburg.',0],['Sie packen Eis ein.',1],['Auf dem See schwimmen Fische.',1],['Lena füttert die Enten.',0]],
+ ord:['Sie packen Brote, Äpfel und Saft ein.','Lena wirft den Enten Körner hin.','Danach bauen sie eine Sandburg.'],
+ img:['Tippe an, was im Text vorkommt.',[['🍎','Äpfel',1],['🦆','Enten',1],['🏰','Sandburg',1],['🐠','Fisch',0],['🍦','Eis',0],['🚲','Fahrrad',0]]]},
+{tx:'Tom findet im Park einen kleinen Igel. Der Igel sitzt unter einem Busch und zittert. Es ist kalt, denn es ist Herbst. Tom holt seine Mutter. Gemeinsam legen sie den Igel in eine Kiste mit Laub.',t:'Der Igel im Park',tw:['Tom im Schwimmbad','Der Hund im Garten'],
+ mc:[['Warum zittert der Igel?','Es ist kalt.',['Er ist hungrig.','Er ist müde.']],['In welcher Jahreszeit spielt die Geschichte?','im Herbst',['im Sommer','im Frühling']],['Wer hilft Tom?','seine Mutter',['sein Vater','seine Lehrerin']],['Wo sitzt der Igel?','unter einem Busch',['auf einem Baum','in einem Haus']]],
+ in:[['In was legen sie den Igel? (ein Wort)','Kiste|eine Kiste'],['Wen findet Tom im Park? (ein Wort)','Igel|einen Igel']],
+ tf:[['Der Igel zittert.',0],['Es ist Sommer.',1],['Tom holt seine Mutter.',0],['Der Igel ist sehr groß.',1],['Der Igel kommt in eine Kiste.',0]],
+ ord:['Tom findet einen Igel im Park.','Tom holt seine Mutter.','Sie legen den Igel in eine Kiste mit Laub.'],
+ img:['Tippe an, was im Text vorkommt.',[['🦔','Igel',1],['🍂','Laub',1],['📦','Kiste',1],['🐸','Frosch',0],['🏖️','Strand',0],['🐟','Fisch',0]]]},
+{tx:'Im Zoo gibt es viele Tiere. Die Affen klettern auf den Bäumen. Die Löwen schlafen in der Sonne. Die Pinguine tauchen im Wasser. Am Ende essen Max und Eva ein Eis.',t:'Ein Tag im Zoo',tw:['Im Schwimmbad','Auf dem Bauernhof'],
+ mc:[['Wo klettern die Affen?','auf den Bäumen',['im Wasser','auf dem Dach']],['Wo schlafen die Löwen?','in der Sonne',['im Wasser','auf dem Baum']],['Wer taucht im Wasser?','die Pinguine',['die Affen','die Löwen']],['Was essen Max und Eva am Ende?','ein Eis',['einen Kuchen','eine Wurst']]],
+ in:[['Wer klettert auf den Bäumen? (ein Wort)','Affen|die Affen'],['Was essen die Kinder am Ende? (ein Wort)','Eis|ein Eis']],
+ tf:[['Die Löwen schlafen.',0],['Die Pinguine klettern auf Bäume.',1],['Max und Eva essen ein Eis.',0],['Die Affen tauchen im Wasser.',1],['Im Zoo gibt es viele Tiere.',0]],
+ ord:['Die Affen klettern auf den Bäumen.','Die Löwen schlafen in der Sonne.','Die Pinguine tauchen im Wasser.'],
+ mat:[['Die Affen','klettern auf Bäume'],['Die Löwen','schlafen in der Sonne'],['Die Pinguine','tauchen im Wasser']],
+ img:['Tippe an, was im Text vorkommt.',[['🐒','Affe',1],['🦁','Löwe',1],['🐧','Pinguin',1],['🐘','Elefant',0],['🦒','Giraffe',0],['🐍','Schlange',0]]]},
+{tx:'Paul hat Geburtstag. Er wird heute acht Jahre alt. Seine Freunde kommen zur Feier. Sie spielen Fangen und essen Kuchen. Am Abend sind alle müde.',t:'Pauls Geburtstag',tw:['Ein Schultag','Der erste Schnee'],
+ mc:[['Wie alt wird Paul?','acht Jahre',['sieben Jahre','neun Jahre']],['Wer kommt zur Feier?','Pauls Freunde',['Pauls Lehrer','Pauls Nachbarn']],['Was spielen die Kinder?','Fangen',['Fußball','Verstecken']],['Wie sind alle am Abend?','müde',['hungrig','traurig']]],
+ in:[['Wer hat Geburtstag? (ein Wort)','Paul'],['Was essen die Kinder? (ein Wort)','Kuchen']],
+ tf:[['Paul wird acht Jahre alt.',0],['Die Freunde kommen zur Feier.',0],['Die Kinder spielen Fangen.',0],['Am Abend sind alle munter.',1],['Die Kinder essen Pizza.',1]],
+ ord:['Paul hat Geburtstag.','Seine Freunde kommen zur Feier.','Sie spielen Fangen und essen Kuchen.','Am Abend sind alle müde.'],
+ img:['Tippe an, was im Text vorkommt.',[['🍰','Kuchen',1],['👫','Freunde',1],['🐘','Elefant',0],['🚗','Auto',0],['🌵','Kaktus',0],['🐟','Fisch',0]]]}
+],[
+{tx:'Die Biene Bibi fliegt von Blume zu Blume. Sie sammelt süßen Nektar. Der Nektar ist das Essen der Bienen. In ihrem Stock macht Bibi daraus Honig. Viele Bienen leben zusammen im Stock. Im Winter bleiben sie drinnen, weil es draußen zu kalt ist.',t:'Die fleißige Biene',tw:['Der Fisch im Teich','Ein Tag im Schnee'],
+ mc:[['Was sammelt Bibi?','Nektar',['Wasser','Blätter']],['Was macht Bibi aus dem Nektar?','Honig',['Milch','Saft']],['Wo leben die Bienen?','im Stock',['im Teich','im Haus']],['Warum bleiben die Bienen im Winter drinnen?','Es ist draußen zu kalt.',['Sie haben Hunger.','Sie sind müde.']]],
+ in:[['Wie heißt die Biene? (ein Wort)','Bibi'],['Was machen die Bienen aus dem Nektar? (ein Wort)','Honig']],
+ tf:[['Bibi fliegt von Blume zu Blume.',0],['Nektar ist das Essen der Bienen.',0],['Bienen leben allein.',1],['Im Winter fliegen die Bienen viel draußen.',1],['Bibi macht Honig.',0]],
+ ord:['Bibi fliegt von Blume zu Blume.','Sie sammelt süßen Nektar.','Im Stock macht sie daraus Honig.'],
+ img:['Tippe an, was im Text vorkommt.',[['🐝','Biene',1],['🌸','Blume',1],['🍯','Honig',1],['🦋','Schmetterling',0],['🐞','Marienkäfer',0],['🕷️','Spinne',0]]]},
+{tx:'Mira und Jonas bauen ein Vogelhaus. Jonas sägt die Bretter zurecht. Mira hämmert die Nägel ein. Dann streichen sie das Haus rot an. Sie hängen es an einen Baum im Garten. Am nächsten Tag sitzt schon eine Meise darin.',t:'Das Vogelhaus',tw:['Eine Reise mit dem Zug','Der Hund im Park'],
+ mc:[['Wer sägt die Bretter?','Jonas',['Mira','der Vater']],['Was macht Mira?','Sie hämmert die Nägel ein.',['Sie sägt die Bretter.','Sie malt ein Bild.']],['Welche Farbe hat das Vogelhaus?','rot',['blau','gelb']],['Wer sitzt am nächsten Tag im Vogelhaus?','eine Meise',['ein Hase','ein Hund']]],
+ in:[['Was bauen Mira und Jonas? (ein Wort)','Vogelhaus'],['An was hängen sie das Vogelhaus auf? (ein Wort)','Baum|einen Baum']],
+ tf:[['Jonas sägt die Bretter.',0],['Mira hämmert die Nägel ein.',0],['Das Vogelhaus ist grün.',1],['Das Vogelhaus hängt an einem Baum.',0],['Am nächsten Tag ist das Haus noch leer.',1]],
+ ord:['Jonas sägt die Bretter zurecht.','Mira hämmert die Nägel ein.','Sie streichen das Haus rot an.','Sie hängen es an einen Baum.'],
+ mat:[['Jonas','sägt die Bretter'],['Mira','hämmert die Nägel ein'],['Die Meise','sitzt im Vogelhaus']],
+ img:['Tippe an, was Mira und Jonas für das Vogelhaus brauchen.',[['🪚','Säge',1],['🔨','Hammer',1],['🎨','Farbe',1],['🥄','Löffel',0],['📚','Buch',0],['🧸','Teddy',0]]]},
+{tx:'Es regnet seit dem Morgen. Finn schaut aus dem Fenster und seufzt. Er wollte mit Freunden Fußball spielen. Da hat seine Mutter eine Idee. Sie holen Decken und Kissen und bauen eine Höhle im Wohnzimmer. Mit einer Taschenlampe lesen sie dort ein Buch. Finn lacht: „So ein Regentag ist auch schön!“',t:'Der Regentag',tw:['Fußball im Sommer','Ein Besuch im Zoo'],
+ mc:[['Warum seufzt Finn?','Er kann nicht draußen Fußball spielen.',['Er hat Hunger.','Er hat sein Buch verloren.']],['Was bauen Finn und seine Mutter?','eine Höhle',['ein Haus','einen Turm']],['Wo bauen sie die Höhle?','im Wohnzimmer',['im Garten','im Keller']],['Was haben sie in der Höhle dabei?','eine Taschenlampe',['eine Kerze','einen Ball']]],
+ in:[['Wer baut mit Finn die Höhle? (ein Wort)','Mutter|Mama|seine Mutter'],['Was lesen sie in der Höhle? (ein Wort)','Buch|ein Buch']],
+ tf:[['Es regnet seit dem Morgen.',0],['Finn will mit Freunden Fußball spielen.',0],['Die Höhle steht im Garten.',1],['Finn findet den Regentag am Ende schön.',0],['Finn ist traurig bis zum Schluss.',1]],
+ ord:['Es regnet und Finn seufzt.','Seine Mutter hat eine Idee.','Sie bauen eine Höhle aus Decken und Kissen.','Sie lesen mit einer Taschenlampe ein Buch.'],
+ img:['Tippe an, was im Text vorkommt.',[['🌧️','Regen',1],['🔦','Taschenlampe',1],['📖','Buch',1],['🐕','Hund',0],['🚲','Fahrrad',0],['🍕','Pizza',0]]]},
+{tx:'Im Wald wohnt ein Eichhörnchen. Im Herbst sammelt es Nüsse und versteckt sie in der Erde. Im Winter schläft es viel. Wenn es aufwacht, ist es hungrig. Dann gräbt es seine Nüsse wieder aus. Manchmal vergisst es ein Versteck. Aus diesem Versteck wächst dann ein neuer Baum.',t:'Das Eichhörnchen',tw:['Der Fuchs im Schnee','Die Ente am See'],
+ mc:[['Wann sammelt das Eichhörnchen Nüsse?','im Herbst',['im Frühling','im Sommer']],['Wo versteckt es die Nüsse?','in der Erde',['im Wasser','auf dem Dach']],['Warum gräbt es die Nüsse aus?','Es ist hungrig.',['Es ist müde.','Es will spielen.']],['Was wächst aus einem vergessenen Versteck?','ein neuer Baum',['eine Blume','ein Pilz']]],
+ in:[['Was sammelt das Eichhörnchen? (ein Wort)','Nüsse'],['In welcher Jahreszeit schläft es viel? (ein Wort)','Winter|im Winter']],
+ tf:[['Das Eichhörnchen wohnt im Wald.',0],['Es versteckt Nüsse in der Erde.',0],['Im Winter ist es sehr aktiv.',1],['Es vergisst manchmal ein Versteck.',0],['Aus einem Versteck wächst ein Pilz.',1]],
+ ord:['Im Herbst sammelt das Eichhörnchen Nüsse.','Im Winter schläft es viel.','Wenn es aufwacht, gräbt es die Nüsse wieder aus.'],
+ img:['Tippe an, was im Text vorkommt.',[['🐿️','Eichhörnchen',1],['🌰','Nüsse',1],['🌳','Baum',1],['🐠','Fisch',0],['🚗','Auto',0],['🍕','Pizza',0]]]}
+]];
+const les=l=>{const S=pk(LT[l]),h='Lies den Text noch einmal genau.',x={tx:S.tx};
+ const P=[()=>MC('Welche Überschrift passt am besten zum Text?',S.t,S.tw,h,x),...S.mc.map(q=>()=>MC(q[0],q[1],q[2],h,x)),...S.in.map(q=>()=>IN(q[0],q[1],h,x)),()=>DD('Richtig oder falsch? Sortiere die Aussagen.',['richtig','falsch'],S.tf,h,x),()=>IMG(S.img[0],S.img[1],h,x)];
+ if(S.ord)P.push(()=>ORD('Bringe die Sätze in die richtige Reihenfolge (wie im Text).',S.ord,h,x));
+ if(S.mat)P.push(()=>MAT('Wer macht was? Ordne zu.',S.mat,h,x));
+ return draw(P,l,5)};
+
+/* ---------- Planet 5: Schreibo (Rechtschreibung) ---------- */
+/* Wort, falsch 1, falsch 2, Hinweis, Bild */
+const SB=[[
+['Biene','Bine','Bihne','Sie macht Honig.','🐝'],['Brief','Brif','Brihf','Den schickst du mit der Post.','✉️'],['Wiese','Wise','Wihse','Dort wachsen Gras und Blumen.','🌼'],['Ziege','Zige','Zihge','Ein Tier mit Hörnern. Es sagt „meck“.','🐐'],['Spiegel','Spigel','Spihgel','Darin siehst du dich selbst.',''],['Zwiebel','Zwibel','Zwihbel','Beim Schneiden müssen wir weinen.','🧅'],['Spiel','Spil','Spihl','Man macht es mit Freunden. Zum Beispiel Fangen.','🎲'],['Fliege','Flige','Flihge','Ein kleines Insekt. Es summt.','']
+],[
+['Sonne','Sone','Zonne','Sie scheint am Himmel.','☀️'],['Mutter','Muter','Mutta','Mama ist eine ...','👩'],['Kette','Kete','Kätte','Schmuck für den Hals.','📿'],['Tasse','Tase','Tasze','Daraus trinkst du Kakao.','☕'],['Puppe','Pupe','Pubbe','Ein Spielzeug für Kinder.',''],['Treppe','Trepe','Treppä','Du gehst Stufe für Stufe hinauf.',''],['Wetter','Weter','Wätter','Regen und Sonne gehören zum ...',''],['Löffel','Löfel','Lövvel','Damit isst du Suppe.','🥄'],['Wasser','Waser','Wassa','Es kommt aus dem Hahn.','💧'],['Bett','Bet','Bätt','Darin schläfst du.','🛏️']
+],[
+['Jacke','Jake','Jaccke','Die ziehst du an, wenn es kalt ist.','🧥'],['Decke','Deke','Dekke','Damit deckst du dich im Bett zu.',''],['Brücke','Brüke','Brükke','Über den Fluss führt eine ...','🌉'],['Zucker','Zuker','Zukker','Er macht den Tee süß.',''],['Katze','Katse','Kaze','Ein Haustier. Es sagt „miau“.','🐱'],['Mütze','Mütse','Müze','Du trägst sie im Winter auf dem Kopf.','🧢'],['Pfütze','Pfütse','Pfüze','Nach dem Regen steht sie auf der Straße.',''],['Schatz','Schats','Schaz','Piraten suchen einen ...','💰'],['Glocke','Gloke','Glokke','Sie läutet in der Kirche.','🔔'],['Blitz','Blits','Bliz','Er leuchtet bei Gewitter am Himmel.','⚡']
+]];
+const SH=['Das lange i hörst du oft. Man schreibt es meist mit ie.','Nach einem kurzen Selbstlaut kommt oft ein doppelter Mitlaut. Sprich langsam: Mut-ter.','Nach einem kurzen Selbstlaut schreibt man ck oder tz. Das musst du dir merken.'];
+const gap=(w,l)=>l==0?w.replace('ie','__'):l==1?w.replace(/(.)\1/,'__'):w.replace(/ck|tz/,'__');
+const VL=[['Hun_','Hund','die Hunde'],['Wal_','Wald','die Wälder'],['Ber_','Berg','die Berge'],['Kor_','Korb','die Körbe'],['Ra_','Rad','die Räder'],['Zu_','Zug','die Züge'],['Hu_','Hut','die Hüte'],['Bil_','Bild','die Bilder'],['Kin_','Kind','die Kinder']];
+const sP=[
+ l=>{const w=pk(SB[l]);return MC('Welches Wort ist richtig geschrieben?',w[0],[w[1],w[2]],SH[l])},
+ l=>{const A=sh(SB[l]);return MC('Welches Wort ist falsch geschrieben?',A[0][1],[A[1][0],A[2][0]],SH[l])},
+ l=>{const w=pk(SB[l]);return IN(`Schreibe das ganze Wort: ${gap(w[0],l)}  (${w[3]})`,w[0],SH[l])},
+ l=>{const B=SB[l];let g,a,b;
+  if(l==0){g=['ie','i'];a=sh(B).slice(0,3).map(x=>x[0]);b=sh(['Tisch','Kind','Licht','Fisch','Wind','Ring']).slice(0,3)}
+  else if(l==1){g=['mit doppeltem Mitlaut','ohne doppelten Mitlaut'];a=sh(B).slice(0,3).map(x=>x[0]);b=sh(['Hase','Nase','Lampe','Rose','Name','Hose','Wolke','Mond']).slice(0,3)}
+  else{g=['ck','tz'];a=sh(B.filter(x=>/ck/.test(x[0]))).slice(0,3).map(x=>x[0]);b=sh(B.filter(x=>/tz/.test(x[0]))).slice(0,3).map(x=>x[0])}
+  return DD(l==2?'Wird das Wort mit ck oder mit tz geschrieben?':l==0?'Wird das Wort mit ie oder mit i geschrieben?':'Hat das Wort einen doppelten Mitlaut?',g,[...a.map(w=>[w,0]),...b.map(w=>[w,1])],l==0?'Bei Tisch, Kind und Licht hörst du ein kurzes i.':l==1?'Schau genau hin: Stehen zwei gleiche Buchstaben nebeneinander?':'Schau auf die Buchstaben im Wort. Das musst du dir merken.')},
+ l=>MEM('Memo: Finde Wort und Bild!',sh(SB[l].filter(x=>x[4])).slice(0,l==0?3:4).map(x=>[x[0],x[4]]),'Lies das Wort und suche das passende Bild.'),
+ l=>{const w=pk(SB[l].filter(x=>x[0].length<=7));return ORD(`Setze die Buchstaben zum Wort zusammen. Tipp: ${w[3]}`,[...w[0]],SH[l])},
+ l=>{const A=sh(SB[l]),it=sh([...A.slice(0,3).map(w=>['',w[0],1]),...A.slice(3,6).map(w=>['',pk([w[1],w[2]]),0])]);return IMG('Tippe alle Wörter an, die richtig geschrieben sind.',it,SH[l])},
+ l=>{if(l<2)return null;const v=pk(VL);return IN(`Verlängere das Wort und schreibe es richtig: ${v[0]}  (${v[2]})`,v[1],'Bei der Mehrzahl hörst du den Buchstaben am Ende des Wortes genau.')}];
+const sch=l=>draw(sP,l,5);
+/* ---------- Planet 6: Wortus (Nomen, Verben, Adjektive) ---------- */
+const NN=['Hund','Tisch','Ball','Blume','Katze','Haus','Baum','Apfel','Schule','Auto','Garten','Mutter','Buch','Fenster'],VB=['laufen','singen','malen','lachen','springen','tanzen','backen','lesen','schlafen','rennen','schwimmen','fliegen'],AJ=['schön','klein','rot','schnell','mutig','warm','laut','leise','groß','kalt','lustig','süß'];
+const KB=[NN,VB,AJ],KN=['Nomen','Verb','Adjektiv'],KH='Nomen kannst du sehen oder anfassen. Verben sagen, was man tut. Adjektive sagen, wie etwas ist.';
+const SS=[['Der Hund jagt die Katze im Garten.',3,'jagt',null],['Das Mädchen liest ein Buch.',2,'liest',null],['Die Kinder spielen auf dem Spielplatz.',2,'spielen',null],['Der kleine Vogel singt ein Lied.',2,'singt','kleine'],['Mama backt einen leckeren Kuchen.',2,'backt','leckeren'],['Der Bus fährt durch die Stadt.',2,'fährt',null],['Die rote Blume blüht im Garten.',2,'blüht','rote']];
+const VS=[[['Der Vogel ___ hoch.','fliegen','fliegt'],['Mia ___ ein Bild.','malen','malt'],['Der Hund ___ laut.','bellen','bellt'],['Lena ___ laut.','lachen','lacht'],['Der Fisch ___ im Wasser.','schwimmen','schwimmt']],[['Die Kinder ___ ein Lied.','singen','singen'],['Wir ___ im Garten.','spielen','spielen'],['Die Hunde ___ laut.','bellen','bellen'],['Wir ___ ein Bild.','malen','malen']],[['Ich ___ ein Buch.','lesen','lese'],['Tom ___ schnell.','laufen','läuft|laeuft'],['Mia ___ ein Buch.','lesen','liest'],['Du ___ gut.','singen','singst'],['Ich ___ ein Bild.','malen','male']]];
+const SZ=[['Der','Hund','bellt','laut.'],['Die','Katze','trinkt','Milch.'],['Ich','esse','einen','Apfel.'],['Mia','malt','ein','Bild.'],['Wir','spielen','im','Garten.'],['Das','Auto','fährt','schnell.'],['Die','Sonne','scheint','warm.']];
+const AT=[['Vogel','fliegen'],['Fisch','schwimmen'],['Hund','bellen'],['Kuh','muhen'],['Katze','miauen'],['Frosch','quaken'],['Bäcker','backen'],['Sänger','singen']];
+const AG=[['groß','klein'],['warm','kalt|kühl'],['laut','leise'],['schnell','langsam'],['hell','dunkel'],['dick','dünn'],['jung','alt'],['schwer','leicht']];
+const AP=[['Schnee','kalt'],['Zucker','süß'],['Zitrone','sauer'],['Feuer','heiß'],['Elefant','groß'],['Maus','klein'],['Nacht','dunkel']];
+const wP=[
+ l=>{const k=l==0?2:3,per=6/k,it=[];for(let i=0;i<k;i++)it.push(...sh(KB[i]).slice(0,per).map(w=>[w,i]));return DD(l==0?'Nomen (Namenwort) oder Verb (Tunwort)?':'Nomen, Verb oder Adjektiv (Wiewort)?',KN.slice(0,k),it,KH)},
+ l=>{const k=R(0,l==0?1:2),w=pk(KB[k]),O=KB.map((b,i)=>i).filter(i=>i!=k&&(l>0||i<2)),o=l==0?sh(KB[O[0]]).slice(0,2):O.map(i=>pk(KB[i]));return MC(`Welches Wort ist ein ${KN[k]}?`,w,o,KH)},
+ ()=>{const n=pk(NN);return IN(`Schreibe das Nomen richtig auf: ${n.toLowerCase()}`,n,'Nomen schreibt man mit großem Anfangsbuchstaben.',{cs:1})},
+ l=>{const S=pk(SS),W=S[0].replace('.','').split(' '),k=l==0?'v':pk(l==1?['v','a']:['v','a','n']),kk=k=='a'&&!S[3]?'v':k;
+  const oth=w=>sh(W.filter(x=>x!=S[2]&&x!=S[3]&&x!=w)).slice(0,2);
+  if(kk=='n')return MC(`Wie viele Nomen hat der Satz? „${S[0]}“`,S[1],[1,2,3,4,5].filter(x=>x!==S[1]).slice(0,3),'Nomen sind groß geschrieben. Zähle sie.');
+  if(kk=='a')return MC(`Welches Wort ist das Adjektiv (Wiewort)? „${S[0]}“`,S[3],oth(S[3]),'Ein Adjektiv sagt, wie etwas ist.');
+  return MC(`Welches Wort ist das Verb (Tunwort)? „${S[0]}“`,S[2],oth(S[2]),'Was tut jemand? Das ist das Verb.')},
+ l=>{const B=l==0?VS[0]:l==1?[...VS[0],...VS[1]]:[...VS[1],...VS[2]],v=pk(B);return IN(`Setze das Verb passend ein: ${v[0]}  (${v[1]})`,v[2],'Überlege: Wer tut es? Bei „er“ oder „sie“ endet das Verb meist auf -t.')},
+ ()=>ORD('Bringe die Wörter in die richtige Reihenfolge. So entsteht ein Satz.',pk(SZ),'Das erste Wort hat einen großen Anfangsbuchstaben. Am Ende steht ein Punkt.'),
+ l=>{const k=R(0,l==0?1:2),ok=sh(KB[k]).slice(0,3).map(w=>['',w,1]),O=KB.map((b,i)=>i).filter(i=>i!=k&&(l>0||i<2)),no=sh(O.flatMap(i=>KB[i])).slice(0,3).map(w=>['',w,0]);return IMG(`Tippe alle ${['Nomen','Verben','Adjektive'][k]} an.`,[...ok,...no],KH)},
+ l=>MAT('Was passt zusammen? Ordne zu.',sh(AT).slice(0,l==0?3:4),'Was tut das Tier oder der Mensch? Das passende Tunwort suchst du.'),
+ l=>{if(l==0)return null;const g=pk(AG);return IN(`Schreibe das Gegenteil von „${g[0]}“:`,g[1],'Wie ist etwas, das nicht '+g[0]+' ist?')},
+ l=>{if(l==0)return null;return MEM('Memo: Welches Wiewort passt zum Nomen?',sh(AP).slice(0,4),'Denke an das Nomen: Wie ist es?')}];
+const wor=l=>draw(wP,l,5);
 const PL=[
 {n:'Rechni',e:'🪐',c:'#ff9db0',f:'Mathe',d:'Plus und Minus',g:rech},
 {n:'Zeitola',e:'🌕',c:'#ffe07a',f:'Mathe',d:'Uhr, Geld, Größen',g:zeit},
@@ -119,77 +322,164 @@ const PL=[
 {n:'Lesaro',e:'🌍',c:'#8fe3b0',f:'Deutsch',d:'Lesen und Verstehen',g:les},
 {n:'Schreibo',e:'🔴',c:'#ffb38a',f:'Deutsch',d:'Rechtschreibung',g:sch},
 {n:'Wortus',e:'🔵',c:'#8fd3ff',f:'Deutsch',d:'Nomen, Verben, Adjektive',g:wor}];
+/* ---------- Sonnen-Mission: eigene Aufgaben mit vielen Formaten ---------- */
+const TG=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'],MO=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const smP=[
+ ()=>{const a=R(6,25);return IN(`Das Doppelte von ${a} ist ... (nur die Zahl)`,2*a,'Doppelt heißt: die Zahl plus dieselbe Zahl.')},
+ ()=>{const a=2*R(4,24);return IN(`Die Hälfte von ${a} ist ... (nur die Zahl)`,a/2,'Halbieren heißt: in zwei gleiche Teile teilen.')},
+ ()=>{const a=R(21,98),t=Math.floor(a/10);return MC(`Wie viele Zehner hat die Zahl ${a}?`,t,[...new Set([a%10,t+1,t-1,t+2])].filter(x=>x!==t).slice(0,3),'Die erste Ziffer sind die Zehner, die zweite die Einer.')},
+ ()=>{const g=o=>uniq(3,()=>2*R(5,49)+o);return DD('Gerade oder ungerade? Sortiere die Zahlen.',['gerade','ungerade'],[...g(0),...g(1)].map(x=>[String(x),x%2]),'Gerade Zahlen enden auf 0, 2, 4, 6 oder 8. Ungerade enden auf 1, 3, 5, 7 oder 9.')},
+ ()=>{const a=R(2,9),b=R(2,9),c=R(2,9);return INS('Zahlenmauer: Jeder Stein ist die Summe der zwei Steine darunter. Schreibe die fehlenden Zahlen auf.',[`Unten: ${a} | ${b} | ${c} → Mitte: `,{a:a+b},' und ',{a:b+c},' → Oben: ',{a:a+2*b+c}],'Zähle immer zwei Nachbarn zusammen. Oben steht die Summe der beiden Zahlen aus der Mitte.')},
+ ()=>{const a=uniq(3,()=>R(10,99)),m=Math.max(...a);return MC('Welche Zahl ist die größte?',m,a.filter(x=>x!==m),'Vergleiche erst die Zehner. Sind sie gleich, vergleiche die Einer.')},
+ ()=>{const a=R(11,98),v=R(0,1);return IN(`Welche Zahl kommt direkt ${v?'nach':'vor'} ${a}? (nur die Zahl)`,v?a+1:a-1,'Zähle ein Stück vorwärts oder rückwärts.')},
+ ()=>{const[n,c]=pk([['Dreieck',3],['Quadrat',4],['Rechteck',4]]);return MC(`Wie viele Ecken hat ein ${n}?`,c,[3,4,5,6].filter(x=>x!==c),'Zähle die Stellen, an denen zwei Linien zusammenstoßen.')},
+ ()=>{const x=R(1,6);return MC(`Auf einem Würfel liegen gegenüberliegende Seiten zusammen immer 7 Augen. Wie viele Augen sind gegenüber der ${x}?`,7-x,[1,2,3,4,5,6].filter(y=>y!==7-x).slice(0,3),'Rechne: 7 minus die Zahl.')},
+ ()=>{const s=new Set,o=[];while(o.length<4){const n=R(3,15);if(s.has(n)||s.has(2*n))continue;s.add(n);s.add(2*n);o.push([String(n),String(2*n)])}return MEM('Memo: Finde jede Zahl und ihr Doppeltes!',o,'Das Doppelte von 4 ist 8.')},
+ ()=>MAT('Welche Form hat wie viele Ecken? Ordne zu.',sh([['Dreieck','3 Ecken'],['Quadrat','4 Ecken'],['Kreis','0 Ecken'],['Fünfeck','5 Ecken']]).slice(0,3),'Ecken sind die Stellen, an denen zwei Linien zusammenstoßen. Ein Kreis hat keine.'),
+ ()=>{const s=R(0,3);return ORD('Bringe die Wochentage in die richtige Reihenfolge.',TG.slice(s,s+4),'Die Woche beginnt mit Montag.')},
+ ()=>{const s=R(0,8);return ORD('Bringe die Monate in die richtige Reihenfolge.',MO.slice(s,s+4),'Das Jahr beginnt mit Januar.')},
+ ()=>IMG('Tippe alle geraden Zahlen an.',bal(()=>uniq(6,()=>R(1,30)).map(x=>['',String(x),x%2?0:1]),2,2),'Gerade Zahlen enden auf 0, 2, 4, 6 oder 8.'),
+ ()=>IMG('Tippe alle Formen mit genau 4 Ecken an.',[['🟦','blaues Quadrat',1],['🟥','rotes Quadrat',1],['🔷','Raute',1],['🔺','Dreieck',0],['🔴','Kreis',0],['🔻','Dreieck (kopfüber)',0]],'Zähle die Ecken jeder Form.')];
+const IC=[['Tippe alle Tiere an, die fliegen können.',[['🐦','Vogel',1],['🦋','Schmetterling',1],['🐝','Biene',1],['🐘','Elefant',0],['🐟','Fisch',0],['🐢','Schildkröte',0]]],['Tippe alles an, was Obst ist.',[['🍎','Apfel',1],['🍌','Banane',1],['🍐','Birne',1],['🥕','Möhre',0],['🍞','Brot',0],['🧀','Käse',0]]],['Tippe alles an, was man anziehen kann.',[['👖','Hose',1],['🧥','Jacke',1],['🧢','Mütze',1],['🪑','Stuhl',0],['📚','Buch',0],['🚲','Fahrrad',0]]],['Tippe alle Fahrzeuge an.',[['🚗','Auto',1],['🚲','Fahrrad',1],['🚌','Bus',1],['🌳','Baum',0],['🏠','Haus',0],['🌻','Blume',0]]]];
+const sdP=[
+ ()=>{const[w,c]=pk([['Banane',3],['Sonne',2],['Schmetterling',3],['Fenster',2],['Elefant',3],['Haus',1],['Schokolade',4]]);return MC(`Wie viele Silben hat das Wort „${w}“?`,c,[1,2,3,4,5].filter(x=>x!==c).slice(0,3),'Klatsche das Wort in Silben, zum Beispiel Ba-na-ne.')},
+ ()=>{const[w,c,o]=pk([['Kind','Kinder',['Kinde','Kindes']],['Hund','Hunde',['Hunds','Hunden']],['Blume','Blumen',['Blumes','Blumer']],['Auto','Autos',['Autoe','Autoen']]]);return MC(`Was ist die Mehrzahl von „${w}“?`,c,o,'Die Mehrzahl sagt: Es ist mehr als eins.')},
+ ()=>pk([DD('Zu welchem Oberbegriff gehört das Wort?',['Tiere','Obst'],[['Hund',0],['Katze',0],['Pferd',0],['Apfel',1],['Birne',1],['Banane',1]],'Tiere leben und bewegen sich. Obst wächst an Bäumen und Sträuchern.'),DD('Zu welchem Oberbegriff gehört das Wort?',['Kleidung','Möbel'],[['Hose',0],['Jacke',0],['Mütze',0],['Tisch',1],['Stuhl',1],['Bett',1]],'Kleidung ziehst du an. Möbel stehen in der Wohnung.')]),
+ ()=>ORD('Ordne die Wörter nach dem ABC. Das Wort mit dem ersten Buchstaben im ABC steht vorne.',sh(['Apfel','Baum','Clown','Dach','Esel','Fisch','Hase','Igel','Katze','Maus','Nase','Sonne','Tisch','Zebra']).slice(0,4).sort(),'Das ABC: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'),
+ ()=>{const[s,c,o]=pk([['Wie heißt du','?',['.','!']],['Ich mag Eis','.',['?','!']],['Hilfe, ein Hund','!',['.','?']]]);return MC(`Welches Zeichen passt ans Ende? „${s}___“`,c,o,'Frage = ?  Aussage = .  Ausruf = !')},
+ ()=>{const[a,b]=pk([['Hand','Schuh'],['Tisch','Bein'],['Apfel','Baum'],['Regen','Schirm']]);return IN(`Setze zu einem Wort zusammen: ${a} + ${b} = ?`,a+b.toLowerCase(),'Schreibe beide Wörter ohne Lücke hintereinander.')},
+ ()=>MEM('Memo: Finde das Tier und sein Kind!',sh([['Hund','Welpe'],['Katze','Kätzchen'],['Kuh','Kalb'],['Pferd','Fohlen'],['Schaf','Lamm'],['Huhn','Küken']]).slice(0,4),'Das Kind vom Hund ist der Welpe.'),
+ ()=>MAT('Wer macht was? Ordne zu.',sh([['Bäcker','backt Brot'],['Ärztin','hilft kranken Menschen'],['Feuerwehrfrau','löscht Brände'],['Lehrerin','unterrichtet Kinder'],['Postbote','bringt Briefe']]).slice(0,3),'Überlege: Was machen diese Menschen bei ihrer Arbeit?'),
+ ()=>{const c=pk(IC);return IMG(c[0],c[1],'Schau dir jedes Bild genau an.')},
+ ()=>{const[w,c]=pk([['Baum','Bäume'],['Haus','Häuser'],['Buch','Bücher'],['Ball','Bälle'],['Stuhl','Stühle'],['Apfel','Äpfel'],['Hand','Hände']]);return IN(`Schreibe die Mehrzahl von „${w}“.`,c+(c.replace(/[äöüÄ]/g,'e')!=c?'|'+c.replace(/ä/g,'ae').replace(/Ä/g,'Ae').replace(/ü/g,'ue').replace(/ö/g,'oe'):''),'Bei der Mehrzahl wird aus a oft ä, aus u oft ü.')},
+ ()=>ORD('Bringe den Tag in die richtige Reihenfolge.',['Morgen','Mittag','Nachmittag','Abend'],'Der Tag beginnt am Morgen.'),
+ ()=>{const[w,c]=pk([['Sonne','die'],['Baum','der'],['Haus','das'],['Mond','der'],['Blume','die'],['Auto','das'],['Tisch','der'],['Katze','die'],['Buch','das']]);return MC(`Welcher Artikel passt? ___ ${w}`,c,['der','die','das'].filter(x=>x!==c),'Sprich es laut: der Baum, die Blume, das Haus.')}];
+
 /* ---------- Speicher ---------- */
 let DB={u:{}},CUR='',U={d:{},c:{},f:[],n:0,r:0},D=U.d;try{DB=JSON.parse(localStorage.getItem('lernreise3'))||DB;DB.u=DB.u||{}}catch(e){}
 const save=()=>{try{localStorage.setItem('lernreise3',JSON.stringify(DB))}catch(e){}};
 const st=(p,l)=>D[''+p+l]||0,total=()=>Object.values(D).reduce((a,b)=>a+b,0);
 const stars=n=>n?'⭐'.repeat(n):'☆';
 const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
-/* ---------- Raumschiff ---------- */
-const ship=t=>{const n=[1,6,15,30].filter(x=>t>=x).length;return`<svg viewBox="0 0 120 150" width="110" role="img" aria-label="Dein Raumschiff, Ausbaustufe ${n} von 4"><g stroke="#1b1464" stroke-width="4" stroke-linejoin="round">${n>=3?'<path d="M48 128Q60 158 72 128Z" fill="#ff9f1c"/>':''}${n>=2?'<path d="M36 90L10 124L36 112Z M84 90L110 124L84 112Z" fill="#ff4d6d"/>':''}<path d="M60 8Q86 40 86 112H34Q34 40 60 8Z" fill="#fff"/><path d="M60 8Q73 22 79 42H41Q47 22 60 8Z" fill="#ff4d6d"/><circle cx="60" cy="72" r="12" fill="${n>=1?'#4cc9f0':'#ccc'}"/>${n>=4?'<path d="M60 8V0" /><circle cx="60" cy="3" r="3" fill="#ffd23f"/>':''}</g></svg>`};
+/* ---------- Rakete: 6 Teile, alle 9 Sterne ein neues Teil ---------- */
+/* Form: [Tag, Attribute, Farbe]; g = Anzahl der Umrisse, die vor dem Freischalten gestrichelt gezeigt werden */
+const PARTS=[
+{n:'Rumpf',vb:'30 52 60 70',g:1,s:[['path','d="M34 56H86V118H34Z"','#eef1ff'],['path','d="M71 56H86V118H71Z"','#c9d1f2'],['path','d="M34 97H86V105H34Z"','#ff5d73']]},
+{n:'Raketenspitze',vb:'30 2 60 58',g:1,s:[['path','d="M34 56C34 36 46 18 60 6C74 18 86 36 86 56Z"','#ff5d73'],['path','d="M43 54C43 41 49 30 55 21L58 23C53 32 48 42 48 54Z"','#ff9aa8']]},
+{n:'Bullauge',vb:'42 62 36 36',g:1,s:[['circle','cx="60" cy="80" r="15"','#8ea4ea'],['circle','cx="60" cy="80" r="10.5"','#38bdf8'],['circle','cx="56" cy="76" r="3.2"','#fff']]},
+{n:'Flügel',vb:'8 82 104 54',g:2,s:[['path','d="M34 86C21 96 15 111 13 132L34 118Z"','#ff5d73'],['path','d="M86 86C99 96 105 111 107 132L86 118Z"','#ff5d73'],['path','d="M34 102C27 108 23 117 22 127L34 118Z"','#e0405a'],['path','d="M86 102C93 108 97 117 98 127L86 118Z"','#e0405a']]},
+{n:'Triebwerk',vb:'32 114 56 28',g:1,s:[['path','d="M43 118H77L82 134H38Z"','#4b3f9e'],['path','d="M38 134H82V139H38Z"','#2d2670'],['path','d="M50 118H55L53 134H48Z"','#6a5fcf']]},
+{n:'Feuerstrahl',vb:'38 136 44 50',g:1,s:[['path','d="M44 139C46 156 54 168 60 182C66 168 74 156 76 139Z"','#ff9f1c'],['path','d="M52 139C53 150 57 158 60 168C63 158 67 150 68 139Z"','#ffe566']]}];
+const partEls=(p,solid,gc)=>(solid?p.s:p.s.slice(0,p.g)).map(([t,a,f])=>solid?`<${t} ${a} fill="${f}"/>`:`<${t} ${a} fill="none" stroke="${gc}" stroke-width="1.6" stroke-dasharray="3 3"/>`).join('');
+const nParts=t=>Math.min(6,Math.floor(t/9));
+const ship=(t,o={})=>{const n=nParts(t),gc=o.light?'rgba(27,20,100,.35)':'rgba(255,255,255,.4)';
+ return`<svg viewBox="0 0 120 188" role="img" aria-label="Deine Rakete mit ${n} von 6 Teilen">${PARTS.map((p,i)=>{const e=partEls(p,i<n,gc);return i==5&&i<n?`<g class="flame">${e}</g>`:e}).join('')}</svg>`};
+const partSvg=i=>`<svg viewBox="${PARTS[i].vb}" aria-hidden="true">${partEls(PARTS[i],true)}</svg>`;
+const rkBox=t=>{const n=nParts(t),nx=n<6?`Nächstes Teil: <b>${PARTS[n].n}</b> · <span class="nw">noch ${9*(n+1)-t} ⭐</span>`:'Alle Teile sind da. Deine Rakete ist startklar! 🚀';
+ return`<div class="rk"><span class="rkm">${ship(t)}</span><div class="rkt"><b>Deine Rakete</b><span class="seg" aria-hidden="true">${PARTS.map((p,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</span><span>${nx}</span><small>⭐ ${t} von 54 Sternen</small></div></div>`};
+/* Pop-up beim Freischalten eines Raketenteils */
+function popPart(i){closePop(true);const o=document.createElement('div');o.id='pop';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Neues Raketenteil: '+PARTS[i].n);
+ o.innerHTML=`<div class="pbox"><div class="stage"><div class="rays" aria-hidden="true"></div><div class="halo" aria-hidden="true"></div><div class="pp">${partSvg(i)}</div></div><p class="pt" role="status">Du hast ein neues Raketenteil freigeschaltet: <b>${PARTS[i].n}</b></p><button class="big" id="pok" onclick="closePop()">Super! 🎉</button></div>`;
+ document.body.appendChild(o);$('#pok').focus()}
+function closePop(quiet){const o=$('#pop');o&&o.remove();if(!quiet&&POPQ.length)setTimeout(()=>popPart(POPQ.shift()),250)}
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&$('#pop'))closePop()});
 /* ---------- Ansichten ---------- */
-let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={};
+let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={},sq=[],ms=new Set(),mm={},mt=0,POPQ=[];
 const ART={
-2:`<svg class="pic" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="ck"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="#a78bfa"/><g clip-path="url(#ck)"><rect y="28" width="100" height="12" fill="#7c5ce0"/><rect y="50" width="100" height="9" fill="#d4c4ff"/><rect y="68" width="100" height="12" fill="#7c5ce0"/></g><g stroke="#1b1464" stroke-width="4"><circle cx="50" cy="50" r="44" fill="none"/><circle cx="86" cy="18" r="9" fill="#fff"/></g></svg>`,
-4:`<svg class="pic" viewBox="0 0 100 100" aria-hidden="true"><g stroke="#1b1464" stroke-width="4"><circle cx="50" cy="50" r="44" fill="#ff7b54"/><g fill="#d9482b" stroke-width="3"><circle cx="33" cy="36" r="10"/><circle cx="66" cy="58" r="13"/><circle cx="38" cy="70" r="6"/><circle cx="68" cy="28" r="5"/></g></g></svg>`,
-5:`<svg class="pic" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="cw"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="#4cc9f0"/><g clip-path="url(#cw)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"><path d="M0 38Q25 22 50 38T100 34"/><path d="M0 62Q25 46 50 62T100 58"/><path d="M20 84Q50 70 80 84"/></g><circle cx="50" cy="50" r="44" fill="none" stroke="#1b1464" stroke-width="4"/></svg>`};
+2:`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="ck"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="#a78bfa"/><g clip-path="url(#ck)"><rect y="28" width="100" height="12" fill="#7c5ce0"/><rect y="50" width="100" height="9" fill="#d4c4ff"/><rect y="68" width="100" height="12" fill="#7c5ce0"/></g><g stroke="#1b1464" stroke-width="4"><circle cx="50" cy="50" r="44" fill="none"/><circle cx="86" cy="18" r="9" fill="#fff"/></g></svg>`,
+4:`<svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#1b1464" stroke-width="4"><circle cx="50" cy="50" r="44" fill="#ff7b54"/><g fill="#d9482b" stroke-width="3"><circle cx="33" cy="36" r="10"/><circle cx="66" cy="58" r="13"/><circle cx="38" cy="70" r="6"/><circle cx="68" cy="28" r="5"/></g></g></svg>`,
+5:`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="cw"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="#4cc9f0"/><g clip-path="url(#cw)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"><path d="M0 38Q25 22 50 38T100 34"/><path d="M0 62Q25 46 50 62T100 58"/><path d="M20 84Q50 70 80 84"/></g><circle cx="50" cy="50" r="44" fill="none" stroke="#1b1464" stroke-width="4"/></svg>`};
 const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
 const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #fff) drop-shadow(0 0 ${b+3}px rgba(255,210,63,${.4+p/15}))`:''};
-const pic=i=>ART[i]||`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
+const pic=i=>`<span class="pic">${ART[i]||`<span class="emo">${PL[i].e}</span>`}</span>`;
 function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total(),op=sunOpen();
- M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p class="c"><button class="sec" onclick="ask()">👤 ${esc(CUR)}${isAd()?' · Admin':''} · Name wechseln</button></p><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun${op?'':' l'}" onclick="sun()" aria-label="Mission zur Sonne${op?'':', gesperrt'}"><span class="se">${op?'☀️':'🔒'}</span><span class="sl">Mission zur Sonne</span></button></div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
-/* ---------- Sonnen-Mission: eigene Aufgaben ---------- */
-const SM=[
-()=>{const a=R(6,25);return IN(`Das Doppelte von ${a} ist ... (nur die Zahl)`,2*a,'Doppelt heißt: die Zahl plus dieselbe Zahl.')},
-()=>{const a=2*R(4,24);return IN(`Die Hälfte von ${a} ist ... (nur die Zahl)`,a/2,'Halbieren heißt: in zwei gleiche Teile teilen.')},
-()=>{const a=R(21,98),t=Math.floor(a/10);return MC(`Wie viele Zehner hat die Zahl ${a}?`,t,[...new Set([a%10,t+1,t-1,t+2])].filter(x=>x!==t).slice(0,3),'Die erste Ziffer sind die Zehner, die zweite die Einer.')},
-()=>{const g=o=>{const s=new Set;while(s.size<3)s.add(2*R(5,49)+o);return[...s]};return DD('Gerade oder ungerade? Sortiere die Zahlen.',['gerade','ungerade'],[...g(0),...g(1)].map(x=>[String(x),x%2]),'Gerade Zahlen enden auf 0, 2, 4, 6 oder 8. Ungerade enden auf 1, 3, 5, 7 oder 9.')},
-()=>{const a=R(5,30),b=R(5,30);return IN(`Zahlenmauer: Unten stehen ${a} und ${b}. Welche Zahl steht oben? (nur die Zahl)`,a+b,'Oben steht die Summe der beiden Zahlen darunter.')},
-()=>{const s=new Set;while(s.size<3)s.add(R(10,99));const a=[...s],m=Math.max(...a);return MC('Welche Zahl ist die größte?',m,a.filter(x=>x!==m),'Vergleiche erst die Zehner. Sind sie gleich, vergleiche die Einer.')},
-()=>{const a=R(11,98),v=R(0,1);return IN(`Welche Zahl kommt direkt ${v?'nach':'vor'} ${a}? (nur die Zahl)`,v?a+1:a-1,'Zähle ein Stück vorwärts oder rückwärts.')},
-()=>{const[n,c]=[['Dreieck',3],['Quadrat',4],['Rechteck',4]][R(0,2)];return MC(`Wie viele Ecken hat ein ${n}?`,c,[3,4,5,6].filter(x=>x!==c),'Zähle die Stellen, an denen zwei Linien zusammenstoßen.')}];
-const SD=[
-()=>{const[w,c]=[['Banane',3],['Sonne',2],['Schmetterling',3],['Fenster',2],['Elefant',3],['Haus',1],['Schokolade',4]][R(0,6)];return MC(`Wie viele Silben hat das Wort „${w}“?`,c,[1,2,3,4,5].filter(x=>x!==c).slice(0,3),'Klatsche das Wort in Silben, zum Beispiel Ba-na-ne.')},
-()=>{const[w,c,o]=[['Kind','Kinder',['Kinde','Kindes']],['Hund','Hunde',['Hunds','Hunden']],['Blume','Blumen',['Blumes','Blumer']],['Auto','Autos',['Autoe','Autoen']]][R(0,3)];return MC(`Was ist die Mehrzahl von „${w}“?`,c,o,'Die Mehrzahl sagt: Es ist mehr als eins.')},
-()=>sh([DD('Zu welchem Oberbegriff gehört das Wort?',['Tiere','Obst'],[['Hund',0],['Katze',0],['Pferd',0],['Apfel',1],['Birne',1],['Banane',1]],'Tiere leben und bewegen sich. Obst wächst an Bäumen und Sträuchern.'),DD('Zu welchem Oberbegriff gehört das Wort?',['Kleidung','Möbel'],[['Hose',0],['Jacke',0],['Mütze',0],['Tisch',1],['Stuhl',1],['Bett',1]],'Kleidung ziehst du an. Möbel stehen in der Wohnung.')])[0],
-()=>{const w=sh(['Apfel','Baum','Clown','Dach','Esel','Fisch','Hase','Igel','Katze','Maus','Nase','Sonne','Tisch','Zebra']).slice(0,3),m=[...w].sort()[0];return MC('Welches Wort steht im ABC ganz vorne?',m,w.filter(x=>x!==m),'Das ABC: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z')},
-()=>{const[s,c,o]=[['Wie heißt du','?',['.','!']],['Ich mag Eis','.',['?','!']],['Hilfe, ein Hund','!',['.','?']]][R(0,2)];return MC(`Welches Zeichen passt ans Ende? „${s}___“`,c,o,'Frage = ?  Aussage = .  Ausruf = !')},
-()=>{const[a,b]=[['Hand','Schuh'],['Tisch','Bein'],['Apfel','Baum'],['Regen','Schirm']][R(0,3)];return IN(`Setze zu einem Wort zusammen: ${a} + ${b} = ?`,a+b.toLowerCase(),'Schreibe beide Wörter ohne Lücke hintereinander.')}];
+ M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p class="c"><button class="sec" onclick="ask()">👤 ${esc(CUR)}${isAd()?' · Admin':''} · Name wechseln</button></p><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun${op?'':' l'}" onclick="sun()" aria-label="Mission zur Sonne${op?'':', gesperrt'}"><span class="se">${op?'☀️':'🔒'}</span><span class="sl">Mission zur Sonne</span></button></div><p id="lk" role="status" aria-live="polite" class="c"></p>${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
 function sun(){if(!sunOpen()){$('#lk').innerHTML='🔒 Die Sonne ist noch gesperrt. Spiele zuerst auf jedem Planeten mindestens eine Stufe durch. Es fehlen noch: <b>'+PL.filter((p,i)=>!U.c[i]).map(p=>p.n).join(', ')+'</b>';return}
- const pk=(A,n)=>sh(A).slice(0,n).map(f=>f());
- P=-1;LV=0;T=sh([...pk(SM,3),...pk(SD,3)]).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
-function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
-function go(l){LV=l;T=PL[P].g(l).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
+ const cnt={};P=-1;LV=0;T=sh([...draw(smP,0,3,cnt),...draw(sdP,0,3,cnt)]).map(norm);I=0;PT=0;RS=[];show()}
+function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest. Die Aufgaben ändern sich dabei.</small></p></div>`}
+const norm=t=>{t={...t};if(t.o)t.o=sh(t.o);
+ if((t.t=='dd'||t.t=='img')&&!t.ns)t.it=sh(t.it);
+ if(t.t=='ord'){let a,n=0;do{a=sh(t.it);n++}while(n<20&&a.length>1&&a.every((x,i)=>x==t.s[i]));t.it=a}
+ if(t.t=='mem')t.cards=sh(t.pr.flatMap((p,i)=>[{i,s:p[0]},{i,s:p[1]}]));
+ if(t.t=='mat')t.rt=sh(t.pr.map((p,i)=>i));
+ return t};
+function go(l){LV=l;T=PL[P].g(l).map(norm);I=0;PT=0;RS=[];show()}
 const fb=h=>{$('#fb').innerHTML=h};
-function show(){const t=T[I];tr=0;sel=null;pl={};
- M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'☀️ Sonnen-Mission':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?`<p class="tx">${t.tx}</p>`:''}<h2>${t.q}</h2>${t.v||''}<div id="a">${t.t=='mc'?`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`:t.t=='in'?`<input id="in" autocomplete="off" aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`:ddui()}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
- const i=$('#in');if(i)i.focus()}
+const num=a=>/^\d+$/.test(String(a).split('|')[0])?'inputmode="numeric"':'';
+function show(){const t=T[I];tr=0;sel=null;pl={};sq=[];ms=new Set();clearTimeout(mt);
+ M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'☀️ Sonnen-Mission':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?`<p class="tx">${t.tx}</p>`:''}<h2>${t.q}</h2>${t.v||''}<div id="a">${ui(t)}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
+ scrollTo(0,0);const i=$('#in')||$('.ins');if(i)i.focus()}
+function ui(t){
+ if(t.t=='mc')return`<div class="opts">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`;
+ if(t.t=='in')return`<input id="in" autocomplete="off" ${num(t.a)} aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`;
+ if(t.t=='ins')return`<div class="insr">${t.parts.map(p=>typeof p=='string'?`<span>${p}</span>`:`<input class="ins" autocomplete="off" ${num(p.a)} aria-label="Lücke" onkeydown="if(event.key=='Enter')chk()">`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`;
+ if(t.t=='dd')return ddui();
+ if(t.t=='ord')return ordui();
+ if(t.t=='img')return imgui();
+ if(t.t=='mem')return memui();
+ return matui()}
+const redo=()=>{$('#a').innerHTML=ui(T[I])};
 /* Drag-and-drop (auch per Tippen/Tastatur) */
 const chip=(k,x)=>`<button class="chip${sel===k?' on':''}" draggable="true" ondragstart="event.dataTransfer.setData('text',${k})" onclick="selc(${k})">${x[0]}</button>`;
 function ddui(){const t=T[I],e=`<i>Alle Wörter sind sortiert.</i>`;
- return`<p><small>Tippe ein Wort an und dann auf die richtige Gruppe. Du kannst es auch ziehen.</small></p><div class="pool" ondragover="event.preventDefault()" ondrop="drop(event,-1)">${t.it.map((x,k)=>pl[k]===undefined?chip(k,x):'').join('')||e}</div><div class="bk">${t.b.map((b,j)=>`<div class="bkt" ondragover="event.preventDefault()" ondrop="drop(event,${j})"><button class="sec" onclick="put(${j})">📥 ${b}</button><br>${t.it.map((x,k)=>pl[k]===j?chip(k,x):'').join('')}</div>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
-const redo=()=>{$('#a').innerHTML=ddui()};
+ return`<p><small>Tippe ein Feld an und dann auf die richtige Gruppe. Du kannst es auch ziehen.</small></p><div class="pool" ondragover="event.preventDefault()" ondrop="drop(event,-1)">${t.it.map((x,k)=>pl[k]===undefined?chip(k,x):'').join('')||e}</div><div class="bk">${t.b.map((b,j)=>`<div class="bkt" ondragover="event.preventDefault()" ondrop="drop(event,${j})"><button class="sec" onclick="put(${j})">📥 ${b}</button><br>${t.it.map((x,k)=>pl[k]===j?chip(k,x):'').join('')}</div>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
 function selc(k){if(pl[k]!==undefined){delete pl[k];sel=null}else sel=k;redo()}
-function put(j){if(sel!==null){pl[sel]=j;sel=null;redo()}else fb('Tippe zuerst ein Wort an. 👆')}
+function put(j){if(sel!==null){pl[sel]=j;sel=null;redo()}else fb('Tippe zuerst ein Feld an. 👆')}
 function drop(e,j){e.preventDefault();const k=+e.dataTransfer.getData('text');if(j<0)delete pl[k];else pl[k]=j;sel=null;redo()}
+/* Reihenfolge */
+function ordui(){const t=T[I];
+ return`<p><small>Tippe die Karten in der richtigen Reihenfolge an. Tippe auf eine Karte in der Reihe, um sie zurückzulegen.</small></p><div class="seq" aria-label="Deine Reihe">${sq.map((k,n)=>`<button class="chip sel" onclick="ordB(${k})"><b>${n+1}</b> ${t.it[k]}</button>`).join('')||'<i>Noch leer</i>'}</div><div class="pool">${t.it.map((x,k)=>sq.includes(k)?'':`<button class="chip" onclick="ordA(${k})">${x}</button>`).join('')||'<i>Alle Karten liegen in der Reihe.</i>'}</div><button onclick="chk()">✔ Prüfen</button><button class="sec" onclick="sq=[];redo()">↩ Neu anfangen</button>`}
+const f1=()=>{const f=document.querySelector('#a .pool .chip');f&&f.focus()};
+function ordA(k){sq.push(k);redo();f1()}
+function ordB(k){sq=sq.filter(x=>x!=k);redo();f1()}
+/* Felder anklicken (Mehrfachauswahl) */
+function imgui(){const t=T[I];
+ return`<p><small>Tippe alle richtigen Felder an. Tippe noch einmal, um ein Feld abzuwählen.</small></p><div class="imgs${t.cls?' '+t.cls:''}">${t.it.map((x,k)=>`<button class="im${x[0]?'':' txt'}" data-k="${k}" aria-pressed="${ms.has(k)}" onclick="imgT(${k})">${x[0]?`<span class="e">${x[0]}</span>`:''}<span class="n">${x[1]}</span></button>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+function imgT(k){ms.has(k)?ms.delete(k):ms.add(k);document.querySelector(`.im[data-k="${k}"]`).setAttribute('aria-pressed',ms.has(k))}
+/* Memo */
+function memui(){const t=T[I];mm={open:[],done:new Set,mis:0,busy:false};
+ return`<p><small>Decke zwei Karten auf. Finde alle Paare!</small></p><div class="mg">${t.cards.map((c,k)=>`<button class="mcd" onclick="memC(${k})" aria-label="Karte ${k+1}, verdeckt">⭐</button>`).join('')}</div><p><small id="mst">Versuche: 0</small></p>`}
+function memR(){const t=T[I];document.querySelectorAll('.mcd').forEach((b,k)=>{const up=mm.open.includes(k),dn=mm.done.has(k);b.className='mcd'+(dn?' dn':up?' up':'');b.textContent=up||dn?t.cards[k].s:'⭐';b.setAttribute('aria-label',up||dn?plain(t.cards[k].s):'Karte '+(k+1)+', verdeckt')});const s=$('#mst');if(s)s.textContent='Versuche: '+mm.mis}
+function memC(k){const t=T[I];if(mm.busy||mm.done.has(k)||mm.open.includes(k))return;mm.open.push(k);memR();
+ if(mm.open.length<2)return;const[a,b]=mm.open;
+ if(t.cards[a].i==t.cards[b].i){mm.done.add(a);mm.done.add(b);mm.open=[];memR();if(mm.done.size==t.cards.length)pairsDone(mm.mis);else fb('✅ Ein Paar gefunden!')}
+ else{mm.mis++;mm.busy=true;fb('Das passt nicht zusammen. Merke dir die Karten!');mt=setTimeout(()=>{mm.open=[];mm.busy=false;memR()},1000)}}
+/* Zuordnen */
+function matui(){const t=T[I];mm={a:null,done:new Set,mis:0};
+ return`<p><small>Tippe links ein Feld an und dann rechts das passende Feld.</small></p><div class="mat"><div>${t.pr.map((p,i)=>`<button class="mt" data-s="L" data-i="${i}" onclick="matL(${i})">${p[0]}</button>`).join('')}</div><div>${t.rt.map(i=>`<button class="mt" data-s="R" data-i="${i}" onclick="matP(${i})">${t.pr[i][1]}</button>`).join('')}</div></div>`}
+function matU(){document.querySelectorAll('.mt').forEach(b=>{const i=+b.dataset.i;b.className='mt'+(mm.done.has(i)?' dn':b.dataset.s=='L'&&mm.a===i?' on':'')})}
+function matL(i){if(mm.done.has(i))return;mm.a=mm.a===i?null:i;matU()}
+function matP(j){const t=T[I];if(mm.done.has(j))return;if(mm.a===null)return fb('Tippe zuerst links ein Feld an. 👈');
+ if(mm.a===j){mm.done.add(j);mm.a=null;matU();if(mm.done.size==t.pr.length)pairsDone(mm.mis);else fb('✅ Das passt!')}
+ else{mm.mis++;mm.a=null;matU();fb('Das passt nicht. Versuche es noch einmal!')}}
+function pairsDone(mis){tr=mis>2?1:0;fin(true,'','')}
 /* Prüfen */
 function pick(k){const t=T[I],ok=t.o[k]==t.a;if(!ok)document.querySelectorAll('.opt')[k].disabled=true;fin(ok,t.a,t.o[k])}
+const eq=(v,a,cs)=>a.split('|').some(x=>cs?v==x:v.toLowerCase()==x.toLowerCase());
 function chk(){const t=T[I];let ok,ans,g;
- if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');g=v;ans=t.a.split('|')[0];ok=t.a.split('|').some(a=>t.cs?v==a:v.toLowerCase()==a.toLowerCase())}
- else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Wörter ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;g=bad.map(k=>t.it[k][0]).join(', ');bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok){redo();}}
+ if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');g=v;ans=t.a.split('|')[0];ok=eq(v,t.a,t.cs)}
+ else if(t.t=='ins'){const v=[...document.querySelectorAll('.ins')].map(i=>i.value.trim());if(v.some(x=>!x))return fb('Fülle zuerst alle Lücken aus. ✏️');g=v.join(', ');ans=t.ans.map(a=>a.split('|')[0]).join(', ');ok=v.every((x,i)=>eq(x,t.ans[i]))}
+ else if(t.t=='ord'){if(sq.length<t.it.length)return fb('Lege zuerst alle Karten in die Reihe. 😊');const w=sq.map(k=>t.it[k]);ok=w.every((x,i)=>x==t.s[i]);g=w.join(' → ');ans=t.s.join(' → ');if(!ok){let n=0;while(n<w.length&&w[n]==t.s[n])n++;sq=sq.slice(0,n);redo()}}
+ else if(t.t=='img'){if(!ms.size)return fb('Tippe zuerst auf mindestens ein Feld. 👆');const good=t.it.map((x,k)=>x[2]?k:-1).filter(k=>k>=0),bad=[...ms].filter(k=>!good.includes(k));ok=!bad.length&&good.every(k=>ms.has(k));g=[...ms].map(k=>plain(t.it[k][1])).join(', ');ans=good.map(k=>plain(t.it[k][1])).join(', ');if(!ok){bad.forEach(k=>ms.delete(k));redo()}}
+ else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Felder ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;g=bad.map(k=>t.it[k][0]).join(', ');bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok)redo()}
  fin(ok,ans,g)}
-function lock(){document.querySelectorAll('#a button,#a input').forEach(b=>b.disabled=true);document.querySelectorAll('.opt').forEach(b=>{if(b.textContent==T[I].a)b.classList.add('good')});$('#nx').innerHTML=`<button class="big" onclick="nxt()">${I<T.length-1?'Weiter ➡':'Fertig 🏁'}</button>`;$('#nx button').focus()}
+function lock(){const t=T[I];document.querySelectorAll('#a button,#a input').forEach(b=>b.disabled=true);document.querySelectorAll('.opt').forEach(b=>{if(b.textContent==t.a)b.classList.add('good')});if(t.t=='img')document.querySelectorAll('.im').forEach(b=>{if(t.it[+b.dataset.k][2])b.classList.add('good')});$('#nx').innerHTML=`<button class="big" onclick="nxt()">${I<T.length-1?'Weiter ➡':'Fertig 🏁'}</button>`;$('#nx button').focus()}
 function fin(ok,ans,g){const t=T[I];tr++;if(!isAd()){if(ok||tr>1)U.n++;if(ok&&tr==1)U.r++;if(!ok)U.f.push({p:P,l:LV,q:plain(t.q).slice(0,90),a:plain(String(ans).replace(/<br>/g,'; ')),g:g||''});U.f=U.f.slice(-80);save()}
- if(ok){const p=tr==1?10:5;PT+=p;RS.push(tr);fb(`✅ ${['Super!','Toll gemacht!','Richtig!','Spitze!'][R(0,3)]} +${p} Punkte`+(t.t=='dd'?'':''));lock()}
+ if(ok){const p=tr==1?10:5;PT+=p;RS.push(tr);fb(`✅ ${['Super!','Toll gemacht!','Richtig!','Spitze!'][R(0,3)]} +${p} Punkte`);lock()}
  else if(tr==1)fb('🤔 Das war noch nicht richtig. Aus Fehlern lernt man! Versuche es noch einmal. Der Tipp 💡 hilft dir.');
  else{RS.push(0);fb(`Das war knifflig! Die richtige Lösung:<br><b>${ans}</b><br>💡 ${t.h}`);lock()}}
 function nxt(){I++;I<T.length?show():res()}
 function tip(){fb('💡 '+T[I].h)}
+const optsOf=t=>t.o?t.o:t.t=='dd'?t.it.map(x=>x[0]):t.t=='img'?t.it.map(x=>x[1]):t.t=='ord'?t.it:t.t=='mat'?[...t.pr.map(p=>p[0]),...t.rt.map(i=>t.pr[i][1])]:[];
 function say(){const t=T[I];if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
- speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain((t.tx||'')+' '+t.q+(t.o?'. Antworten: '+t.o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/_+/g,' Lücke '));u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
-function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;if(P>=0){D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save()}
- M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`}
-function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p>${ship(t)}<p>${PL.map((p,i)=>`${p.e} ${p.n}: ${[0,1,2].reduce((a,l)=>a+st(i,l),0)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
+ const o=optsOf(t),extra=t.parts?' '+t.parts.map(p=>typeof p=='string'?p:' Lücke ').join(''):'';
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain((t.tx||'')+' '+t.q+extra+(o.length?'. Felder: '+o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/€/g,' Euro ').replace(/_+/g,' Lücke '));u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
+function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;POPQ=[];
+ if(P>=0){const b0=nParts(total());D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save();for(let k=b0;k<nParts(total());k++)POPQ.push(k)}
+ M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`;
+ scrollTo(0,0);if(POPQ.length)setTimeout(()=>popPart(POPQ.shift()),600)}
+function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p><span class="cs">${ship(t,{light:1})}</span><p>${PL.map((p,i)=>`${p.e} ${p.n}: ${pg(i)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
+
 const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const isAd=()=>CUR.toLowerCase()==ADM,sunOpen=()=>isAd()||[0,1,2,3,4,5].every(i=>U.c[i]);
 function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;
@@ -198,7 +488,12 @@ function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==
  if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="rs()">📊 Ergebnisse anzeigen</button>');map()}
 function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o)}
 function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>👋 Willkommen!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Sternenfuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><button class="big" onclick="okName()">🚀 Los geht’s</button><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p>'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(''):''}</div>`);const u=$('#un');u&&u.focus()}
-function okName(){const v=nrm($('#un').value);$('#ue').textContent=v.length<2?'Bitte schreibe mindestens 2 Zeichen.':/@|\d{4,}/.test(v)?'Bitte keine E-Mail-Adresse und keine Telefonnummer.':'';if(!$('#ue').textContent)login(v)}
+/* ---------- Namensregel: nur Geheimnamen ---------- */
+const NF=s=>s.toLowerCase().replace(/ß/g,'ss').replace(/[äàá]/g,'a').replace(/[öòó]/g,'o').replace(/[üùú]/g,'u').replace(/[éè]/g,'e');
+const RN=new Set(NF("emma mia hannah hanna sophia sofia sophie emilia lina marie lea leonie lena anna clara klara johanna laura lara amelie mila ella nele charlotte maja maya luisa louisa paula pia lilly lilli lia julia sarah sara zoe nora greta frieda frida ida merle jana lisa katharina katja selina celina emily chiara elena eva jule finja fiona alina mara marlene tessa carla helena isabell isabella josefine leni matilda mathilda melina mira nina rosa ronja sina stella svenja theresa vanessa viktoria victoria yasmin zeynep ayla elif fatma aylin amira leyla alexandra anja andrea sabine petra monika claudia sandra nicole melanie christina kristina jessica jasmin anke birgit susanne katrin lotta emmi inga jette olivia sonja tina nadine miriam annika mareike noah ben leon elias paul finn fynn felix luis louis lukas luca luka jonas maximilian max henry henri emil anton theo oskar oscar moritz jakob jacob liam niklas nico nils tim tom jan jannik jannis david daniel julian samuel simon philipp tobias matteo mattis milan mohammed muhammad ali mustafa yusuf emir eren can ahmet mehmet alexander johannes fabian florian sebastian marcel dennis kevin patrick marvin lennard leonard linus levi mats malte marlon jonathan justus konstantin vincent karl carl hugo rafael raphael erik eric jannes jakub michael thomas stefan andreas christian peter markus frank jurgen klaus hans wolfgang uwe ralf dirk jens torsten bernd matthias martin sven kai lars timo dominik benjamin joshua jason ole juri tristan valentin ferdinand fritz otto ludwig bruno arthur adrian aaron leo leandro lenny luan noel nelson mika mikail enzo ismail ibrahim omar hamza murat kerem emre burak muller schmidt schneider fischer weber meyer wagner becker schulz hoffmann schafer koch bauer richter schroder neumann zimmermann kruger hofmann hartmann lange schmitt werner schmitz krause meier lehmann schmid schulze maier kohler herrmann konig walter mayer huber kaiser peters lang scholz moller schubert friedrich keller gunther berger winkler lorenz baumann franke albrecht schuster simon ludwig bohm kraus schumacher kramer vogt jager seidel heinrich brandt haas schreiber graf schulte dietrich ziegler kuhn pohl bergmann voigt sauer arnold pfeiffer yilmaz kaya demir sahin celik yildiz ozturk arslan dogan kilic aydin nowak kowalski wojcik kaminski lewandowski kastner").split(' '));
+const isReal=n=>n.replace(/([a-zäöüß])([A-ZÄÖÜ])/g,'$1 $2').split(/[^a-zA-ZäöüÄÖÜß]+/).map(NF).some(x=>x.length>1&&RN.has(x));
+const nameErr=v=>{if(v.toLowerCase()==ADM)return'';if(v.length<2)return'Bitte schreibe mindestens 2 Zeichen.';if(/\s/.test(v))return'Bitte nur ein Wort, ohne Leerzeichen. Beispiel: Sternenfuchs';if(/@|\d{4,}/.test(v))return'Bitte keine E-Mail-Adresse und keine Telefonnummer.';return isReal(v)?'Das sieht nach einem echten Namen aus. Denke dir einen Geheimnamen aus, zum Beispiel „Sternenfuchs“.':''};
+function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
 function rs(){ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="$('#ov').remove()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${Object.values(u.d).reduce((a,b)=>a+b,0)} von 54 · ${u.r} von ${u.n} Aufgaben gleich richtig · ${u.f.length} Fehler</summary><p>${PL.map((p,i)=>`${p.n}: ${[0,1,2].map(l=>LC[l]+' '+(u.d[''+i+l]||0)+'⭐').join(' ')}`).join('<br>')}</p>${u.f.length?`<div style="overflow-x:auto"><table><tr><th>Planet</th><th>Stufe</th><th>Aufgabe</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${f.p<0?'Sonne':PL[f.p].n}</td><td>${f.p<0?'–':L[f.l]}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();rs()}">🗑️ Alle Daten löschen</button></div>`)}
 function rst(){if(confirm('Möchtest du wirklich deine Sterne löschen?')){U.d={};U.c={};U.f=[];U.n=0;U.r=0;D=U.d;save();map()}}
 (()=>{const r=Math.random,f=(n,d=1)=>n.toFixed(d),C=['#fff','#fff','#cfe3ff','#fff4c2'],E=()=>20+r()*660;
