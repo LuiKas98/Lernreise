@@ -42,6 +42,10 @@ span.pic{aspect-ratio:1;display:grid;place-items:center}.emo{font-size:85cqw;lin
 @media(prefers-reduced-motion:reduce){.orb,.pb{animation:none}}
 .bigpl{width:150px;margin:8px auto}
 .ttl{text-align:center;font:900 2.3em/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;color:#ffe566;text-shadow:0 2px 0 #c77700,0 0 8px #ffb703,0 0 22px #ff9f1c,0 0 40px #ff9f1c88}
+#ov{position:fixed;inset:0;z-index:20;background:#070d33ee;display:grid;place-items:start center;padding:12px;overflow:auto}
+#ab{position:fixed;right:12px;bottom:12px;z-index:10;background:#fff}
+.sun.l{filter:grayscale(.7) drop-shadow(0 0 6px #fff6)}
+table{border-collapse:collapse;width:100%;font-size:.8em}td,th{border:1px solid #1b1464;padding:4px;text-align:left}details{margin:8px 0}summary{cursor:pointer;min-height:44px}
 @media print{body{background:#fff}.noprint{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
@@ -116,8 +120,8 @@ const PL=[
 {n:'Schreibo',e:'🔴',c:'#ffb38a',f:'Deutsch',d:'Rechtschreibung',g:sch},
 {n:'Wortus',e:'🔵',c:'#8fd3ff',f:'Deutsch',d:'Nomen, Verben, Adjektive',g:wor}];
 /* ---------- Speicher ---------- */
-let D={};try{D=JSON.parse(localStorage.getItem('lernreise2'))||{}}catch(e){}
-const save=()=>{try{localStorage.setItem('lernreise2',JSON.stringify(D))}catch(e){}};
+let DB={u:{}},CUR='',U={d:{},c:{},f:[],n:0,r:0},D=U.d;try{DB=JSON.parse(localStorage.getItem('lernreise3'))||DB;DB.u=DB.u||{}}catch(e){}
+const save=()=>{try{localStorage.setItem('lernreise3',JSON.stringify(DB))}catch(e){}};
 const st=(p,l)=>D[''+p+l]||0,total=()=>Object.values(D).reduce((a,b)=>a+b,0);
 const stars=n=>n?'⭐'.repeat(n):'☆';
 const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
@@ -132,8 +136,8 @@ const ART={
 const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
 const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #fff) drop-shadow(0 0 ${b+3}px rgba(255,210,63,${.4+p/15}))`:''};
 const pic=i=>ART[i]||`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
-function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total();
- M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun" onclick="sun()" aria-label="Sonnen-Mission starten"><span class="se">☀️</span><span class="sl">Mission zur Sonne</span></button></div><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
+function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total(),op=sunOpen();
+ M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p class="c"><button class="sec" onclick="ask()">👤 ${esc(CUR)}${isAd()?' · Admin':''} · Name wechseln</button></p><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun${op?'':' l'}" onclick="sun()" aria-label="Mission zur Sonne${op?'':', gesperrt'}"><span class="se">${op?'☀️':'🔒'}</span><span class="sl">Mission zur Sonne</span></button></div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
 /* ---------- Sonnen-Mission: eigene Aufgaben ---------- */
 const SM=[
 ()=>{const a=R(6,25);return IN(`Das Doppelte von ${a} ist ... (nur die Zahl)`,2*a,'Doppelt heißt: die Zahl plus dieselbe Zahl.')},
@@ -151,7 +155,8 @@ const SD=[
 ()=>{const w=sh(['Apfel','Baum','Clown','Dach','Esel','Fisch','Hase','Igel','Katze','Maus','Nase','Sonne','Tisch','Zebra']).slice(0,3),m=[...w].sort()[0];return MC('Welches Wort steht im ABC ganz vorne?',m,w.filter(x=>x!==m),'Das ABC: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z')},
 ()=>{const[s,c,o]=[['Wie heißt du','?',['.','!']],['Ich mag Eis','.',['?','!']],['Hilfe, ein Hund','!',['.','?']]][R(0,2)];return MC(`Welches Zeichen passt ans Ende? „${s}___“`,c,o,'Frage = ?  Aussage = .  Ausruf = !')},
 ()=>{const[a,b]=[['Hand','Schuh'],['Tisch','Bein'],['Apfel','Baum'],['Regen','Schirm']][R(0,3)];return IN(`Setze zu einem Wort zusammen: ${a} + ${b} = ?`,a+b.toLowerCase(),'Schreibe beide Wörter ohne Lücke hintereinander.')}];
-function sun(){const pk=(A,n)=>sh(A).slice(0,n).map(f=>f());
+function sun(){if(!sunOpen()){$('#lk').innerHTML='🔒 Die Sonne ist noch gesperrt. Spiele zuerst auf jedem Planeten mindestens eine Stufe durch. Es fehlen noch: <b>'+PL.filter((p,i)=>!U.c[i]).map(p=>p.n).join(', ')+'</b>';return}
+ const pk=(A,n)=>sh(A).slice(0,n).map(f=>f());
  P=-1;LV=0;T=sh([...pk(SM,3),...pk(SD,3)]).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
 function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
 function go(l){LV=l;T=PL[P].g(l).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
@@ -168,13 +173,13 @@ function selc(k){if(pl[k]!==undefined){delete pl[k];sel=null}else sel=k;redo()}
 function put(j){if(sel!==null){pl[sel]=j;sel=null;redo()}else fb('Tippe zuerst ein Wort an. 👆')}
 function drop(e,j){e.preventDefault();const k=+e.dataTransfer.getData('text');if(j<0)delete pl[k];else pl[k]=j;sel=null;redo()}
 /* Prüfen */
-function pick(k){const t=T[I],ok=t.o[k]==t.a;if(!ok)document.querySelectorAll('.opt')[k].disabled=true;fin(ok,t.a)}
-function chk(){const t=T[I];let ok,ans;
- if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');ans=t.a.split('|')[0];ok=t.a.split('|').some(a=>t.cs?v==a:v.toLowerCase()==a.toLowerCase())}
- else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Wörter ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok){redo();}}
- fin(ok,ans)}
+function pick(k){const t=T[I],ok=t.o[k]==t.a;if(!ok)document.querySelectorAll('.opt')[k].disabled=true;fin(ok,t.a,t.o[k])}
+function chk(){const t=T[I];let ok,ans,g;
+ if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');g=v;ans=t.a.split('|')[0];ok=t.a.split('|').some(a=>t.cs?v==a:v.toLowerCase()==a.toLowerCase())}
+ else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Wörter ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;g=bad.map(k=>t.it[k][0]).join(', ');bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok){redo();}}
+ fin(ok,ans,g)}
 function lock(){document.querySelectorAll('#a button,#a input').forEach(b=>b.disabled=true);document.querySelectorAll('.opt').forEach(b=>{if(b.textContent==T[I].a)b.classList.add('good')});$('#nx').innerHTML=`<button class="big" onclick="nxt()">${I<T.length-1?'Weiter ➡':'Fertig 🏁'}</button>`;$('#nx button').focus()}
-function fin(ok,ans){const t=T[I];tr++;
+function fin(ok,ans,g){const t=T[I];tr++;if(!isAd()){if(ok||tr>1)U.n++;if(ok&&tr==1)U.r++;if(!ok)U.f.push({p:P,l:LV,q:plain(t.q).slice(0,90),a:plain(String(ans).replace(/<br>/g,'; ')),g:g||''});U.f=U.f.slice(-80);save()}
  if(ok){const p=tr==1?10:5;PT+=p;RS.push(tr);fb(`✅ ${['Super!','Toll gemacht!','Richtig!','Spitze!'][R(0,3)]} +${p} Punkte`+(t.t=='dd'?'':''));lock()}
  else if(tr==1)fb('🤔 Das war noch nicht richtig. Aus Fehlern lernt man! Versuche es noch einmal. Der Tipp 💡 hilft dir.');
  else{RS.push(0);fb(`Das war knifflig! Die richtige Lösung:<br><b>${ans}</b><br>💡 ${t.h}`);lock()}}
@@ -182,17 +187,27 @@ function nxt(){I++;I<T.length?show():res()}
 function tip(){fb('💡 '+T[I].h)}
 function say(){const t=T[I];if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain((t.tx||'')+' '+t.q+(t.o?'. Antworten: '+t.o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/_+/g,' Lücke '));u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
-function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;if(P>=0){D[''+P+LV]=Math.max(st(P,LV),s);save()}
+function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;if(P>=0){D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save()}
  M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`}
 function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p>${ship(t)}<p>${PL.map((p,i)=>`${p.e} ${p.n}: ${[0,1,2].reduce((a,l)=>a+st(i,l),0)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
-function rst(){if(confirm('Möchtest du wirklich alle Sterne löschen?')){D={};try{localStorage.removeItem('lernreise2')}catch(e){}map()}}
+const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const isAd=()=>CUR.toLowerCase()==ADM,sunOpen=()=>isAd()||[0,1,2,3,4,5].every(i=>U.c[i]);
+function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;
+ U=isAd()?{d:{},c:{},f:[],n:0,r:0}:(DB.u[CUR]=DB.u[CUR]||{d:{},c:{},f:[],n:0,r:0});D=U.d;DB.cur=isAd()?'':CUR;save();
+ const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
+ if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="rs()">📊 Ergebnisse anzeigen</button>');map()}
+function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o)}
+function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>👋 Willkommen!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Sternenfuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><button class="big" onclick="okName()">🚀 Los geht’s</button><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p>'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(''):''}</div>`);const u=$('#un');u&&u.focus()}
+function okName(){const v=nrm($('#un').value);$('#ue').textContent=v.length<2?'Bitte schreibe mindestens 2 Zeichen.':/@|\d{4,}/.test(v)?'Bitte keine E-Mail-Adresse und keine Telefonnummer.':'';if(!$('#ue').textContent)login(v)}
+function rs(){ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="$('#ov').remove()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${Object.values(u.d).reduce((a,b)=>a+b,0)} von 54 · ${u.r} von ${u.n} Aufgaben gleich richtig · ${u.f.length} Fehler</summary><p>${PL.map((p,i)=>`${p.n}: ${[0,1,2].map(l=>LC[l]+' '+(u.d[''+i+l]||0)+'⭐').join(' ')}`).join('<br>')}</p>${u.f.length?`<div style="overflow-x:auto"><table><tr><th>Planet</th><th>Stufe</th><th>Aufgabe</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${f.p<0?'Sonne':PL[f.p].n}</td><td>${f.p<0?'–':L[f.l]}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();rs()}">🗑️ Alle Daten löschen</button></div>`)}
+function rst(){if(confirm('Möchtest du wirklich deine Sterne löschen?')){U.d={};U.c={};U.f=[];U.n=0;U.r=0;D=U.d;save();map()}}
 (()=>{const r=Math.random,f=(n,d=1)=>n.toFixed(d),C=['#fff','#fff','#cfe3ff','#fff4c2'],E=()=>20+r()*660;
 let s='<defs><radialGradient id="g"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
 for(let i=0;i<110;i++)s+=`<circle cx="${f(r()*700)}" cy="${f(r()*700)}" r="${f(.5+r()*r()*1.3)}" fill="${C[i%4]}" opacity="${f(.35+r()*.6,2)}"/>`;
 for(let i=0;i<14;i++){const x=f(E()),y=f(E()),z=1.4+r()*1.4;s+=`<circle cx="${x}" cy="${y}" r="${f(z*4)}" fill="url(#g)" opacity=".55"/><circle cx="${x}" cy="${y}" r="${f(z)}" fill="#fff"/>`}
 for(let i=0;i<5;i++){const x=E(),y=E(),l=9+r()*9;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(l*.9)}" fill="url(#g)" opacity=".6"/><path d="M${f(x-l)} ${f(y)}H${f(x+l)}M${f(x)} ${f(y-l)}V${f(y+l)}" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/><circle cx="${f(x)}" cy="${f(y)}" r="2.2" fill="#fff"/>`}
 const e=document.createElement('style');e.textContent=`@media screen{body{background-image:url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'>${s}</svg>`)}");background-attachment:fixed}}`;document.head.appendChild(e)})();
-map();
+DB.cur&&DB.u[DB.cur]?login(DB.cur):(map(),ask());
 </script>
 </body>
 </html>
