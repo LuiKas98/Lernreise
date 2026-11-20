@@ -6,7 +6,7 @@
 <title>Lernreise durchs All – Klasse 2</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font:20px/1.45 "Comic Sans MS","Chalkboard SE","Trebuchet MS",sans-serif;background:#1b1464 radial-gradient(#ffffff33 1.5px,transparent 1.5px) 0 0/46px 46px;color:#fff;min-height:100vh}
+body{margin:0;font:20px/1.45 ui-rounded,"Nunito","Varela Round","Quicksand","Arial Rounded MT Bold","Segoe UI","Trebuchet MS",system-ui,sans-serif;background:#070d33;color:#fff;min-height:100vh}
 main{max-width:880px;margin:auto;padding:12px}
 h1,h2{margin:.3em 0}h2{font-size:1.25em}
 .card{background:#fff;color:#1b1464;border:4px solid #ffd23f;border-radius:26px;padding:16px;margin:12px 0;box-shadow:0 7px 0 #0005}
@@ -41,6 +41,7 @@ span.pic{aspect-ratio:1;display:grid;place-items:center}.emo{font-size:85cqw;lin
 @keyframes unspin{to{transform:rotate(-360deg)}}
 @media(prefers-reduced-motion:reduce){.orb,.pb{animation:none}}
 .bigpl{width:150px;margin:8px auto}
+.ttl{text-align:center;font:900 2.3em/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;background:linear-gradient(#fff6b0,#ffb703);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:5px #1b1464;paint-order:stroke fill;filter:drop-shadow(0 0 12px #ffb70388)}
 @media print{body{background:#fff}.noprint{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
@@ -132,7 +133,7 @@ const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
 const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #fff) drop-shadow(0 0 ${b+3}px rgba(255,210,63,${.4+p/15}))`:''};
 const pic=i=>ART[i]||`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
 function map(){window.speechSynthesis&&speechSynthesis.cancel();const t=total();
- M.innerHTML=`<h1>🚀 Lernreise durchs All</h1><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun" onclick="sun()" aria-label="Sonnen-Mission starten"><span class="se">☀️</span><span class="sl">Mission zur Sonne</span></button></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
+ M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun" onclick="sun()" aria-label="Sonnen-Mission starten"><span class="se">☀️</span><span class="sl">Mission zur Sonne</span></button></div><div class="card row">${ship(t)}<div><p><b>Dein Raumschiff</b> baut sich aus, wenn du Sterne sammelst!</p><p>⭐ ${t} von 54 Sternen</p></div></div><p><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
 function sun(){const q=p=>{let l=[0,1,2].findIndex(x=>st(p,x)<2);if(l<0)l=2;const a=PL[p].g(l);return a[R(0,a.length-1)]};
  P=-1;LV=0;T=sh([0,1,2].map(()=>q(R(0,2))).concat([0,1,2].map(()=>q(R(3,5))))).map(t=>({...t,o:t.o&&sh(t.o),it:t.it&&sh(t.it)}));I=0;PT=0;RS=[];show()}
 function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest.</small></p></div>`}
@@ -168,6 +169,12 @@ function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;if(P
  M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`}
 function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p>${ship(t)}<p>${PL.map((p,i)=>`${p.e} ${p.n}: ${[0,1,2].reduce((a,l)=>a+st(i,l),0)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
 function rst(){if(confirm('Möchtest du wirklich alle Sterne löschen?')){D={};try{localStorage.removeItem('lernreise2')}catch(e){}map()}}
+(()=>{const r=Math.random,f=(n,d=1)=>n.toFixed(d),C=['#fff','#fff','#cfe3ff','#fff4c2'],E=()=>20+r()*660;
+let s='<defs><radialGradient id="g"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
+for(let i=0;i<110;i++)s+=`<circle cx="${f(r()*700)}" cy="${f(r()*700)}" r="${f(.5+r()*r()*1.3)}" fill="${C[i%4]}" opacity="${f(.35+r()*.6,2)}"/>`;
+for(let i=0;i<14;i++){const x=f(E()),y=f(E()),z=1.4+r()*1.4;s+=`<circle cx="${x}" cy="${y}" r="${f(z*4)}" fill="url(#g)" opacity=".55"/><circle cx="${x}" cy="${y}" r="${f(z)}" fill="#fff"/>`}
+for(let i=0;i<5;i++){const x=E(),y=E(),l=9+r()*9;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(l*.9)}" fill="url(#g)" opacity=".6"/><path d="M${f(x-l)} ${f(y)}H${f(x+l)}M${f(x)} ${f(y-l)}V${f(y+l)}" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/><circle cx="${f(x)}" cy="${f(y)}" r="2.2" fill="#fff"/>`}
+const e=document.createElement('style');e.textContent=`@media screen{body{background-image:url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'>${s}</svg>`)}");background-attachment:fixed}}`;document.head.appendChild(e)})();
 map();
 </script>
 </body>
