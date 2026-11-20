@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Herr Kastners Lernapps</title>
-<meta name="description" content="Lernspiele für Mathe und Deutsch, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer.">
+<meta name="description" content="Lernspiele für Mathe, Deutsch und Heimat- und Sachunterricht, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer.">
 <style>
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -39,8 +39,6 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .pcard .sub{margin:.1em 0 .6em;opacity:.9}
 .go{display:inline-block;font-weight:800;padding:10px 26px;border-radius:999px;background:#ffd23f;color:#1b1464;border:3px solid #1b1464;box-shadow:0 4px 0 #1b1464;transition:transform .2s,box-shadow .2s,background .2s}
 .pcard:hover .go,.pcard:focus-visible .go{background:#ffe680;transform:translateY(-2px);box-shadow:0 6px 0 #1b1464}
-.soon .go{background:#dfe6ff;color:#2a2a5e}
-.soon .go::before{content:"🌱 "}
 .foot{margin-top:10px;font-size:.78em;opacity:.7}
 #toast{position:fixed;left:50%;width:max-content;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#fff;color:#1b1464;font-weight:800;padding:12px 22px;border-radius:18px;border:3px solid #ffd23f;box-shadow:0 8px 0 #0004;transition:opacity .3s,transform .3s;z-index:50;max-width:92vw}
 #toast.on{opacity:1;transform:translate(-50%,0)}
@@ -101,7 +99,7 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  <h1>Herr Kastners Lernapps</h1>
  <div class="hi">
   <p><b>Hallo, du kleiner Entdecker, hallo, du kleine Entdeckerin!</b> 👋</p>
-  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe und Deutsch und sammelst dabei Sterne. Such dir eine Reise aus und tippe auf das Portal. Viel Spaß!</p>
+  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch und Sachunterricht und sammelst dabei Sterne. Such dir eine Reise aus und tippe auf das Portal. Viel Spaß!</p>
  </div>
 
  <section class="kl" id="klasse" aria-labelledby="kl-h">
@@ -124,11 +122,11 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <span class="go">Los geht’s!</span>
  </a>
 
- <a class="pcard soon" id="c-dschungel" href="#" role="button" aria-disabled="true" aria-label="Dschungel-Abenteuer: kommt bald">
-  <div class="pt"><canvas data-scene="dschungel" aria-hidden="true"></canvas></div>
+ <a class="pcard" id="c-dschungel" href="#klasse" aria-label="Dschungel-Abenteuer: Heimat- und Sachunterricht. Wähle zuerst deine Klasse.">
+  <div class="pt"><canvas data-scene="dschungel" aria-hidden="true"></canvas><span class="badge" id="b-dschungel" aria-hidden="true"><small>Klasse</small><b></b></span></div>
   <h3>🌴 Dschungel-Abenteuer</h3>
-  <p class="sub">Kommt bald</p>
-  <span class="go">Bald verfügbar</span>
+  <p class="sub" id="s-dschungel">Heimat- und Sachunterricht · Klasse 1 bis 4</p>
+  <span class="go">Los geht’s!</span>
  </a>
 
  <p class="foot">Alles läuft nur auf diesem Gerät. Es gibt keine Anmeldung und kein Tracking. Dein Fortschritt wird für jede Klasse getrennt gespeichert.</p>
@@ -278,13 +276,13 @@ let K=0;const KEY='kastner-klasse';
 try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
 function zeigeK(){
  document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
- const a=$('#c-weltall'),bd=$('#b-weltall');
- if(K){a.setAttribute('href','weltall-klasse'+K+'.html');a.setAttribute('aria-label','Lernreise im All starten: Mathe und Deutsch, Klasse '+K);
-  $('#s-weltall').textContent='Mathe und Deutsch · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on');
-  $('#kl-hint').textContent='Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.'}
- else{a.setAttribute('href','#klasse');a.setAttribute('aria-label','Lernreise im All: Mathe und Deutsch. Wähle zuerst deine Klasse.');
-  $('#s-weltall').textContent='Mathe und Deutsch · Klasse 1 bis 4';bd.classList.remove('on');
-  $('#kl-hint').textContent='Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'}
+ const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse']];
+ for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id);
+  if(K){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
+   $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
+  else{a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': '+fach+'. Wähle zuerst deine Klasse.');
+   $('#s-'+id).textContent=fach+' · Klasse 1 bis 4';bd.classList.remove('on')}}
+ $('#kl-hint').textContent=K?'Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.':'Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'
 }
 document.querySelectorAll('.kb').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;try{localStorage.setItem(KEY,String(K))}catch(_){}zeigeK()}));
 zeigeK();
@@ -327,20 +325,17 @@ const mitte=sel=>{const r=$(sel).getBoundingClientRect();return[r.left+r.width/2
 let going=false;
 function nudge(){sag('👆 Tippe zuerst auf deine Klasse (1, 2, 3 oder 4).');const k=$('#klasse');k.classList.remove('nudge');void k.offsetWidth;k.classList.add('nudge');
  k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});setTimeout(()=>k.classList.remove('nudge'),800)}
-$('#c-weltall').addEventListener('click',e=>{
- if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(going||SH.busy)return;
- if(!K){nudge();return}
- going=true;const href='weltall-klasse'+K+'.html';try{sessionStorage.setItem('warp','1')}catch(_){}
- if(RM){location.href=href;return}
- portals[0].tg=1;const[cx,cy]=mitte('#c-weltall .pt');
- SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href})})});
+function reise(id,idx,pre){
+ $('#c-'+id).addEventListener('click',e=>{
+  if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(going||SH.busy)return;
+  if(!K){nudge();return}
+  going=true;const href=pre+K+'.html';try{sessionStorage.setItem('warp','1')}catch(_){}
+  if(RM){location.href=href;return}
+  portals[idx].tg=1;const[cx,cy]=mitte('#c-'+id+' .pt');
+  SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href})})})}
+reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');
 addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
 
-/* ---------- Dschungel: noch nicht fertig, das Schiff schaut kurz hinein ---------- */
-$('#c-dschungel').addEventListener('click',e=>{e.preventDefault();if(going||SH.busy)return;
- if(RM){sag('🌴 Das Dschungel-Abenteuer kommt bald! Schau später noch einmal vorbei.');return}
- const[cx,cy]=mitte('#c-dschungel .pt');portals[1].tg=1;
- SH.fly(cx,cy,()=>{sag('🌴 Das Dschungel-Abenteuer kommt bald! Schau später noch einmal vorbei.');setTimeout(()=>{portals[1].tg=0},600)},true)});
 </script>
 </body>
 </html>

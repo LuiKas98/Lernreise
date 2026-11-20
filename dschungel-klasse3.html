@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dschungel-Abenteuer – Klasse 3</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:20px/1.45 ui-rounded,"Nunito","Varela Round","Quicksand","Arial Rounded MT Bold","Segoe UI","Trebuchet MS",system-ui,sans-serif;background:#0a2a1a;color:#fff;min-height:100vh}
+main{max-width:880px;margin:auto;padding:12px}
+h1,h2{margin:.3em 0}h2{font-size:1.25em}
+.card{background:#fff;color:#1b1464;border:4px solid #ffd23f;border-radius:26px;padding:16px;margin:12px 0;box-shadow:0 7px 0 #0005}
+.c{text-align:center}.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+button{font:inherit;font-weight:bold;min-height:52px;min-width:52px;padding:8px 18px;margin:3px;border:3px solid #1b1464;border-radius:18px;background:#ffd23f;color:#1b1464;cursor:pointer;box-shadow:0 4px 0 #1b1464}
+button:hover{background:#ffe680}button:disabled{opacity:.75;cursor:default}
+button:focus-visible,input:focus-visible{outline:5px solid #ff4d6d;outline-offset:2px}
+.sec{background:#e8e6ff}.big{font-size:1.2em;padding:12px 24px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}.opts.n4{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}.opt{min-width:0;overflow-wrap:anywhere;hyphens:auto;line-height:1.25}
+.opt{font-size:1.1em}.good{background:#7ae582!important}
+input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-height:52px;width:200px;max-width:100%;margin:3px}
+.tx{background:#e3f1ff;color:#0f2a5c;border-radius:14px;padding:10px 12px;border:2px solid #7fb4f5;border-left:8px solid #2f7de1}details.tx{margin:10px 0;box-shadow:0 3px 0 #2f7de1}details.tx[open]{background:#d4e9ff}details.tx summary{cursor:pointer;font-weight:800;color:#0b3a8a;min-height:44px;display:flex;align-items:center;gap:6px}details.tx summary:hover{color:#1d5fc4}details.tx p{margin:6px 0 0}
+.prog{height:18px;background:#ffffff44;border-radius:9px;overflow:hidden}.prog i{display:block;height:100%;background:#ffd23f}
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.pool,.bkt{min-height:64px;border:3px dashed #1b1464;border-radius:16px;padding:6px;margin:6px 0}
+.bkt{background:#eefaff}.bk{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.chip{background:#c9f0ff}.chip.on{background:#ff8fa3;outline:4px solid #1b1464}
+#fb{font-weight:bold;min-height:1.5em}li{text-align:left;margin:4px 0}ul{list-style:none;padding:0}
+.nm{font-size:1.8em;font-weight:bold}
+.sys{container-type:inline-size;position:relative;width:min(100%,700px);aspect-ratio:1;margin:8px auto}
+.orb{pointer-events:none;position:absolute;left:50%;top:50%;border:3px dashed #ffffff44;border-radius:50%;transform:translate(-50%,-50%)}
+.o0{width:42%;height:42%}.o1{width:64%;height:64%}.o2{width:86%;height:86%}
+.pw{position:absolute;left:50%;top:50%;width:14%;transform:translate(-50%,-50%)}
+.pb{pointer-events:auto;display:block;width:100%;min-width:0;min-height:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:#fff;border-radius:50%}
+.gw{display:block}.pic{display:grid;place-items:center;width:100%;aspect-ratio:1;container-type:inline-size}
+.pic svg{display:block;width:100%;height:100%}.emo{font-size:85cqw;line-height:1}
+.lb{position:absolute;left:50%;top:50%;z-index:8;pointer-events:none;white-space:nowrap;font-weight:bold;font-size:max(11px,2.5cqw);color:#fff;text-shadow:0 0 4px #000,0 2px 2px #000;transform:translate(-50%,0);transform-origin:50% 0;transition:transform .45s cubic-bezier(.2,.9,.25,1.25)}
+.sun{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);min-width:0;min-height:0;padding:0;margin:0;border:0;border-radius:50%;background:none;box-shadow:none;color:#fff;filter:drop-shadow(0 0 14px #ffb703);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.se{font-size:11cqw;line-height:1}.sl{font-size:max(10px,2.2cqw);line-height:1.15;font-weight:bold;text-align:center;text-shadow:0 0 4px #000,0 2px 2px #000}
+.pb:hover,.pb:focus-visible{background:none}.pb:focus-visible{outline:none}
+.gw{position:relative;isolation:isolate;border-radius:50%;transition:transform .45s cubic-bezier(.2,.9,.25,1.25)}
+.gw::before,.gw::after{content:"";position:absolute;border-radius:50%;pointer-events:none;z-index:-1;opacity:0;transition:opacity .35s}
+.gw::before{inset:-50%;background:radial-gradient(circle closest-side,var(--gc,#ffd23f) 0,var(--gc,#ffd23f) 48%,transparent 100%)}
+.gw::after{inset:-85%;background:repeating-conic-gradient(rgba(255,255,255,.9) 0 5deg,transparent 5deg 30deg);-webkit-mask:radial-gradient(circle closest-side,transparent 34%,#000 44%,transparent 100%);mask:radial-gradient(circle closest-side,transparent 34%,#000 44%,transparent 100%)}
+.pb:hover .gw,.pb.hot .gw,.pb:focus-visible .gw{transform:scale(1.5)}
+.pb:hover .gw::before,.pb.hot .gw::before,.pb:focus-visible .gw::before{opacity:.85}
+.pb:hover .gw::after,.pb.hot .gw::after,.pb:focus-visible .gw::after{opacity:.75;animation:rot 16s linear infinite}
+.pb:focus-visible .gw{box-shadow:0 0 0 .6cqw #ff4d6d}
+.lb.hot{transform:translate(-50%,3.4cqw) scale(1.2)}
+.pw.hot{z-index:3}
+
+@media(prefers-reduced-motion:reduce){.gw::after{animation:none!important}}
+
+
+
+.bigpl{width:150px;margin:8px auto}
+.mapg{display:grid;gap:6px 16px;grid-template-areas:"user" "ttl" "hint" "sys" "lk" "right"}
+.mapg .usr{grid-area:user;display:flex;align-items:center;justify-content:flex-end;gap:8px;font-weight:bold}
+.mapg .usr button{min-height:40px;padding:4px 14px;font-size:.8em;margin:0}
+.mapg .ttl{grid-area:ttl;position:relative;z-index:9}.mapg .hint{grid-area:hint;margin:4px 0;text-align:center}.mapg .sys{grid-area:sys;width:min(100%,700px)}.mapg #lk{grid-area:lk;margin:4px 0}.mapg .rt{grid-area:right}
+@media(min-width:1000px){.mapg{position:relative;left:50%;transform:translateX(-50%);width:min(1240px,calc(100vw - 48px));grid-template-columns:270px minmax(0,1fr) 270px;grid-template-rows:auto auto 1fr auto;grid-template-areas:"ttl ttl ttl" "user sys right" "hint sys right" ". lk ." ;align-items:start;gap:0 20px}
+ .mapg .sys{width:min(100%,calc(100vh - 180px),760px);width:min(100%,calc(100dvh - 180px),760px);min-width:380px;justify-self:center;margin:22px auto 0}
+ .mapg .usr{flex-direction:column;align-items:stretch;text-align:center;gap:8px;padding:14px 16px;margin-top:10px;border-radius:22px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid #ffffff3d;box-shadow:0 10px 30px #0006}
+ .mapg .usr button{font-size:.9em}
+ .mapg .hint{text-align:left;font-size:.9em;opacity:.9;padding:10px 6px}
+ .mapg .rt{margin-top:10px}.mapg .rk{max-width:none;margin:0 0 14px}}
+.ttl{text-align:center;font:900 min(2.3em,8.4vw)/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;color:#ffe566;text-shadow:0 2px 0 #c77700,0 0 8px #ffb703,0 0 22px #ff9f1c,0 0 40px #ff9f1c88}
+#ov{position:fixed;inset:0;z-index:20;background:#06220fee;display:grid;place-items:start center;padding:12px;overflow:auto}
+#ab{position:fixed;right:12px;bottom:12px;z-index:10;background:#fff}
+.sun.l{filter:grayscale(.7) drop-shadow(0 0 6px #fff6)}
+table{border-collapse:collapse;width:100%;font-size:.8em}td,th{border:1px solid #1b1464;padding:4px;text-align:left}details{margin:8px 0}summary{cursor:pointer;min-height:44px}
+/* Raketenkasten */
+.rk{display:flex;align-items:center;gap:16px;max-width:400px;margin:14px auto;padding:12px 18px;border-radius:22px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid #ffffff3d;box-shadow:0 10px 30px #0006;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.rkm{flex:none;width:58px}.rkm svg{display:block;width:100%;height:auto;filter:drop-shadow(0 0 8px #ffc85059)}
+.rkt{display:flex;flex-direction:column;gap:5px;font-size:.85em;line-height:1.3;min-width:0}.rkt b:first-child{font-size:1.2em}.rkt small{opacity:.75}
+.nw{white-space:nowrap}.seg{display:flex;gap:4px}.seg i{flex:1;height:7px;border-radius:4px;background:#ffffff2e}.seg i.on{background:linear-gradient(90deg,#ffd23f,#ff9f1c);box-shadow:0 0 8px #ffb703aa}
+.flame{transform-box:fill-box;transform-origin:50% 0;animation:fl .45s ease-in-out infinite alternate}
+@keyframes fl{to{transform:scaleY(1.14) scaleX(.94)}}
+.cs{display:block;width:96px;margin:6px auto}.cs svg{display:block;width:100%;height:auto}
+/* Pop-up: neues Raketenteil */
+#pop{position:fixed;inset:0;z-index:30;background:#031a0ce6;display:grid;place-items:center;padding:16px;overflow:auto}
+.pbox{display:flex;flex-direction:column;align-items:center;gap:6px;width:min(420px,100%);text-align:center}
+.stage{position:relative;width:min(300px,76vw);aspect-ratio:1;display:grid;place-items:center}
+.rays{position:absolute;inset:-22%;background:repeating-conic-gradient(from 0deg,#ffe27a 0 6deg,#ffe27a00 6deg 18deg);-webkit-mask:radial-gradient(circle,#000 6%,#0000 66%);mask:radial-gradient(circle,#000 6%,#0000 66%);animation:rot 16s linear infinite}
+.halo{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,#ffd23fcc,#ffd23f00 70%)}
+.pp{position:relative;width:54%;animation:pin .7s cubic-bezier(.2,1.4,.4,1) both}.pp svg{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 10px #0008)}
+.pt{font-size:1.25em;font-weight:bold;line-height:1.3;margin:4px 0 8px}.pt b{color:#ffe566}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes pin{0%{transform:scale(.15) rotate(-14deg);opacity:0}100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.rays,.pp,.flame{animation:none}}
+/* Neue Aufgabenformate */
+button:disabled.dn,button:disabled.good{opacity:1}
+.insr{font-size:1.05em;line-height:2.9;margin:6px 0}.insr input{width:84px;line-height:1.2;margin:0 4px;vertical-align:middle}
+.seq{display:flex;flex-wrap:wrap;align-items:center;gap:2px;min-height:68px;border:3px solid #1b1464;border-radius:16px;padding:6px;margin:6px 0;background:#f4f2ff}
+.chip.sel{background:#ffd23f}.chip b{display:inline-grid;place-items:center;min-width:1.5em;height:1.5em;border-radius:50%;background:#1b1464;color:#fff;font-size:.8em;margin-right:4px}
+.imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px}.imgs.clocks{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.im{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:92px;margin:0;padding:6px 4px;background:#fff;font-size:.9em;min-width:0}.im .n{font-size:.82em;line-height:1.15;text-align:center;overflow-wrap:anywhere;hyphens:auto;max-width:100%}.im svg{max-width:100%;height:auto}.im .e{font-size:2.2em;line-height:1.1;display:block}.im.txt .n{font-size:1.1em}
+.im[aria-pressed=true]{background:#ffd23f;outline:4px solid #1b1464}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
+.mcd{min-height:82px;margin:0;padding:6px;background:#6c63ff;color:#fff;font-size:.95em;line-height:1.15;overflow-wrap:anywhere;hyphens:auto}.mcd.up{background:#fff;color:#1b1464}.mcd.dn{background:#7ae582;color:#1b1464}
+.mat{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mat>div{display:flex;flex-direction:column;gap:4px}.mt{margin:0;font-size:.9em;line-height:1.2;overflow-wrap:anywhere;background:#fff}.mt.on{background:#ff8fa3;outline:4px solid #1b1464}.mt.dn{background:#7ae582}
+@media print{body{background:#fff}.noprint,#pop{display:none!important}.card{box-shadow:none}}
+@keyframes wxo{to{opacity:0;transform:scale(1.6)}}#wx{position:fixed;inset:0;z-index:200;pointer-events:none;background:radial-gradient(circle,#fff 0,#d6ffc9 35%,#0b3d1a 100%);animation:wxo .9s ease-out forwards}
+/* ===== Dschungel ===== */
+.jbg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.slots{display:flex;gap:2px;flex-wrap:nowrap}.sl1{font-size:1.45em;line-height:1.1;filter:brightness(0) opacity(.28)}.sl1.on{filter:none;text-shadow:0 0 10px #ffd23f}
+.slots.lt .sl1{filter:brightness(0) opacity(.12)}.slots.lt .sl1.on{filter:none;text-shadow:none}
+.pp.art{font-size:min(34vw,140px);line-height:1;width:auto}
+.cslots{display:block;margin:6px auto;text-align:center}.cslots .slots{justify-content:center}.cslots .sl1{font-size:2.2em}
+.imgs.g3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:420px;margin:0 auto}
+.imgs.g3 .im{min-height:84px}
+.imgs.w3{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.gm{display:grid;grid-template-columns:repeat(3,minmax(0,100px));gap:4px;justify-content:center;margin:8px auto}.gm div{background:#eaf6e6;border:2px solid #1b1464;border-radius:12px;padding:4px 2px;text-align:center;font-size:.72em;overflow-wrap:anywhere;hyphens:auto;min-width:0;line-height:1.15;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center}.gm div b{font-size:1.9em;font-weight:400;line-height:1.1}
+.cmp{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;margin:4px 0}.cmp span{font-size:1.4em;background:#1b1464;color:#fff;border-radius:50%;width:2em;height:2em;display:grid;place-items:center}
+.vsvg{display:block;margin:6px auto;max-width:100%;height:auto}
+.tl{display:flex;flex-direction:column;gap:2px;margin:8px 0}
+.mat{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}.mt{padding:6px 8px;hyphens:auto}
+h2,.tx,.card p{overflow-wrap:anywhere;hyphens:auto}
+
+/* ---- Dschungelszene: Tiere und Dinge direkt auf der Karte ---- */
+.jm{border-radius:28px;box-shadow:0 10px 30px #0008,inset 0 0 0 3px #ffffff22;overflow:hidden;background:#1f6b3c}
+.jm .pw{width:22%}
+.jm .pb{display:flex;flex-direction:column;align-items:center;padding:2.6cqw 0 0;cursor:pointer}
+.st{position:relative;display:block;line-height:1}
+.sd{position:absolute;left:50%;bottom:-4%;width:78%;height:16%;transform:translateX(-50%);background:radial-gradient(closest-side,#000a,#0000)}
+.an{position:relative;display:block;font-size:10.5cqw;line-height:1;transform-origin:50% 100%;animation:idle 3.4s ease-in-out infinite;animation-delay:var(--d,0s);filter:drop-shadow(0 3px 2px #0006)}
+@keyframes idle{50%{transform:translateY(-3%) scale(1.02)}}
+.pb:hover .an,.pb.hot .an,.pb:focus-visible .an,.jt:hover .an,.jt:focus-visible .an{animation:var(--an,hop) .8s ease-in-out infinite}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1.12,.9)}30%{transform:translateY(-26%) scale(.96,1.1)}60%{transform:translateY(-26%) rotate(-7deg)}85%{transform:translateY(0) scale(1.14,.88)}}
+@keyframes flap{0%,100%{transform:translateY(0) rotate(0) scale(1.12)}25%{transform:translateY(-18%) rotate(-15deg) scale(1.14)}75%{transform:translateY(-18%) rotate(15deg) scale(1.14)}}
+@keyframes flutter{0%,100%{transform:translate(0,0) rotate(0) scale(1.12)}20%{transform:translate(12%,-16%) rotate(14deg)}50%{transform:translate(-12%,-22%) rotate(-14deg)}80%{transform:translate(9%,-9%) rotate(9deg)}}
+@keyframes nod{0%,100%{transform:rotate(0) scale(1.12)}50%{transform:translateY(-14%) rotate(9deg) scale(1.16)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-7deg) scale(1.12)}50%{transform:translateY(-12%) rotate(7deg) scale(1.12)}}
+@keyframes wobble{0%,100%{transform:rotate(-16deg) scale(1.14)}50%{transform:rotate(16deg) translateY(-9%) scale(1.14)}}
+.sg{display:block;margin-top:1cqw;padding:.4cqw 1.6cqw;background:linear-gradient(#a2723f,#6b4423);border:2px solid #e8c88f;border-radius:8px;color:#fff;font-weight:800;font-size:max(11px,2.05cqw);line-height:1.2;text-align:center;box-shadow:0 2px 0 #0007,0 4px 8px #0006;white-space:nowrap;text-shadow:0 1px 1px #0008}
+.sg small{display:block;font-weight:700;font-size:.82em;color:#ffe9a8}
+.pb:hover .sg,.pb.hot .sg,.pb:focus-visible .sg,.jt:hover .sg{background:linear-gradient(#c28a4c,#7e5128)}
+.pb:focus-visible .st,.jt:focus-visible .st{outline:4px solid #ff4d6d;outline-offset:6px;border-radius:12px}
+.jm .sun{left:50%;top:15%;width:24%;aspect-ratio:auto;min-height:0;padding:2.4cqw 0 0;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 0 12px #ffd23f)}
+.jm .sun.l{filter:grayscale(.75) drop-shadow(0 0 6px #fff5)}
+.jm .sun .an{font-size:13cqw}
+.lk{position:absolute;right:-6%;bottom:-6%;font-size:7cqw;filter:drop-shadow(0 2px 2px #000a)}
+.dc{position:absolute;line-height:1;pointer-events:none;transform:translate(-50%,-50%) rotate(var(--r,0deg));animation:sway 5.5s ease-in-out infinite;animation-delay:var(--d,0s);filter:drop-shadow(0 2px 2px #0005)}
+@keyframes sway{50%{transform:translate(-50%,-50%) rotate(calc(var(--r,0deg) + 5deg))}}
+.dc.fg{z-index:6}
+.bigpl .emo{display:block;animation:idle 3s ease-in-out infinite;transform-origin:50% 100%}
+@media(prefers-reduced-motion:reduce){.an,.dc,.bigpl .emo{animation:none!important}.pb:hover .an,.pb:focus-visible .an,.jt:hover .an{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<main><noscript>Bitte schalte JavaScript ein.</noscript></main>
+<script>
+const $=s=>document.querySelector(s),M=$('main');
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>[...a].sort(()=>Math.random()-.5),pk=a=>a[R(0,a.length-1)];
+/* Aufgabenformate: mc = Auswahl, in = Eingabe, ins = mehrere Lücken, dd = Sortieren, ord = Reihenfolge, img = Felder anklicken, mem = Memo, mat = Zuordnen */
+const MC=(q,a,w,h,x={})=>({t:'mc',q,a:String(a),o:[a,...w].map(String),h,...x});
+const IN=(q,a,h,x={})=>({t:'in',q,a:String(a),h,...x});
+const DD=(q,b,it,h,x={})=>({t:'dd',q,b,it,h,...x});
+const INS=(q,parts,h,x={})=>({t:'ins',q,parts,ans:parts.filter(p=>typeof p!='string').map(p=>String(p.a)),h,...x});
+const ORD=(q,s,h,x={})=>({t:'ord',q,s,it:[...s],h,...x});
+const IMG=(q,it,h,x={})=>({t:'img',q,it,h,...x});
+const MEM=(q,pr,h,x={})=>({t:'mem',q,pr,h,...x});
+const MAT=(q,pr,h,x={})=>({t:'mat',q,pr,h,...x});
+const NM=a=>{const s=new Set();for(const x of [a+10,a-10,a+1,a-1,a+2,a-2,a+5])if(x>=0&&x!==a&&s.size<3)s.add(x);return[...s]};
+const NQ=(q,a,h)=>MC(q,a,NM(a),h);
+const L=['Leicht','Mittel','Schwierig'],LC=['🟢','🟡','🔴'];
+/* Zufällige Auswahl aus einem Aufgabenpool: höchstens 2 Aufgaben pro Format, solange der Pool es erlaubt */
+const draw=(pool,l,n,cnt={})=>{const out=[],used=new Set;
+ for(const lim of[2,9])for(const f of sh(pool)){if(out.length>=n)break;if(used.has(f))continue;const t=f(l);if(!t||(cnt[t.t]||0)>=lim)continue;cnt[t.t]=(cnt[t.t]||0)+1;used.add(f);out.push(t)}
+ return sh(out)};
+const bal=(gen,k,i=1)=>{let it;for(let n=0;n<80;n++){it=gen();if(new Set(it.map(x=>x[i])).size>=k)return it}return it};
+const uniq=(n,gen)=>{const s=new Set;for(let i=0;i<500&&s.size<n;i++)s.add(gen());return[...s]};
+/* ===== Dschungel-Abenteuer · Klasse 3 · Heimat- und Sachunterricht (LehrplanPLUS Bayern, HSU 3/4) ===== */
+const KLASSE=3;
+/* ---------- Helfer ---------- */
+const qa=(A,l)=>{let p=A.filter(x=>x[0]==l);if(!p.length||R(0,2)==0)p=A.filter(x=>x[0]<=l);const x=pk(p);return MC(x[1],x[2],x[3],x[4])};
+const tap=(q,G,B,h,ng=3,nb=3,x={})=>IMG(q,[...sh(G).slice(0,ng).map(a=>[a[0],a[1],1]),...sh(B).slice(0,nb).map(a=>[a[0],a[1],0])],h,x);
+const dd2=(q,b,A,B,h,n=3)=>DD(q,b,[...sh(A).slice(0,n).map(x=>[x,0]),...sh(B).slice(0,n).map(x=>[x,1])],h);
+const matp=(q,P,h,n)=>MAT(q,sh(P).slice(0,n),h);
+const lvn=(l,a,b,c)=>l==0?a:l==1?b:c;
+/* ---------- Bilder (SVG) ---------- */
+const SVGH=(vb,inner,w=110)=>`<svg class="vsvg" width="${w}" viewBox="${vb}" role="img" aria-label="Bild">${inner}</svg>`;
+const SGN={
+ stop:SVGH('0 0 100 100','<polygon points="30,4 70,4 96,30 96,70 70,96 30,96 4,70 4,30" fill="#d62828" stroke="#fff" stroke-width="3"/><polygon points="31,9 69,9 91,31 91,69 69,91 31,91 9,69 9,31" fill="none" stroke="#fff" stroke-width="2"/><text x="50" y="60" font-size="26" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial,sans-serif">STOP</text>',70),
+ vg:SVGH('0 0 100 100','<polygon points="50,94 4,10 96,10" fill="#fff" stroke="#d62828" stroke-width="9" stroke-linejoin="round"/>',70),
+ vs:SVGH('0 0 100 100','<polygon points="50,3 97,50 50,97 3,50" fill="#fff" stroke="#222" stroke-width="3"/><polygon points="50,14 86,50 50,86 14,50" fill="#ffc400" stroke="#222" stroke-width="3"/>',70),
+ ev:SVGH('0 0 100 100','<circle cx="50" cy="50" r="46" fill="#d62828" stroke="#fff" stroke-width="2"/><rect x="18" y="42" width="64" height="16" fill="#fff"/>',70),
+ eb:SVGH('0 0 100 100','<rect x="4" y="22" width="92" height="56" rx="8" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><path d="M18 50H72M56 34L76 50 56 66" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',70),
+ pk:SVGH('0 0 100 100','<rect x="6" y="6" width="88" height="88" rx="10" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><text x="50" y="74" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial,sans-serif">P</text>',70),
+ fu:SVGH('0 0 100 100','<rect x="4" y="4" width="92" height="92" rx="10" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><polygon points="50,14 88,80 12,80" fill="#fff"/><circle cx="50" cy="42" r="5.5" fill="#111"/><path d="M50 48V64M50 54L41 60M50 54L59 59M50 64L44 74M50 64L56 74" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>',70),
+ ak:SVGH('0 0 100 100','<polygon points="50,6 96,88 4,88" fill="#fff" stroke="#d62828" stroke-width="9" stroke-linejoin="round"/><circle cx="41" cy="48" r="5" fill="#111"/><circle cx="60" cy="54" r="4" fill="#111"/><path d="M41 54V68M41 58L34 64M41 58L49 62M41 68L37 77M41 68L46 77M60 59V70M60 62L54 67M60 62L66 66M60 70L57 77M60 70L64 77" stroke="#111" stroke-width="3.4" fill="none" stroke-linecap="round"/>',70),
+ rw:SVGH('0 0 100 100','<circle cx="50" cy="50" r="46" fill="#1d5fc4" stroke="#fff" stroke-width="2"/><circle cx="33" cy="62" r="11" stroke="#fff" stroke-width="4" fill="none"/><circle cx="69" cy="62" r="11" stroke="#fff" stroke-width="4" fill="none"/><path d="M33 62L45 40H60L69 62M45 40L52 62H33M41 34H50M56 34L60 40" stroke="#fff" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>',70)};
+const SGM=[['stop','Anhalten (Stopp)'],['vg','Vorfahrt gewähren'],['vs','Vorfahrtstraße'],['ev','Einfahrt verboten'],['eb','Einbahnstraße'],['pk','Parkplatz'],['fu','Fußgängerüberweg'],['ak','Achtung Kinder'],['rw','Radweg']];
+const circ=k=>{const lit=k=='zu'||k=='sz',W='stroke="#222" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"';
+ let top=k=='lueck'?`<path d="M20 20H52M72 20H100V30" ${W}/>`:k=='so'?`<path d="M20 20H48M72 20H100V30" ${W}/><path d="M48 20L68 6" ${W}/>`:k=='sz'?`<path d="M20 20H48M48 20H72H100V30" ${W}/>`:`<path d="M20 20H100V30" ${W}/>`;
+ const left=k=='ohne'?`<path d="M20 20V28M20 52V60" ${W}/>`:`<path d="M20 20V34M20 46V60" ${W}/>`;
+ const bat=k=='ohne'?'':`<path d="M10 34H30" stroke="#222" stroke-width="5" stroke-linecap="round"/><path d="M14 46H26" stroke="#222" stroke-width="5" stroke-linecap="round"/><text x="34" y="36" font-size="10" fill="#c00" font-family="Arial">+</text>`;
+ const bulb=`<circle cx="100" cy="40" r="11" fill="${lit?'#ffe14d':'#e4e4e4'}" stroke="#222" stroke-width="3"/><path d="M93 33L107 47M107 33L93 47" stroke="#222" stroke-width="2.4"/>${lit?'<path d="M100 20V14M116 40H122M84 40H78M112 28L117 23M88 28L83 23" stroke="#f5a000" stroke-width="3" stroke-linecap="round"/>':''}`;
+ const sw=k=='so'||k=='sz'?`<circle cx="48" cy="20" r="3" fill="#222"/><circle cx="72" cy="20" r="3" fill="#222"/>`:'';
+ return SVGH('0 0 130 76',`<rect width="130" height="76" rx="8" fill="#f6fbff"/>${top}${left}<path d="M100 50V60H20" ${W}/>${bat}${bulb}${sw}`,150)};
+const BRK={
+ balken:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><rect x="26" y="30" width="10" height="24" fill="#8a7a66"/><rect x="84" y="30" width="10" height="24" fill="#8a7a66"/><rect x="8" y="24" width="104" height="8" rx="2" fill="#555"/>',120),
+ bogen:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><path d="M18 50Q60 -2 102 50" fill="none" stroke="#8a7a66" stroke-width="9"/><rect x="8" y="26" width="104" height="8" rx="2" fill="#555"/><path d="M32 33V36M46 33V28M60 33V22M74 33V28M88 33V36" stroke="#8a7a66" stroke-width="3"/>',120),
+ haenge:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><rect x="26" y="8" width="7" height="42" fill="#8a7a66"/><rect x="87" y="8" width="7" height="42" fill="#8a7a66"/><path d="M4 30L29 8Q60 44 91 8L116 30" fill="none" stroke="#333" stroke-width="2.5"/><path d="M38 20V30M48 27V30M60 28V30M72 27V30M82 20V30" stroke="#333" stroke-width="1.6"/><rect x="4" y="29" width="112" height="5" rx="2" fill="#555"/>',120),
+ schraeg:SVGH('0 0 120 64','<rect x="0" y="46" width="120" height="18" fill="#6ec1ff"/><rect x="56" y="4" width="8" height="46" fill="#8a7a66"/><path d="M60 8L14 29M60 8L30 29M60 8L46 29M60 8L106 29M60 8L90 29M60 8L74 29" stroke="#333" stroke-width="1.8"/><rect x="6" y="28" width="108" height="6" rx="2" fill="#555"/>',120)};
+/* ---------- Gebiet 1: Affendorf (Demokratie und Gesellschaft) ---------- */
+const EINR=[['Rathaus','Hier arbeiten Bürgermeister und Verwaltung'],['Feuerwehr','löscht Brände und hilft bei Unfällen'],['Bücherei','Hier kann man Bücher ausleihen'],['Müllabfuhr','holt den Abfall ab'],['Kläranlage','reinigt das schmutzige Wasser'],['Bauhof','pflegt Straßen und Grünflächen'],['Schule','Hier lernen die Kinder']];
+const GEM=['Straßen bauen und reparieren','den Müll abholen','Schulen bauen','Spielplätze anlegen','Wasser zu den Häusern leiten','die Straßenlampen betreiben'],SELB=['die Hausaufgaben machen','das eigene Zimmer aufräumen','die Zähne putzen','das Pausenbrot einpacken','den Ranzen packen','das Fahrrad abschließen'];
+const KRE=[['📚','Lernen und zur Schule gehen'],['🏥','Gesundheit und Hilfe beim Arzt'],['⚽','Spielen und Freizeit'],['🗣️','Die eigene Meinung sagen'],['🏠','Ein sicheres Zuhause']],NKR=[['📱','Immer das neueste Handy'],['🍬','Jeden Tag Süßigkeiten'],['🚫','Nie Hausaufgaben machen'],['🎮','Unbegrenzt am Bildschirm spielen']];
+const MED=[['📰','Zeitung'],['📻','Radio'],['📺','Fernseher'],['📱','Handy oder Tablet'],['💻','Computer']],NMED=[['🍎','Apfel'],['🚲','Fahrrad'],['⚽','Ball'],['🔨','Hammer']];
+const FEST=[['Weihnachten','Geburt Jesu'],['Ostern','Auferstehung Jesu'],['Zuckerfest','Ende des Fastenmonats Ramadan'],['Chanukka','Lichterfest der Juden'],['Diwali','Lichterfest der Hindus']];
+const Q0a=[[0,'Wer leitet eine Gemeinde oder Stadt?','die Bürgermeisterin oder der Bürgermeister',['der Schulleiter','der Pfarrer','der Hausmeister'],'Er oder sie wird von den Bürgern der Gemeinde gewählt.'],
+[0,'Was ist ein guter Weg, einen Streit zu lösen?','miteinander reden und zuhören',['lauter schreien als der andere','den anderen schubsen','den anderen ignorieren'],'Bei einem Streit helfen Ich-Botschaften, Zuhören und Streitschlichter.'],
+[0,'Was tun die Kinder im Klassenrat?','Sie besprechen Probleme und entscheiden gemeinsam.',['Sie schreiben eine Probe.','Sie malen nur Bilder.'],'Im Klassenrat dürfen alle mitreden.'],
+[1,'Wer wählt den Bürgermeister?','die wahlberechtigten Bürgerinnen und Bürger',['der Ministerpräsident','der Schulleiter','die Polizei'],'Die Menschen im Ort entscheiden bei der Wahl.'],
+[1,'Wer entscheidet im Gemeinderat, wofür das Geld der Gemeinde ausgegeben wird?','die gewählten Gemeinderätinnen und Gemeinderäte',['die Lehrerinnen','der Postbote','die Grundschulkinder'],'Der Gemeinderat berät und beschließt.'],
+[1,'Was bedeutet „Gemeinwohl“?','Es soll allen Menschen im Ort gut gehen.',['Jeder denkt nur an sich.','Nur die Reichen entscheiden.'],'Gemein heißt hier gemeinsam. Es geht um alle.'],
+[1,'Was ist eine Mehrheitsentscheidung?','Die Meinung mit den meisten Stimmen gilt.',['Der Lauteste entscheidet.','Die Lehrerin entscheidet allein.'],'Alle stimmen ab. Dann zählt man die Stimmen.'],
+[2,'Ab welchem Alter darf man in Bayern den Bürgermeister wählen?','ab 18 Jahren',['ab 10 Jahren','ab 14 Jahren','ab 16 Jahren'],'Das Wahlalter bei Kommunalwahlen liegt in Bayern bei 18 Jahren.'],
+[2,'Wie lange ist ein Bürgermeister in Bayern normalerweise im Amt, bevor neu gewählt wird?','6 Jahre',['1 Jahr','2 Jahre','10 Jahre'],'Kommunalwahlen finden in Bayern alle sechs Jahre statt.'],
+[2,'Welcher Tag erinnert an die Kinderrechte?','der 20. November',['der 24. Dezember','der 1. Mai','der 31. Oktober'],'Am 20. November 1989 wurde die UN-Kinderrechtskonvention beschlossen.'],
+[2,'Was gehört zur Meinungsfreiheit?','Jeder darf seine Meinung sagen, ohne andere zu beleidigen.',['Jeder darf andere beschimpfen.','Nur Erwachsene dürfen etwas sagen.'],'Meinungen dürfen verschieden sein. Respekt gehört dazu.']];
+const Q0b=[[0,'Wozu gibt es Werbung?','Sie soll uns zum Kaufen bringen.',['Sie erklärt die Hausaufgaben.','Sie zeigt immer nur die Wahrheit.'],'Werbung will etwas verkaufen.'],
+[0,'Was ist ein Bedürfnis, das man zum Leben braucht?','Trinken',['ein neues Videospiel','Süßigkeiten','ein Fahrrad'],'Essen, Trinken, Schlafen und Wärme braucht jeder Mensch.'],
+[1,'Warum sieht Spielzeug in der Werbung oft toller aus als in Wirklichkeit?','Die Werbung will, dass wir es unbedingt haben möchten.',['Weil es dort aus Gold ist.','Weil Werbung nie schwindelt.'],'Werbung zeigt das Beste. Prüfe genau, was du wirklich brauchst.'],
+[1,'Wie lange sollten Kinder in deinem Alter am Tag höchstens am Bildschirm sein?','etwa eine Stunde',['sechs Stunden','den ganzen Tag','vier Stunden'],'Bewegung, Spielen und Freunde sind genauso wichtig.'],
+[2,'Was tust du, wenn dir im Internet etwas Angst macht?','Ich schließe die Seite und erzähle es einem Erwachsenen.',['Ich schaue heimlich weiter.','Ich schicke es an meine Freunde weiter.'],'Du bist nicht schuld. Erwachsene können dir helfen.'],
+[2,'Warum gibst du im Internet nicht deinen echten Namen und deine Adresse an?','Fremde könnten sie missbrauchen.',['Das macht den Computer langsam.','Das ist zu lang zum Tippen.'],'Persönliche Daten schützt man.'],
+[2,'Warum zeigen Läden Süßigkeiten oft an der Kasse?','Man soll spontan etwas dazukaufen.',['Weil sie dort am besten schmecken.','Weil dort der meiste Platz ist.'],'Das Konsumverhalten wird durch die Anordnung beeinflusst.']];
+const g_einr=l=>matp('Was gehört zusammen? Ordne zu.',EINR,'Die Gemeinde sorgt für viele Dinge, die alle brauchen.',lvn(l,3,4,5));
+const g_gem=l=>dd2('Wer macht das? Sortiere.',['Das macht die Gemeinde','Das macht jeder selbst'],GEM,SELB,'Die Gemeinde kümmert sich um das, was allen gehört oder was alle brauchen.',lvn(l,2,3,3));
+const g_bed=l=>l>0?null:dd2('Bedürfnis oder Wunsch? Sortiere.',['Bedürfnis (braucht man zum Leben)','Wunsch (schön zu haben)'],['Wasser','Essen','Schlafen','Wärme im Winter'],['neues Videospiel','Eis am Nachmittag','Handy','neues Spielzeug'],'Ohne Bedürfnisse können wir nicht leben. Wünsche sind schön, aber nicht lebensnotwendig.');
+const g_abst=l=>ORD(l==0?'Wie läuft ein Klassenrat ab? Bringe die Schritte in die richtige Reihenfolge.':'Wie läuft eine Abstimmung ab? Bringe die Schritte in die richtige Reihenfolge.',l==0?['Ein Problem wird vorgestellt.','Alle sagen ihre Meinung.','Die Klasse einigt sich auf eine Lösung.']:l==1?['Das Thema wird besprochen.','Vorschläge werden gesammelt.','Alle stimmen ab.','Die Mehrheit entscheidet.']:['Das Thema wird besprochen.','Vorschläge werden gesammelt.','Alle stimmen ab.','Die Stimmen werden gezählt.','Die Mehrheit entscheidet.'],'Erst reden, dann abstimmen, dann zählen.');
+const g_kre=l=>tap('Tippe die Kinderrechte an.',KRE,NKR,'Kinder haben ein Recht auf Schutz, Bildung, Spiel, Gesundheit und eine eigene Meinung.',lvn(l,2,3,3),lvn(l,3,3,4));
+const g_med=l=>l==2?null:tap('Tippe alle Medien an.',MED,NMED,'Medien übertragen Nachrichten: Zeitung, Radio, Fernsehen, Internet.',3,3);
+const g_stim=l=>{if(l==2)return null;const a=R(12,18),b=R(5,11),c=R(3,8),Z=['Zoo','Wald','Museum'];return MC(l==0?`In der Klasse wird abgestimmt: ${a} Kinder wollen in den Zoo, ${b} Kinder in den Wald. Wohin geht der Ausflug?`:`Abstimmung: ${a} Stimmen für den Zoo, ${b} Stimmen für den Wald, ${c} Stimmen für das Museum. Was gilt?`,'Der Zoo',l==0?['Der Wald','Beide gleich']:['Der Wald','Das Museum','Es muss neu gewählt werden'],'Die meisten Stimmen gewinnen.')};
+const g_sum=l=>{if(l==0)return null;const a=R(6,12),b=R(4,9),c=R(2,7);return IN(`Wahl des Klassensprechers: Mia bekommt ${a} Stimmen, Ben ${b} Stimmen und Lena ${c} Stimmen. Wie viele Kinder haben abgestimmt? (nur die Zahl)`,a+b+c,'Zähle alle Stimmen zusammen.')};
+const g_inr=l=>{const p=pk(l==0?[['Wie heißt das Gebäude, in dem der Bürgermeister arbeitet? (ein Wort)','Rathaus','Das Wort beginnt mit R und enthält „Rat“.']]:[['Wie heißt die Gruppe gewählter Vertreter einer Gemeinde? (ein Wort)','Gemeinderat','Das Wort beginnt mit „Gemeinde“.'],['Wie heißt das Gebäude, in dem der Bürgermeister arbeitet? (ein Wort)','Rathaus','Das Wort beginnt mit R und enthält „Rat“.']]);return IN(p[0],p[1],p[2])};
+const g_fest=l=>l==0?null:MEM('Memo: Welches Fest gehört zu welcher Bedeutung?',sh(FEST).slice(0,l==1?3:4),'Feste gehören zu verschiedenen Religionen und Kulturen. Wir begegnen ihnen mit Respekt.');
+const z0=[g_einr,g_gem,g_bed,g_abst,g_kre,g_med,g_stim,g_sum,g_inr,l=>qa(Q0a,l),l=>qa(Q0b,l),g_fest];
+/* ---------- Gebiet 2: Papageien-Lichtung (Körper und Gesundheit) ---------- */
+const GES=['Apfel','Vollkornbrot','Gemüse','Wasser','Joghurt','Banane'],UNG=['Chips','Limonade','Gummibärchen','Pommes','Schokoriegel','Cola'];
+const ZAH=[['🥕','Karotte'],['🍎','Apfel'],['🥛','Milch'],['🧀','Käse']],NZA=[['🍬','Bonbon'],['🍫','Schokolade'],['🥤','Limonade'],['🍭','Lutscher']];
+const SIN=[['Auge','sehen'],['Ohr','hören'],['Nase','riechen'],['Zunge','schmecken'],['Haut','fühlen']];
+const AUG=[['Pupille','lässt das Licht ins Auge'],['Iris','gibt dem Auge die Farbe'],['Netzhaut','nimmt die Bilder auf'],['Sehnerv','leitet die Bilder zum Gehirn'],['Augenlid','schützt das Auge']];
+const GEF=[['Freude','Du hast ein Spiel gewonnen.'],['Trauer','Dein Haustier ist gestorben.'],['Angst','Du hörst nachts ein lautes Geräusch.'],['Wut','Jemand zerstört dein Bild.']];
+const Q1a=[[0,'Du siehst, dass jemand gestürzt ist und sich verletzt hat. Was tust du?','Ich hole sofort einen Erwachsenen zu Hilfe.',['Ich gehe schnell weiter.','Ich schüttle die Person kräftig.','Ich warte, bis jemand anderes kommt.'],'Hilfe holen ist immer richtig. Bleibe bei der verletzten Person.'],
+[0,'Was machst du bei einer kleinen Schürfwunde?','Ich säubere sie mit sauberem Wasser und klebe ein Pflaster darauf.',['Ich lasse sie offen und kratze daran.','Ich reibe Salz hinein.'],'Saubermachen und abdecken schützt vor Schmutz.'],
+[1,'Bei einer leichten Verbrennung der Haut hilft …','kühles, fließendes Wasser',['Butter','Eis direkt auf die Haut','ein trockenes Tuch'],'Kühle die Stelle etwa zehn Minuten mit kühlem Wasser, nicht mit Eis.'],
+[1,'Du hast Nasenbluten. Wie hältst du den Kopf?','leicht nach vorne geneigt',['weit nach hinten gelegt','ganz nach oben gestreckt'],'So läuft das Blut nicht in den Rachen.'],
+[1,'Wann darfst du den Notruf 112 wählen?','wenn jemand in Gefahr ist oder dringend Hilfe braucht',['wenn mir langweilig ist','wenn ich wissen will, wie spät es ist','wenn ich eine Wette gewinnen will'],'Der Notruf ist nur für Notfälle da.'],
+[2,'Was gehört in einen Notruf?','Wo ist es passiert? Was ist passiert? Wie viele Verletzte gibt es?',['Mein Lieblingsessen und mein Alter','nur mein Name','was ich gestern gemacht habe'],'Die W-Fragen: Wo, Was, Wie viele, Welche Verletzungen, Warten auf Rückfragen.']];
+const Q1b=[[0,'Wie oft sollst du dir mindestens die Zähne putzen?','morgens und abends',['nur einmal in der Woche','nur wenn sie wehtun'],'Gesunde Zähne putzt man nach dem Frühstück und vor dem Schlafen.'],
+[0,'Was solltest du am meisten trinken?','Wasser',['Limonade','Kakao','Cola'],'Wasser und ungesüßter Tee sind die besten Durstlöscher.'],
+[1,'Wie viel Bewegung ist für Kinder jeden Tag gut?','mindestens eine Stunde',['zehn Minuten','nur am Wochenende','gar keine'],'Bewegung hält fit und gesund.'],
+[1,'Wie viel Schlaf brauchen Kinder in der Grundschule ungefähr?','etwa 10 Stunden',['5 Stunden','7 Stunden','14 Stunden'],'Zu wenig Schlaf macht müde und unkonzentriert.'],
+[1,'Warum ist es gut, über Gefühle zu sprechen?','Man fühlt sich oft besser und andere können helfen.',['Gefühle gehen sonst nie weg.','Man darf nicht traurig sein.'],'Reden hilft. Alle Gefühle sind in Ordnung.'],
+[2,'Was bedeutet ausgewogene Ernährung?','Man isst vielseitig: viel Obst und Gemüse, wenig Süßes.',['Man isst nur das Lieblingsessen.','Man isst nie Frühstück.'],'Von allem etwas, aber nicht zu viel Zucker und Fett.'],
+[2,'Was geschieht mit der Pupille, wenn es heller wird?','Sie wird kleiner.',['Sie wird größer.','Sie fällt heraus.'],'Bei Licht verengt sich die Pupille, im Dunkeln wird sie weit.'],
+[2,'Wozu hast du zwei Augen und zwei Ohren?','Damit du räumlich sehen und die Richtung von Geräuschen hören kannst.',['Falls eins kaputtgeht.','Nur zur Zierde.'],'Zwei Sinnesorgane helfen bei der Orientierung.']];
+const Q1c=[[0,'Jemand will dich umarmen, aber du magst das nicht. Was darfst du tun?','Nein sagen',['Ich muss still sein.','Ich muss mitmachen.','Ich muss lächeln.'],'Dein Körper gehört dir. Du bestimmst, wer dich berühren darf.'],
+[0,'Was kannst du tun, wenn du sehr wütend bist?','tief durchatmen und eine Pause machen',['jemanden schlagen','Dinge kaputtmachen'],'Erst abkühlen, dann reden.'],
+[1,'Ein Geheimnis macht dir Bauchweh. Was tust du?','Ich erzähle es einer Vertrauensperson.',['Ich behalte es für immer für mich.','Ich verrate es niemandem.'],'Schlechte Geheimnisse darfst du immer weitererzählen. Das ist kein Petzen.'],
+[2,'Unter welcher Nummer erreichst du das Kinder- und Jugendtelefon („Nummer gegen Kummer“)?','116 111',['112','110','115'],'Der Anruf ist kostenlos und anonym.'],
+[2,'Models in Zeitschriften sehen oft perfekt aus. Was stimmt?','Die Bilder werden oft bearbeitet und zeigen nicht die Wirklichkeit.',['Alle Menschen sehen so aus.','Man muss so aussehen, um dazuzugehören.'],'Jeder Mensch ist anders. Schönheitsideale ändern sich.']];
+const g_ord1=l=>l==0?ORD('Wie wäschst du dir richtig die Hände? Ordne die Schritte.',['Hände nass machen','Seife nehmen','Hände gut reiben','Hände abspülen','Hände abtrocknen'],'Reibe die Hände so lange, wie du zweimal „Happy Birthday“ singst.'):ORD('Wie rufst du richtig den Notruf an? Ordne die Schritte.',l==1?['112 wählen','Sagen, wo es passiert ist','Sagen, was passiert ist','Auf Rückfragen warten']:['112 wählen','Wo ist es passiert?','Was ist passiert?','Wie viele Verletzte gibt es?','Auf Rückfragen warten'],'Erst die Nummer, dann die W-Fragen, am Ende nicht auflegen.');
+const g_gesd=l=>dd2('Was ist gesund? Sortiere.',['Gesund (oft essen)','Nur selten essen'],GES,UNG,'Obst, Gemüse, Vollkorn und Wasser sind gesund. Süßes und Fettiges nur selten.',lvn(l,2,3,3));
+const g_zah=l=>l==2?null:tap('Was ist gut für die Zähne? Tippe an.',ZAH,NZA,'Zucker macht die Zähne krank. Obst, Gemüse und Milchprodukte sind besser.',2,2);
+const g_sinn=l=>l==0?matp('Welches Sinnesorgan gehört zu welchem Sinn?',SIN,'Mit den Sinnen nimmst du die Welt wahr.',4):matp('Wie ist das Auge aufgebaut? Ordne zu.',AUG,'Die Pupille ist das schwarze Loch in der Mitte des Auges.',lvn(l,3,4,5));
+const g_nr=l=>{const p=pk(l==0?[['Welche Telefonnummer wählst du bei einem Notfall? (nur die Zahl)','112','Der Notruf von Feuerwehr und Rettungsdienst hat drei Ziffern.']]:[['Welche Telefonnummer wählst du bei einem Notfall? (nur die Zahl)','112','Der Notruf von Feuerwehr und Rettungsdienst hat drei Ziffern.'],['Wie viele Minuten solltest du mindestens Zähne putzen? (nur die Zahl)','2','Für saubere Zähne brauchst du Zeit.'],['Wie lautet die Nummer der Polizei? (nur die Zahl)','110','Polizei: 110. Feuerwehr und Rettungsdienst: 112.']]);return IN(p[0],p[1],p[2])};
+const g_geh=l=>l==0?null:dd2('Gutes oder schlechtes Geheimnis? Sortiere.',['Gutes Geheimnis','Schlechtes Geheimnis'],['Die Überraschung zum Geburtstag','Das Geschenk für Papa'],['Jemand tut dir weh und sagt: „Sag es keinem!“','Jemand droht dir, damit du schweigst'],'Gute Geheimnisse machen Freude und werden bald verraten. Schlechte Geheimnisse machen Angst. Erzähle sie jemandem, dem du vertraust.',2);
+const g_gef=l=>MEM('Memo: Welches Gefühl gehört zu welcher Situation?',sh(GEF).slice(0,l==0?3:4),'Jeder Mensch hat Gefühle. Alle sind in Ordnung.');
+const z1=[g_ord1,g_gesd,g_zah,g_sinn,g_nr,g_geh,g_gef,l=>qa(Q1a,l),l=>qa(Q1b,l),l=>qa(Q1c,l)];
+/* ---------- Gebiet 3: Orchideental (Natur und Umwelt) ---------- */
+const WALD=['Reh','Fuchs','Specht','Eichhörnchen','Wildschwein'],TEICH=['Frosch','Libelle','Wasserläufer','Molch','Stockente'],WIES=['Feldhase','Marienkäfer','Biene','Grashüpfer','Schmetterling'];
+const DEV=[['Froschlaich','Kaulquappe','Jungfrosch','Frosch'],['Ei','Raupe','Puppe','Schmetterling'],['Samenkorn','Keimling','junge Pflanze','blühende Pflanze'],['Ei','Küken','Huhn']];
+const PFL=[['Wurzel','hält die Pflanze fest und nimmt Wasser auf'],['Stängel','trägt die Blätter und leitet Wasser'],['Blatt','stellt mit Licht Nahrung her'],['Blüte','bildet Früchte und Samen'],['Frucht','schützt die Samen']];
+const STR=[['Batterie','liefert den Strom'],['Kabel','leitet den Strom'],['Lampe','leuchtet'],['Schalter','öffnet und schließt den Stromkreis']];
+const LEI=[['🔑','Metallschlüssel'],['🥄','Metalllöffel'],['🔧','Schraubenschlüssel']],NLE=[['🧦','Wollsocke'],['📖','Papier'],['🧴','Plastikflasche'],['🧱','Ziegelstein']];
+const BRAND=[['🚪','Ruhig das Haus verlassen'],['📞','Notruf 112 wählen'],['🧎','Bei Rauch tief am Boden bleiben']],NBRA=[['🛗','Den Fahrstuhl benutzen'],['🎒','Erst noch Spielsachen holen'],['🙈','Sich im Zimmer verstecken']];
+const MUELL=[[['Joghurtbecher','Konservendose','Plastikflasche'],'Gelbe Tonne (Verpackungen)'],[['Zeitung','Pappkarton','Schreibpapier'],'Papiertonne'],[['Bananenschale','Eierschalen','Kaffeesatz'],'Biotonne'],[['Staubsaugerbeutel','Windel','Kaugummi'],'Restmüll']];
+const Q2a=[[0,'Was braucht eine Pflanze zum Wachsen?','Licht, Wasser, Luft und Nährstoffe',['nur Dunkelheit','nur Süßigkeiten'],'Pflanzen holen sich Wasser und Nährstoffe über die Wurzeln.'],
+[0,'Was macht der Specht?','Er hackt Löcher in Baumstämme.',['Er gräbt unter der Erde.','Er schwimmt im Teich.'],'Der Specht sucht Insekten und baut Höhlen.'],
+[0,'Wovon ernährt sich das Eichhörnchen vor allem?','von Nüssen und Samen',['von Fischen','von Fleisch'],'Im Herbst legt es Vorräte an.'],
+[0,'Was braucht Feuer zum Brennen?','Brennstoff, Wärme und Sauerstoff',['nur Wasser','Dunkelheit','nur Holz'],'Fehlt eins davon, geht das Feuer aus.'],
+[0,'Wer darf Streichhölzer und Feuerzeuge benutzen?','nur Erwachsene',['alle Kinder','nur große Kinder allein'],'Feuer ist gefährlich. Spiele nie damit.'],
+[1,'Welche Schichten hat der Wald von oben nach unten?','Baumschicht, Strauchschicht, Krautschicht, Moosschicht',['Moosschicht, Baumschicht, Strauchschicht','Krautschicht, Baumschicht, Moosschicht, Strauchschicht'],'Oben stehen die hohen Bäume, am Boden wachsen Moose.'],
+[1,'Welche Reihe ist eine Nahrungskette?','Gras → Hase → Fuchs',['Fuchs → Hase → Gras','Hase → Gras → Fuchs','Fuchs → Gras → Hase'],'Der Pfeil zeigt, wer gefressen wird.'],
+[1,'Wozu haben Frösche Schwimmhäute?','Sie schwimmen damit besser.',['Sie klettern damit.','Sie wärmen sich damit.'],'Das ist eine Angepasstheit an das Leben im Wasser.'],
+[1,'Wer bestäubt viele Blüten?','Bienen',['Regenwürmer','Fische'],'Beim Nektarsammeln tragen Bienen Pollen weiter.'],
+[1,'Warum erlischt eine Kerze unter einem Glas?','Es fehlt Sauerstoff.',['Es fehlt Wasser.','Es wird zu warm.'],'Ohne Sauerstoff kann nichts brennen.'],
+[1,'Womit darf man brennendes Öl in der Pfanne auf keinen Fall löschen?','mit Wasser',['mit einem Deckel','mit einer Löschdecke'],'Wasser lässt das heiße Fett explodieren.'],
+[2,'Warum ist der Eisbär durch Fell und Fettschicht gut an seinen Lebensraum angepasst?','Sie schützen vor Kälte.',['Er sieht dann schöner aus.','Er kann besser fliegen.'],'Angepasstheit: Merkmale, die beim Überleben im Lebensraum helfen.'],
+[2,'Warum sind regionale Lebensmittel gut für die Umwelt?','Sie haben kurze Transportwege.',['Sie sind immer billiger.','Sie wachsen im Supermarkt.'],'Weniger Transport heißt weniger Abgase.'],
+[2,'Was ist ein Schutzgebiet?','Ein Gebiet, in dem Tiere und Pflanzen besonders geschützt sind.',['Ein Gebiet nur für Autos.','Ein Wald, in dem man Bäume fällen darf.'],'In Schutzgebieten bleibt die Natur möglichst ungestört.'],
+[2,'Wie heißt der älteste Nationalpark Deutschlands in Bayern?','Bayerischer Wald',['Harz','Eifel','Sächsische Schweiz'],'Der Nationalpark Bayerischer Wald wurde 1970 gegründet.']];
+const Q2b=[[0,'Was passiert mit Wasser bei 0 Grad Celsius?','Es gefriert zu Eis.',['Es kocht.','Es wird zu Gas.'],'Unter 0 Grad ist Wasser fest.'],
+[1,'Was bedeutet verdunsten?','Wasser wird zu unsichtbarem Wasserdampf.',['Wasser gefriert.','Wasser versickert.'],'Die Sonne wärmt das Wasser. Es steigt als Dampf auf.'],
+[1,'Wie nennt man es, wenn Wasserdampf abkühlt und zu Tröpfchen wird?','Kondensieren',['Verdunsten','Schmelzen','Gefrieren'],'So entstehen Wolken.'],
+[1,'Wie viel Trinkwasser verbraucht ein Mensch in Deutschland ungefähr am Tag?','etwa 125 Liter',['etwa 5 Liter','etwa 10 Liter','etwa 1000 Liter'],'Wir nutzen Wasser zum Duschen, Spülen, Kochen und Waschen.'],
+[2,'Womit kannst du Wasser sparen?','duschen statt baden',['baden statt duschen','den Hahn beim Zähneputzen laufen lassen','den Rasen täglich lange wässern'],'Eine Dusche braucht viel weniger Wasser als ein Vollbad.'],
+[2,'Wo wird verschmutztes Wasser gereinigt?','in der Kläranlage',['im Wasserturm','im Hallenbad'],'Danach fließt es sauber zurück in den Fluss.'],
+[0,'Was ist gefährlich?','mit einem Draht in die Steckdose fassen',['eine Taschenlampe anschalten','eine Batterie einlegen'],'Steckdosen führen gefährlichen Strom. Fasse nie hinein.'],
+[1,'Wie nennt man einen Stoff, der Strom gut leitet?','Leiter',['Isolator','Lampe'],'Metalle sind gute Leiter.'],
+[1,'Warum sind Kabel mit Plastik umhüllt?','Plastik leitet keinen Strom und schützt uns.',['Damit sie bunter aussehen.','Damit sie schwerer sind.'],'Plastik ist ein Isolator.'],
+[2,'Welche Energiequelle ist erneuerbar?','Wind',['Kohle','Erdöl','Erdgas'],'Sonne, Wind und Wasser sind erneuerbar. Sie werden nicht verbraucht.'],
+[2,'Wie kannst du Strom sparen?','Licht ausschalten, wenn niemand im Raum ist',['Geräte immer auf Stand-by lassen','alle Lampen anlassen','die Kühlschranktür offen lassen'],'Jede ausgeschaltete Lampe spart Strom.']];
+const g_dev=l=>ORD('Bringe die Entwicklung in die richtige Reihenfolge.',l==0?pk([DEV[1],DEV[3],DEV[2]]):pk(DEV.slice(0,3)),'Denke daran, was zuerst da ist.');
+const g_kreis=l=>l==0?null:ORD('Der Wasserkreislauf: Bringe die Schritte in die richtige Reihenfolge.',l==1?['Die Sonne erwärmt das Wasser. Es verdunstet.','Der Wasserdampf steigt auf und kühlt ab.','Es bilden sich Wolken.','Es regnet oder schneit.']:['Die Sonne erwärmt das Wasser. Es verdunstet.','Der Wasserdampf steigt auf und kühlt ab.','Es bilden sich Wolken.','Es regnet oder schneit.','Das Wasser fließt in Bächen und Flüssen zurück ins Meer.'],'Wasser wandert im Kreis: Meer, Wolke, Regen, Fluss, Meer.');
+const g_leb=l=>l==0?dd2('Wo lebt das Tier? Sortiere.',['Wald','Teich'],WALD,TEICH,'Frage dich: Wo findet das Tier Nahrung und Schutz?'):DD('Wo lebt das Tier? Sortiere.',['Wald','Teich','Wiese'],[...sh(WALD).slice(0,2).map(x=>[x,0]),...sh(TEICH).slice(0,2).map(x=>[x,1]),...sh(WIES).slice(0,2).map(x=>[x,2])],'Frage dich: Wo findet das Tier Nahrung und Schutz?');
+const g_pfl=l=>l==2?null:matp('Wozu dient der Pflanzenteil? Ordne zu.',PFL,'Eine Pflanze hat Wurzel, Stängel, Blatt, Blüte und Frucht.',lvn(l,3,4,5));
+const g_str=l=>l==0?null:matp('Was macht der Teil im Stromkreis? Ordne zu.',STR,'Ein Stromkreis braucht eine Stromquelle, Leitungen und einen Verbraucher.',4);
+const g_circ=l=>{if(l==0)return null;const bad=sh(l==1?['lueck','so','ohne']:['lueck','so','ohne','lueck']).slice(0,2),good=pk(['zu','sz']);const it=[[circ(good),'Schaltung A',1],[circ(bad[0]),'Schaltung B',0],[circ(bad[1]),'Schaltung C',0]];return IMG('Bei welcher Schaltung leuchtet die Lampe? Tippe sie an.',sh(it).map((x,i)=>[x[0],'Schaltung '+'ABC'[i],x[2]]),'Die Lampe leuchtet nur, wenn der Stromkreis ganz geschlossen ist: Batterie, Kabel, Lampe, Kabel zurück. Ein geöffneter Schalter unterbricht ihn.',{cls:'w3'})};
+const g_why=l=>l<2?null:MC('Warum leuchtet die Lampe nicht?','Der Stromkreis ist unterbrochen.',['Die Lampe ist zu hell.','Das Kabel ist zu lang.','Die Batterie ist zu groß.'],'Wenn der Kreis offen ist, fließt kein Strom.',{v:circ(pk(['lueck','so']))});
+const g_lei=l=>l==0?null:tap('Was leitet Strom? Tippe an.',LEI,NLE,'Metalle leiten Strom. Holz, Plastik, Papier und Stoff leiten ihn nicht.',2,3);
+const g_brand=l=>tap('Brand! Was tust du? Tippe die richtigen Dinge an.',BRAND,NBRA,'Ruhe bewahren, Haus verlassen, Notruf 112. Bei Rauch bleibt man tief am Boden.',lvn(l,2,3,3),3);
+const g_muell=l=>{const k=l==0?3:4,B=MUELL.slice(0,k);return DD('In welche Tonne gehört der Abfall? Sortiere.',B.map(x=>x[1]),B.flatMap((x,i)=>sh(x[0]).slice(0,2).map(w=>[w,i])),'Verpackungen gehören in die Gelbe Tonne, Papier in die Papiertonne, Essensreste in die Biotonne, der Rest in den Restmüll.')};
+const g_wzahl=l=>{const p=pk(l==0?[['Bei wie viel Grad Celsius gefriert Wasser? (nur die Zahl)','0','Wasser wird bei 0 Grad zu Eis.'],['Bei wie viel Grad Celsius kocht Wasser? (nur die Zahl)','100','Wasser kocht bei 100 Grad.']]:[['Bei wie viel Grad Celsius kocht Wasser? (nur die Zahl)','100','Wasser kocht bei 100 Grad.'],['Was braucht Feuer außer Brennstoff und Wärme? (ein Wort)','Sauerstoff','Das Gas in der Luft, das wir zum Atmen brauchen.'],['Wie heißt Wasser, wenn es als Gas in der Luft ist? (ein Wort)','Wasserdampf','Es ist unsichtbar.']]);return IN(p[0],p[1],p[2])};
+const z2=[g_dev,g_kreis,g_leb,g_pfl,g_str,g_circ,g_why,g_lei,g_brand,g_muell,g_wzahl,l=>qa(Q2a,l),l=>qa(Q2b,l)];
+/* ---------- Gebiet 4: Tempel der Zeit (Zeit und Wandel) ---------- */
+const QUE=[['📷','altes Foto'],['✉️','alter Brief'],['🏰','altes Gebäude'],['👵','Zeitzeugin (Oma erzählt)'],['🗞️','alte Zeitung']],NQU=[['🧚','Feenmärchen'],['🦄','Einhorn-Geschichte'],['🎬','Fantasyfilm'],['🧙','Zaubergeschichte']];
+const FAKT=['Die Römer bauten Straßen in Bayern.','Gutenberg erfand den Buchdruck.','Im Mittelalter gab es Burgen.','Früher gab es keine Handys.','Vor sehr langer Zeit lebten Dinosaurier.'],FIKT=['Drachen bewachten die Burgen.','Ritter flogen auf Besen.','Die Römer hatten Raumschiffe.','Im Mittelalter konnten Menschen zaubern.','Ein Zauberer ließ Dornröschen einschlafen.'];
+const ZRM=[['Jahr','12 Monate'],['Jahrzehnt','10 Jahre'],['Jahrhundert','100 Jahre'],['Jahrtausend','1000 Jahre'],['Woche','7 Tage']];
+const ENT=[['Kerze','Petroleumlampe','Glühbirne','LED-Lampe'],['Zu Fuß gehen','Pferdekutsche','Eisenbahn','Auto','Flugzeug'],['Brief','Telefon','Mobiltelefon','Smartphone']];
+const Q3a=[[0,'Wie viele Jahre hat ein Jahrhundert?','100 Jahre',['10 Jahre','1000 Jahre','50 Jahre'],'Jahrzehnt = 10 Jahre, Jahrhundert = 100 Jahre, Jahrtausend = 1000 Jahre.'],
+[0,'Wer kann dir erzählen, wie es früher war?','Zeitzeugen wie Oma und Opa',['Kinder aus der ersten Klasse','Tiere im Zoo'],'Zeitzeugen haben die Zeit selbst erlebt.'],
+[0,'Welche Jahreszeit kommt nach dem Frühling?','der Sommer',['der Winter','der Herbst'],'Frühling, Sommer, Herbst, Winter.'],
+[1,'Wo findest du alte Urkunden und Akten einer Stadt?','im Archiv',['im Schwimmbad','im Supermarkt','im Kino'],'Ein Archiv bewahrt alte Unterlagen auf.'],
+[1,'Wo kannst du echte Gegenstände aus früheren Zeiten ansehen?','im Museum',['im Kino','im Zoo','im Hallenbad'],'Museen sammeln und zeigen alte Dinge.'],
+[1,'Wie nennt man die Darstellung von Ereignissen in ihrer zeitlichen Reihenfolge?','Zeitleiste',['Landkarte','Speisekarte'],'Auf der Zeitleiste steht das Älteste links.'],
+[1,'Um das Jahr 1450 erfand Gutenberg …','den Buchdruck mit beweglichen Buchstaben',['das Auto','das Telefon','den Computer'],'Mit seiner Erfindung konnte man Bücher viel schneller herstellen.'],
+[2,'Was ist eine historische Quelle?','Etwas, das uns Informationen über die Vergangenheit gibt',['ein Bach','eine Wasserquelle für Trinkwasser'],'Fotos, Briefe, Gebäude, Urkunden und Zeitzeugen sind Quellen.'],
+[2,'Warum sind Märchen keine Quellen für die Wirklichkeit?','Sie sind erfunden.',['Sie sind zu kurz.','Sie sind nicht aus Papier.'],'Fakten sind wahr. Fiktion ist ausgedacht.'],
+[2,'Carl Benz baute 1886 …','das erste Automobil (Motorwagen)',['das erste Flugzeug','die erste Eisenbahn','den ersten Computer'],'Der Motorwagen war ein Meilenstein der Technik.'],
+[2,'Welche Stadt in Bayern gab es schon zur Römerzeit?','Augsburg',['Hof','Ansbach','Erlangen'],'Die Römer gründeten Augusta Vindelicum, das heutige Augsburg.']];
+const g_epo=l=>ORD('Bringe die Zeitabschnitte in die richtige Reihenfolge. Das Älteste kommt zuerst.',l==0?['Steinzeit','Römerzeit','Mittelalter','heute']:['Steinzeit','Römerzeit','Mittelalter','Neuzeit'],'Merke: Zuerst Steinzeit, dann Römer, dann Mittelalter mit Burgen und Rittern.');
+const g_ent=l=>ORD('Wie hat sich das entwickelt? Bringe die Erfindungen in die richtige Reihenfolge. Das Älteste kommt zuerst.',pk(l==0?ENT.slice(0,1).concat([ENT[2]]):ENT),'Denke an Oma und Opa: Was gab es früher, was heute?');
+const g_zrm=l=>matp('Zeiträume: Ordne zu.',ZRM,'Ein Jahrzehnt hat zehn Jahre, ein Jahrhundert hundert.',lvn(l,3,4,5));
+const g_que=l=>l==2?null:tap('Woraus erfährst du etwas über früher? Tippe die Quellen an.',QUE,NQU,'Quellen stammen aus der Zeit selbst: Fotos, Briefe, Gebäude, Zeitzeugen. Märchen sind erfunden.',lvn(l,2,3,3),3);
+const g_fakt=l=>dd2('Wahr oder erfunden? Sortiere.',['Wahre Geschichte (Fakt)','Erfunden (Fiktion)'],FAKT,FIKT,'Fakten kann man belegen. Fiktion ist ausgedacht.',lvn(l,2,3,3));
+const g_jahr=l=>{const y=R(170,190)*10,d=l==0?R(2,12)*10:l==1?R(3,15)*5:R(23,87);return IN(l==2?`Das Rathaus wurde im Jahr ${y} gebaut, die Schule im Jahr ${y+d}. Wie viele Jahre liegen dazwischen? (nur die Zahl)`:`Das Rathaus wurde im Jahr ${y} gebaut, die Schule im Jahr ${y+d}. Wie viele Jahre liegen dazwischen? (nur die Zahl)`,d,'Rechne: späteres Jahr minus früheres Jahr.')};
+const g_zin=l=>{const p=pk(l==0?[['Wie viele Monate hat ein Jahr? (nur die Zahl)','12','Januar bis Dezember.'],['Wie viele Tage hat eine Woche? (nur die Zahl)','7','Montag bis Sonntag.']]:[['Wie viele Jahre hat ein Jahrzehnt? (nur die Zahl)','10','Zehn Jahre sind ein Jahrzehnt.'],['Wie viele Jahre hat ein Jahrtausend? (nur die Zahl)','1000','Tausend Jahre.'],['Wie heißt der Ort, an dem man alte Urkunden aufbewahrt? (ein Wort)','Archiv','Es beginnt mit A.']]);return IN(p[0],p[1],p[2])};
+const z3=[g_epo,g_ent,g_zrm,g_que,g_fakt,g_jahr,g_zin,l=>qa(Q3a,l)];
+/* ---------- Gebiet 5: Fluss der Wege (Raum und Mobilität) ---------- */
+const LAND=[['🌳','Baum'],['🏫','Schule'],['⛪','Kirche'],['🏊','Schwimmbad'],['🛒','Supermarkt'],['🏞️','See'],['🚉','Bahnhof'],['🏥','Krankenhaus'],['⚽','Sportplatz'],['🌲','Wald']];
+const DIRH=[['Norden',1],['Osten',5],['Süden',7],['Westen',3]],DIRZ=[['Nordosten',2],['Südosten',8],['Südwesten',6],['Nordwesten',0]];
+const karte=()=>{const o=sh(LAND).slice(0,8),c=[];let k=0;for(let i=0;i<9;i++)c.push(i==4?['🏠','Haus']:o[k++]);return c};
+const grid=c=>`<div class="gm" role="img" aria-label="Kartenausschnitt mit neun Feldern. Norden ist oben.">${c.map(x=>`<div><b aria-hidden="true">${x[0]}</b>${x[1]}</div>`).join('')}</div>`;
+const VMIT=[['🚶','zu Fuß gehen'],['🚲','Fahrrad fahren'],['🚌','Bus fahren'],['🚆','Bahn fahren']];
+const Q4a=[[0,'Wo geht die Sonne am Morgen auf?','im Osten',['im Westen','im Norden','im Süden'],'Eselsbrücke: Im Osten geht die Sonne auf, im Westen geht sie unter.'],
+[0,'Wie heißt die Hauptstadt von Bayern?','München',['Nürnberg','Augsburg','Würzburg'],'München liegt an der Isar.'],
+[0,'Was bedeutet eine rote Ampel?','stehen bleiben',['gehen','schneller gehen'],'Rot heißt stehen, Grün heißt gehen.'],
+[0,'Welches Tier lebt im Regenwald?','der Jaguar',['der Eisbär','das Kamel','der Pinguin'],'Regenwälder liegen in warmen, feuchten Gebieten.'],
+[1,'Welche Himmelsrichtung liegt dem Norden genau gegenüber?','Süden',['Osten','Westen'],'Norden und Süden, Osten und Westen sind Gegenrichtungen.'],
+[1,'Welches Gebirge liegt im Süden Bayerns?','die Alpen',['der Harz','die Eifel','der Schwarzwald'],'Die Alpen sind das höchste Gebirge in Deutschland.'],
+[1,'Wie heißt der höchste Berg Deutschlands?','die Zugspitze',['der Feldberg','der Brocken','der Watzmann'],'Die Zugspitze ist fast 3000 Meter hoch.'],
+[1,'Welcher Fluss fließt durch Regensburg und Passau?','die Donau',['der Rhein','die Elbe','die Weser'],'Die Donau fließt durch Bayern nach Osten.'],
+[1,'Wo gehst du am sichersten über die Straße?','am Zebrastreifen oder an der Ampel',['zwischen parkenden Autos','hinter einem Bus, ohne zu schauen'],'Dort können dich Autofahrer gut sehen.'],
+[1,'Was ist für Radfahrer im Straßenverkehr besonders wichtig?','ein Fahrradhelm',['ein Hut','Kopfhörer','ein Regenschirm'],'Der Helm schützt den Kopf bei einem Sturz.'],
+[1,'Wo gibt es Regenwälder?','in warmen Ländern nahe dem Äquator',['am Nordpol','in der Wüste Sahara'],'Dort ist es das ganze Jahr warm und feucht.'],
+[2,'Was zeigt die Legende einer Karte?','was die Zeichen und Farben bedeuten',['wie weit ein Ort entfernt ist','wer die Karte gezeichnet hat'],'Die Legende erklärt die Kartenzeichen.'],
+[2,'Was bedeutet die Farbe Blau auf einer Landkarte meistens?','Wasser (Flüsse, Seen, Meer)',['Wald','Straßen','Berge'],'Grün zeigt oft Tiefland, Braun zeigt Berge.'],
+[2,'Wie viele Regierungsbezirke hat Bayern?','7',['3','5','12'],'Oberbayern, Niederbayern, Oberpfalz, Oberfranken, Mittelfranken, Unterfranken, Schwaben.'],
+[2,'Was bedroht den Regenwald?','Abholzung für Felder und Holz',['zu viel Schnee','zu viele Pilze'],'Tiere verlieren ihren Lebensraum.'],
+[2,'Wie verändert eine neue Autobahn die Landschaft oft?','Wiesen und Wälder gehen verloren, und es wird lauter.',['Es entstehen mehr Wälder.','Nichts ändert sich.'],'Verkehrswege verbrauchen Fläche und verursachen Lärm.'],
+[2,'Warum sollen Kinder im Auto im Kindersitz sitzen?','Der Sicherheitsgurt passt sonst nicht richtig und schützt sie nicht gut.',['Weil es lustiger ist.','Damit sie größer wirken.'],'Kindersitze brauchst du, bis du 1,50 Meter groß bist.']];
+const g_kimg=l=>{const c=karte(),d=l==0?pk(DIRH):pk(DIRH.concat(DIRZ));return IMG(`Das Haus steht in der Mitte. Norden ist oben. Tippe das Feld an, das im ${d[0]} des Hauses liegt.`,c.map((x,i)=>[x[0],x[1],i==d[1]?1:0]),'Norden ist oben, Süden unten, Osten rechts, Westen links.',{cls:'g3'})};
+const g_kmc=l=>{const c=karte(),D=l==0?DIRH:DIRH.concat(DIRZ),t=pk(D.filter(x=>c[x[1]]));const o=sh(D.filter(x=>x[0]!=t[0])).slice(0,3).map(x=>x[0]);return MC(`Das Haus steht in der Mitte. In welcher Himmelsrichtung liegt: ${c[t[1]][1]}?`,t[0],o,'Norden ist oben, Süden unten, Osten rechts, Westen links.',{v:grid(c)})};
+const g_dir=l=>l==0?null:ORD('Bringe die Himmelsrichtungen im Uhrzeigersinn in die richtige Reihenfolge. Beginne mit Norden.',['Norden','Osten','Süden','Westen'],'Eselsbrücke: Nie Ohne Seife Waschen.');
+const g_sgn=l=>{const s=pk(SGM),o=sh(SGM.filter(x=>x[0]!=s[0])).slice(0,3);return MC('Was bedeutet dieses Verkehrszeichen?',s[1],o.map(x=>x[1]),'Rot umrandete Zeichen warnen oder verbieten. Blaue Zeichen geben Hinweise oder Gebote.',{v:SGN[s[0]]})};
+const g_sgm=l=>{const k=lvn(l,3,4,4);return MAT('Welches Verkehrszeichen hat welche Bedeutung? Ordne zu.',sh(SGM).slice(0,k).map(x=>[SGN[x[0]],x[1]]),'Schau auf Form und Farbe des Zeichens.')};
+const g_vmit=l=>dd2('Welches Verkehrsmittel schont die Umwelt? Sortiere.',['Schont die Umwelt','Belastet die Umwelt stärker'],['zu Fuß gehen','Fahrrad fahren','Bus fahren','Bahn fahren'],['Auto fahren (allein)','Flugzeug','Moped'],'Wer läuft oder radelt, macht keine Abgase. Auto und Flugzeug brauchen viel Energie.',lvn(l,2,3,3));
+const g_rad=l=>l==2?null:tap('Was gehört an ein verkehrssicheres Fahrrad? Tippe an.',[['🔔','Klingel'],['💡','Licht'],['🔴','Rückstrahler']],[['📻','Radio'],['🧯','Feuerlöscher'],['🎈','Luftballon']],'Ein sicheres Fahrrad hat Bremsen, Licht, Klingel und Rückstrahler.',2,2);
+const g_quer=l=>ORD('Wie überquerst du sicher die Straße? Bringe die Schritte in die richtige Reihenfolge.',l==0?['Am Straßenrand stehen bleiben','Links und rechts schauen','Hören, ob Autos kommen','Zügig gehen']:['Am Straßenrand stehen bleiben','Nach links schauen','Nach rechts schauen','Noch einmal nach links schauen','Zügig gehen'],'Merke: Stehen, Schauen, Hören, Gehen.');
+const g_bez=l=>l<2?null:MAT('Regierungsbezirk und Hauptstadt: Ordne zu.',sh([['Oberbayern','München'],['Niederbayern','Landshut'],['Oberpfalz','Regensburg'],['Oberfranken','Bayreuth'],['Mittelfranken','Ansbach'],['Unterfranken','Würzburg'],['Schwaben','Augsburg']]).slice(0,4),'Jeder Regierungsbezirk hat einen Sitz der Regierung.');
+const g_rin=l=>{const p=pk(l==0?[['Wie viele Himmelsrichtungen gibt es als Hauptrichtungen? (nur die Zahl)','4','Norden, Osten, Süden, Westen.'],['Welche Farbe hat bei der Ampel das Zeichen zum Gehen? (ein Wort)','Grün','Rot heißt stehen, grün heißt gehen.']]:[['Wie heißt die Himmelsrichtung zwischen Norden und Osten? (ein Wort)','Nordosten','Setze Norden und Osten zusammen.'],['Wie heißt die Himmelsrichtung, in der die Sonne mittags bei uns steht? (ein Wort)','Süden','Dort steht die Sonne am höchsten.'],['Wie heißt die Hauptstadt von Bayern? (ein Wort)','München','Sie liegt an der Isar.']]);return IN(p[0],p[1],p[2])};
+const z4=[g_kimg,g_kmc,g_dir,g_sgn,g_sgm,g_vmit,g_rad,g_quer,g_bez,g_rin,l=>qa(Q4a,l)];
+/* ---------- Gebiet 6: Brücken-Werkstatt (Technik und Kultur) ---------- */
+const WZG=[['Hammer','Nägel einschlagen'],['Säge','Holz zerschneiden'],['Schraubenzieher','Schrauben drehen'],['Zange','Draht oder Nägel greifen'],['Bohrer','Löcher machen']];
+const BER=[['Bäckerin','Backofen'],['Schreiner','Hobel'],['Maurer','Kelle'],['Ärztin','Stethoskop'],['Gärtner','Spaten'],['Elektriker','Kabelzange']];
+const HAND=['Handsäge','Hammer','Besen','Schere','Waschbrett'],MASCH=['Motorsäge','Bohrmaschine','Staubsauger','Waschmaschine','Traktor'];
+const BRU=[['balken','Balkenbrücke'],['bogen','Bogenbrücke'],['haenge','Hängebrücke'],['schraeg','Schrägseilbrücke']];
+const EIN=[['Hebel','Wippe'],['Rolle','Flaschenzug am Kran'],['Rad','Schubkarre'],['schiefe Ebene','Rampe'],['Keil','Axt']];
+const Q5a=[[0,'Warum benutzen wir Werkzeuge?','Sie erleichtern uns die Arbeit.',['Sie sehen schön aus.','Sie sind zum Spielen da.'],'Mit Werkzeugen schafft man mehr mit weniger Kraft.'],
+[0,'Welches Werkzeug braucht man, um einen Nagel einzuschlagen?','Hammer',['Säge','Schere','Zange'],'Der Hammer hat einen schweren Kopf.'],
+[1,'Wie hat sich die Arbeit der Bäckerin verändert?','Heute helfen Maschinen beim Kneten und Backen.',['Heute gibt es keine Bäcker mehr.','Heute backen nur noch Kinder.'],'Maschinen nehmen vielen Menschen Arbeit ab.'],
+[1,'Warum sind Brücken wichtig?','Sie verbinden Orte über Flüsse oder Täler.',['Sie stauen das Wasser.','Sie sind nur schön.'],'Brücken überwinden Hindernisse.'],
+[1,'Welche Form macht eine Konstruktion besonders stabil?','das Dreieck',['das Viereck','der Kreis','das Oval'],'Ein Dreieck lässt sich nicht verschieben. Darum gibt es Dreiecke in vielen Brücken und Kränen.'],
+[1,'Was macht eine Rolle mit Seil (Flaschenzug)?','Sie hilft, Lasten leichter nach oben zu ziehen.',['Sie macht Lasten schwerer.','Sie dreht Lasten um.'],'Das Seil läuft über eine Rolle. Das spart Kraft.'],
+[2,'Auf einer Wippe sitzt links ein schweres Kind, rechts ein leichtes. Wie wird die Wippe waagerecht?','Das leichte Kind setzt sich weiter nach außen.',['Das leichte Kind setzt sich näher an die Mitte.','Das schwere Kind setzt sich weiter nach außen.'],'Je weiter außen, desto stärker wirkt das Gewicht (Hebel).'],
+[2,'Warum steht ein Turm mit breitem Fuß sicherer?','Der Schwerpunkt liegt tief und die Standfläche ist groß.',['Weil er leichter ist.','Weil er bunter ist.'],'Breit und tief heißt stabil.'],
+[2,'Welches Bauwerk steht in Bayern?','Schloss Neuschwanstein',['der Kölner Dom','das Brandenburger Tor','die Elbphilharmonie'],'Neuschwanstein steht bei Füssen im Allgäu.'],
+[2,'Wer ließ Schloss Neuschwanstein bauen?','König Ludwig II.',['Kaiser Wilhelm','Napoleon','Karl der Große'],'Er war der Märchenkönig von Bayern.'],
+[2,'Welche Folge hatte die Erfindung der Dampfmaschine?','Viele Arbeiten wurden von Maschinen in Fabriken erledigt.',['Es gab weniger Fabriken.','Alle Menschen wurden Bauern.'],'Die Arbeitswelt veränderte sich stark.']];
+const g_wzg=l=>matp('Welches Werkzeug passt zu welcher Aufgabe? Ordne zu.',WZG,'Jedes Werkzeug ist für eine Aufgabe gemacht.',lvn(l,3,4,5));
+const g_ber=l=>l==0?null:matp('Welcher Beruf braucht welches Werkzeug? Ordne zu.',BER,'Berufe haben ihr eigenes Handwerkszeug.',lvn(l,3,4,4));
+const g_hand=l=>dd2('Von Hand oder mit Maschine? Sortiere.',['Von Hand','Mit Maschine'],HAND,MASCH,'Maschinen werden mit Strom oder Motor angetrieben. Werkzeuge bewegt man mit der Hand.',lvn(l,2,3,3));
+const g_bru=l=>MAT('Welche Brücke ist das? Ordne zu.',sh(BRU.slice(0,l==2?4:3)).map(x=>[BRK[x[0]],x[1]]),'Balkenbrücke: gerader Balken. Bogenbrücke: gewölbter Bogen. Hängebrücke: Fahrbahn an Seilen. Schrägseilbrücke: gerade Seile vom Turm.');
+const g_ein=l=>l==0?null:matp('Einfache Maschinen: Welches Beispiel passt? Ordne zu.',EIN,'Hebel, Rolle, Rad, schiefe Ebene und Keil erleichtern die Arbeit.',lvn(l,3,4,5));
+const g_mem=l=>MEM('Memo: Finde Beruf und Werkzeug!',sh(BER).slice(0,l==0?3:4),'Der Beruf und sein Werkzeug gehören zusammen.');
+const g_tin=l=>{const p=pk(l==0?[['Wie heißt das Werkzeug, mit dem man Holz zersägt? (ein Wort)','Säge','Es beginnt mit S.'],['Mit welchem Werkzeug schlägt man Nägel ein? (ein Wort)','Hammer','Es beginnt mit H.']]:[['Wie heißt die Brücke, deren Fahrbahn an Seilen hängt? (ein Wort)','Hängebrücke|Haengebruecke','Die Fahrbahn hängt.'],['Welche Form macht Bauwerke besonders stabil? (ein Wort)','Dreieck','Sie hat drei Ecken.'],['Wie heißt die einfache Maschine, die zum Beispiel eine Wippe ist? (ein Wort)','Hebel','Die Wippe dreht sich um einen Drehpunkt.']]);return IN(p[0],p[1],p[2])};
+const z5=[g_wzg,g_ber,g_hand,g_bru,g_ein,g_mem,g_tin,l=>qa(Q5a,l)];
+const PL=[
+{n:'Affendorf',e:'🐒',c:'#ffb86b',f:'Demokratie und Gesellschaft',d:'Zusammenleben, Gemeinde, Medien',g:l=>draw(z0,l,5)},
+{n:'Papageien-Lichtung',e:'🦜',c:'#ff8fa3',f:'Körper und Gesundheit',d:'Ernährung, Erste Hilfe, Gefühle',g:l=>draw(z1,l,5)},
+{n:'Orchideental',e:'🦋',c:'#8fe3b0',f:'Natur und Umwelt',d:'Tiere, Pflanzen, Wasser, Strom, Feuer',g:l=>draw(z2,l,5)},
+{n:'Tempel der Zeit',e:'🐢',c:'#ffe07a',f:'Zeit und Wandel',d:'Zeiträume, Quellen, Geschichte',g:l=>draw(z3,l,5)},
+{n:'Fluss der Wege',e:'🛶',c:'#8fd3ff',f:'Raum und Mobilität',d:'Karte, Himmelsrichtungen, Verkehr',g:l=>draw(z4,l,5)},
+{n:'Brücken-Werkstatt',e:'🛠️',c:'#c9b6ff',f:'Technik und Kultur',d:'Werkzeuge, Maschinen, Bauen',g:l=>draw(z5,l,5)}];
+/* ---------- Schatztempel: gemischte Aufgaben aus allen Gebieten ---------- */
+const smP=[()=>g_abst(1),()=>g_gesd(1),()=>g_leb(1),()=>g_epo(1),()=>g_kmc(1),()=>g_bru(1),()=>g_kre(1),()=>g_muell(1)];
+const sdP=[()=>g_ord1(1),()=>g_kimg(0),()=>g_fakt(1),()=>g_circ(1),()=>g_sgm(1),()=>g_hand(1),()=>g_nr(1),()=>qa(Q3a,1),()=>qa(Q4a,1),()=>qa(Q5a,1),()=>qa(Q2a,1),()=>qa(Q0a,1)];
+
+/* ---------- Speicher ---------- */
+let DB={u:{}},CUR='',U={d:{},c:{},f:[],n:0,r:0},D=U.d;try{DB=JSON.parse(localStorage.getItem('dschungel-k3'))||DB;DB.u=DB.u||{}}catch(e){}
+const save=()=>{try{localStorage.setItem('dschungel-k3',JSON.stringify(DB))}catch(e){}};
+const st=(p,l)=>D[''+p+l]||0,total=()=>Object.values(D).reduce((a,b)=>a+b,0);
+const stars=n=>n?'⭐'.repeat(n):'☆';
+const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
+/* ---------- Artefakte: 6 Stück, alle 9 Sterne ein neues ---------- */
+const ARTE=[['🗝️','Goldener Schlüssel'],['🧭','Alter Kompass'],['🏺','Tonkrug der Ahnen'],['💎','Grüner Smaragd'],['🗿','Steinmaske'],['👑','Goldkrone']];
+const nParts=t=>Math.min(6,Math.floor(t/9));
+const slots=(t,light)=>`<span class="slots${light?' lt':''}" role="img" aria-label="${nParts(t)} von 6 Artefakten gefunden">${ARTE.map((a,i)=>`<span class="sl1${i<nParts(t)?' on':''}" aria-hidden="true">${a[0]}</span>`).join('')}</span>`;
+const rkBox=t=>{const n=nParts(t),nx=n<6?`Nächstes Artefakt: <b>${ARTE[n][1]}</b> · <span class="nw">noch ${9*(n+1)-t} ⭐</span>`:'Alle Artefakte sind gefunden. Der Schatztempel wartet! 🏛️';
+ return`<div class="rk"><div class="rkt"><b>Deine Artefakte</b>${slots(t)}<span>${nx}</span><small>⭐ ${t} von 54 Sternen</small></div></div>`};
+/* Pop-up beim Finden eines Artefakts */
+function popPart(i){closePop(true);const o=document.createElement('div');o.id='pop';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Neues Artefakt: '+ARTE[i][1]);
+ o.innerHTML=`<div class="pbox"><div class="stage"><div class="rays" aria-hidden="true"></div><div class="halo" aria-hidden="true"></div><div class="pp art" aria-hidden="true">${ARTE[i][0]}</div></div><p class="pt" role="status">Du hast ein neues Artefakt gefunden: <b>${ARTE[i][1]}</b></p><button class="big" id="pok" onclick="closePop()">Super! 🎉</button></div>`;
+ document.body.appendChild(o);$('#pok').focus()}
+function closePop(quiet){const o=$('#pop');o&&o.remove();if(!quiet&&POPQ.length)setTimeout(()=>popPart(POPQ.shift()),250)}
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&$('#pop'))closePop()});
+
+/* ---------- Ansichten ---------- */
+let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={},sq=[],ms=new Set(),mm={},mt=0,POPQ=[];
+/* ---------- Dschungelkarte: bewachsene Karte, Tiere und Dinge als Symbole ---------- */
+const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
+const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #fff) drop-shadow(0 0 ${b+3}px rgba(255,210,63,${.4+p/15}))`:''};
+const POS=[[17,31],[36,57],[64,57],[83,31],[20,83],[80,83]];
+const TMP=[50,15];
+const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+let HOT=-1;
+const rngf=seed=>{let r=seed;return()=>(r=(r*9301+49297)%233280)/233280};
+const JBG=(()=>{const f=n=>n.toFixed(1),rnd=rngf(7);
+ let s='<defs><radialGradient id="jg" cx=".5" cy=".5" r=".78"><stop offset="0" stop-color="#46b86e"/><stop offset=".6" stop-color="#2a8a4f"/><stop offset="1" stop-color="#0c4425"/></radialGradient><linearGradient id="jr" x1="0" x2="1"><stop offset="0" stop-color="#2a9fd8"/><stop offset="1" stop-color="#5ec8ff"/></linearGradient></defs><rect width="100" height="100" fill="url(#jg)"/>';
+ /* Lichtung */
+ s+='<path d="M50 6C70 6 90 22 92 48C94 72 80 94 52 95C24 96 8 76 8 50C8 24 28 6 50 6Z" fill="#7fd48a" opacity=".22"/>';
+ /* dichter Blattwuchs, zum Rand hin dichter */
+ for(let i=0;i<150;i++){const a=rnd()*6.283,d=Math.pow(rnd(),.55)*72,x=50+Math.cos(a)*d*.72*(1+rnd()*.15),y=50+Math.sin(a)*d*.72*(1+rnd()*.15),z=2.5+rnd()*6.5;
+  s+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(z)}" ry="${f(z*.42)}" fill="${['#17703c','#0f5a30','#3da35c','#0b4a28','#5cc07a'][i%5]}" opacity="${f(.3+rnd()*.5)}" transform="rotate(${f(rnd()*180)} ${f(x)} ${f(y)})"/>`}
+ /* Fluss mit Ufer */
+ const rv='M-4 80C16 70 30 92 52 80S84 70 104 84';
+ s+=`<path d="${rv}" fill="none" stroke="#6b4a2a" stroke-width="10.5" stroke-linecap="round" opacity=".55"/><path d="${rv}" fill="none" stroke="url(#jr)" stroke-width="8" stroke-linecap="round"/><path d="${rv}" fill="none" stroke="#c9f0ff" stroke-width="1.1" stroke-linecap="round" stroke-dasharray="2 5" opacity=".8"/>`;
+ /* Holzbrücke */
+ s+='<g transform="rotate(-14 77 82)"><rect x="66" y="78" width="22" height="6" rx="1.2" fill="#9a6a3a" stroke="#4e3218" stroke-width=".7"/><path d="M69 78V84M73 78V84M77 78V84M81 78V84M85 78V84" stroke="#4e3218" stroke-width=".6"/><path d="M66 77H88M66 85H88" stroke="#6b4423" stroke-width="1.1"/></g>';
+ /* Pfade: zwei Ketten am Rand, nichts kreuzt sich, die Mitte bleibt frei */
+ const ch=[[TMP,POS[0]],[POS[0],POS[1]],[POS[1],POS[4]],[TMP,POS[3]],[POS[3],POS[2]],[POS[2],POS[5]]];
+ ch.forEach(([A,B])=>{const out=(A[0]+B[0])/2<50?-1:1,mx=(A[0]+B[0])/2+out*7,my=(A[1]+B[1])/2;s+=`<path d="M${A[0]} ${A[1]+4}Q${f(mx)} ${f(my+3)} ${B[0]} ${B[1]+2}" fill="none" stroke="#e9d49a" stroke-width="1.1" stroke-linecap="round" stroke-dasharray="2.2 2.6" opacity=".6"/>`});
+ /* Lianen vom oberen Rand */
+ for(let i=0;i<9;i++){const x=6+i*11.5+rnd()*5,l=8+rnd()*16;s+=`<path d="M${f(x)} -2C${f(x+3)} ${f(l*.4)} ${f(x-3)} ${f(l*.7)} ${f(x+1)} ${f(l)}" fill="none" stroke="#0e5a30" stroke-width="1.1" stroke-linecap="round"/><ellipse cx="${f(x+1)}" cy="${f(l+1)}" rx="1.6" ry="2.4" fill="#2f9d57"/>`}
+ return`<svg class="jbg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${s}</svg>`})();
+/* Pflanzen und kleine Dinge, zufällig, aber immer gleich verteilt; nicht auf den Symbolen */
+const DECO=(()=>{const rnd=rngf(23),E=['🌴','🌿','🍃','🌱','🌳','🌿','🍃','🍄','🌺','🌿','🌴','🍀','🌾'];let h='';const spots=[...POS,TMP];let n=0;
+ for(let i=0;i<260&&n<46;i++){const x=3+rnd()*94,y=3+rnd()*94;if(spots.some(([a,b])=>Math.hypot(a-x,(b-y)*1)<(a==TMP[0]&&b==TMP[1]?17:15)))continue;if(x>38&&x<62&&y>60)continue;
+  const e=E[Math.floor(rnd()*E.length)],big=e=='🌴'||e=='🌳',z=big?8+rnd()*5:4+rnd()*5;n++;
+  h+=`<span class="dc" aria-hidden="true" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;font-size:${z.toFixed(1)}cqw;--r:${Math.round(rnd()*40-20)}deg;--d:-${(rnd()*5).toFixed(1)}s">${e}</span>`}
+ [[3,6,'🌴',17,-14],[97,5,'🌴',16,12],[2,95,'🌿',15,-20],[98,96,'🌿',15,22],[50,99,'🌴',13,0],[96,50,'🌿',11,-10],[3,50,'🌿',11,10]].forEach(([x,y,e,z,r])=>{h+=`<span class="dc fg" aria-hidden="true" style="left:${x}%;top:${y}%;font-size:${z}cqw;--r:${r}deg;--d:-${(Math.abs(x+y)%5)}s">${e}</span>`});
+ return h})();
+const AN=['hop','flap','flutter','nod','bob','wobble'];
+function hot(b){document.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot'));HOT=-1;if(b){HOT=+b.dataset.i;b.classList.add('hot')}}
+document.addEventListener('focusin',e=>{const b=e.target.closest&&e.target.closest('.pb');if(b&&b.matches(':focus-visible'))hot(b)});
+document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('.pb'))hot(null)});
+const pic=i=>`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
+function map(){window.speechSynthesis&&speechSynthesis.cancel();HOT=-1;const t=total(),op=sunOpen();
+ M.innerHTML=`<div class="mapg"><div class="usr"><span>👤 ${esc(CUR)} · Klasse 3${isAd()?' · Admin':''}</span><button class="sec" onclick="ask()">Name wechseln</button></div><h1 class="ttl">🌴 Dschungel-Abenteuer</h1><p class="hint">Tippe auf ein Tier oder Ding im Dschungel. Je mehr Sterne ⭐ ein Gebiet hat, desto heller leuchtet es! ✨</p><div class="sys jm">${JBG}${DECO}<button class="sun jt${op?'':' l'}" style="--an:wobble" onclick="sun()" aria-label="Schatztempel${op?'':', verschlossen'}"><span class="st"><span class="sd"></span><span class="an">🏛️</span>${op?'':'<span class="lk">🔒</span>'}</span><span class="sg">Schatztempel</span></button>${PL.map((p,i)=>`<div class="pw" id="pw${i}" style="left:${POS[i][0]}%;top:${POS[i][1]}%;z-index:${Math.round(POS[i][1])}"><button class="pb" data-i="${i}" onclick="lv(${i})" aria-label="${p.n}, ${p.f}: ${p.d}, ${pg(i)} von 9 Sternen" style="--an:${AN[i]}"><span class="st" style="${gl(i)}"><span class="sd"></span><span class="an" style="--d:-${i*.7}s">${p.e}</span></span><span class="sg">${p.n}<small>⭐ ${pg(i)} von 9</small></span></button></div>`).join('')}</div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="rt">${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p><p class="c"><button class="sec" onclick="location.href='index.html'">🏠 Startseite</button></p></div></div>`}
+function sun(){if(!sunOpen()){$('#lk').innerHTML='🔒 Der Schatztempel ist noch verschlossen. Spiele zuerst in jedem Gebiet mindestens eine Stufe durch. Es fehlen noch: <b>'+PL.filter((p,i)=>!U.c[i]).map(p=>p.n).join(', ')+'</b>';return}
+ const cnt={};P=-1;LV=0;T=sh([...draw(smP,0,3,cnt),...draw(sdP,0,3,cnt)]).map(norm);I=0;PT=0;RS=[];show()}
+
+function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest. Die Aufgaben ändern sich dabei.</small></p></div>`}
+const norm=t=>{t={...t};if(t.o)t.o=sh(t.o);
+ if((t.t=='dd'||t.t=='img')&&!t.ns)t.it=sh(t.it);
+ if(t.t=='ord'){let a,n=0;do{a=sh(t.it);n++}while(n<20&&a.length>1&&a.every((x,i)=>x==t.s[i]));t.it=a}
+ if(t.t=='mem')t.cards=sh(t.pr.flatMap((p,i)=>[{i,s:p[0]},{i,s:p[1]}]));
+ if(t.t=='mat')t.rt=sh(t.pr.map((p,i)=>i));
+ return t};
+function go(l){LV=l;const g=PL[P].g(l);T=g.map(norm);I=0;PT=0;RS=[];g.intro?intro(g.intro):show()}
+let IX='';
+function intro(x){IX=x.tx;window.speechSynthesis&&speechSynthesis.cancel();M.innerHTML=`<div class="bar"><button class="sec" onclick="lv(${P})">⬅ Zurück</button><b>${PL[P].n} · Lesen</b></div><div class="card"><h2>📖 Lies den Text in Ruhe</h2><p>Gleich wird der Text versteckt. Dann beantwortest du Fragen dazu. Lies deshalb genau!</p><p class="tx">${x.tx}</p><p><button onclick="speak(plain(IX))">🔊 Vorlesen</button><button class="big" id="rdy" onclick="window.speechSynthesis&&speechSynthesis.cancel();show()">✔ Ich habe gelesen – Fragen starten</button></p><p id="fb" role="status" aria-live="polite"></p></div>`;scrollTo(0,0)}
+const fb=h=>{$('#fb').innerHTML=h};
+const num=a=>/^\d+$/.test(String(a).split('|')[0])?'inputmode="numeric"':'';
+function show(){const t=T[I];tr=0;sel=null;pl={};sq=[];ms=new Set();clearTimeout(mt);
+ M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'🏛️ Schatztempel':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?(t.hid?`<details class="tx" id="dtx"><summary>📖 Text noch einmal lesen</summary><p>${t.tx}</p></details>`:`<p class="tx">${t.tx}</p>`):''}<h2>${t.q}</h2>${t.v||''}<div id="a">${ui(t)}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
+ scrollTo(0,0);const i=$('#in')||$('.ins');if(i)i.focus()}
+function ui(t){
+ if(t.t=='mc')return`<div class="opts n${t.o.length}">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`;
+ if(t.t=='in')return`<input id="in" autocomplete="off" ${num(t.a)} aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>`;
+ if(t.t=='ins')return`<div class="insr">${t.parts.map(p=>typeof p=='string'?`<span>${p}</span>`:`<input class="ins" autocomplete="off" ${num(p.a)} aria-label="Lücke" onkeydown="if(event.key=='Enter')chk()">`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`;
+ if(t.t=='dd')return ddui();
+ if(t.t=='ord')return ordui();
+ if(t.t=='img')return imgui();
+ if(t.t=='mem')return memui();
+ return matui()}
+const redo=()=>{$('#a').innerHTML=ui(T[I])};
+/* Drag-and-drop (auch per Tippen/Tastatur) */
+const chip=(k,x)=>`<button class="chip${sel===k?' on':''}" draggable="true" ondragstart="event.dataTransfer.setData('text',${k})" onclick="selc(${k})">${x[0]}</button>`;
+function ddui(){const t=T[I],e=`<i>Alle Wörter sind sortiert.</i>`;
+ return`<p><small>Tippe ein Feld an und dann auf die richtige Gruppe. Du kannst es auch ziehen.</small></p><div class="pool" ondragover="event.preventDefault()" ondrop="drop(event,-1)">${t.it.map((x,k)=>pl[k]===undefined?chip(k,x):'').join('')||e}</div><div class="bk">${t.b.map((b,j)=>`<div class="bkt" ondragover="event.preventDefault()" ondrop="drop(event,${j})"><button class="sec" onclick="put(${j})">📥 ${b}</button><br>${t.it.map((x,k)=>pl[k]===j?chip(k,x):'').join('')}</div>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+function selc(k){if(pl[k]!==undefined){delete pl[k];sel=null}else sel=k;redo()}
+function put(j){if(sel!==null){pl[sel]=j;sel=null;redo()}else fb('Tippe zuerst ein Feld an. 👆')}
+function drop(e,j){e.preventDefault();const k=+e.dataTransfer.getData('text');if(j<0)delete pl[k];else pl[k]=j;sel=null;redo()}
+/* Reihenfolge */
+function ordui(){const t=T[I];
+ return`<p><small>Tippe die Karten in der richtigen Reihenfolge an. Tippe auf eine Karte in der Reihe, um sie zurückzulegen.</small></p><div class="seq" aria-label="Deine Reihe">${sq.map((k,n)=>`<button class="chip sel" onclick="ordB(${k})"><b>${n+1}</b> ${t.it[k]}</button>`).join('')||'<i>Noch leer</i>'}</div><div class="pool">${t.it.map((x,k)=>sq.includes(k)?'':`<button class="chip" onclick="ordA(${k})">${x}</button>`).join('')||'<i>Alle Karten liegen in der Reihe.</i>'}</div><button onclick="chk()">✔ Prüfen</button><button class="sec" onclick="sq=[];redo()">↩ Neu anfangen</button>`}
+const f1=()=>{const f=document.querySelector('#a .pool .chip');f&&f.focus()};
+function ordA(k){sq.push(k);redo();f1()}
+function ordB(k){sq=sq.filter(x=>x!=k);redo();f1()}
+/* Felder anklicken (Mehrfachauswahl) */
+function imgui(){const t=T[I];
+ return`<p><small>Tippe alle richtigen Felder an. Tippe noch einmal, um ein Feld abzuwählen.</small></p><div class="imgs${t.cls?' '+t.cls:''}">${t.it.map((x,k)=>`<button class="im${x[0]?'':' txt'}" data-k="${k}" aria-pressed="${ms.has(k)}" onclick="imgT(${k})">${x[0]?`<span class="e">${x[0]}</span>`:''}<span class="n">${x[1]}</span></button>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+function imgT(k){ms.has(k)?ms.delete(k):ms.add(k);document.querySelector(`.im[data-k="${k}"]`).setAttribute('aria-pressed',ms.has(k))}
+/* Memo */
+function memui(){const t=T[I];mm={open:[],done:new Set,mis:0,busy:false};
+ return`<p><small>Decke zwei Karten auf. Finde alle Paare!</small></p><div class="mg">${t.cards.map((c,k)=>`<button class="mcd" onclick="memC(${k})" aria-label="Karte ${k+1}, verdeckt">⭐</button>`).join('')}</div><p><small id="mst">Versuche: 0</small></p>`}
+function memR(){const t=T[I];document.querySelectorAll('.mcd').forEach((b,k)=>{const up=mm.open.includes(k),dn=mm.done.has(k);b.className='mcd'+(dn?' dn':up?' up':'');b.textContent=up||dn?t.cards[k].s:'⭐';b.setAttribute('aria-label',up||dn?plain(t.cards[k].s):'Karte '+(k+1)+', verdeckt')});const s=$('#mst');if(s)s.textContent='Versuche: '+mm.mis}
+function memC(k){const t=T[I];if(mm.busy||mm.done.has(k)||mm.open.includes(k))return;mm.open.push(k);memR();
+ if(mm.open.length<2)return;const[a,b]=mm.open;
+ if(t.cards[a].i==t.cards[b].i){mm.done.add(a);mm.done.add(b);mm.open=[];memR();if(mm.done.size==t.cards.length)pairsDone(mm.mis);else fb('✅ Ein Paar gefunden!')}
+ else{mm.mis++;mm.busy=true;fb('Das passt nicht zusammen. Merke dir die Karten!');mt=setTimeout(()=>{mm.open=[];mm.busy=false;memR()},1000)}}
+/* Zuordnen */
+function matui(){const t=T[I];mm={a:null,done:new Set,mis:0};
+ return`<p><small>Tippe links ein Feld an und dann rechts das passende Feld.</small></p><div class="mat"><div>${t.pr.map((p,i)=>`<button class="mt" data-s="L" data-i="${i}" onclick="matL(${i})">${p[0]}</button>`).join('')}</div><div>${t.rt.map(i=>`<button class="mt" data-s="R" data-i="${i}" onclick="matP(${i})">${t.pr[i][1]}</button>`).join('')}</div></div>`}
+function matU(){document.querySelectorAll('.mt').forEach(b=>{const i=+b.dataset.i;b.className='mt'+(mm.done.has(i)?' dn':b.dataset.s=='L'&&mm.a===i?' on':'')})}
+function matL(i){if(mm.done.has(i))return;mm.a=mm.a===i?null:i;matU()}
+function matP(j){const t=T[I];if(mm.done.has(j))return;if(mm.a===null)return fb('Tippe zuerst links ein Feld an. 👈');
+ if(mm.a===j){mm.done.add(j);mm.a=null;matU();if(mm.done.size==t.pr.length)pairsDone(mm.mis);else fb('✅ Das passt!')}
+ else{mm.mis++;mm.a=null;matU();fb('Das passt nicht. Versuche es noch einmal!')}}
+function pairsDone(mis){tr=mis>2?1:0;fin(true,'','')}
+/* Prüfen */
+function pick(k){const t=T[I],ok=t.o[k]==t.a;if(!ok)document.querySelectorAll('.opt')[k].disabled=true;fin(ok,t.a,t.o[k])}
+const eq=(v,a,cs)=>a.split('|').some(x=>cs?v==x:v.toLowerCase()==x.toLowerCase());
+function chk(){const t=T[I];let ok,ans,g;
+ if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');g=v;ans=t.a.split('|')[0];ok=eq(v,t.a,t.cs)}
+ else if(t.t=='ins'){const v=[...document.querySelectorAll('.ins')].map(i=>i.value.trim());if(v.some(x=>!x))return fb('Fülle zuerst alle Lücken aus. ✏️');g=v.join(', ');ans=t.ans.map(a=>a.split('|')[0]).join(', ');ok=v.every((x,i)=>eq(x,t.ans[i]))}
+ else if(t.t=='ord'){if(sq.length<t.it.length)return fb('Lege zuerst alle Karten in die Reihe. 😊');const w=sq.map(k=>t.it[k]);ok=w.every((x,i)=>x==t.s[i]);g=w.join(' → ');ans=t.s.join(' → ');if(!ok){let n=0;while(n<w.length&&w[n]==t.s[n])n++;sq=sq.slice(0,n);redo()}}
+ else if(t.t=='img'){if(!ms.size)return fb('Tippe zuerst auf mindestens ein Feld. 👆');const good=t.it.map((x,k)=>x[2]?k:-1).filter(k=>k>=0),bad=[...ms].filter(k=>!good.includes(k));ok=!bad.length&&good.every(k=>ms.has(k));g=[...ms].map(k=>plain(t.it[k][1])).join(', ');ans=good.map(k=>plain(t.it[k][1])).join(', ');if(!ok){bad.forEach(k=>ms.delete(k));redo()}}
+ else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Felder ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;g=bad.map(k=>t.it[k][0]).join(', ');bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok)redo()}
+ fin(ok,ans,g)}
+function lock(){const t=T[I];document.querySelectorAll('#a button,#a input').forEach(b=>b.disabled=true);document.querySelectorAll('.opt').forEach(b=>{if(b.textContent==t.a)b.classList.add('good')});if(t.t=='img')document.querySelectorAll('.im').forEach(b=>{if(t.it[+b.dataset.k][2])b.classList.add('good')});$('#nx').innerHTML=`<button class="big" onclick="nxt()">${I<T.length-1?'Weiter ➡':'Fertig 🏁'}</button>`;$('#nx button').focus()}
+function fin(ok,ans,g){const t=T[I];tr++;if(!isAd()){if(ok||tr>1)U.n++;if(ok&&tr==1)U.r++;if(!ok)U.f.push({p:P,l:LV,q:plain(t.q).slice(0,90),a:plain(String(ans).replace(/<br>/g,'; ')),g:g||''});U.f=U.f.slice(-80);save()}
+ if(ok){const p=tr==1?10:5;PT+=p;RS.push(tr);fb(`✅ ${['Super!','Toll gemacht!','Richtig!','Spitze!'][R(0,3)]} +${p} Punkte`);lock()}
+ else if(tr==1)fb('🤔 Das war noch nicht richtig. Aus Fehlern lernt man! Versuche es noch einmal. Der Tipp 💡 hilft dir.');
+ else{RS.push(0);fb(`Das war knifflig! Die richtige Lösung:<br><b>${ans}</b><br>💡 ${t.h}`);lock()}}
+function nxt(){I++;I<T.length?show():res()}
+function tip(){fb('💡 '+T[I].h)}
+const optsOf=t=>t.o?t.o:t.t=='dd'?t.it.map(x=>x[0]):t.t=='img'?t.it.map(x=>x[1]):t.t=='ord'?t.it:t.t=='mat'?[...t.pr.map(p=>p[0]),...t.rt.map(i=>t.pr[i][1])]:[];
+function speak(txt){if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
+function say(){const t=T[I],o=optsOf(t),extra=t.parts?' '+t.parts.map(p=>typeof p=='string'?p:' Lücke ').join(''):'',d=$('#dtx'),tx=t.tx&&(!t.hid||(d&&d.open))?t.tx:'';
+ speak(plain(tx+' '+t.q+extra+(o.length?'. Felder: '+o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/€/g,' Euro ').replace(/_+/g,' Lücke '))}
+function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;POPQ=[];
+ if(P>=0){const b0=nParts(total());D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save();for(let k=b0;k<nParts(total());k++)POPQ.push(k)}
+ M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Dschungelprofi! 🌴'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`;
+ scrollTo(0,0);if(POPQ.length)setTimeout(()=>popPart(POPQ.shift()),600)}
+function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Dschungelforscher/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Dschungelforscher/in'"></label></p><p>hat beim Dschungel-Abenteuer <b>${t} von 54 Sternen</b> gesammelt!</p><span class="cslots">${slots(t,1)}</span><p>${PL.map((p,i)=>`${p.e} ${p.n}: ${pg(i)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
+
+
+const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const isAd=()=>CUR.toLowerCase()==ADM,sunOpen=()=>isAd()||[0,1,2,3,4,5].every(i=>U.c[i]);
+function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;
+ U=isAd()?{d:{},c:{},f:[],n:0,r:0}:(DB.u[CUR]=DB.u[CUR]||{d:{},c:{},f:[],n:0,r:0});D=U.d;DB.cur=isAd()?'':CUR;save();
+ const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
+ if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="rs()">📊 Ergebnisse anzeigen</button>');map()}
+function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o)}
+function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>👋 Willkommen!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Dschungelfuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><button class="big" onclick="okName()">🌴 Los geht’s</button><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p>'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(''):''}</div>`);const u=$('#un');u&&u.focus()}
+/* ---------- Namensregel: nur Geheimnamen ---------- */
+const NF=s=>s.toLowerCase().replace(/ß/g,'ss').replace(/[äàá]/g,'a').replace(/[öòó]/g,'o').replace(/[üùú]/g,'u').replace(/[éè]/g,'e');
+const RN=new Set(NF("emma mia hannah hanna sophia sofia sophie emilia lina marie lea leonie lena anna clara klara johanna laura lara amelie mila ella nele charlotte maja maya luisa louisa paula pia lilly lilli lia julia sarah sara zoe nora greta frieda frida ida merle jana lisa katharina katja selina celina emily chiara elena eva jule finja fiona alina mara marlene tessa carla helena isabell isabella josefine leni matilda mathilda melina mira nina rosa ronja sina stella svenja theresa vanessa viktoria victoria yasmin zeynep ayla elif fatma aylin amira leyla alexandra anja andrea sabine petra monika claudia sandra nicole melanie christina kristina jessica jasmin anke birgit susanne katrin lotta emmi inga jette olivia sonja tina nadine miriam annika mareike noah ben leon elias paul finn fynn felix luis louis lukas luca luka jonas maximilian max henry henri emil anton theo oskar oscar moritz jakob jacob liam niklas nico nils tim tom jan jannik jannis david daniel julian samuel simon philipp tobias matteo mattis milan mohammed muhammad ali mustafa yusuf emir eren can ahmet mehmet alexander johannes fabian florian sebastian marcel dennis kevin patrick marvin lennard leonard linus levi mats malte marlon jonathan justus konstantin vincent karl carl hugo rafael raphael erik eric jannes jakub michael thomas stefan andreas christian peter markus frank jurgen klaus hans wolfgang uwe ralf dirk jens torsten bernd matthias martin sven kai lars timo dominik benjamin joshua jason ole juri tristan valentin ferdinand fritz otto ludwig bruno arthur adrian aaron leo leandro lenny luan noel nelson mika mikail enzo ismail ibrahim omar hamza murat kerem emre burak muller schmidt schneider fischer weber meyer wagner becker schulz hoffmann schafer koch bauer richter schroder neumann zimmermann kruger hofmann hartmann lange schmitt werner schmitz krause meier lehmann schmid schulze maier kohler herrmann konig walter mayer huber kaiser peters lang scholz moller schubert friedrich keller gunther berger winkler lorenz baumann franke albrecht schuster simon ludwig bohm kraus schumacher kramer vogt jager seidel heinrich brandt haas schreiber graf schulte dietrich ziegler kuhn pohl bergmann voigt sauer arnold pfeiffer yilmaz kaya demir sahin celik yildiz ozturk arslan dogan kilic aydin nowak kowalski wojcik kaminski lewandowski kastner").split(' '));
+const isReal=n=>n.replace(/([a-zäöüß])([A-ZÄÖÜ])/g,'$1 $2').split(/[^a-zA-ZäöüÄÖÜß]+/).map(NF).some(x=>x.length>1&&RN.has(x));
+const nameErr=v=>{if(v.toLowerCase()==ADM)return'';if(v.length<2)return'Bitte schreibe mindestens 2 Zeichen.';if(/\s/.test(v))return'Bitte nur ein Wort, ohne Leerzeichen. Beispiel: Dschungelfuchs';if(/@|\d{4,}/.test(v))return'Bitte keine E-Mail-Adresse und keine Telefonnummer.';return isReal(v)?'Das sieht nach einem echten Namen aus. Denke dir einen Geheimnamen aus, zum Beispiel „Dschungelfuchs“.':''};
+function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
+function rs(){ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="$('#ov').remove()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${Object.values(u.d).reduce((a,b)=>a+b,0)} von 54 · ${u.r} von ${u.n} Aufgaben gleich richtig · ${u.f.length} Fehler</summary><p>${PL.map((p,i)=>`${p.n}: ${[0,1,2].map(l=>LC[l]+' '+(u.d[''+i+l]||0)+'⭐').join(' ')}`).join('<br>')}</p>${u.f.length?`<div style="overflow-x:auto"><table><tr><th>Gebiet</th><th>Stufe</th><th>Aufgabe</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${f.p<0?'Schatztempel':PL[f.p].n}</td><td>${f.p<0?'–':L[f.l]}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();rs()}">🗑️ Alle Daten löschen</button></div>`)}
+function rst(){if(confirm('Möchtest du wirklich deine Sterne löschen?')){U.d={};U.c={};U.f=[];U.n=0;U.r=0;D=U.d;save();map()}}
+(()=>{let r=11;const rnd=()=>(r=(r*9301+49297)%233280)/233280,f=n=>n.toFixed(1);let s='';
+for(let i=0;i<60;i++){const x=rnd()*700,y=rnd()*700,z=10+rnd()*26;s+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(z)}" ry="${f(z*.45)}" fill="${['#14532d','#166534','#0d3f22','#1a6b3a'][i%4]}" opacity="${f(.25+rnd()*.3)}" transform="rotate(${f(rnd()*180)} ${f(x)} ${f(y)})"/>`}
+const e=document.createElement('style');e.textContent=`@media screen{body{background-image:url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'>${s}</svg>`)}");background-attachment:fixed}}`;document.head.appendChild(e)})();
+
+DB.cur&&DB.u[DB.cur]?login(DB.cur):(map(),ask());
+try{if(sessionStorage.getItem('warp')){sessionStorage.removeItem('warp');const w=document.createElement('div');w.id='wx';document.body.appendChild(w);setTimeout(()=>w.remove(),1000)}}catch(e){}
+</script>
+</body>
+</html>
