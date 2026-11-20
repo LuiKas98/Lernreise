@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lernreise durchs All – Klasse 2</title>
+<title>Lernreise im All – Klasse 2</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font:20px/1.45 ui-rounded,"Nunito","Varela Round","Quicksand","Arial Rounded MT Bold","Segoe UI","Trebuchet MS",system-ui,sans-serif;background:#070d33;color:#fff;min-height:100vh}
@@ -27,13 +27,13 @@ input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-
 #fb{font-weight:bold;min-height:1.5em}li{text-align:left;margin:4px 0}ul{list-style:none;padding:0}
 .nm{font-size:1.8em;font-weight:bold}
 .sys{container-type:inline-size;position:relative;width:min(100%,700px);aspect-ratio:1;margin:8px auto}
-.orb{pointer-events:none;position:absolute;left:50%;top:50%;border:3px dashed #ffffff44;border-radius:50%;transform:translate(-50%,-50%);animation:spin var(--t) linear infinite;animation-delay:var(--d,0s)}
-.o0{width:42%;height:42%;--t:100s;--w:33.3%}.o1{width:64%;height:64%;--t:140s;--w:21.9%;--d:-50s}.o2{width:86%;height:86%;--t:180s;--w:16.3%;--d:-100s}
-.pw{position:absolute;left:50%;top:0;width:var(--w);transform:translate(-50%,-50%)}.pw.b{top:100%}
-.pb{pointer-events:auto;display:block;width:100%;min-width:0;min-height:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:#fff;border-radius:50%;animation:unspin var(--t) linear infinite;animation-delay:var(--d,0s)}
+.orb{pointer-events:none;position:absolute;left:50%;top:50%;border:3px dashed #ffffff44;border-radius:50%;transform:translate(-50%,-50%)}
+.o0{width:42%;height:42%}.o1{width:64%;height:64%}.o2{width:86%;height:86%}
+.pw{position:absolute;left:50%;top:50%;width:14%;transform:translate(-50%,-50%)}
+.pb{pointer-events:auto;display:block;width:100%;min-width:0;min-height:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:#fff;border-radius:50%}
 .gw{display:block}.pic{display:grid;place-items:center;width:100%;aspect-ratio:1;container-type:inline-size}
 .pic svg{display:block;width:100%;height:100%}.emo{font-size:85cqw;line-height:1}
-.pn{display:block;margin:0 -50%;text-align:center;font-size:max(11px,2.5cqw);text-shadow:0 0 4px #000,0 2px 2px #000}
+.lb{position:absolute;left:50%;top:50%;z-index:8;pointer-events:none;white-space:nowrap;font-weight:bold;font-size:max(11px,2.5cqw);color:#fff;text-shadow:0 0 4px #000,0 2px 2px #000;transform:translate(-50%,0);transform-origin:50% 0;transition:transform .45s cubic-bezier(.2,.9,.25,1.25)}
 .sun{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);min-width:0;min-height:0;padding:0;margin:0;border:0;border-radius:50%;background:none;box-shadow:none;color:#fff;filter:drop-shadow(0 0 14px #ffb703);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .se{font-size:11cqw;line-height:1}.sl{font-size:max(10px,2.2cqw);line-height:1.15;font-weight:bold;text-align:center;text-shadow:0 0 4px #000,0 2px 2px #000}
 .pb:hover,.pb:focus-visible{background:none}.pb:focus-visible{outline:none}
@@ -45,15 +45,25 @@ input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-
 .pb:hover .gw::before,.pb.hot .gw::before,.pb:focus-visible .gw::before{opacity:.85}
 .pb:hover .gw::after,.pb.hot .gw::after,.pb:focus-visible .gw::after{opacity:.75;animation:rot 16s linear infinite}
 .pb:focus-visible .gw{box-shadow:0 0 0 .6cqw #ff4d6d}
-.pn{transition:transform .45s cubic-bezier(.2,.9,.25,1.25)}
-.pb:hover .pn,.pb.hot .pn,.pb:focus-visible .pn{transform:translateY(3.6cqw);font-size:max(13px,3cqw)}
-.orb.hot{z-index:6}.pw.hot{z-index:3}
+.lb.hot{transform:translate(-50%,3.4cqw) scale(1.2)}
+.pw.hot{z-index:3}
+
 @media(prefers-reduced-motion:reduce){.gw::after{animation:none!important}}
-@keyframes spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-@keyframes unspin{to{transform:rotate(-360deg)}}
-@media(prefers-reduced-motion:reduce){.orb,.pb{animation:none}}
+
+
+
 .bigpl{width:150px;margin:8px auto}
-.ttl{text-align:center;font:900 2.3em/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;color:#ffe566;text-shadow:0 2px 0 #c77700,0 0 8px #ffb703,0 0 22px #ff9f1c,0 0 40px #ff9f1c88}
+.mapg{display:grid;gap:6px 16px;grid-template-areas:"user" "ttl" "hint" "sys" "lk" "right"}
+.mapg .usr{grid-area:user;display:flex;align-items:center;justify-content:flex-end;gap:8px;font-weight:bold}
+.mapg .usr button{min-height:40px;padding:4px 14px;font-size:.8em;margin:0}
+.mapg .ttl{grid-area:ttl;position:relative;z-index:9}.mapg .hint{grid-area:hint;margin:4px 0;text-align:center}.mapg .sys{grid-area:sys;width:min(100%,700px)}.mapg #lk{grid-area:lk;margin:4px 0}.mapg .rt{grid-area:right}
+@media(min-width:1000px){.mapg{position:relative;left:50%;transform:translateX(-50%);width:min(1240px,calc(100vw - 48px));grid-template-columns:270px minmax(0,1fr) 270px;grid-template-rows:auto auto 1fr auto;grid-template-areas:"ttl ttl ttl" "user sys right" "hint sys right" ". lk ." ;align-items:start;gap:0 20px}
+ .mapg .sys{width:min(100%,calc(100vh - 180px),760px);width:min(100%,calc(100dvh - 180px),760px);min-width:380px;justify-self:center;margin:22px auto 0}
+ .mapg .usr{flex-direction:column;align-items:stretch;text-align:center;gap:8px;padding:14px 16px;margin-top:10px;border-radius:22px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid #ffffff3d;box-shadow:0 10px 30px #0006}
+ .mapg .usr button{font-size:.9em}
+ .mapg .hint{text-align:left;font-size:.9em;opacity:.9;padding:10px 6px}
+ .mapg .rt{margin-top:10px}.mapg .rk{max-width:none;margin:0 0 14px}}
+.ttl{text-align:center;font:900 min(2.3em,8.4vw)/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;color:#ffe566;text-shadow:0 2px 0 #c77700,0 0 8px #ffb703,0 0 22px #ff9f1c,0 0 40px #ff9f1c88}
 #ov{position:fixed;inset:0;z-index:20;background:#070d33ee;display:grid;place-items:start center;padding:12px;overflow:auto}
 #ab{position:fixed;right:12px;bottom:12px;z-index:10;background:#fff}
 .sun.l{filter:grayscale(.7) drop-shadow(0 0 6px #fff6)}
@@ -423,22 +433,32 @@ let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={},sq=[],ms=new Set(),mm={},mt
 /* Planeten im Stil der Emoji-Planeten: glänzende Kugeln mit weichem Licht, ohne dicke Umrandung */
 const sph=(k,c,inner,after='')=>`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="b${k}" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="${c[0]}"/><stop offset=".5" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></radialGradient><radialGradient id="s${k}" cx=".38" cy=".32" r=".8"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".5"/></radialGradient><radialGradient id="h${k}"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><clipPath id="c${k}"><circle cx="50" cy="50" r="44"/></clipPath></defs><circle cx="50" cy="50" r="44" fill="url(#b${k})"/><g clip-path="url(#c${k})">${inner}</g><circle cx="50" cy="50" r="44" fill="url(#s${k})"/><ellipse cx="35" cy="27" rx="17" ry="10" fill="url(#h${k})" transform="rotate(-32 35 27)"/>${after}</svg>`;
 const ART={
+0:`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="bsa" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#ffecc0"/><stop offset=".5" stop-color="#f0b86a"/><stop offset="1" stop-color="#8f5524"/></radialGradient><radialGradient id="ssa" cx=".38" cy=".32" r=".8"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".5"/></radialGradient><radialGradient id="hsa"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><linearGradient id="rsa" x1="0" x2="1"><stop offset="0" stop-color="#b98a4a"/><stop offset=".5" stop-color="#fff0c4"/><stop offset="1" stop-color="#b98a4a"/></linearGradient><clipPath id="csa"><circle cx="50" cy="50" r="30"/></clipPath><clipPath id="fsa"><rect x="0" y="50" width="100" height="50"/></clipPath></defs><g transform="rotate(-18 50 50)"><ellipse cx="50" cy="50" rx="47" ry="13" fill="none" stroke="url(#rsa)" stroke-width="6"/><ellipse cx="50" cy="50" rx="38" ry="10.4" fill="none" stroke="url(#rsa)" stroke-width="3" opacity=".75"/></g><circle cx="50" cy="50" r="30" fill="url(#bsa)"/><g clip-path="url(#csa)"><path d="M0 38Q50 46 100 38V45Q50 53 0 45Z" fill="#a8672a" opacity=".4"/><path d="M0 56Q50 64 100 56V62Q50 70 0 62Z" fill="#fff" opacity=".35"/></g><circle cx="50" cy="50" r="30" fill="url(#ssa)"/><ellipse cx="40" cy="38" rx="12" ry="7" fill="url(#hsa)" transform="rotate(-32 40 38)"/><g transform="rotate(-18 50 50)"><g clip-path="url(#fsa)"><ellipse cx="50" cy="50" rx="47" ry="13" fill="none" stroke="url(#rsa)" stroke-width="6"/><ellipse cx="50" cy="50" rx="38" ry="10.4" fill="none" stroke="url(#rsa)" stroke-width="3" opacity=".75"/></g></g></svg>`,
+1:sph('ze',['#fff6d2','#f2d57f','#9d7d34'],'<path d="M14 40Q26 28 40 34Q42 48 28 54Q14 54 14 40Z" fill="#a98a3d" opacity=".3"/><path d="M60 62Q76 54 90 64Q84 82 66 84Q54 78 60 62Z" fill="#a98a3d" opacity=".28"/><g fill="#a98a3d" fill-opacity=".38" stroke="#fff8da" stroke-opacity=".6" stroke-width="1.6"><circle cx="62" cy="34" r="9"/><circle cx="34" cy="66" r="11"/><circle cx="70" cy="64" r="5"/><circle cx="50" cy="48" r="4"/><circle cx="24" cy="46" r="4"/></g>'),
+3:sph('le',['#9be6ff','#2d8be6','#0c3a8c'],'<g fill="#44bb68"><path d="M20 34Q32 20 48 28Q58 38 46 48Q40 60 30 54Q14 50 20 34Z"/><path d="M60 52Q74 44 86 58Q84 76 68 82Q56 72 60 52Z"/><path d="M52 14Q66 10 74 20Q64 28 52 14Z"/></g><g fill="#fff" opacity=".7"><ellipse cx="28" cy="68" rx="15" ry="4"/><ellipse cx="68" cy="34" rx="13" ry="3.6"/><ellipse cx="46" cy="86" rx="17" ry="4"/><ellipse cx="22" cy="24" rx="10" ry="3"/></g>'),
 2:sph('kn',['#e2d3ff','#9a78ee','#43299e'],'<path d="M0 24Q50 34 100 24V33Q50 43 0 33Z" fill="#5a3cc2" opacity=".5"/><path d="M0 40Q50 50 100 40V45Q50 55 0 45Z" fill="#fff" opacity=".4"/><path d="M0 54Q50 64 100 54V68Q50 78 0 68Z" fill="#43299e" opacity=".42"/><path d="M0 76Q50 84 100 76V80Q50 88 0 80Z" fill="#fff" opacity=".3"/><ellipse cx="64" cy="61" rx="10" ry="5.5" fill="#ffc6ee" opacity=".65"/>','<defs><radialGradient id="mkn" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#aeb0d6"/></radialGradient></defs><circle cx="86" cy="15" r="8" fill="url(#mkn)"/><circle cx="84" cy="13" r="2" fill="#8d90bd" opacity=".5"/>'),
 4:sph('sc',['#ffcba0','#e9583b','#82230f'],'<path d="M10 40Q30 28 46 36Q40 50 22 52Q8 52 10 40Z" fill="#7a1d0c" opacity=".28"/><path d="M58 70Q76 58 92 68Q84 86 64 86Q52 82 58 70Z" fill="#7a1d0c" opacity=".26"/><g fill="#7a1d0c" fill-opacity=".34" stroke="#ffb18a" stroke-opacity=".5" stroke-width="1.6"><circle cx="34" cy="38" r="9"/><circle cx="64" cy="58" r="12"/><circle cx="38" cy="70" r="6"/><circle cx="68" cy="28" r="5"/><circle cx="52" cy="46" r="3.5"/></g><ellipse cx="50" cy="8" rx="22" ry="8" fill="#fff" opacity=".85"/>'),
 5:sph('wo',['#b5f0ff','#2f8cf0','#0c2c80'],'<g fill="none" stroke="#fff" stroke-linecap="round" opacity=".7"><path d="M0 36Q25 20 50 36T100 32" stroke-width="6"/><path d="M0 60Q25 44 50 60T100 56" stroke-width="7"/><path d="M14 82Q50 66 86 82" stroke-width="5"/></g><ellipse cx="68" cy="47" rx="9" ry="4.5" fill="#0c2c80" opacity=".4"/>')};
 const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
 const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/2+2}px #fff) drop-shadow(0 0 ${b+3}px rgba(255,210,63,${.4+p/15}))`:''};
-/* Hover: anvisierter Planet wächst und tritt nach vorn, alle Bahnen drehen sich langsamer weiter */
-let HR=1,HT=1,HL=0;
-function hrate(){HR+=(HT-HR)*.12;if(Math.abs(HT-HR)<.01)HR=HT;document.getAnimations().forEach(a=>{const e=a.effect&&a.effect.target;if(e&&e.closest&&e.closest('.sys'))a.playbackRate=HR});HL=HR==HT?0:requestAnimationFrame(hrate)}
-function hot(b){document.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot'));if(b){b.classList.add('hot');b.closest('.pw').classList.add('hot');b.closest('.orb').classList.add('hot')}HT=b?.22:1;if(!HL)HL=requestAnimationFrame(hrate)}
+/* Bahnen per JS: so liegen die Namen immer über allen Planeten, der anvisierte Planet bleibt stehen, die anderen kreisen langsamer weiter */
+const ORB=[{r:21,w:3.6,a:-90},{r:32,w:2.6,a:39},{r:43,w:2,a:110}];
+const ANG=[0,1,2,3,4,5].map(i=>ORB[i%3].a+(i>2?180:0));
+const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+let HOT=-1,AF=0,TL=0;const SPD=[1,1,1,1,1,1];
+function place(i){const o=ORB[i%3],a=ANG[i]*Math.PI/180,x=50+o.r*Math.cos(a),y=50+o.r*Math.sin(a),p=$('#pw'+i),l=$('#lb'+i);if(!p||!l)return;p.style.left=l.style.left=x+'%';p.style.top=y+'%';l.style.top=(y+7.6)+'%'}
+function tick(t){if(!$('.sys')){AF=0;return}const dt=Math.min(.1,(t-TL)/1000||0);TL=t;
+ for(let i=0;i<6;i++){const g=HOT<0?1:i==HOT?0:.75;SPD[i]+=(g-SPD[i])*Math.min(1,dt*6);ANG[i]=(ANG[i]+ORB[i%3].w*SPD[i]*dt)%360;place(i)}
+ AF=requestAnimationFrame(tick)}
+function hot(b){document.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot'));HOT=-1;if(b){const i=+b.dataset.i;HOT=i;b.classList.add('hot');$('#pw'+i).classList.add('hot');$('#lb'+i).classList.add('hot')}}
 document.addEventListener('pointerover',e=>{if(e.pointerType=='touch')return;const b=e.target.closest&&e.target.closest('.pb');if(b?!b.classList.contains('hot'):document.querySelector('.pb.hot'))hot(b)});
 document.addEventListener('focusin',e=>{const b=e.target.closest&&e.target.closest('.pb');if(b&&b.matches(':focus-visible'))hot(b)});
 document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('.pb'))hot(null)});
 document.documentElement.addEventListener('mouseleave',()=>hot(null));
 const pic=i=>`<span class="pic">${ART[i]||`<span class="emo">${PL[i].e}</span>`}</span>`;
-function map(){window.speechSynthesis&&speechSynthesis.cancel();HR=HT=1;const t=total(),op=sunOpen();
- M.innerHTML=`<h1 class="ttl">🚀 Lernreise durchs All</h1><p class="c"><button class="sec" onclick="ask()">👤 ${esc(CUR)}${isAd()?' · Admin':''} · Name wechseln</button></p><p>Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}">${[k,k+3].map((i,j)=>`<div class="pw${j?' b':''}"><button class="pb" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="--gc:${PL[i].c};${gl(i)}">${pic(i)}</span><span class="pn">${PL[i].n}</span></button></div>`).join('')}</div>`).join('')}<button class="sun${op?'':' l'}" onclick="sun()" aria-label="Mission zur Sonne${op?'':', gesperrt'}"><span class="se">${op?'☀️':'🔒'}</span><span class="sl">Mission zur Sonne</span></button></div><p id="lk" role="status" aria-live="polite" class="c"></p>${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p>`}
+function map(){window.speechSynthesis&&speechSynthesis.cancel();HOT=-1;const t=total(),op=sunOpen();
+ M.innerHTML=`<div class="mapg"><div class="usr"><span>👤 ${esc(CUR)}${isAd()?' · Admin':''}</span><button class="sec" onclick="ask()">Name wechseln</button></div><h1 class="ttl">🚀 Lernreise im All</h1><p class="hint">Tippe auf einen Planeten oder auf die Sonne. Je heller ein Planet leuchtet, desto mehr hast du schon geschafft! ✨</p><div class="sys">${[0,1,2].map(k=>`<div class="orb o${k}"></div>`).join('')}<button class="sun${op?'':' l'}" onclick="sun()" aria-label="Mission zur Sonne${op?'':', gesperrt'}"><span class="se">${op?'☀️':'🔒'}</span><span class="sl">Mission zur Sonne</span></button>${[0,1,2,3,4,5].map(i=>`<div class="pw" id="pw${i}"><button class="pb" data-i="${i}" onclick="lv(${i})" aria-label="${PL[i].n}, ${PL[i].f}: ${PL[i].d}, ${pg(i)} von 9 Sternen"><span class="gw" style="--gc:${PL[i].c};${gl(i)}">${pic(i)}</span></button></div>`).join('')}${[0,1,2,3,4,5].map(i=>`<span class="lb" id="lb${i}" aria-hidden="true">${PL[i].n}</span>`).join('')}</div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="rt">${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p></div></div>`;
+ for(let i=0;i<6;i++)place(i);if(!RM&&!AF){TL=performance.now();AF=requestAnimationFrame(tick)}}
 function sun(){if(!sunOpen()){$('#lk').innerHTML='🔒 Die Sonne ist noch gesperrt. Spiele zuerst auf jedem Planeten mindestens eine Stufe durch. Es fehlen noch: <b>'+PL.filter((p,i)=>!U.c[i]).map(p=>p.n).join(', ')+'</b>';return}
  const cnt={};P=-1;LV=0;T=sh([...draw(smP,0,3,cnt),...draw(sdP,0,3,cnt)]).map(norm);I=0;PT=0;RS=[];show()}
 function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest. Die Aufgaben ändern sich dabei.</small></p></div>`}
@@ -526,7 +546,7 @@ function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;POPQ
  if(P>=0){const b0=nParts(total());D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save();for(let k=b0;k<nParts(total());k++)POPQ.push(k)}
  M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Weltklasse! 🚀'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`;
  scrollTo(0,0);if(POPQ.length)setTimeout(()=>popPart(POPQ.shift()),600)}
-function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise durchs All <b>${t} von 54 Sternen</b> gesammelt!</p><span class="cs">${ship(t,{light:1})}</span><p>${PL.map((p,i)=>`${p.e} ${p.n}: ${pg(i)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
+function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Weltraum-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Weltraum-Entdecker/in'"></label></p><p>hat bei der Lernreise im All <b>${t} von 54 Sternen</b> gesammelt!</p><span class="cs">${ship(t,{light:1})}</span><p>${PL.map((p,i)=>`${p.e} ${p.n}: ${pg(i)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
 
 const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const isAd=()=>CUR.toLowerCase()==ADM,sunOpen=()=>isAd()||[0,1,2,3,4,5].every(i=>U.c[i]);
