@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vulkan-Rätsel · Klasse 2</title>
+<style>
+:root{--bg:#1a0707;--bg2:#2d0f0a;--card:#3a1812;--card2:#4a2018;--tx:#fff4e6;--mut:#f3c9a5;--or:#ff7a1a;--ye:#ffd23f;--red:#e63d1f;--ok:#2fbf71;--no:#e0433a;--ln:#6b2a1c}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 120%,#8a1f06 0,#2d0f0a 45%,#1a0707 100%) fixed;color:var(--tx);font:18px/1.45 system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+#emb{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#app{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:12px 16px 40px}
+h1{font-size:1.5em;margin:.3em 0;line-height:1.2}h2{font-size:1.15em;margin:.3em 0}
+p{margin:.55em 0}
+.c{text-align:center}.mini,small{color:var(--mut);font-size:.85em}small{display:block}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:2px solid var(--ln);border-radius:18px;padding:14px 16px;margin:12px 0;box-shadow:0 4px 18px #0008}
+button,.lnk{font:inherit;cursor:pointer;border-radius:14px;border:2px solid var(--ln);background:var(--card2);color:var(--tx);padding:.55em 1em;min-height:48px;text-decoration:none;display:inline-block}
+button:hover:not(:disabled){filter:brightness(1.15)}
+button:focus-visible,.lnk:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid var(--ye);outline-offset:2px}
+.big{background:linear-gradient(180deg,#ffe066,#ffb703);color:#3a1200;border:0;font-weight:800;font-size:1.15em;padding:.7em 1.4em;box-shadow:0 5px 0 #b86a00;margin:.2em}
+.big:active{transform:translateY(3px);box-shadow:0 2px 0 #b86a00}
+.sec{background:#2a0e09}.sm{min-height:44px;padding:.35em .8em;font-size:.9em}
+input{font:inherit;padding:.6em .8em;border-radius:12px;border:3px solid var(--or);background:#fff8ee;color:#3a1200;width:min(320px,100%);text-align:center}
+#ue{color:#ff9d8f;min-height:1.4em}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.top{text-align:center;padding-top:6px}.top h1{font-size:1.9em;text-shadow:0 0 18px #ff6b35}.sub{color:var(--mut);margin:0}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.bar h1{margin:0;font-size:1.3em}
+.bigE{font-size:3.4em;line-height:1.1}
+.gems{font-size:1.7em;letter-spacing:.15em;margin:.2em 0}.gem:not(.on){opacity:.4}.gemnew{font-size:1.2em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:16px 12px;border-radius:18px;background:linear-gradient(180deg,#5a2a1a,#3a1812);min-height:170px}
+.mode.hot{background:linear-gradient(180deg,#a8260c,#5c1409);border-color:var(--or)}
+.mode b{font-size:1.2em}.mode small{color:var(--tx);opacity:.85}.mi{font-size:2.4em}
+.opt{display:flex;flex-direction:column;gap:6px;align-items:center}
+.map{list-style:none;margin:10px 0;padding:0;display:flex;flex-direction:column;gap:12px;position:relative}
+.node{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;background:linear-gradient(180deg,#4f2216,#33130d);min-height:78px}
+.node.done{border-color:var(--ye)}.node.fin{background:linear-gradient(180deg,#a8260c,#5c1409);border-color:var(--or)}
+.node:disabled{opacity:.55;cursor:not-allowed}
+.ne{font-size:2.2em;flex:none}.nt{flex:1;display:flex;flex-direction:column}.nt small{color:var(--mut)}.ns{flex:none;font-size:.95em;white-space:nowrap}
+.map li:nth-child(even) .node{margin-left:18px}.map li:nth-child(odd) .node{margin-right:18px}
+/* Lauf */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:6px}.ttl{flex:1;min-width:0;text-align:center;overflow-wrap:anywhere;line-height:1.15}
+.pan{display:flex;align-items:center;gap:14px;padding:10px 14px}
+.volc{width:min(34%,170px);flex:none;height:auto;overflow:visible}
+.volc.hot{animation:shake .25s infinite}
+@keyframes shake{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+.wv{animation:wave 1.6s linear infinite}@keyframes wave{to{transform:translateX(40px)}}
+.side{flex:1;display:flex;flex-direction:column;gap:10px;min-width:0}
+.fuse{display:flex;align-items:center;gap:6px}
+.rope{flex:1;position:relative;height:16px;border-radius:10px;background:#1a0907;border:2px solid var(--ln)}
+.rope i{position:absolute;right:0;top:0;bottom:0;border-radius:8px;background:repeating-linear-gradient(45deg,#c9a26b 0 6px,#a4793f 6px 12px);transition:none}
+.rope i.low{background:repeating-linear-gradient(45deg,#ff6b35 0 6px,#e63d1f 6px 12px)}
+.rope b{position:absolute;top:-12px;font-size:22px;transform:translateX(-50%);filter:drop-shadow(0 0 6px #ffb703)}
+.bomb{font-size:1.8em}
+.dots{display:flex;gap:6px;flex-wrap:wrap}.dots i{width:14px;height:14px;border-radius:50%;background:#2a0e09;border:2px solid var(--ln)}
+.dots i.g{background:var(--ok);border-color:var(--ok)}.dots i.r{background:var(--no);border-color:var(--no)}.dots i.c{border-color:var(--ye);background:#6b4a10}
+.sc{font-size:1.05em}.lt{color:var(--mut);font-size:.85em}
+.pz{min-height:340px}
+.q{font-size:1.35em;font-weight:700;text-align:center;margin:.2em 0 .5em}
+.vis{text-align:center;margin:.3em 0 .6em;font-size:1.1em}
+.vis .big{font-size:1.7em;font-weight:800;letter-spacing:.04em;background:none;box-shadow:none;color:var(--ye);padding:0;border:0;display:block}
+.em{font-size:2.4em;line-height:1.25;display:inline-block}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opts.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.o{min-width:0;overflow-wrap:anywhere}
+.o{min-height:68px;font-size:1.25em;font-weight:700;background:linear-gradient(180deg,#5a2a1a,#3d170f);border-color:#8a4020;padding:.4em .5em;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;text-align:center;line-height:1.2}.o small{font-size:.75em;color:var(--tx);margin:0}
+.o .eo{font-size:2em;display:block;line-height:1.1}
+.o.ok{background:linear-gradient(180deg,#3fd98a,#1f9a58);border-color:#c9ffe0;color:#04230f}
+.o.no{background:linear-gradient(180deg,#f0594c,#b32a20);border-color:#ffd0ca}
+.o.dim{opacity:.5}
+.coins{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.coin{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;font-weight:800;font-size:1.05em;color:#2a1600;border:3px solid #0004;line-height:1}.coin small{font-size:.65em;color:#2a1600;margin:0}
+.dt2{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:2px solid #fff6;vertical-align:middle;font-weight:800}
+#fb{min-height:1.4em;font-size:1rem;color:var(--tx)}
+.cd{font-size:5em;font-weight:900;text-align:center;color:var(--ye);text-shadow:0 0 20px #ff6b35;margin-top:.4em}
+.stars{font-size:2em;margin:.2em 0}
+.fl{padding-left:1.1em}.fl li{margin:.5em 0}
+details.card summary{cursor:pointer;font-weight:700}
+.lb{padding-left:1.4em;margin:.3em 0}
+#ov{position:fixed;inset:0;background:#000b;z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto}
+#ab{position:fixed;right:10px;bottom:10px;z-index:40;background:#ffb703;color:#3a1200;border:0;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:.85em}th,td{border:1px solid var(--ln);padding:4px 6px;text-align:left}
+.cert{background:#fff8ee;color:#3a1200;border:6px double #b86a00}.cert .nm{font-size:2em;font-weight:800;color:#a8260c}.cert input{border-color:#b86a00}
+@media(max-width:560px){body{font-size:17px}.two{grid-template-columns:1fr}.mode{min-height:0;flex-direction:row;text-align:left}.mode small{display:block}.mi{font-size:2em}
+.pan{padding:8px 10px;gap:8px}.volc{width:30%}.pz{min-height:0}.q{font-size:1.2em}.o{min-height:60px;font-size:1.1em}.em{font-size:2em}.map li:nth-child(n) .node{margin:0}.nt small:nth-child(3){display:none}}
+
+/* ---- Hub ---- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:4px}
+.chip{display:inline-block;background:#2a0e09cc;border:2px solid var(--ln);border-radius:999px;padding:.15em .8em;font-size:.9em;font-weight:700;white-space:nowrap}
+.wall{display:inline-block}.wall>div{display:flex;justify-content:center;gap:4px;margin:4px 0}.wc{min-width:46px;padding:6px 8px;border:2px solid var(--ln);background:#2a0e09;border-radius:8px;font-weight:800;font-size:1.1em}
+.logo{text-align:center;margin:.35em 0 0;line-height:1}
+.logo span{display:block;font-size:2.7em;font-weight:900;letter-spacing:.08em;background:linear-gradient(180deg,#fff2a8,#ffb703 45%,#ff5a1f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #5a1404) drop-shadow(0 0 14px #ff6b3588)}
+.logo small{display:block;font-size:.62em;font-weight:600;color:var(--mut);letter-spacing:.14em;text-transform:uppercase;margin-top:.5em}
+.hero{display:block;width:min(430px,94%);height:auto;margin:.2em auto 0;cursor:pointer;overflow:visible;-webkit-tap-highlight-color:transparent}
+.pulse{animation:pulse 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.78;transform:scale(1.05)}}
+.fl2{stroke-dasharray:14 12;animation:flow 1.4s linear infinite}.fl2.in{stroke-dasharray:6 20;animation-duration:1.1s}
+@keyframes flow{to{stroke-dashoffset:-26}}
+.smk{opacity:0;animation:smoke 4s ease-out infinite;transform-box:fill-box;transform-origin:center}.smk.s2{animation-delay:1.3s}.smk.s3{animation-delay:2.6s}
+@keyframes smoke{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:.7}100%{opacity:0;transform:translate(14px,-58px) scale(1.9)}}
+.sp{fill:#ffb703;opacity:0;animation:spark 2.4s ease-out infinite}
+.sp2{fill:#ffd23f;opacity:0;animation:spark 1.1s ease-out forwards}
+@keyframes spark{0%{opacity:0;transform:translate(0,0)}12%{opacity:1}100%{opacity:0;transform:translate(var(--dx),calc(var(--h)*-1))}}
+.cta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:.6em 0 .2em}
+.cbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:132px;border:0;border-radius:22px;padding:12px 8px;position:relative;overflow:hidden}
+.cbtn .ci{font-size:2.6em;line-height:1}.cbtn .cw{font-size:1.5em;font-weight:900;letter-spacing:.03em}.cbtn .cs{font-size:.8em;opacity:.9}
+.cbtn.a{background:linear-gradient(180deg,#ffe066,#ffa726);color:#3a1200;box-shadow:0 7px 0 #b25e00,0 10px 24px #0008}
+.cbtn.b{background:linear-gradient(180deg,#ff6b35,#c81d00);color:#fff;box-shadow:0 7px 0 #7a0e00,0 0 28px #ff4d0099;animation:glowb 2s ease-in-out infinite}
+@keyframes glowb{50%{box-shadow:0 7px 0 #7a0e00,0 0 44px #ff7a1acc}}
+.cbtn:active{transform:translateY(4px)}
+.gemrow{display:flex;gap:10px;justify-content:center;font-size:1.5em;margin:.6em 0;flex-wrap:wrap}.gem:not(.on){opacity:.35;font-size:.8em;align-self:center}
+.tools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.tools>*{width:70px;min-height:68px;padding:.3em .2em;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.72rem;line-height:1.1;border-radius:16px;background:#2a0e09cc;text-align:center}
+.tools>* span{font-size:1.7rem;line-height:1}
+.tools button.on{border-color:var(--ye);background:#4a3010;box-shadow:0 0 12px #ffb70366}
+/* ---- Karte ---- */
+.mapbar{justify-content:space-between}.mapbar h1{flex:1;text-align:center}
+.mapwrap{position:relative;width:100%;max-width:540px;margin:10px auto;aspect-ratio:400/900;border-radius:22px;overflow:hidden;border:3px solid var(--ln);box-shadow:0 8px 30px #000a}
+.mapsvg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.tw{animation:tw 3s ease-in-out infinite}@keyframes tw{50%{opacity:.15}}
+.riv{stroke-dasharray:18 10;animation:flow 2.4s linear infinite}.riv.in{stroke-dasharray:8 20}
+.trail{fill:none;stroke-linecap:round}
+.trail.cold{stroke:#6d4636;stroke-width:6;stroke-dasharray:1 14;opacity:.9}
+.trail.hot{stroke:#c2310a;stroke-width:12;stroke-dasharray:22 12;animation:flow 1.6s linear infinite;filter:drop-shadow(0 0 6px #ff6b35)}
+.trail.hot.in{stroke:#ffd23f;stroke-width:5;stroke-dasharray:8 26;animation-duration:1.1s}
+.pins{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+.pin{position:absolute;margin:0}
+.pin.L{transform:translate(-30px,-50%)}.pin.R{transform:translate(30px,-50%)}.pin.C{transform:translate(-50%,-50%)}
+.pn{display:flex;align-items:center;gap:8px;background:none;border:0;padding:0;min-height:0;text-align:left;color:var(--tx)}
+.pin.R .pn{flex-direction:row-reverse;text-align:right}.pin.C .pn{flex-direction:column-reverse;gap:6px;text-align:center}
+.pc{position:relative;flex:none;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#a8552f,#4a1d12 70%);border:4px solid #8a4a30;box-shadow:0 4px 0 #1d0807,0 0 0 0 #ff7a1a}
+.pe{font-size:30px;line-height:1}
+.pin.done .pc{border-color:var(--ye);box-shadow:0 4px 0 #1d0807,0 0 16px #ff9a2a}
+.pin.act .pc{border-color:#ffe066;animation:ring 1.5s ease-out infinite}
+@keyframes ring{0%{box-shadow:0 4px 0 #1d0807,0 0 0 0 #ffb703cc}100%{box-shadow:0 4px 0 #1d0807,0 0 0 16px #ffb70000}}
+.pin.fin .pc{width:74px;height:74px;background:radial-gradient(circle at 35% 30%,#ff8a3a,#9c1a05 70%);border-color:#ffd23f;box-shadow:0 4px 0 #1d0807,0 0 22px #ff4d00}
+.pin.fin .pe{font-size:38px}
+.pin.lock .pc{background:radial-gradient(circle at 35% 30%,#4a3a36,#1d1412 70%);border-color:#4a3a36;box-shadow:0 4px 0 #0d0605}
+.pin.lock .pn{cursor:not-allowed}
+.pl{display:flex;flex-direction:column;background:#1a0707e6;border:2px solid var(--ln);border-radius:12px;padding:3px 10px 4px;white-space:nowrap;box-shadow:0 3px 10px #0008}
+.pl b{font-size:14px;line-height:1.25}.pl i{font-style:normal;font-size:12px;color:var(--mut);line-height:1.2}
+.pin.lock .pl{opacity:.8}
+.gb{position:absolute;right:-8px;bottom:-6px;font-size:20px;filter:drop-shadow(0 0 4px #000)}
+.mascot{position:absolute;top:-30px;right:-14px;font-size:30px;animation:hop 1s ease-in-out infinite;filter:drop-shadow(0 2px 2px #000a)}
+@keyframes hop{50%{transform:translateY(-8px)}}
+/* ---- Lauf: Lava im Hintergrund ---- */
+#lavabg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#lavabg .lv{position:absolute;left:0;right:0;top:0;height:100%;transform:translateY(100vh);filter:drop-shadow(0 -8px 18px #ff6b35cc)}
+#lavabg .lw{position:absolute;left:0;top:-38px;width:200%;height:40px;animation:wavem 5s linear infinite}
+@keyframes wavem{to{transform:translateX(-50%)}}
+#lavabg .lb2{position:absolute;left:0;right:0;top:0;height:120vh;background:radial-gradient(circle at 20% 30%,#ffd23f55 0,#0000 22%),radial-gradient(circle at 75% 60%,#ffb70044 0,#0000 26%),linear-gradient(#ffb703 0,#ff7a1a 14%,#e8480f 45%,#a81c05 100%)}
+#lavabg.hot .lv{filter:drop-shadow(0 -10px 26px #ff3d00)}
+#lavabg .lfl{position:absolute;left:0;right:0;border-top:3px dashed #ffe9b0aa;display:none;z-index:2}
+#lavabg .lfl span{position:absolute;right:8px;top:-22px;font-size:.72rem;font-weight:800;background:#1a0707cc;color:#ffe9b0;padding:1px 8px;border-radius:8px}
+.hud{background:#1a0707dd;border:2px solid var(--ln);border-radius:16px;padding:6px 8px}
+.pan{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px}
+.info{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.rules{list-style:none;padding:0;margin:.6em 0;text-align:left;display:inline-block}.rules li{margin:.55em 0}
+@media(max-width:420px){.opts{gap:7px}.opts.c3 .o{font-size:1em;padding:.4em .2em}.opts.c3 .o .big{font-size:1.3em!important}.hud .sm{padding:.35em .55em;font-size:.85em}.tools{gap:6px}.tools>*{width:60px}}
+@media(max-width:560px){.logo span{font-size:2.2em}.cbtn{min-height:118px}.cbtn .cw{font-size:1.25em}.tools>*{width:62px}.pl b{font-size:13px}.pl i{font-size:11px}}
+
+@media print{body{background:#fff!important;color:#000}#emb,.noprint,#ab{display:none!important}.cert{border-color:#000}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<canvas id="emb" aria-hidden="true"></canvas>
+<main id="app"></main>
+<script>
+"use strict";
+const $=s=>document.querySelector(s),R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a},pk=a=>a[R(0,a.length-1)];
+const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+let DB={u:{},calm:0,cur:''},CUR='',U=null;try{const d=JSON.parse(localStorage.getItem('vulkan2'));if(d&&d.u)DB=Object.assign(DB,d)}catch(e){}
+const save=()=>{try{localStorage.setItem('vulkan2',JSON.stringify(DB))}catch(e){}};
+const mkU=()=>({s:{},g:{},hi:0,f:[],n:0,r:0}),isAd=()=>CUR.toLowerCase()==ADM;
+const NF=s=>s.toLowerCase().replace(/ß/g,'ss').replace(/[äàá]/g,'a').replace(/[öòó]/g,'o').replace(/[üùú]/g,'u').replace(/[éè]/g,'e');
+const RN=new Set(NF("emma mia hannah hanna sophia sofia sophie emilia lina marie lea leonie lena anna clara klara johanna laura lara amelie mila ella nele charlotte maja maya luisa louisa paula pia lilly lilli lia julia sarah sara zoe nora greta frieda frida ida merle jana lisa katharina katja selina celina emily chiara elena eva jule finja fiona alina mara marlene tessa carla helena isabell isabella josefine leni matilda mathilda melina mira nina rosa ronja sina stella svenja theresa vanessa viktoria victoria yasmin zeynep ayla elif fatma aylin amira leyla alexandra anja andrea sabine petra monika claudia sandra nicole melanie christina kristina jessica jasmin anke birgit susanne katrin lotta emmi inga jette olivia sonja tina nadine miriam annika mareike noah ben leon elias paul finn fynn felix luis louis lukas luca luka jonas maximilian max henry henri emil anton theo oskar oscar moritz jakob jacob liam niklas nico nils tim tom jan jannik jannis david daniel julian samuel simon philipp tobias matteo mattis milan mohammed muhammad ali mustafa yusuf emir eren can ahmet mehmet alexander johannes fabian florian sebastian marcel dennis kevin patrick marvin lennard leonard linus levi mats malte marlon jonathan justus konstantin vincent karl carl hugo rafael raphael erik eric jannes jakub michael thomas stefan andreas christian peter markus frank jurgen klaus hans wolfgang uwe ralf dirk jens torsten bernd matthias martin sven kai lars timo dominik benjamin joshua jason ole juri tristan valentin ferdinand fritz otto ludwig bruno arthur adrian aaron leo leandro lenny luan noel nelson mika mikail enzo ismail ibrahim omar hamza murat kerem emre burak muller schmidt schneider fischer weber meyer wagner becker schulz hoffmann schafer koch bauer richter schroder neumann zimmermann kruger hofmann hartmann lange schmitt werner schmitz krause meier lehmann schmid schulze maier kohler herrmann konig walter mayer huber kaiser peters lang scholz moller schubert friedrich keller gunther berger winkler lorenz baumann franke albrecht schuster simon ludwig bohm kraus schumacher kramer vogt jager seidel heinrich brandt haas schreiber graf schulte dietrich ziegler kuhn pohl bergmann voigt sauer arnold pfeiffer yilmaz kaya demir sahin celik yildiz ozturk arslan dogan kilic aydin nowak kowalski wojcik kaminski lewandowski kastner").split(' '));
+const isReal=n=>n.replace(/([a-zäöüß])([A-ZÄÖÜ])/g,'$1 $2').split(/[^a-zA-ZäöüÄÖÜß]+/).map(NF).some(x=>x.length>1&&RN.has(x));
+const nameErr=v=>{if(v.toLowerCase()==ADM)return'';if(v.length<2)return'Bitte schreibe mindestens 2 Zeichen.';if(/\s/.test(v))return'Bitte nur ein Wort, ohne Leerzeichen. Beispiel: Sternenfuchs';if(/@|\d{4,}/.test(v))return'Bitte keine E-Mail-Adresse und keine Telefonnummer.';return isReal(v)?'Das sieht nach einem echten Namen aus. Denke dir einen Geheimnamen aus, zum Beispiel „Sternenfuchs“.':''};
+
+/* ===== Rätsel-Generatoren Klasse 2 ===== */
+const t_=o=>Array.isArray(o)?{h:o[0],l:o[1]}:{h:String(o),l:String(o)};
+function mk(q,cor,wr,x={}){const C=t_(cor),seen=new Set([C.l]),W=[];for(const w of sh(wr)){const o=t_(w);if(!seen.has(o.l)){seen.add(o.l);W.push(o)}}
+ const n=x.n||4,O=sh([C,...W.slice(0,n-1)]);return{q,vis:x.vis||'',opts:O,a:O.indexOf(C),say:x.say||q,pre:x.pre,preMs:x.preMs||3000,preQ:x.preQ,cls:O.length==3?'c3':'',tm:x.tm||1}}
+const nd=(c,lo,hi,k=3,extra=[])=>{const s=new Set();for(const d of [...extra.map(v=>v-c),...sh([1,-1,2,-2,10,-10,5,-5,11,-11,9,-9,3,-3,20,-20])]){const v=c+d;if(v>=lo&&v<=hi&&v!=c)s.add(String(v));if(s.size>=k)break}return[...s]};
+const eC=c=>c>=100?(Math.floor(c/100)+' € '+(c%100?(c%100)+' ct':'')).trim():c+' ct';
+/* --- Mathe --- */
+const g_kopf=()=>{if(R(0,1)){const a=R(12,80),b=R(0,1)?R(2,9):R(10,19),s=a+b;if(s>100)return g_kopf();return mk(`${a} + ${b} = ?`,String(s),nd(s,0,100),{say:`${a} plus ${b}`})}
+ const a=R(25,99),b=R(0,1)?R(2,9):R(10,24);return mk(`${a} − ${b} = ?`,String(a-b),nd(a-b,0,100),{say:`${a} minus ${b}`})};
+const g_einmal=()=>{const a=pk([2,3,4,5,10]),b=R(1,10),p=a*b;return mk(`${a} · ${b} = ?`,String(p),nd(p,0,100,3,[p+a,p-a,a+b]),{say:`${a} mal ${b}`})};
+const g_folge=()=>{const d=pk([2,3,5,10]),down=R(0,1)&&d!=3,s=down?R(50,90):R(0,20),sq=[0,1,2,3].map(i=>s+(down?-i:i)*d),nx=s+(down?-4:4)*d;return mk('Wie geht die Zahlenfolge weiter?',String(nx),nd(nx,0,120,3,[nx+d,nx-d,nx+1]),{vis:`<div class="big">${sq.join(', ')}, ❓</div>`,say:'Wie geht die Zahlenfolge weiter? '+sq.join(', ')})};
+const g_mehrwenig=()=>{const t=sh([1,2,3,4,5,6,7,8,9]).slice(0,4),N=t.map(x=>x*10+R(0,9)),big=R(0,1),c=big?Math.max(...N):Math.min(...N);return mk(big?'Welche Zahl ist die größte?':'Welche Zahl ist die kleinste?',String(c),N.filter(x=>x!=c).map(String),{say:(big?'Welche Zahl ist die größte?':'Welche Zahl ist die kleinste?')})};
+const g_verdopp=()=>{if(R(0,1)){const a=R(6,45);return mk(`Das Doppelte von ${a} ist …`,String(a*2),nd(a*2,0,100),{say:`Das Doppelte von ${a}`})}const a=R(3,45)*2;return mk(`Die Hälfte von ${a} ist …`,String(a/2),nd(a/2,0,100),{say:`Die Hälfte von ${a}`})};
+const g_zerl=()=>{const n=pk([20,30,40,50,60,70,80,90,100]),a=R(1,n/10-1)*10;return mk(`${n} = ${a} + ?`,String(n-a),nd(n-a,0,100,3,[n-a+10,n-a-10,a]),{say:`${n} ist ${a} plus wie viel?`})};
+const g_zehner=()=>{let Z=R(1,9),E=R(1,9);if(Z==E)E=(E%9)+1;return mk(`Welche Zahl hat ${Z} Zehner und ${E} Einer?`,String(Z*10+E),[String(E*10+Z),`${Z}0${E}`,String(Z+E),String(Z*10+E+10)])};
+const EMO=[['🍎','Äpfel'],['🐟','Fische'],['⭐','Sterne'],['🐚','Muscheln'],['🎈','Luftballons'],['🦋','Schmetterlinge'],['🍓','Erdbeeren'],['🐞','Marienkäfer'],['🌸','Blumen']];
+const g_zaehl=()=>{const [e,w]=pk(EMO),n=R(5,15);let s=Array(n).fill(e);if(R(0,1)){const o=pk(EMO.filter(x=>x[0]!=e))[0];s=sh([...s,...Array(R(3,6)).fill(o)])}
+ return mk(`Wie viele ${w} siehst du?`,String(n),nd(n,2,20),{vis:`<div class="em" role="img" aria-label="Bilder zum Zählen">${s.join('')}</div>`,tm:1.3})};
+const clockSvg=(h,m)=>{let s='<circle cx="50" cy="50" r="46" fill="#fff8e8" stroke="#2a0a00" stroke-width="4"/>';for(let i=1;i<=12;i++){const a=i*Math.PI/6;s+=`<text x="${(50+36*Math.sin(a)).toFixed(1)}" y="${(54-36*Math.cos(a)).toFixed(1)}" font-size="11" font-weight="800" text-anchor="middle" fill="#2a0a00" font-family="Arial">${i}</text>`}
+ const ha=((h%12)+m/60)*Math.PI/6,ma=m*Math.PI/30;s+=`<path d="M50 50L${(50+22*Math.sin(ha)).toFixed(1)} ${(50-22*Math.cos(ha)).toFixed(1)}" stroke="#2a0a00" stroke-width="5" stroke-linecap="round"/><path d="M50 50L${(50+34*Math.sin(ma)).toFixed(1)} ${(50-34*Math.cos(ma)).toFixed(1)}" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="50" r="3.5" fill="#2a0a00"/>`;return `<svg viewBox="0 0 100 100" width="150" role="img" aria-label="Uhr">${s}</svg>`};
+const g_uhr=()=>{const t=pk([0,15,30,45]),h=R(1,12),n=h%12+1,T={0:`${h} Uhr`,15:`Viertel nach ${h}`,30:`halb ${n}`,45:`Viertel vor ${n}`}[t],pool=[`${h} Uhr`,`halb ${h}`,`halb ${n}`,`Viertel nach ${h}`,`Viertel vor ${h}`,`Viertel vor ${n}`,`${n} Uhr`];return mk('Wie spät ist es?',T,pool.filter(x=>x!=T),{vis:`<div class="c">${clockSvg(h,t)}</div>`,say:'Wie spät ist es? Schau auf die Uhr.'})};
+const COINS={5:'#c97b3a',10:'#d9a441',20:'#d9a441',50:'#d9a441',100:'#d8dde2',200:'#d8dde2'};
+const g_geld=()=>{let c=[],s=0;do{c=Array.from({length:R(3,4)},()=>pk([5,10,20,50,100,200])).sort((a,b)=>b-a);s=c.reduce((a,b)=>a+b,0)}while(s>400);
+ const ch=c.map(v=>`<span class="coin" style="background:${COINS[v]}" aria-label="${eC(v)}">${v>=100?v/100:v}<small>${v>=100?'€':'ct'}</small></span>`).join('');
+ const wr=[s+10,s-10,s+20,s-20,s+50,s-50,s+100].filter(x=>x>0&&x!=s).map(eC);return mk('Wie viel Geld ist das?',eC(s),wr,{vis:`<div class="coins" role="img" aria-label="Münzen">${ch}</div>`,tm:1.3})};
+const SHP={Kreis:(c,z)=>`<circle cx="30" cy="30" r="24" fill="${c}" stroke="#2a0a00" stroke-width="3"/>`,Dreieck:(c)=>`<path d="M30 6L55 52H5Z" fill="${c}" stroke="#2a0a00" stroke-width="3" stroke-linejoin="round"/>`,Quadrat:(c)=>`<rect x="8" y="8" width="44" height="44" fill="${c}" stroke="#2a0a00" stroke-width="3"/>`,Rechteck:(c)=>`<rect x="3" y="14" width="54" height="32" fill="${c}" stroke="#2a0a00" stroke-width="3"/>`,Fünfeck:(c)=>`<path d="M30 5L55 23L46 53H14L5 23Z" fill="${c}" stroke="#2a0a00" stroke-width="3" stroke-linejoin="round"/>`};
+const shp=(k,c,w=64)=>`<svg viewBox="0 0 60 60" width="${w}" role="img" aria-label="${k}">${SHP[k](c)}</svg>`;
+const SC=['#ff8c1a','#4da3ff','#7be08f','#ff6f91','#c9b6ff','#ffd23f'];
+const g_form=()=>{const K=Object.keys(SHP);if(R(0,1)){const k=pk(K);return mk('Wie heißt diese Form?',k,K.filter(x=>x!=k),{vis:`<div class="c">${shp(k,pk(SC),110)}</div>`})}
+ const t=pk([['hat genau 3 Ecken','Dreieck'],['hat keine Ecken','Kreis'],['hat genau 5 Ecken','Fünfeck']]),ks=sh(K.filter(x=>x!=t[1]&&x!='Rechteck'&&x!='Quadrat')).slice(0,1).concat(['Quadrat','Rechteck']).filter(x=>x!=t[1]);
+ const o=[...new Set([...ks,...sh(K).filter(x=>x!=t[1])])].slice(0,3);return mk(`Welche Form ${t[0]}?`,[shp(t[1],pk(SC),70),t[1]],o.map(k=>[shp(k,pk(SC),70),k]))};
+const FR=['🍎','🍌','🍓','🍇','🍒','🍐'];
+const g_bildsumme=()=>{const [e1,e2]=sh(FR),a=R(2,8);let b=R(1,8);if(b==a)b=b%8+1;return mk(`Wie viel ist ${e2} wert?`,String(b),nd(b,0,20,3,[a,a+b]),{vis:`<div class="big">${e1}${e1} = ${2*a}<br>${e1}${e2} = ${a+b}<br>${e2} = ❓</div>`,say:'Bilderrätsel. Wie viel ist die zweite Frucht wert?',tm:1.4})};
+/* --- Sachunterricht --- */
+const WAT=[['🐟','Fisch'],['🐬','Delfin'],['🦀','Krebs'],['🐙','Tintenfisch'],['🦈','Hai'],['🐢','Schildkröte']],LND=[['🐶','Hund'],['🐄','Kuh'],['🐘','Elefant'],['🦁','Löwe'],['🐴','Pferd'],['🦊','Fuchs'],['🐇','Hase']],AIR=[['🦅','Adler'],['🦉','Eule'],['🦋','Schmetterling'],['🐝','Biene'],['🐦','Vogel']];
+const eo=a=>[`<span class="eo">${a[0]}</span><small>${a[1]}</small>`,a[1]];
+const g_leben=()=>{const t=pk([['Welches Tier lebt im Wasser?',WAT,[...LND,...AIR]],['Welches Tier kann fliegen?',AIR,[...LND,...WAT]],['Welches Tier lebt an Land und kann nicht fliegen?',LND,[...WAT,...AIR]],['Welches Tier lebt NICHT im Wasser?',[...LND,...AIR],WAT]]);const c=pk(t[1]);return mk(t[0],eo(c),sh(t[2]).slice(0,3).map(eo))};
+const PROD=[['Kuh','🐄','Milch','🥛'],['Huhn','🐔','Eier','🥚'],['Schaf','🐑','Wolle','🧶'],['Biene','🐝','Honig','🍯']];
+const g_tierprod=()=>{const p=pk(PROD),o=PROD.filter(x=>x!=p);return mk(`Wer gibt uns ${p[2]} ${p[3]}?`,eo([p[1],p[0]]),o.map(x=>eo([x[1],x[0]])))};
+const g_jahres=()=>{const Q=[['Die Blätter fallen von den Bäumen.','Herbst'],['Es schneit und wir bauen einen Schneemann.','Winter'],['Die ersten Blumen blühen. Ostern ist bald.','Frühling'],['Wir gehen im See baden. Es ist heiß.','Sommer'],['Wir sammeln Kastanien und lassen Drachen steigen.','Herbst'],['Wir fahren Schlitten.','Winter'],['Die Vögel bauen Nester.','Frühling'],['Die Sommerferien beginnen.','Sommer']],q=pk(Q),S={Frühling:'🌸',Sommer:'☀️',Herbst:'🍂',Winter:'❄️'};
+ return mk(`In welcher Jahreszeit ist das? ${q[0]}`,[`<span class="eo">${S[q[1]]}</span><small>${q[1]}</small>`,q[1]],Object.keys(S).filter(x=>x!=q[1]).map(x=>[`<span class="eo">${S[x]}</span><small>${x}</small>`,x]),{say:`In welcher Jahreszeit ist das? ${q[0]}`})};
+const KOERP=[['Womit hören wir?','Ohren','👂'],['Womit sehen wir?','Augen','👀'],['Womit riechen wir?','Nase','👃'],['Womit schmecken wir?','Zunge','👅'],['Womit gehen wir?','Beine','🦵'],['Womit halten wir einen Stift?','Hand','✋']];
+const g_koerper=()=>{const q=pk(KOERP),o=KOERP.filter(x=>x!=q);return mk(q[0],eo([q[2],q[1]]),sh(o).slice(0,3).map(x=>eo([x[2],x[1]])))};
+const VK=[['Die Ampel zeigt Rot. Was machst du?','Stehen bleiben',['Losgehen','Rennen','Winken']],['Welche Farbe hat die Ampel, wenn du gehen darfst?','Grün',['Rot','Gelb','Blau']],['Wo gehst du am besten über die Straße?','Am Zebrastreifen',['Hinter dem Auto','Zwischen parkenden Autos','Auf dem Radweg']],['Was trägst du beim Radfahren auf dem Kopf?','Einen Helm',['Eine Mütze','Einen Hut','Eine Kapuze']],['Welches Fahrzeug fährt auf Schienen?','Zug 🚆',['Auto 🚗','Schiff 🚢','Bus 🚌']],['Welches Fahrzeug fährt auf dem Wasser?','Schiff 🚢',['Zug 🚆','Auto 🚗','Fahrrad 🚲']],['Wann schnallst du dich im Auto an?','Immer',['Nie','Nur bei Regen','Nur nachts']]];
+const g_verkehr=()=>{const q=pk(VK);return mk(q[0],q[1],q[2],{n:4})};
+const GES=[['🥕','Karotte'],['🍎','Apfel'],['🥦','Brokkoli'],['🍌','Banane'],['🥛','Milch'],['🍐','Birne']],UNG=[['🍭','Lutscher'],['🍩','Krapfen'],['🍟','Pommes'],['🍬','Bonbon'],['🍫','Schokolade'],['🧁','Törtchen']];
+const g_gesund=()=>{const g=R(0,1),A=g?GES:UNG,B=g?UNG:GES,c=pk(A);return mk(g?'Was ist gesund?':'Was sollst du nur selten essen?',eo(c),sh(B).slice(0,3).map(eo))};
+const FAKT=[['Was braucht eine Pflanze zum Wachsen?','Wasser und Licht',['Nur Steine','Süßigkeiten','Schnee']],['Woraus wird Brot gebacken?','Mehl',['Sand','Papier','Zucker']],['Wo wachsen Äpfel?','Am Baum',['Im Meer','Unter der Erde','In der Wüste']],['Wo wachsen Kartoffeln?','In der Erde',['Am Baum','Im Wasser','Auf dem Dach']],['Was ist flüssig?','Wasser',['Stein','Holz','Eisen']],['Was passiert mit Eis in der Sonne?','Es schmilzt',['Es wird größer','Es wird bunt','Es fliegt weg']],['Was tut ein Vulkan, wenn er ausbricht?','Er spuckt Lava',['Er singt','Er schläft ein','Er friert']],['Wie nennt man das Haus der Biene?','Bienenstock',['Hundehütte','Vogelnest','Stall']],['Welche Tageszeit kommt nach dem Mittag?','Nachmittag',['Morgen','Mitternacht','Frühstück']],['Wofür brauchen wir Zähne?','Zum Kauen',['Zum Sehen','Zum Hören','Zum Riechen']]];
+const g_fakt=()=>{const q=pk(FAKT);return mk(q[0],q[1],q[2])};
+/* --- Deutsch --- */
+const NN=[['🐶','Hund','der',1],['🐱','Katze','die',2],['🏠','Haus','das',1],['🌳','Baum','der',1],['🌞','Sonne','die',2],['🍎','Apfel','der',2],['🍌','Banane','die',3],['🚗','Auto','das',2],['🐴','Pferd','das',1],['🐘','Elefant','der',3],['🦋','Schmetterling','der',3],['🚲','Fahrrad','das',2],['📚','Buch','das',1],['🌹','Rose','die',2],['🍞','Brot','das',1],['🐟','Fisch','der',1],['🐭','Maus','die',1],['👃','Nase','die',2],['⚽','Ball','der',1],['🌙','Mond','der',1],['🍪','Keks','der',1],['🐸','Frosch','der',1],['🦁','Löwe','der',2],['🐻','Bär','der',1],['🐰','Hase','der',2],['🍓','Erdbeere','die',3],['🚂','Zug','der',1],['🎈','Ballon','der',2],['☂️','Schirm','der',1],['👟','Schuh','der',1]];
+const vis1=e=>`<div class="c big" style="font-size:3.4em" role="img" aria-label="Bild">${e}</div>`;
+const SUBS=[['d','t'],['t','d'],['ie','i'],['i','ie'],['ä','e'],['e','ä'],['ei','ai'],['ck','k'],['b','p'],['g','k'],['u','o'],['ll','l'],['s','ss'],['ch','g'],['z','s']];
+const mis=w=>{const S=new Set(),lw=w.toLowerCase();for(const [a,b] of sh(SUBS)){const i=lw.indexOf(a);if(i>0){const r=w.slice(0,i)+b+w.slice(i+a.length);if(r!=w)S.add(r)}else if(i==0&&lw.length>3){const r=(b[0].toUpperCase()+b.slice(1))+w.slice(a.length);if(r!=w)S.add(r)}}
+ if(w.length>3){const i=R(1,w.length-3);S.add(w.slice(0,i)+w[i+1]+w[i]+w.slice(i+2))}return [...S].filter(x=>x!=w)};
+const g_bildwort=()=>{let n,m;do{n=pk(NN);m=mis(n[1])}while(m.length<3);return mk('Wie schreibt man das Wort richtig?',n[1],m.slice(0,3),{vis:vis1(n[0]),say:'Wie schreibt man das Wort richtig? Schau auf das Bild.'})};
+const g_anlaut=()=>{const N=NN.filter(x=>!/^(Sch|St|Sp)/.test(x[1])),n=pk(N),L=n[1][0],al='ABDEFGHKLMNPRSTWZ'.split('').filter(x=>x!=L);return mk('Womit beginnt das Wort?',L,sh(al).slice(0,3),{vis:vis1(n[0]),say:'Womit beginnt das Wort? Schau auf das Bild.'})};
+const g_artikel=()=>{const n=pk(NN);return mk(`Welcher Artikel passt? … ${n[1]}`,n[2],['der','die','das'].filter(x=>x!=n[2]),{vis:vis1(n[0]),say:`Welcher Artikel passt? ${n[1]}`,n:3})};
+const REIM=[['Haus','Maus','🏠','🐭'],['Hund','Mund','🐶','👄'],['Hase','Nase','🐰','👃'],['Tisch','Fisch','🪑','🐟'],['Hand','Sand','✋','🏖️'],['Hose','Rose','👖','🌹'],['Kuh','Schuh','🐄','👟'],['Bein','Stein','🦵','🪨'],['Baum','Traum','🌳','💭'],['Ball','Stall','⚽','🐴'],['Katze','Tatze','🐱','🐾'],['Biene','Schiene','🐝','🚂']];
+const g_reim=()=>{const p=pk(REIM),fl=R(0,1),a=fl?p[1]:p[0],c=fl?p[0]:p[1],ce=fl?p[2]:p[3],o=sh(REIM.filter(x=>x!=p)).slice(0,3).map(x=>R(0,1)?[x[0],x[2]]:[x[1],x[3]]);return mk(`Was reimt sich auf „${a}“?`,[`<span class="eo">${ce}</span><small>${c}</small>`,c],o.map(x=>[`<span class="eo">${x[1]}</span><small>${x[0]}</small>`,x[0]]),{say:`Was reimt sich auf ${a}?`})};
+const g_silben=()=>{const n=pk(NN);return mk(`Wie viele Silben hat „${n[1]}“?`,String(n[3]),['1','2','3','4'].filter(x=>x!=String(n[3])),{vis:vis1(n[0]),say:`Wie viele Silben hat das Wort ${n[1]}? Klatsche mit.`,n:4})};
+const WV=['laufen','springen','lachen','schlafen','malen','singen','essen','schwimmen','lesen','tanzen'],WN=['Tisch','Hund','Wasser','Schule','Blume','Ball','Haus','Baum'],WA=['schön','groß','kalt','schnell','lustig','rot','klein','leise'];
+const g_wortart=()=>{const t=pk([['Tunwort (Verb)',WV,[WN,WA]],['Namenwort (Nomen)',WN,[WV,WA]],['Wiewort (Adjektiv)',WA,[WV,WN]]]),c=pk(t[1]);return mk(`Welches Wort ist ein ${t[0]}?`,c,[pk(t[2][0]),pk(t[2][1]),pk(t[2][R(0,1)])],{n:3,say:`Welches Wort ist ein ${t[0]}?`})};
+const GEG=[['groß','klein'],['heiß','kalt'],['hell','dunkel'],['laut','leise'],['schnell','langsam'],['alt','jung'],['dick','dünn'],['nass','trocken'],['oben','unten'],['voll','leer'],['schwer','leicht'],['traurig','froh']];
+const g_gegenteil=()=>{const p=pk(GEG),fl=R(0,1),a=fl?p[1]:p[0],c=fl?p[0]:p[1],w=sh(GEG.filter(x=>x!=p)).slice(0,3).map(x=>pk(x));return mk(`Was ist das Gegenteil von „${a}“?`,c,w,{say:`Was ist das Gegenteil von ${a}?`})};
+const g_abc=()=>{if(R(0,1)){const i=R(0,22),A='ABCDEFGHIJKLMNOPQRSTUVWXYZ',c=A[i+1];return mk(`Welcher Buchstabe kommt nach ${A[i]}?`,c,sh(A.split('').filter(x=>x!=c&&x!=A[i])).slice(0,3),{say:`Welcher Buchstabe kommt im Alphabet nach ${A[i]}?`})}
+ const w=sh(NN).slice(0,3).map(x=>x[1]);const ws=[...new Set(w)];if(new Set(ws.map(x=>x[0])).size<3)return g_abc();const c=[...ws].sort((a,b)=>a.localeCompare(b,'de'))[0];return mk('Welches Wort steht im Alphabet zuerst?',c,ws.filter(x=>x!=c),{n:3,say:'Welches Wort steht im Alphabet zuerst?'})};
+const CMP=[['🏠','🚪','Haustür'],['☀️','🌻','Sonnenblume'],['❄️','👨','Schneemann'],['🍎','🌳','Apfelbaum'],['🌧️','🌈','Regenbogen'],['🧊','🐻','Eisbär'],['🦷','🪥','Zahnbürste'],['🦶','⚽','Fußball'],['💧','🍉','Wassermelone'],['🐦','🪹','Vogelnest']];
+const g_rebus=()=>{const c=pk(CMP),w=sh(CMP.filter(x=>x!=c)).slice(0,3).map(x=>x[2]);return mk('Bilderrätsel: Welches Wort passt zu den beiden Bildern?',c[2],w,{vis:`<div class="c big" style="font-size:2.6em">${c[0]} + ${c[1]}</div>`,say:'Bilderrätsel. Welches Wort passt zu den beiden Bildern?',tm:1.2})};
+/* --- Logik und Gedächtnis --- */
+const CAT={Obst:[['🍎','Apfel'],['🍌','Banane'],['🍓','Erdbeere'],['🍇','Trauben'],['🍒','Kirschen'],['🍉','Melone']],Tiere:[['🐶','Hund'],['🐱','Katze'],['🐭','Maus'],['🐰','Hase'],['🦊','Fuchs'],['🐻','Bär']],Fahrzeuge:[['🚗','Auto'],['🚌','Bus'],['🚲','Fahrrad'],['🚂','Zug'],['✈️','Flugzeug'],['🚢','Schiff']],Kleidung:[['👕','T-Shirt'],['👖','Hose'],['🧦','Socken'],['🧢','Mütze'],['👟','Schuh'],['🧤','Handschuh']],Wetter:[['☀️','Sonne'],['🌧️','Regen'],['❄️','Schnee'],['⛈️','Gewitter'],['🌈','Regenbogen'],['💨','Wind']],Musik:[['🎸','Gitarre'],['🥁','Trommel'],['🎹','Klavier'],['🎺','Trompete'],['🎻','Geige']],Sport:[['⚽','Fußball'],['🏀','Basketball'],['🎾','Tennisball'],['🏐','Volleyball'],['🏈','Football']]};
+const eo2=a=>[`<span class="eo">${a[0]}</span><small>${a[1]}</small>`,a[1]];
+const g_oddone=()=>{const K=sh(Object.keys(CAT)),A=CAT[K[0]],B=CAT[K[1]],o=sh(A).slice(0,3),c=pk(B);return mk('Was passt nicht zu den anderen?',eo2(c),o.map(eo2),{say:'Was passt nicht zu den anderen?',tm:1.1})};
+const g_muster=()=>{const E=sh(Object.values(CAT).flat()).slice(0,4).map(x=>x[0]),[a,b,c]=E,u=pk([[a,b],[a,a,b],[a,b,c]]),full=[...u,...u,...u,...u],k=u.length*2+R(1,u.length-1)+(u.length==2?0:0),nx=full[k];const shown=full.slice(0,k);
+ const opts=sh([...new Set([a,b,c,E[3]])]).filter(x=>x!=nx).slice(0,3);const nm=x=>Object.values(CAT).flat().find(y=>y[0]==x)[1];
+ return mk('Welches Bild kommt als Nächstes?',eo2([nx,nm(nx)]),opts.map(x=>eo2([x,nm(x)])),{vis:`<div class="em" role="img" aria-label="Muster aus Bildern">${shown.join(' ')} ❓</div>`,say:'Welches Bild kommt als Nächstes?',tm:1.3})};
+const CL=[['#e63946','rot'],['#2a6fdb','blau'],['#ffd23f','gelb'],['#2fb344','grün'],['#ff8c1a','orange'],['#9b5de5','lila']];
+const dot=(c,s=34)=>`<span class="dt2" style="background:${c[0]};width:${s}px;height:${s}px" aria-label="${c[1]}"></span>`;
+const g_farbe=()=>{const E=sh(CL),u=pk([[E[0],E[1]],[E[0],E[1],E[2]],[E[0],E[0],E[1]]]),full=[...u,...u,...u],k=u.length*2+R(1,u.length-1),nx=full[k];
+ return mk('Welche Farbe kommt als Nächstes?',[dot(nx,40)+`<small>${nx[1]}</small>`,nx[1]],E.filter(x=>x!=nx).slice(0,3).map(x=>[dot(x,40)+`<small>${x[1]}</small>`,x[1]]),{vis:`<div class="em" role="img" aria-label="Farbmuster">${full.slice(0,k).map(c=>dot(c)).join(' ')} <span class="dt2" style="width:34px;height:34px;background:#fff3">?</span></div>`,say:'Welche Farbe kommt als Nächstes?',tm:1.3})};
+const g_zraetsel=()=>{const a=R(1,9)*10+R(0,4)*2,mode=R(0,1);let lo,hi,c;if(mode==0){lo=R(10,80);if(lo%2==1)lo--;hi=lo+4;c=lo+2;return mk(`Ich denke an eine gerade Zahl. Sie ist größer als ${lo} und kleiner als ${hi}. Welche Zahl ist es?`,String(c),[String(lo+1),String(lo+3),String(lo+4+1)],{say:`Ich denke an eine gerade Zahl. Sie ist größer als ${lo} und kleiner als ${hi}. Welche Zahl ist es?`,tm:1.4})}
+ lo=R(1,8)*10;c=lo+5;return mk(`Ich denke an eine Zahl zwischen ${lo} und ${lo+10}. Sie endet auf 5. Welche Zahl ist es?`,String(c),[String(lo+2),String(lo+6),String(lo+8)],{say:`Ich denke an eine Zahl zwischen ${lo} und ${lo+10}. Sie endet auf 5. Welche Zahl ist es?`,tm:1.4})};
+const ALLE=Object.values(CAT).flat();
+const g_memory=()=>{const seen=sh(ALLE).slice(0,3),rest=ALLE.filter(x=>!seen.includes(x)),pre=`<div class="em" role="img" aria-label="Merke dir die Bilder: ${seen.map(x=>x[1]).join(', ')}">${seen.map(x=>x[0]).join(' ')}</div>`;
+ if(R(0,1)){const c=pk(seen);return mk('Welches Bild war dabei?',eo2(c),sh(rest).slice(0,3).map(eo2),{pre,preMs:2600,preQ:'Merk dir die Bilder!'})}
+ const c=pk(rest);return mk('Welches Bild war NICHT dabei?',eo2(c),seen.map(eo2),{pre,preMs:2600,preQ:'Merk dir die Bilder!'})};
+/* --- Pools --- */
+const POOL={
+ m1:[g_kopf,g_einmal,g_folge,g_mehrwenig,g_verdopp,g_zerl],
+ su:[g_leben,g_tierprod,g_jahres,g_koerper,g_verkehr,g_gesund,g_fakt],
+ d1:[g_bildwort,g_anlaut,g_artikel,g_wortart,g_gegenteil,g_rebus],
+ m2:[g_zaehl,g_uhr,g_geld,g_form,g_bildsumme,g_zehner],
+ lo:[g_muster,g_oddone,g_memory,g_farbe,g_zraetsel,g_rebus],
+ d2:[g_reim,g_silben,g_abc,g_wortart,g_bildwort,g_gegenteil]};
+const T1=[g_kopf,g_einmal,g_zaehl,g_leben,g_jahres,g_anlaut,g_artikel,g_muster,g_oddone,g_gegenteil,g_koerper,g_zehner,g_form];
+const T2=[...new Set([...Object.values(POOL).flat(),g_uhr])];
+
+/* ===== Schwere Rätsel (Arcade, Niveau Klasse 3) ===== */
+/* --- Mathe --- */
+const g_add3=()=>{if(R(0,1)){const a=R(12,85)*10,b=R(3,Math.min(90,Math.floor((990-a)/10)))*10+(R(0,2)?0:R(1,9)),s=a+b;if(s>999)return g_add3();return mk(`${a} + ${b} = ?`,String(s),nd(s,0,999,3,[s+10,s-10,s+100,s-100]),{say:`${a} plus ${b}`,tm:1.6})}
+ const a=R(30,99)*10,b=R(3,Math.floor(a/10)-2)*10+(R(0,2)?0:R(1,9));if(b>=a)return g_add3();const s=a-b;return mk(`${a} − ${b} = ?`,String(s),nd(s,0,999,3,[s+10,s-10,s+100,s-100]),{say:`${a} minus ${b}`,tm:1.6})};
+const g_mal=()=>{let a,b;do{a=pk([3,4,6,7,8,9]);b=R(3,9)}while(a*b<24);if(R(0,2))return mk(`${a} · ${b} = ?`,String(a*b),nd(a*b,0,100,3,[a*b+a,a*b-a,a*b+b,a*b-b]),{say:`${a} mal ${b}`,tm:1.2});
+ return mk(`${a*b} : ${a} = ?`,String(b),nd(b,1,12,3,[b+1,b-1,a]),{say:`${a*b} geteilt durch ${a}`,tm:1.3})};
+const g_fehlend=()=>{const t=R(0,2);if(t==0){const a=R(12,70),s=R(a+8,99),b=s-a;return mk(`${a} + ? = ${s}`,String(b),nd(b,0,100,3,[b+10,b-10,a]),{say:`${a} plus wie viel ergibt ${s}?`,tm:1.5})}
+ if(t==1){const a=R(12,70),b=R(8,25),s=a+b;return mk(`? + ${b} = ${s}`,String(a),nd(a,0,100,3,[a+10,a-10,s]),{say:`Welche Zahl plus ${b} ergibt ${s}?`,tm:1.5})}
+ const s=R(40,100),d=R(10,s-10);return mk(`${s} − ? = ${d}`,String(s-d),nd(s-d,0,100,3,[s-d+10,s-d-10,d]),{say:`${s} minus wie viel ergibt ${d}?`,tm:1.5})};
+const g_runden=()=>{if(R(0,1)){let n;do{n=R(11,99)}while(n%10==0||n%10==5);const c=Math.round(n/10)*10;return mk(`Runde ${n} auf Zehner.`,String(c),nd(c,0,100,3,[c+10,c-10,n]),{say:`Runde ${n} auf Zehner.`,tm:1.3})}
+ let n;do{n=R(101,989)}while(n%100==0||n%100==50);const c=Math.round(n/100)*100;return mk(`Runde ${n} auf Hunderter.`,String(c),nd(c,0,1000,3,[c+100,c-100,Math.round(n/10)*10]),{say:`Runde ${n} auf Hunderter.`,tm:1.4})};
+const g_folge2=()=>{if(R(0,2)==0){const s=R(1,5),sq=[0,1,2,3].map(i=>s*2**i),nx=s*16;return mk('Wie geht die Zahlenfolge weiter?',String(nx),nd(nx,0,200,3,[nx-s*4,nx+s*4,nx-1]),{vis:`<div class="big">${sq.join(', ')}, ❓</div>`,say:'Wie geht die Zahlenfolge weiter? Die Zahlen werden jedes Mal verdoppelt.',tm:1.5})}
+ const d=pk([4,6,7,8,9,11,25,50,100]),down=R(0,1),s=down?R(d*5,d*5+R(0,30)):R(1,40),sq=[0,1,2,3].map(i=>s+(down?-i:i)*d),nx=s+(down?-4:4)*d;if(nx<0)return g_folge2();
+ return mk('Wie geht die Zahlenfolge weiter?',String(nx),nd(nx,0,1000,3,[nx+d,nx-d,nx+1,nx-1]),{vis:`<div class="big">${sq.join(', ')}, ❓</div>`,say:'Wie geht die Zahlenfolge weiter?',tm:1.5})};
+const NM=['Mia','Ben','Lea','Tom','Nora','Paul','Emil','Lina'];
+const g_sach=()=>{const n=pk(NM),t=R(0,3);let q,c,x;
+ if(t==0){const a=R(25,60),b=R(15,38);q=`${n} hat ${a} Sticker und bekommt ${b} dazu. Wie viele Sticker hat ${n} jetzt?`;c=a+b}
+ else if(t==1){const a=pk([4,5,6,8,9]),b=R(3,9);q=`In eine Packung passen ${a} Kekse. Wie viele Kekse sind in ${b} Packungen?`;c=a*b}
+ else if(t==2){const a=R(30,90),b=R(11,a-5);q=`${n} hat ${a} €. Ein Buch kostet ${b} €. Wie viel Geld bleibt übrig, wenn ${n} das Buch kauft?`;c=a-b}
+ else{const a=pk([2,3,4,5,6]),b=R(3,8);q=`${a} Kinder teilen ${a*b} Bonbons gerecht auf. Wie viele Bonbons bekommt jedes Kind?`;c=b}
+ return mk(q,String(c),nd(c,0,100,3,[c+1,c-1,c+10,c-10]),{say:q,tm:2.2})};
+const EIN=[['1 m = ? cm','100',['10','1000','50']],['2 m = ? cm','200',['20','2000','100']],['1 h = ? min','60',['100','30','24']],['2 h = ? min','120',['200','60','90']],['1 € = ? ct','100',['10','50','1000']],['3 € = ? ct','300',['30','3000','3']],['1 kg = ? g','1000',['100','10','500']],['1 cm = ? mm','10',['100','1','1000']],['1 Tag = ? Stunden','24',['12','60','7']],['1 Woche = ? Tage','7',['5','10','12']],['1 Jahr = ? Monate','12',['10','52','365']],['Eine halbe Stunde = ? min','30',['15','20','45']],['Eine Viertelstunde = ? min','15',['10','25','30']]];
+const g_einheit=()=>{const q=pk(EIN);return mk('Welche Zahl fehlt? '+q[0],q[1],q[2],{say:q[0].replace('?','wie viel'),tm:1.2})};
+const g_zahlrat=()=>{const t=R(0,3);let s,c;if(t==0){c=R(5,50);s=`Das Doppelte der Zahl ist ${c*2}.`}else if(t==1){c=R(10,70);const k=R(5,29);s=`Wenn ich ${k} addiere, erhalte ich ${c+k}.`}else if(t==2){c=R(30,90);const k=R(5,25);s=`Wenn ich ${k} abziehe, erhalte ich ${c-k}.`}else{c=R(3,30);s=`Das Dreifache der Zahl ist ${c*3}.`}
+ const q=`Ich denke an eine Zahl. ${s} Welche Zahl ist es?`;return mk(q,String(c),nd(c,0,100,3,[c+1,c-1,c+10,c*2]),{say:q,tm:2})};
+const exprs=()=>{const t=R(0,2);if(t==0){const a=R(3,9),b=R(3,9);return [`${a} · ${b}`,`${a} mal ${b}`,a*b]}if(t==1){const a=R(20,70),b=R(10,29);return [`${a} + ${b}`,`${a} plus ${b}`,a+b]}const a=R(50,99),b=R(10,45);return [`${a} − ${b}`,`${a} minus ${b}`,a-b]};
+const g_vergl=()=>{const A=[];let t=0;while(A.length<4&&t++<80){const x=exprs();if(!A.some(y=>y[2]==x[2]||y[0]==x[0]))A.push(x)}if(A.length<4)return g_vergl();const big=R(0,1),c=A.reduce((p,x)=>(big?x[2]>p[2]:x[2]<p[2])?x:p),f=x=>[x[0],x[1]];
+ const q=big?'Welche Aufgabe hat das größte Ergebnis?':'Welche Aufgabe hat das kleinste Ergebnis?';return mk(q,f(c),A.filter(x=>x!=c).map(f),{say:q,tm:2})};
+const g_mitte=()=>{const a=R(1,40)*10,b=a+R(1,5)*20,c=(a+b)/2;return mk(`Welche Zahl liegt genau in der Mitte von ${a} und ${b}?`,String(c),nd(c,0,1000,3,[c+10,c-10,b-10,a+10]),{say:`Welche Zahl liegt genau in der Mitte von ${a} und ${b}?`,tm:1.6})};
+/* --- Deutsch --- */
+const PL=[['Hund','Hunde'],['Buch','Bücher'],['Apfel','Äpfel'],['Maus','Mäuse'],['Kind','Kinder'],['Baum','Bäume'],['Blume','Blumen'],['Auto','Autos'],['Haus','Häuser'],['Ei','Eier'],['Ball','Bälle'],['Fisch','Fische'],['Tag','Tage'],['Uhr','Uhren'],['Bett','Betten'],['Schaf','Schafe'],['Stuhl','Stühle'],['Vogel','Vögel']];
+const UMT={au:'äu',Au:'Äu',a:'ä',A:'Ä',o:'ö',O:'Ö',u:'ü',U:'Ü'};
+const um=w=>{const m=[...w.matchAll(/au|Au|a|A|o|O|u|U/g)];if(!m.length)return null;const x=m[m.length-1];return w.slice(0,x.index)+UMT[x[0]]+w.slice(x.index+x[0].length)};
+const g_mehrzahl=()=>{const [s,p]=pk(PL),u=um(s),C=[s+'e',s+'er',s+'n',s+'en',s+'s',u&&u+'e',u&&u+'er',u&&u+'n',u].filter(x=>x&&x!=p&&x!=s&&x!='Fischer'&&x!='Eis'&&x!='Bette');return mk(`Wie heißt die Mehrzahl von „${s}“?`,p,sh(C).slice(0,3),{say:`Wie heißt die Mehrzahl von ${s}?`,tm:1.2})};
+const RS=[['Wasser',['Waser','Wasserr','Wahsser']],['Mutter',['Muter','Mutta','Muhter']],['Treppe',['Trepe','Trebbe','Treppä']],['Schiff',['Schif','Schieff','Schiph']],['Katze',['Kaze','Katse','Katzze']],['Tasse',['Tase','Tasze','Tass']],['Zahl',['Zal','Zaal','Zahll']],['Biene',['Bine','Biehne','Bihne']],['Fahrrad',['Farrad','Fahrad','Farad']],['Blitz',['Blits','Blizz','Blietz']],['Hammer',['Hamer','Hammar','Hahmer']],['Stern',['Schtern','Sterrn','Stärn']],['Spiel',['Schpiel','Spihl','Spil']],['Rücken',['Rüken','Rükken','Rücen']],['Glück',['Glük','Glick','Glükk']],['Wetter',['Weter','Wetta','Wehter']],['Mitte',['Mite','Mitta','Mihte']],['Käfer',['Kefer','Käfa','Käver']],['Vogel',['Fogel','Vogl','Vochel']],['Ferien',['Verien','Feriehn','Ferin']]];
+const g_rechtschr=()=>{const [c,w]=pk(RS);return mk('Welches Wort ist richtig geschrieben?',c,w,{say:'Welches Wort ist richtig geschrieben?',tm:1.3})};
+const ZT=[['Gestern … ich ein Eis.','aß',['esse','essen','isst']],['Gestern … wir zur Schule.','gingen',['gehen','geht','gehst']],['Heute … die Sonne.','scheint',['schien','scheinen','geschienen']],['Gestern … Tim einen Brief.','schrieb',['schreibt','schreiben','schreibst']],['Jetzt … Lea ein Lied.','singt',['sang','singen','gesungen']],['Letzte Woche … wir einen Ausflug.','machten',['machen','macht','machst']],['Morgen … wir ins Kino.','gehen',['gingen','ging','gegangen']],['Gestern … es den ganzen Tag.','regnete',['regnet','regnen','regnest']],['Heute … der Hund laut.','bellt',['bellte','bellen','gebellt']]];
+const g_zeit=()=>{const [s,c,w]=pk(ZT);return mk('Welche Form passt in den Satz?',c,w,{vis:`<div class="big" style="font-size:1.3em">${s}</div>`,say:`Welche Form passt in den Satz? ${s.replace('…','Lücke')}`,tm:1.5})};
+const OB={Tiere:['Hund','Katze','Pferd','Maus','Kuh','Schaf'],Obst:['Apfel','Birne','Banane','Kirsche','Erdbeere'],Gemüse:['Karotte','Gurke','Kohl','Salat','Zwiebel','Paprika'],Möbel:['Tisch','Stuhl','Schrank','Bett','Sofa'],Kleidung:['Hose','Jacke','Mütze','Socke','Pullover'],Fahrzeuge:['Auto','Bus','Zug','Fahrrad','Schiff'],Musikinstrumente:['Geige','Flöte','Trommel','Klavier','Gitarre'],Werkzeuge:['Hammer','Säge','Zange','Bohrer','Feile']};
+const g_oberbegriff=()=>{const K=sh(Object.keys(OB)),c=K[0],it=sh(OB[c]).slice(0,3);return mk('Welcher Oberbegriff passt?',c,K.slice(1,4),{vis:`<div class="big" style="font-size:1.4em">${it.join(', ')}</div>`,say:`Welcher Oberbegriff passt? ${it.join(', ')}`,tm:1.4})};
+const SZ=[{s:'Die kleine Katze trinkt Milch.',N:['Katze','Milch'],V:['trinkt'],A:['kleine'],O:['Die']},{s:'Der kalte Wind weht über das Feld.',N:['Wind','Feld'],V:['weht'],A:['kalte'],O:['Der','über','das']},{s:'Lea malt ein buntes Bild.',N:['Lea','Bild'],V:['malt'],A:['buntes'],O:['ein']},{s:'Der müde Hund schläft im Korb.',N:['Hund','Korb'],V:['schläft'],A:['müde'],O:['Der','im']},{s:'Wir essen frisches Brot.',N:['Brot'],V:['essen'],A:['frisches'],O:['Wir']},{s:'Tim kauft einen roten Ball.',N:['Tim','Ball'],V:['kauft'],A:['roten'],O:['einen']},{s:'Das kleine Kind spielt im Garten.',N:['Kind','Garten'],V:['spielt'],A:['kleine'],O:['Das','im']}];
+const g_wortart2=()=>{const S=pk(SZ),t=pk([['N','ein Nomen (Namenwort)'],['V','ein Verb (Tunwort)'],['A','ein Adjektiv (Wiewort)']]),c=pk(S[t[0]]),o=['N','V','A','O'].filter(k=>k!=t[0]).flatMap(k=>S[k]);return mk(`Welches Wort ist ${t[1]}?`,c,sh(o).slice(0,3),{vis:`<div class="big" style="font-size:1.2em">${S.s}</div>`,say:`Welches Wort ist ${t[1]}? ${S.s}`,tm:1.6})};
+const SA=[['Wie heißt du','?'],['Der Hund bellt','.'],['Pass auf','!'],['Wo wohnst du','?'],['Es regnet heute','.'],['Hilf mir bitte','!'],['Was machst du da','?'],['Ich mag Eis','.']];
+const g_satz=()=>{const [s,c]=pk(SA);return mk('Welches Satzzeichen steht am Ende?',[`<span class="big" style="font-size:1.6em">${c}</span>`,c=='.'?'Punkt':c=='?'?'Fragezeichen':'Ausrufezeichen'],['.','?','!'].filter(x=>x!=c).map(x=>[`<span class="big" style="font-size:1.6em">${x}</span>`,x=='.'?'Punkt':x=='?'?'Fragezeichen':'Ausrufezeichen']),{vis:`<div class="big" style="font-size:1.3em">${s} …</div>`,say:`Welches Satzzeichen steht am Ende? ${s}`,tm:1.1})};
+/* --- Sachunterricht --- */
+const SU=[['Wie viele Planeten hat unser Sonnensystem?','8',['6','7','10']],['Um welchen Stern kreist die Erde?','Sonne',['Mond','Mars','Polarstern']],['Bei wie viel Grad kocht Wasser?','100 °C',['10 °C','50 °C','200 °C']],['Bei wie viel Grad gefriert Wasser?','0 °C',['10 °C','−20 °C','50 °C']],['Was zieht ein Magnet an?','Einen Nagel aus Eisen',['Ein Stück Holz','Einen Gummiball','Ein Glas']],['Wie heißt das Junge vom Pferd?','Fohlen',['Kalb','Lamm','Welpe']],['Wie heißt das Junge von der Kuh?','Kalb',['Fohlen','Lamm','Ferkel']],['Wie heißt das Junge vom Schaf?','Lamm',['Kalb','Fohlen','Küken']],['Was wird aus einer Kaulquappe?','Ein Frosch',['Ein Fisch','Eine Schlange','Ein Vogel']],['Welcher Teil der Pflanze nimmt Wasser aus der Erde auf?','Die Wurzel',['Die Blüte','Das Blatt','Die Frucht']],['Wo geht die Sonne auf?','Im Osten',['Im Westen','Im Norden','Im Süden']],['Was liegt Norden gegenüber?','Süden',['Osten','Westen','Oben']],['Wie viele Tage hat ein Jahr (kein Schaltjahr)?','365',['300','360','400']],['Welche Jahreszeit kommt nach dem Sommer?','Herbst',['Frühling','Winter','Sommer']],['Was braucht eine Lampe, damit sie leuchtet?','Strom',['Sand','Wasser','Papier']],['Was schwimmt auf dem Wasser?','Ein Stück Holz',['Ein Stein','Ein Eisennagel','Eine Münze']],['Wie oft am Tag sollst du Zähne putzen?','Zweimal',['Nie','Einmal pro Woche','Zehnmal']],['In welche Tonne kommt eine Bananenschale?','Biotonne',['Gelbe Tonne','Altglas','Papiertonne']],['In welche Tonne kommt eine leere Zeitung?','Papiertonne',['Biotonne','Gelbe Tonne','Restmüll']],['In welche Tonne kommt ein leerer Joghurtbecher aus Plastik?','Gelbe Tonne',['Biotonne','Papiertonne','Altglas']],['Was passiert mit Wasser, wenn es sehr kalt wird?','Es wird zu Eis',['Es wird zu Dampf','Es verschwindet','Es wird zu Sand']],['Was passiert mit Wasser, wenn es kocht?','Es wird zu Dampf',['Es wird zu Eis','Es wird zu Stein','Es wird dicker']],['Woher kommt Honig?','Von Bienen',['Von Kühen','Von Hühnern','Von Schafen']],['Was ist ein Mittel gegen Hitze und Sonnenbrand?','Sonnencreme',['Pullover','Regenschirm','Schal']],['Wie viele Beine hat ein Insekt?','6',['4','8','10']],['Wie viele Beine hat eine Spinne?','8',['6','4','10']]];
+const g_su=()=>{const q=pk(SU);return mk(q[0],q[1],q[2],{say:q[0],tm:1.4})};
+const TK=[['ein Insekt',[['🐝','Biene'],['🐜','Ameise'],['🦋','Schmetterling'],['🐞','Marienkäfer']]],['ein Säugetier',[['🐶','Hund'],['🐘','Elefant'],['🐬','Delfin'],['🐰','Hase']]],['ein Vogel',[['🦉','Eule'],['🦆','Ente'],['🦅','Adler'],['🐧','Pinguin']]],['ein Fisch',[['🐟','Forelle'],['🦈','Hai'],['🐠','Clownfisch'],['🐡','Kugelfisch']]],['ein Kriechtier (Reptil)',[['🐍','Schlange'],['🐊','Krokodil'],['🐢','Schildkröte'],['🦎','Eidechse']]]];
+const g_tierkl=()=>{const K=sh(TK),c=pk(K[0][1]);return mk(`Welches Tier ist ${K[0][0]}?`,eo(c),K.slice(1,4).map(k=>eo(pk(k[1]))),{say:`Welches Tier ist ${K[0][0]}?`,tm:1.3})};
+/* --- Logik --- */
+const g_oddnum=()=>{const m=pk([2,3,4,5,10]),M=[];for(let i=1;i<=12;i++)M.push(m*i);const three=sh(M).slice(0,3);let o;do{o=R(7,60)}while(o%m==0);if(m==2&&o%2==0)o++;
+ return mk('Welche Zahl passt nicht zu den anderen?',String(o),three.map(String),{say:'Welche Zahl passt nicht zu den anderen?',tm:1.7})};
+const RF=[['älter','am ältesten','am jüngsten'],['größer','am größten','am kleinsten'],['schneller','am schnellsten','am langsamsten']];
+const g_reihenf=()=>{const N=sh(['Anna','Ben','Cem','Dora','Emil','Finn']).slice(0,3),[x,y,z]=N,a=pk(RF),t=R(0,2),q=`${x} ist ${a[0]} als ${y}. ${y} ist ${a[0]} als ${z}. Wer ist ${t==0?a[1]:t==1?a[2]:'in der Mitte'}?`;
+ return mk(q,t==0?x:t==1?z:y,N.filter(n=>n!=(t==0?x:t==1?z:y)),{say:q,tm:2.4,n:3})};
+const g_memory4=()=>{const seen=sh(ALLE).slice(0,4),rest=ALLE.filter(x=>!seen.includes(x)),pre=`<div class="em" role="img" aria-label="Merke dir die Bilder: ${seen.map(x=>x[1]).join(', ')}">${seen.map(x=>x[0]).join(' ')}</div>`;
+ if(R(0,1)){const c=pk(seen);return mk('Welches Bild war dabei?',eo2(c),sh(rest).slice(0,3).map(eo2),{pre,preMs:3000,preQ:'Merk dir die Bilder!'})}
+ const c=pk(rest);return mk('Welches Bild war NICHT dabei?',eo2(c),seen.slice(0,3).map(eo2),{pre,preMs:3000,preQ:'Merk dir die Bilder!'})};
+const HM=[g_add3,g_mal,g_fehlend,g_runden,g_folge2,g_sach,g_einheit,g_zahlrat,g_vergl,g_mitte];
+const HD=[g_mehrzahl,g_rechtschr,g_zeit,g_oberbegriff,g_wortart2,g_satz];
+const HS=[g_su,g_tierkl];
+const HL=[g_oddnum,g_reihenf,g_memory4];
+const HALL=[...HM,...HD,...HS,...HL];
+
+/* ===== Klasse 1: Zahlenraum bis 20 ===== */
+const diceSvg=n=>{const P={1:[[1,1]],2:[[0,0],[2,2]],3:[[0,0],[1,1],[2,2]],4:[[0,0],[2,0],[0,2],[2,2]],5:[[0,0],[2,0],[1,1],[0,2],[2,2]],6:[[0,0],[2,0],[0,1],[2,1],[0,2],[2,2]]}[n];return `<svg viewBox="0 0 60 60" width="64" role="img" aria-label="Würfel mit ${n} Punkten"><rect x="3" y="3" width="54" height="54" rx="10" fill="#fff8e8" stroke="#2a0a00" stroke-width="3"/>${P.map(([x,y])=>`<circle cx="${15+x*15}" cy="${15+y*15}" r="5" fill="#2a0a00"/>`).join('')}</svg>`};
+const g1_plus10=()=>{const a=R(1,8),b=R(1,10-a),s=a+b;return mk(`${a} + ${b} = ?`,String(s),nd(s,0,12,3,[s+1,s-1,a]),{say:`${a} plus ${b}`})};
+const g1_minus10=()=>{const a=R(3,10),b=R(1,a-1),s=a-b;return mk(`${a} − ${b} = ?`,String(s),nd(s,0,12,3,[s+1,s-1,b]),{say:`${a} minus ${b}`})};
+const g1_plus20=()=>{const a=R(5,14),b=R(2,20-a),s=a+b;return mk(`${a} + ${b} = ?`,String(s),nd(s,0,20,3,[s+1,s-1,s+10,s-10]),{say:`${a} plus ${b}`,tm:1.2})};
+const g1_minus20=()=>{const a=R(11,20),b=R(2,Math.min(9,a)),s=a-b;return mk(`${a} − ${b} = ?`,String(s),nd(s,0,20,3,[s+1,s-1,s+10,s-10]),{say:`${a} minus ${b}`,tm:1.2})};
+const g1_zerl=()=>{const n=pk([6,7,8,9,10,10,10,12,15,20]),a=R(1,n-1);return mk(`${n} = ${a} + ?`,String(n-a),nd(n-a,0,20,3,[n-a+1,n-a-1,a]),{say:`${n} ist ${a} plus wie viel?`})};
+const g1_dopp=()=>{if(R(0,1)){const a=R(1,10);return mk(`Das Doppelte von ${a} ist …`,String(a*2),nd(a*2,0,20,3,[a*2+1,a*2-1,a]),{say:`Das Doppelte von ${a}`})}const a=R(1,10);return mk(`Die Hälfte von ${a*2} ist …`,String(a),nd(a,0,20,3,[a+1,a-1,a*2]),{say:`Die Hälfte von ${a*2}`})};
+const g1_nachbar=()=>{const t=R(0,2);if(t==0){const n=R(1,18);return mk(`Welche Zahl kommt direkt nach ${n}?`,String(n+1),nd(n+1,0,20,3,[n,n+2,n-1]),{say:`Welche Zahl kommt direkt nach ${n}?`})}
+ if(t==1){const n=R(2,19);return mk(`Welche Zahl kommt direkt vor ${n}?`,String(n-1),nd(n-1,0,20,3,[n,n-2,n+1]),{say:`Welche Zahl kommt direkt vor ${n}?`})}
+ const n=R(2,19);return mk(`Welche Zahl liegt zwischen ${n-1} und ${n+1}?`,String(n),nd(n,0,20,3,[n-1,n+1,n+2]),{say:`Welche Zahl liegt zwischen ${n-1} und ${n+1}?`})};
+const g1_groesser=()=>{const N=sh(Array.from({length:20},(_,i)=>i+1)).slice(0,4),big=R(0,1),c=big?Math.max(...N):Math.min(...N);return mk(big?'Welche Zahl ist die größte?':'Welche Zahl ist die kleinste?',String(c),N.filter(x=>x!=c).map(String),{say:big?'Welche Zahl ist die größte?':'Welche Zahl ist die kleinste?'})};
+const g1_zaehl=()=>{const [e,w]=pk(EMO),n=R(3,10);return mk(`Wie viele ${w} siehst du?`,String(n),nd(n,1,12,3,[n+1,n-1,n+2]),{vis:`<div class="em" role="img" aria-label="Bilder zum Zählen">${Array(n).fill(e).join('')}</div>`,tm:1.2})};
+const g1_wuerfel=()=>{if(R(0,1)){const n=R(1,6);return mk('Wie viele Punkte hat der Würfel?',String(n),['1','2','3','4','5','6'].filter(x=>x!=String(n)),{vis:`<div class="c">${diceSvg(n)}</div>`,say:'Wie viele Punkte hat der Würfel?'})}
+ const a=R(1,6),b=R(1,6),s=a+b;return mk('Wie viele Punkte sind es zusammen?',String(s),nd(s,2,12,3,[s+1,s-1,a,b]),{vis:`<div class="c">${diceSvg(a)} ${diceSvg(b)}</div>`,say:'Wie viele Punkte sind es zusammen?',tm:1.2})};
+const g1_uhr=()=>{const h=R(1,12);return mk('Wie spät ist es?',`${h} Uhr`,sh([1,2,3,4,5,6,7,8,9,10,11,12].filter(x=>x!=h)).slice(0,3).map(x=>`${x} Uhr`),{vis:`<div class="c">${clockSvg(h,0)}</div>`,say:'Wie spät ist es? Schau auf die Uhr.'})};
+const g1_form=()=>{const K=['Kreis','Dreieck','Quadrat','Rechteck'],k=pk(K);return mk('Wie heißt diese Form?',k,K.filter(x=>x!=k),{vis:`<div class="c">${shp(k,pk(SC),110)}</div>`})};
+const g1_euro=()=>{const c=Array.from({length:R(2,4)},()=>pk([1,2])),s=c.reduce((a,b)=>a+b,0),ch=c.map(v=>`<span class="coin" style="background:${COINS[v*100]}" aria-label="${v} Euro">${v}<small>€</small></span>`).join('');
+ return mk('Wie viele Euro sind das?',`${s} €`,[s+1,s-1,s+2,s-2].filter(x=>x>0).map(x=>`${x} €`),{vis:`<div class="coins" role="img" aria-label="Euro-Münzen">${ch}</div>`,tm:1.2})};
+const WB=NN.map(x=>[x[0],x[1]]);
+const g1_wortbild=()=>{const c=pk(WB),o=sh(WB.filter(x=>x[1]!=c[1])).slice(0,3).map(x=>x[1]);return mk('Welches Wort passt zum Bild?',c[1],o,{vis:vis1(c[0]),say:'Welches Wort passt zum Bild?'})};
+const g1_abc=()=>{const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ',i=R(1,11),nx=R(0,1);const c=nx?A[i+1]:A[i-1],q=nx?`Welcher Buchstabe kommt nach ${A[i]}?`:`Welcher Buchstabe kommt vor ${A[i]}?`;return mk(q,c,sh(A.split('').filter(x=>x!=c&&x!=A[i])).slice(0,3),{say:q.replace('Buchstabe kommt','Buchstabe kommt im Alphabet')})};
+
+/* ===== Klasse 3 (Zusatz) und Klasse 4 ===== */
+const dn=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fE=c=>`${Math.floor(c/100)},${String(c%100).padStart(2,'0')} €`;
+const wall=rows=>`<div class="wall" role="img" aria-label="Zahlenmauer">${rows.map(r=>`<div>${r.map(c=>`<span class="wc">${c}</span>`).join('')}</div>`).join('')}</div>`;
+const mauer=m=>{const a=R(1,m),b=R(1,m),c=R(1,m),t=a+2*b+c;return mk('Welche Zahl gehört auf den Stein mit dem Fragezeichen?',String(t),nd(t,0,4*m+5,3,[t+1,t-1,t+2,a+b+c]),{vis:wall([['❓'],[a+b,b+c],[a,b,c]]),say:'Zahlenmauer. Jeder Stein ist die Summe der zwei Steine darunter. Welche Zahl steht ganz oben?',tm:2})};
+const g3_mauer=()=>mauer(9),g4_mauer=()=>mauer(25);
+/* --- Klasse 3 Zusatz --- */
+const MON=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],WTG=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+const g3_kalender=()=>{const t=R(0,4);if(t==0){const i=R(0,10);return mk(`Welcher Monat kommt nach ${MON[i]}?`,MON[i+1],sh(MON.filter((x,k)=>k!=i&&k!=i+1)).slice(0,3),{say:`Welcher Monat kommt nach ${MON[i]}?`})}
+ if(t==1){const i=R(1,11);return mk(`Welcher Monat kommt vor ${MON[i]}?`,MON[i-1],sh(MON.filter((x,k)=>k!=i&&k!=i-1)).slice(0,3),{say:`Welcher Monat kommt vor ${MON[i]}?`})}
+ if(t==2){const i=R(0,5);return mk(`Welcher Wochentag kommt nach ${WTG[i]}?`,WTG[i+1],sh(WTG.filter((x,k)=>k!=i&&k!=i+1)).slice(0,3),{say:`Welcher Wochentag kommt nach ${WTG[i]}?`})}
+ if(t==3){const i=R(1,6);return mk(`Welcher Wochentag kommt vor ${WTG[i]}?`,WTG[i-1],sh(WTG.filter((x,k)=>k!=i&&k!=i-1)).slice(0,3),{say:`Welcher Wochentag kommt vor ${WTG[i]}?`})}
+ const D=[['April',30],['Juni',30],['Juli',31],['Dezember',31],['September',30],['Januar',31],['Februar (kein Schaltjahr)',28]],d=pk(D);return mk(`Wie viele Tage hat der ${d[0]}?`,String(d[1]),['28','29','30','31'].filter(x=>x!=String(d[1])),{say:`Wie viele Tage hat der ${d[0].replace(/ \(.*\)/,'')}?`})};
+const RICH=['Norden','Osten','Süden','Westen'];
+const g3_karte=()=>{const k=R(0,3),an=k*90;const svg=`<svg viewBox="0 0 120 120" width="150" role="img" aria-label="Kompass mit rotem Pfeil"><circle cx="60" cy="60" r="52" fill="#fff8e8" stroke="#2a0a00" stroke-width="4"/><g font-family="Arial" font-weight="800" font-size="14" text-anchor="middle" fill="#2a0a00"><text x="60" y="24">N</text><text x="97" y="65">O</text><text x="60" y="106">S</text><text x="23" y="65">W</text></g><g transform="rotate(${an} 60 60)"><path d="M60 30L70 62H50Z" fill="#c0392b" stroke="#2a0a00" stroke-width="2"/><rect x="56" y="60" width="8" height="16" fill="#c0392b" stroke="#2a0a00" stroke-width="2"/></g></svg>`;
+ return mk('In welche Himmelsrichtung zeigt der rote Pfeil?',RICH[k],RICH.filter((x,i)=>i!=k),{vis:`<div class="c">${svg}</div>`,say:'In welche Himmelsrichtung zeigt der rote Pfeil?',tm:1.3})};
+const ZU=[['Hand','schuh'],['Kinder','garten'],['Sonnen','schein'],['Regen','schirm'],['Fahr','rad'],['Zahn','bürste'],['Apfel','baum'],['Schul','tasche'],['Wasser','melone'],['Eis','bär'],['Haus','aufgabe'],['Tisch','bein'],['Auto','bahn'],['Blumen','vase'],['Schnee','mann'],['Lese','buch']];
+const g3_zusammen=()=>{const [a,b]=pk(ZU),c=a+b,o=sh(ZU.filter(x=>x[0]!=a)).slice(0,2),w=[b[0].toUpperCase()+b.slice(1)+a.toLowerCase(),a+o[0][1],o[1][0]+b];return mk(`Welches Wort entsteht aus „${a}“ und „${b[0].toUpperCase()+b.slice(1)}“?`,c,w,{say:`Welches Wort entsteht aus ${a} und ${b}?`,tm:1.2})};
+const g3_uhr=()=>{const h=R(1,12),m=pk([5,10,15,20,25,30,35,40,45,50,55]),dig=(x,y)=>`${x}:${String(y).padStart(2,'0')} Uhr`,C=dig(h,m),hh=m/5||12,W=[dig(hh,(h%12)*5),dig(h,(m+5)%60),dig(h,(m+55)%60),dig(h%12+1,m),dig((h+10)%12+1,m)].filter(x=>x!=C);return mk('Wie spät ist es?',C,W,{vis:`<div class="c">${clockSvg(h,m)}</div>`,say:'Wie spät ist es? Schau auf die Uhr.',tm:1.3})};
+const g3_geld=()=>{const pr=R(11,95)*10,pay=pr<500?500:1000,c=pay-pr,W=[c+10,c-10,c+50,c-50,c+100,c-100,c+20,c-20].filter(v=>v>0&&v!=c).map(fE);
+ const q=`Du kaufst ein Eis für ${fE(pr)} und bezahlst mit ${pay>=1000?'10 €':'5 €'}. Wie viel Rückgeld bekommst du?`;return mk(q,fE(c),W,{say:q.replace(/(\d+),(\d\d) €/,'$1 Euro $2'),tm:2})};
+/* --- Klasse 4: Mathe --- */
+const g4_add=()=>{const t=R(0,1),r10=x=>Math.round(x/10)*10;if(t==0){const a=r10(R(1200,6800)),b=r10(R(300,2900)),s=a+b;return mk(`${dn(a)} + ${dn(b)} = ?`,dn(s),[s+100,s-100,s+10,s-10,s+1000,s-1000].map(dn),{say:`${a} plus ${b}`,tm:1.8})}
+ const a=r10(R(3000,9900)),b=r10(R(300,a-1000)),s=a-b;return mk(`${dn(a)} − ${dn(b)} = ?`,dn(s),[s+100,s-100,s+10,s-10,s+1000,s-1000].filter(x=>x>0).map(dn),{say:`${a} minus ${b}`,tm:1.8})};
+const g4_mal=()=>{const t=R(0,2);if(t==0){const a=R(12,48),b=R(3,9);return mk(`${a} · ${b} = ?`,String(a*b),nd(a*b,0,1000,3,[a*b+b,a*b-b,a*b+10,a*b-10]),{say:`${a} mal ${b}`,tm:1.6})}
+ if(t==1){const a=R(12,60),b=R(3,9);return mk(`${a*b} : ${b} = ?`,String(a),nd(a,1,100,3,[a+1,a-1,a+10,a-10]),{say:`${a*b} geteilt durch ${b}`,tm:1.6})}
+ const a=R(11,15),b=pk([11,12,15,20,25]);return mk(`${a} · ${b} = ?`,String(a*b),nd(a*b,0,500,3,[a*b+10,a*b-10,a*b+a,a*b-b]),{say:`${a} mal ${b}`,tm:1.8})};
+const g4_rest=()=>{const d=R(3,9),q=R(4,15),r=R(1,d-1),n=d*q+r,W=[`${q} Rest ${r+1>d-1?r-1:r+1}`,`${q+1} Rest ${r}`,`${q-1} Rest ${r}`,`${q} Rest ${d-r}`,`${q} Rest 0`].filter(x=>x!=`${q} Rest ${r}`);return mk(`${n} : ${d} = ?`,`${q} Rest ${r}`,W,{say:`${n} geteilt durch ${d}. Mit Rest.`,tm:1.8})};
+const g4_runden=()=>{if(R(0,1)){let n;do{n=R(1100,98900)}while(n%1000==0||n%1000==500);const c=Math.round(n/1000)*1000;return mk(`Runde ${dn(n)} auf Tausender.`,dn(c),[c+1000,c-1000,Math.round(n/100)*100,c+100].filter(x=>x!=c).map(dn),{say:`Runde ${n} auf Tausender.`,tm:1.5})}
+ let n;do{n=R(1101,9989)}while(n%100==0||n%100==50);const c=Math.round(n/100)*100;return mk(`Runde ${dn(n)} auf Hunderter.`,dn(c),[c+100,c-100,Math.round(n/10)*10,c+1000].filter(x=>x!=c).map(dn),{say:`Runde ${n} auf Hunderter.`,tm:1.5})};
+const g4_gleichung=()=>{const a=R(2,9),x=R(2,12),b=R(1,30),r=a*x+b;return mk(`${a} · ? + ${b} = ${r}`,String(x),nd(x,1,30,3,[x+1,x-1,x+2,a]),{say:`${a} mal wie viel, plus ${b}, ergibt ${r}?`,tm:2})};
+const FRN=[['½',2,1,'ein Halb'],['¼',4,1,'ein Viertel'],['¾',4,3,'drei Viertel'],['⅓',3,1,'ein Drittel'],['⅕',5,1,'ein Fünftel'],['⅔',3,2,'zwei Drittel']];
+const g4_bruch=()=>{const [s,d,z,w]=pk(FRN),n=d*R(2,12),c=n/d*z;return mk(`Wie viel ist ${s} von ${n}?`,String(c),nd(c,0,200,3,[n/d,c+z,c-z,n-c]),{say:`Wie viel ist ${w} von ${n}?`,tm:1.6})};
+const pie=(n,k)=>{let s=`<circle cx="50" cy="50" r="44" fill="#fff8e8" stroke="#2a0a00" stroke-width="3"/>`;for(let i=0;i<n;i++){const a0=i/n*Math.PI*2-Math.PI/2,a1=(i+1)/n*Math.PI*2-Math.PI/2,x0=50+44*Math.cos(a0),y0=50+44*Math.sin(a0),x1=50+44*Math.cos(a1),y1=50+44*Math.sin(a1);s+=`<path d="M50 50L${x0.toFixed(1)} ${y0.toFixed(1)}A44 44 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}Z" fill="${i<k?'#ff8c1a':'#fff8e8'}" stroke="#2a0a00" stroke-width="2.5"/>`}return `<svg viewBox="0 0 100 100" width="130" role="img" aria-label="${k} von ${n} Teilen sind gefärbt">${s}</svg>`};
+const NAMEN={2:'Halbe',3:'Drittel',4:'Viertel',5:'Fünftel',6:'Sechstel',8:'Achtel'};
+const g4_bruchbild=()=>{const n=pk([2,3,4,5,6,8]),k=R(1,n-1),f=(a,b)=>[`${a}/${b}`,`${a} von ${b}`],C=f(k,n),W=[[k+1<n?k+1:k-1,n],[n-k,n],[k,n+(n>7?-2:1)],[k+1,n+1]].filter(x=>x[0]>=1&&x[0]<x[1]&&!(x[0]==k&&x[1]==n)).map(x=>f(x[0],x[1]));
+ return mk('Welcher Bruchteil ist gefärbt?',C,W,{vis:`<div class="c">${pie(n,k)}</div>`,say:'Welcher Bruchteil des Kreises ist gefärbt?',tm:1.4})};
+const g4_dezimal=()=>{const a=R(20,450)*5,b=R(10,300)*5;if(R(0,1)){const s=a+b,W=[s+10,s-10,s+100,s-100,s+50,s-50].filter(v=>v>0&&v!=s).map(fE);return mk(`${fE(a)} + ${fE(b)} = ?`,fE(s),W,{say:`${fE(a).replace(',',' Euro ')} plus ${fE(b).replace(',',' Euro ')}`,tm:1.8})}
+ const x=Math.max(a,b),y=Math.min(a,b),s=x-y;if(s<=0)return g4_dezimal();const W=[s+10,s-10,s+100,s-100,s+50,s-50].filter(v=>v>0&&v!=s).map(fE);return mk(`${fE(x)} − ${fE(y)} = ?`,fE(s),W,{say:`${fE(x).replace(',',' Euro ')} minus ${fE(y).replace(',',' Euro ')}`,tm:1.8})};
+const EIN4=[['3 km = ? m','3000',['300','30','30000']],['2 m 50 cm = ? cm','250',['25','2050','205']],['4 kg = ? g','4000',['400','40','40000']],['1 kg 500 g = ? g','1500',['150','1050','15000']],['2 h 30 min = ? min','150',['230','130','90']],['3 min = ? s','180',['30','300','60']],['5000 g = ? kg','5',['50','500','0,5']],['1 l = ? ml','1000',['100','10','10000']],['2 l = ? ml','2000',['200','20','2200']],['4 m = ? cm','400',['40','4000','44']],['6 cm = ? mm','60',['6','600','66']],['2 Tage = ? Stunden','48',['24','36','72']]];
+const g4_einheit=()=>{const q=pk(EIN4);return mk('Welche Zahl fehlt? '+q[0],q[1],q[2],{say:q[0].replace('?','wie viel'),tm:1.4})};
+const fD=m=>m>=60?(m%60?`${Math.floor(m/60)} h ${m%60} min`:`${m/60} h`):`${m} min`;
+const g4_zeit=()=>{const sh0=R(7,18),sm=pk([0,5,10,15,20,25,30,35,40,45,50,55]),dur=R(5,34)*5,em=(sh0*60+sm+dur),eh=Math.floor(em/60),emi=em%60,t=(h,m)=>`${h}:${String(m).padStart(2,'0')} Uhr`;if(eh>=24)return g4_zeit();const W=[dur+10,dur-10,dur+60,dur-60,dur+30,dur-30,dur+5,dur-5].filter(v=>v>0&&v!=dur).map(fD);
+ const q=`Der Film beginnt um ${t(sh0,sm)} und endet um ${t(eh,emi)}. Wie lange dauert er?`;return mk(q,fD(dur),W,{say:q,tm:2.2})};
+const g4_umfang=()=>{const a=R(4,15),b=R(2,a-1),sq=R(0,3)==0;if(sq){const s=R(3,12);return R(0,1)?mk(`Ein Quadrat hat die Seitenlänge ${s} cm. Wie groß ist sein Umfang?`,`${4*s} cm`,[`${s*s} cm`,`${2*s} cm`,`${4*s+4} cm`,`${s+4} cm`],{say:`Ein Quadrat hat die Seitenlänge ${s} Zentimeter. Wie groß ist sein Umfang?`,tm:1.8}):mk(`Ein Quadrat hat die Seitenlänge ${s} cm. Wie groß ist seine Fläche?`,`${s*s} cm²`,[`${4*s} cm²`,`${2*s} cm²`,`${s*s+s} cm²`,`${s*s-s} cm²`],{say:`Ein Quadrat hat die Seitenlänge ${s} Zentimeter. Wie groß ist seine Fläche?`,tm:1.8})}
+ if(R(0,1)){const u=2*(a+b);return mk(`Ein Rechteck ist ${a} cm lang und ${b} cm breit. Wie groß ist der Umfang?`,`${u} cm`,[`${a*b} cm`,`${a+b} cm`,`${u+2} cm`,`${u-2} cm`],{say:`Ein Rechteck ist ${a} Zentimeter lang und ${b} Zentimeter breit. Wie groß ist der Umfang?`,tm:2})}
+ return mk(`Ein Rechteck ist ${a} cm lang und ${b} cm breit. Wie groß ist die Fläche?`,`${a*b} cm²`,[`${2*(a+b)} cm²`,`${a+b} cm²`,`${a*b+a} cm²`,`${a*b-b} cm²`],{say:`Ein Rechteck ist ${a} Zentimeter lang und ${b} Zentimeter breit. Wie groß ist die Fläche?`,tm:2})};
+const g4_sach=()=>{const n=pk(NM),t=R(0,3);let q,c,fm=false;
+ if(t==0){const p=R(30,55),k=R(2,4),e=R(5,20);q=`Ein Bus hat ${p} Plätze. ${k} Busse fahren zum Ausflug. ${e} Plätze bleiben frei. Wie viele Kinder fahren mit?`;c=p*k-e}
+ else if(t==1){const pr=R(1,4),k=R(3,6),pay=pr*k+R(1,10);q=`${n} kauft ${k} Hefte für je ${pr} € und zahlt mit ${pay} €. Wie viel Rückgeld bekommt ${n}?`;c=pay-pr*k;fm=true}
+ else if(t==2){const g=R(3,8),k=R(3,9);q=`${g*k} Kinder bilden Gruppen mit je ${g} Kindern. Wie viele Gruppen gibt es?`;c=k}
+ else{const h=R(1,4),m=R(5,55);q=`Eine Reise dauert ${h} Stunden und ${m} Minuten. Wie viele Minuten sind das?`;c=h*60+m}
+ return mk(q,fm?`${c} €`:String(c),(fm?[c+1,c-1,c+2,c-2].filter(x=>x>0).map(x=>`${x} €`):nd(c,0,1000,3,[c+1,c-1,c+10,c-10,c+60])),{say:q,tm:2.4})};
+const g4_folge=()=>{const t=R(0,4);let sq,nx,sy='';if(t==0){sq=[1,4,9,16];nx=25;sy=' Das sind Quadratzahlen.'}else if(t==1){sq=[1,1,2,3,5];nx=8}else if(t==2){const s=R(1,3);sq=[s,s*3,s*9,s*27];nx=s*81}else if(t==3){const s=R(2,15);sq=[s,s+5,s+3,s+8,s+6];nx=s+11}else{sq=[1,3,6,10];nx=15}
+ return mk('Wie geht die Zahlenfolge weiter?',String(nx),nd(nx,0,400,3,[nx+1,nx-1,nx+2,nx-2,nx+10]),{vis:`<div class="big">${sq.join(', ')}, ❓</div>`,say:'Wie geht die Zahlenfolge weiter?',tm:1.8})};
+const g4_reihenf4=()=>{const N=sh(['Anna','Ben','Cem','Dora','Emil','Finn','Gina']).slice(0,4),a=pk([['größer','kleiner','am größten','am kleinsten'],['älter','jünger','am ältesten','am jüngsten'],['schneller','langsamer','am schnellsten','am langsamsten']]);
+ const S=sh([0,1,2].map(i=>R(0,1)?`${N[i]} ist ${a[0]} als ${N[i+1]}.`:`${N[i+1]} ist ${a[1]} als ${N[i]}.`)),top=R(0,1),q=`${S.join(' ')} Wer ist ${top?a[2]:a[3]}?`;
+ return mk(q,top?N[0]:N[3],(top?N.slice(1):N.slice(0,3)),{say:q,tm:3,n:4})};
+const g4_memory5=()=>{const seen=sh(ALLE).slice(0,5),rest=ALLE.filter(x=>!seen.includes(x)),pre=`<div class="em" role="img" aria-label="Merke dir die Bilder: ${seen.map(x=>x[1]).join(', ')}">${seen.map(x=>x[0]).join(' ')}</div>`;
+ if(R(0,1)){const c=pk(seen);return mk('Welches Bild war dabei?',eo2(c),sh(rest).slice(0,3).map(eo2),{pre,preMs:3600,preQ:'Merk dir die Bilder!'})}
+ const c=pk(rest);return mk('Welches Bild war NICHT dabei?',eo2(c),seen.slice(0,3).map(eo2),{pre,preMs:3600,preQ:'Merk dir die Bilder!'})};
+const g4_zahlrat2=()=>{const x=R(3,20),t=R(0,2),k=[2,3,4][R(0,2)],add=R(0,1),b=R(2,15);let v=x*k;const verb={2:'verdopple',3:'verdreifache',4:'vervierfache'}[k];v=add?v+b:v-b;if(v<=0)return g4_zahlrat2();
+ const q=`Ich denke an eine Zahl. Ich ${verb} sie und ${add?'addiere':'subtrahiere'} dann ${b}. Das Ergebnis ist ${v}. Welche Zahl war es?`;return mk(q,String(x),nd(x,1,50,3,[x+1,x-1,x+2,v-b]),{say:q,tm:2.6})};
+const SQ=[4,9,16,25,36,49,64,81,100,121];
+const g4_quadrat=()=>{const sqs=sh(SQ).slice(0,3);let o;do{o=R(5,120)}while(SQ.includes(o));return mk('Welche Zahl ist keine Quadratzahl?',String(o),sqs.map(String),{say:'Welche Zahl ist keine Quadratzahl?',tm:1.6})};
+/* --- Klasse 4: Deutsch --- */
+const STG=[['schnell','schneller','am schnellsten'],['groß','größer','am größten'],['gut','besser','am besten'],['viel','mehr','am meisten'],['alt','älter','am ältesten'],['hoch','höher','am höchsten'],['nah','näher','am nächsten'],['warm','wärmer','am wärmsten'],['klein','kleiner','am kleinsten'],['lang','länger','am längsten']];
+const g4_steigern=()=>{const [p,c,s]=pk(STG);if(R(0,1))return mk(`Wie heißt die höchste Steigerungsstufe von „${p}“?`,s,[`am ${p}sten`,`am ${c}sten`,c,`am ${p}esten`],{say:`Wie heißt die höchste Steigerungsstufe von ${p}?`,tm:1.3});
+ return mk(`Wie heißt die Vergleichsstufe von „${p}“?`,c,[p+'er',c+'er',s,`mehr ${p}`].filter(x=>x!=c),{say:`Wie heißt die Vergleichsstufe von ${p}?`,tm:1.3})};
+const DD=[['… Buch liegt auf dem Tisch.','Das'],['Ich weiß, … du Recht hast.','dass'],['Er sagt, … es regnet.','dass'],['Ist … dein Fahrrad?','das'],['… Auto ist rot.','Das'],['Ich hoffe, … du bald kommst.','dass'],['Sie glaubt, … er lügt.','dass'],['Wo ist … Heft?','das'],['Hast du gesehen, … er gewinnt?','dass'],['Sie nimmt … Messer.','das']];
+const g4_dass=()=>{const [s,c]=pk(DD),cap=c[0]=='D',o=cap?['Das','Dass']:['das','dass'];return mk('Das oder dass? Was passt in die Lücke?',c,o.filter(x=>x!=c),{vis:`<div class="big" style="font-size:1.3em">${s}</div>`,say:`Das oder dass? ${s.replace('…','Lücke')}`,tm:1.3})};
+const SG=[{s:'Der kleine Hund frisst einen Knochen.',S:'Der kleine Hund',P:'frisst',O:'einen Knochen'},{s:'Lea liest ein spannendes Buch.',S:'Lea',P:'liest',O:'ein spannendes Buch'},{s:'Die Kinder essen leckeres Eis.',S:'Die Kinder',P:'essen',O:'leckeres Eis'},{s:'Der Bäcker backt frisches Brot.',S:'Der Bäcker',P:'backt',O:'frisches Brot'},{s:'Mein Bruder malt ein buntes Bild.',S:'Mein Bruder',P:'malt',O:'ein buntes Bild'},{s:'Die Katze fängt eine Maus.',S:'Die Katze',P:'fängt',O:'eine Maus'},{s:'Tim kauft einen roten Ball.',S:'Tim',P:'kauft',O:'einen roten Ball'}];
+const g4_satzglied=()=>{const x=pk(SG),t=pk([['S','das Subjekt (Wer oder was?)'],['P','das Prädikat (Was tut jemand?)'],['O','das Objekt (Wen oder was?)']]);return mk(`Welcher Satzteil ist ${t[1]}?`,x[t[0]],['S','P','O'].filter(k=>k!=t[0]).map(k=>x[k]),{vis:`<div class="big" style="font-size:1.2em">${x.s}</div>`,say:`Welcher Satzteil ist ${t[1]}? ${x.s}`,tm:1.6,n:3})};
+const ZF=[['Gestern habe ich einen Apfel …','gegessen',['aß','essen','esse']],['Morgen … ich ins Schwimmbad gehen.','werde',['wurde','habe','bin']],['Wir sind gestern nach Hause …','gelaufen',['lief','laufen','läuft']],['Sie hat ein Lied …','gesungen',['sang','singen','singt']],['Er ist in den Zug …','eingestiegen',['einstieg','einsteigt','einsteigen']],['Nächste Woche … wir verreisen.','werden',['wurden','haben','sind']],['Er hat den Ball …','geworfen',['warf','werfen','wirft']],['Gestern ist der Zug pünktlich …','gefahren',['fuhr','fahren','fährt']]];
+const g4_zeitform=()=>{const [s,c,w]=pk(ZF);return mk('Welche Form passt in den Satz?',c,w,{vis:`<div class="big" style="font-size:1.25em">${s}</div>`,say:`Welche Form passt in den Satz? ${s.replace('…','Lücke')}`,tm:1.6})};
+const WFA={fahren:['Fahrer','Fahrrad','Fahrt','Abfahrt'],spielen:['Spieler','Spielzeug','Spiel','Verspielt'],lesen:['Leser','Lesebuch','Vorlesen','Lesezeichen'],blühen:['Blüte','Blume','Aufblühen','Blumenbeet'],kaufen:['Käufer','Einkauf','Verkauf','Kaufhaus']},INTR=['Tisch','Hund','Wasser','Schule','Sonne','Brot'];
+const g4_wortfamilie=()=>{const K=Object.keys(WFA),k=pk(K),m=sh(WFA[k]).slice(0,3),o=pk(INTR);return mk(`Welches Wort gehört NICHT zur Wortfamilie „${k}“?`,o,m,{say:`Welches Wort gehört nicht zur Wortfamilie ${k}?`,tm:1.4})};
+const RS4=[['Gebäude',['Gebeude','Gebaude','Gebäute']],['Mädchen',['Medchen','Mätchen','Mädschen']],['Äpfel',['Epfel','Äpfell','Aepfel']],['Städte',['Stedte','Städde','Stätte']],['Verkehr',['Ferkehr','Verkeer','Verker']],['Maschine',['Maschiene','Maschinne','Mashine']],['Rhythmus',['Rytmus','Rhytmus','Rhythmuss']],['Familie',['Famielie','Familje','Fammilie']],['Schwierig',['Schwirig','Schwierich','Schwiehrig']],['Vielleicht',['Filleicht','Vieleicht','Villeicht']],['Pflanze',['Planze','Pflanse','Flanze']],['Kaputt',['Kaput','Kabutt','Kapput']],['Wichtig',['Wichtich','Wiktig','Wihtig']],['Entschuldigung',['Entschuldigunk','Endschuldigung','Entshuldigung']]];
+const g4_rechtschr=()=>{const [c,w]=pk(RS4);return mk('Welches Wort ist richtig geschrieben?',c,w,{say:'Welches Wort ist richtig geschrieben?',tm:1.3})};
+const SYN=[['schnell','rasch',['langsam','müde','leise']],['laufen','rennen',['sitzen','schlafen','essen']],['Auto','Wagen',['Haus','Baum','Brot']],['klein','winzig',['riesig','dick','laut']],['reden','sprechen',['schweigen','hören','lesen']],['Angst','Furcht',['Mut','Freude','Hunger']],['groß','riesig',['klein','kalt','leise']],['Haus','Gebäude',['Garten','Wiese','Straße']],['schauen','blicken',['hören','riechen','schmecken']],['froh','glücklich',['traurig','wütend','müde']]];
+const g4_synonym=()=>{const [a,c,w]=pk(SYN);return mk(`Welches Wort hat eine ähnliche Bedeutung wie „${a}“?`,c,w,{say:`Welches Wort hat eine ähnliche Bedeutung wie ${a}?`,tm:1.2})};
+/* --- Klasse 4: Sachunterricht --- */
+const SU4=[['Wie heißt die Hauptstadt von Deutschland?','Berlin',['Hamburg','München','Köln']],['Wie viele Bundesländer hat Deutschland?','16',['12','14','20']],['Welcher Fluss fließt durch Köln?','Der Rhein',['Die Elbe','Die Donau','Die Weser']],['Wie heißt der höchste Berg Deutschlands?','Zugspitze',['Brocken','Feldberg','Watzmann']],['Welches Meer liegt im Norden Deutschlands?','Nordsee',['Mittelmeer','Schwarzes Meer','Rotes Meer']],['Wie nennt man es, wenn Wasser zu Dampf wird?','Verdunsten',['Gefrieren','Schmelzen','Versickern']],['Wie nennt man es, wenn Wasserdampf zu Tröpfchen wird?','Kondensieren',['Verdunsten','Gefrieren','Schmelzen']],['Welches Material leitet Strom gut?','Kupfer',['Holz','Gummi','Glas']],['Welches Organ pumpt das Blut durch den Körper?','Das Herz',['Die Lunge','Der Magen','Die Leber']],['Welche Energiequelle geht nie aus?','Die Sonne',['Kohle','Erdöl','Erdgas']],['Welcher Planet ist der größte?','Jupiter',['Erde','Mars','Merkur']],['Was umkreist die Erde?','Der Mond',['Die Sonne','Der Mars','Der Jupiter']],['Wie nennt man den Vorgang, bei dem Pflanzen mit Licht Nahrung herstellen?','Fotosynthese',['Verdauung','Atmung','Gärung']],['Welches Tier hält Winterschlaf?','Igel',['Fuchs','Reh','Hase']],['Was fressen Pflanzenfresser?','Pflanzen',['Fleisch','Insekten','Fisch']],['Welches Gas brauchen wir zum Atmen?','Sauerstoff',['Helium','Wasserstoff','Kohlenstoff']],['Wie verhalten sich zwei gleiche Magnetpole?','Sie stoßen sich ab',['Sie ziehen sich an','Es passiert nichts','Sie schmelzen']],['Was ist eine Lichtquelle?','Die Sonne',['Der Mond','Ein Spiegel','Ein Stein']],['Wo tagt der Deutsche Bundestag?','In Berlin',['In Bonn','In Hamburg','In München']],['Was bedeutet ein rotes, rundes Schild mit weißem Balken?','Einfahrt verboten',['Parken erlaubt','Vorfahrt','Halten erlaubt']],['Welcher Teil der Pflanze macht Samen?','Die Blüte',['Die Wurzel','Der Stängel','Das Blatt']],['Wie nennt man Tiere, die nur Fleisch fressen?','Fleischfresser',['Pflanzenfresser','Allesfresser','Insektenfresser']],['Wie heißt das Gestein, das aus Vulkanen kommt?','Lava',['Kreide','Sand','Marmor']]];
+const g4_su=()=>{const q=pk(SU4);return mk(q[0],q[1],q[2],{say:q[0],tm:1.5})};
+const NK=[['Gras','Hase','Fuchs'],['Blatt','Raupe','Meise'],['Plankton','Hering','Seehund'],['Korn','Maus','Eule'],['Algen','Kaulquappe','Reiher']];
+const g4_nahrung=()=>{const c=pk(NK),o=NK.filter(x=>x!=c).map(x=>x[2]).concat(NK.filter(x=>x!=c).map(x=>x[0]));return mk(`Nahrungskette: ${c[0]} → ${c[1]} → ?`,c[2],sh(o).slice(0,3),{say:`Nahrungskette. ${c[0]}, dann ${c[1]}, dann was?`,tm:1.5})};
+/* --- Klasse 4: Profi (nur Arcade, spätere Wellen) --- */
+const g4p_mult=()=>{const a=R(12,35),b=R(11,25),p=a*b;return mk(`${a} · ${b} = ?`,String(p),nd(p,0,1000,3,[p+10,p-10,p+a,p-b,p+100]),{say:`${a} mal ${b}`,tm:2.6})};
+const g4p_div=()=>{const d=R(3,9),q=R(25,120);return mk(`${d*q} : ${d} = ?`,String(q),nd(q,1,300,3,[q+1,q-1,q+10,q-10]),{say:`${d*q} geteilt durch ${d}`,tm:2.2})};
+const FRP=[['⅔',3,2,'zwei Drittel'],['⅗',5,3,'drei Fünftel'],['⅘',5,4,'vier Fünftel'],['⅜',8,3,'drei Achtel'],['¾',4,3,'drei Viertel'],['⅞',8,7,'sieben Achtel']];
+const g4p_bruch=()=>{const [s,d,z,w]=pk(FRP),n=d*R(2,12),c=n/d*z;return mk(`Wie viel ist ${s} von ${n}?`,String(c),nd(c,0,300,3,[n/d,c+z,c-z,n-c]),{say:`Wie viel ist ${w} von ${n}?`,tm:2})};
+const g4p_sach=()=>{if(R(0,1)){const a=R(40,90),b=R(10,40),q=`Ein Laden verkauft am Montag ${a} Brötchen und am Dienstag ${b} mehr als am Montag. Wie viele Brötchen sind es zusammen?`,c=a+a+b;return mk(q,String(c),nd(c,0,500,3,[a+b,c+10,c-10,a*2]),{say:q,tm:2.8})}
+ const l=R(8,16),br=R(3,l-2),q=`Der Umfang eines Rechtecks beträgt ${2*(l+br)} cm. Die Länge ist ${l} cm. Wie breit ist das Rechteck?`;return mk(q,`${br} cm`,[br+1,br-1,br+2,l+br].filter(x=>x>0&&x!=br).map(x=>`${x} cm`),{say:q,tm:3})};
+
+/* ===== Konfiguration Klasse 2 ===== */
+const CLS=2;
+const CFG={fs:1,lr:1,arc:[8,.6,4.5],hw:[.25,.6,.9],desc:{hoehle:'Kopfrechnen und Zahlen',zoo:'Tiere, Natur, Körper, Verkehr',werk:'Bilder, Wörter, Artikel',geysir:'Zählen, Uhr, Geld, Formen',glut:'Muster, Merken, Knobeln',reim:'Reime, Silben, Alphabet',krater:'Ein Rätsel aus jedem Bereich'},pool:POOL,hard:[HM,HM,HM,HD,HD,HS,HL]};
+CFG.fin=[...new Set(Object.values(CFG.pool).flat())];CFG.easy=CFG.fin;
+/* ===== Spiel-Motor ===== */
+const A_=$('#app');
+const show=h=>{A_.innerHTML=h;window.scrollTo(0,0)};
+const plain=s=>String(s).replace(/<[^>]+>/g,'');
+const LV=[
+ {id:'hoehle',n:'Lavahöhle',e:'🕳️',s:'Mathe',d:CFG.desc.hoehle,mode:'lava',N:8,pool:CFG.pool.m1,gem:['🔴','Rubin']},
+ {id:'zoo',n:'Feuerberg-Zoo',e:'🦎',s:'Sachunterricht',d:CFG.desc.zoo,mode:'fuse',fuse:16,N:8,pool:CFG.pool.su,gem:['🟠','Feueropal']},
+ {id:'werk',n:'Funkenwerkstatt',e:'⚒️',s:'Deutsch',d:CFG.desc.werk,mode:'fuse',fuse:16,N:8,pool:CFG.pool.d1,gem:['🟡','Bernstein']},
+ {id:'geysir',n:'Geysir-Tal',e:'♨️',s:'Mathe',d:CFG.desc.geysir,mode:'lava',N:8,pool:CFG.pool.m2,gem:['⚫','Obsidian']},
+ {id:'glut',n:'Glut-Gedächtnis',e:'🧠',s:'Logik und Gedächtnis',d:CFG.desc.glut,mode:'both',N:10,fuse:18,pool:CFG.pool.lo,gem:['🟢','Smaragd']},
+ {id:'reim',n:'Reimfelsen',e:'🪨',s:'Deutsch',d:CFG.desc.reim,mode:'fuse',fuse:14,N:8,pool:CFG.pool.d2,gem:['🟣','Amethyst']},
+ {id:'krater',n:'Krater-Finale',e:'🌋',s:'Alles gemischt',d:CFG.desc.krater,mode:'both',N:12,fuse:16,pool:CFG.fin,gem:['💎','Vulkankristall'],fin:true}];
+const MODEI={lava:'🌋 Lava steigt',fuse:'🧨 Zündschnur',both:'🌋🧨 Lava und Zündschnur'};
+const calm=()=>DB.calm?1.8:1;
+function setU(){U=isAd()?mkU():(DB.u[CUR]=DB.u[CUR]||mkU());DB.cur=isAd()?'':CUR;save()}
+const sumStars=()=>Object.values(U.s).reduce((a,b)=>a+b,0);
+const cleared=()=>LV.filter(l=>!l.fin&&U.s[l.id]>0).length;
+const finOpen=()=>isAd()||cleared()>=4;
+/* ---------- Login ---------- */
+function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o);return o}
+function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>👋 Willkommen am Vulkan!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Lavafuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><p><button class="big" onclick="okName()">🔥 Los geht’s</button></p><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p>'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(' '):''}</div>`);const u=$('#un');u&&u.focus()}
+function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
+function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
+ if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="results()">📊 Ergebnisse anzeigen</button>');hub()}
+/* ---------- Kunst: Funken, Hero, Karte ---------- */
+const SVGNS='http://www.w3.org/2000/svg';
+const sparks=(n,cx,cy,sp,cls)=>Array.from({length:n},(_,k)=>{const dx=Math.round((Math.random()*2-1)*sp),h=50+Math.round(Math.random()*70),d=(k*.21).toFixed(2),r=(1.4+Math.random()*2.2).toFixed(1);return `<circle class="${cls}" cx="${cx}" cy="${cy}" r="${r}" style="--dx:${dx}px;--h:${h}px;animation-delay:${cls=='sp2'?(k*.03).toFixed(2):d}s"/>`}).join('');
+function boom(el,cx,cy){const g=document.createElementNS(SVGNS,'g');g.innerHTML=sparks(26,cx,cy,120,'sp2');el.appendChild(g);setTimeout(()=>g.remove(),1800)}
+const heroSvg=()=>`<svg class="hero" viewBox="0 0 400 300" role="img" aria-label="Ein Vulkan spuckt Lava und Funken. Tippe darauf!" onclick="boom(this,200,96)"><defs><linearGradient id="hrk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a4a2c"/><stop offset="1" stop-color="#2d0f0a"/></linearGradient><linearGradient id="hlv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset=".5" stop-color="#ff7a1a"/><stop offset="1" stop-color="#d42a05"/></linearGradient><radialGradient id="hgl"><stop offset="0" stop-color="#ffb703" stop-opacity=".95"/><stop offset="1" stop-color="#ff4d00" stop-opacity="0"/></radialGradient><clipPath id="hcp"><path d="M10 292L146 100Q200 78 254 100L390 292Z"/></clipPath></defs>
+<ellipse cx="200" cy="282" rx="196" ry="22" fill="#ff4d0040"/><circle cx="200" cy="84" r="120" fill="url(#hgl)" class="pulse"/>
+<path d="M10 292L146 100Q200 78 254 100L390 292Z" fill="url(#hrk)"/><g clip-path="url(#hcp)"><path d="M0 292L146 100L190 100L110 292Z" fill="#fff" opacity=".07"/><path d="M262 292L222 100L254 100L400 292Z" fill="#000" opacity=".18"/>
+<path class="fl2" d="M178 104Q168 160 150 205Q136 240 118 292" fill="none" stroke="#c2310a" stroke-width="9" stroke-linecap="round"/><path class="fl2 in" d="M178 104Q168 160 150 205Q136 240 118 292" fill="none" stroke="#ffb703" stroke-width="4" stroke-linecap="round"/>
+<path class="fl2" d="M226 104Q238 150 256 200Q268 236 290 292" fill="none" stroke="#c2310a" stroke-width="9" stroke-linecap="round"/><path class="fl2 in" d="M226 104Q238 150 256 200Q268 236 290 292" fill="none" stroke="#ffb703" stroke-width="4" stroke-linecap="round"/></g>
+<ellipse cx="200" cy="100" rx="58" ry="14" fill="#2a0e09"/><ellipse class="pulse" cx="200" cy="100" rx="49" ry="9.5" fill="url(#hlv)"/>
+<circle class="smk" cx="178" cy="78" r="9" fill="#bbb"/><circle class="smk s2" cx="224" cy="70" r="8" fill="#aaa"/><circle class="smk s3" cx="200" cy="82" r="10" fill="#999"/>
+${sparks(16,200,96,80,'sp')}</svg>`;
+const noop=0;
+function hub(){stopRun();const st=sumStars(),nm=isAd()?'Herr Kastner':CUR,gems=LV.map(l=>`<span class="gem${U.g[l.id]||isAd()?' on':''}" title="${l.gem[1]}" aria-label="${l.gem[1]}${U.g[l.id]||isAd()?' gefunden':' noch nicht gefunden'}">${U.g[l.id]||isAd()?l.gem[0]:'◇'}</span>`).join('');
+ show(`<div class="hubw"><div class="chips"><span class="chip">👤 ${esc(nm)}</span><span class="chip" aria-label="${st} von ${LV.length*3} Sternen">⭐ ${st}/${LV.length*3}</span><span class="chip" aria-label="Arcade-Rekord ${U.hi||0} Punkte">🏆 ${U.hi||0}</span></div>
+ <h1 class="logo"><span>VULKAN</span><small>Rätsel · Klasse ${CLS}</small></h1>${heroSvg()}
+ <div class="cta"><button class="cbtn a" onclick="mapScr()"><span class="ci">🗺️</span><span class="cw">Abenteuer</span><span class="cs">${cleared()} von ${LV.length-1} Orten</span></button><button class="cbtn b" onclick="arcIntro()"><span class="ci">⚡</span><span class="cw">Arcade</span><span class="cs">${U.hi?'Rekord '+U.hi:'Wie weit kommst du?'}</span></button></div>
+ <p class="gemrow" role="group" aria-label="Gesammelte Edelsteine">${gems}</p>
+ <nav class="tools" aria-label="Weitere Funktionen"><button onclick="cert()"><span>📜</span>Urkunde</button><button id="cb" class="${DB.calm?'on':''}" aria-pressed="${DB.calm?'true':'false'}" onclick="toggleCalm()" title="Mehr Zeit: Zündschnur brennt länger, Lava steigt langsamer"><span>🐢</span>Mehr Zeit</button><button onclick="ask()"><span>👤</span>Wechseln</button><button onclick="resetMe()"><span>🗑️</span>Neu</button><a class="lnk" href="index.html"><span>🏠</span>Start</a></nav></div>`)}
+function toggleCalm(){DB.calm=DB.calm?0:1;save();hub()}
+function resetMe(){if(confirm('Möchtest du wirklich alle deine Sterne und Edelsteine löschen?')){U.s={};U.g={};U.hi=0;U.f=[];U.n=0;U.r=0;save();hub()}}
+/* ---------- Karte ---------- */
+const stars=n=>n?'⭐'.repeat(n)+'☆'.repeat(3-n):'☆☆☆';
+const MP=[[105,810],[285,700],[115,590],[275,480],[130,375],[255,290],[200,135]];
+const EDG=[[155,230],[128,310],[98,390],[68,480],[38,580],[8,690],[-22,800],[-40,900]];
+function mapArt(glow){const mt='M'+EDG.map(p=>p.join(' ')).join(' L')+' L'+EDG.slice().reverse().map(p=>(400-p[0])+' '+p[1]).join(' L')+'Z';
+ const stv=Array.from({length:44},(_,k)=>`<circle cx="${((k*137.5)%400).toFixed(0)}" cy="${((k*71.3)%215).toFixed(0)}" r="${(.7+(k%3)*.45).toFixed(1)}" fill="#ffe9c9" opacity="${(.35+(k%4)*.15).toFixed(2)}" class="tw" style="animation-delay:${(k%7)*.4}s"/>`).join('');
+ const riv=(m)=>{const t=x=>m?400-x:x;return `<path class="riv" d="M${t(176)} 236Q${t(166)} 300 ${t(142)} 350T${t(102)} 470T${t(62)} 600T${t(22)} 760" fill="none" stroke="#c2310a" stroke-width="10" stroke-linecap="round"/><path class="riv in" d="M${t(176)} 236Q${t(166)} 300 ${t(142)} 350T${t(102)} 470T${t(62)} 600T${t(22)} 760" fill="none" stroke="#ffb703" stroke-width="4" stroke-linecap="round"/>`};
+ const seg=MP.slice(0,6).map((p,i)=>{const q=MP[i+1],ym=(p[1]+q[1])/2,d=`M${p[0]} ${p[1]}C${p[0]} ${ym} ${q[0]} ${ym} ${q[0]} ${q[1]}`,hot=U.s[LV[i].id]>0||isAd();return hot?`<path class="trail hot" d="${d}"/><path class="trail hot in" d="${d}"/>`:`<path class="trail cold" d="${d}"/>`}).join('');
+ return `<svg class="mapsvg" viewBox="0 0 400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" onclick="boom(this,200,226)"><defs><linearGradient id="msk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0306"/><stop offset=".3" stop-color="#2b0b0a"/><stop offset="1" stop-color="#5a1a0a"/></linearGradient><linearGradient id="mrk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a3a22"/><stop offset=".5" stop-color="#4a2018"/><stop offset="1" stop-color="#2a0e09"/></linearGradient><linearGradient id="mlv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset=".5" stop-color="#ff7a1a"/><stop offset="1" stop-color="#d42a05"/></linearGradient><radialGradient id="mgl"><stop offset="0" stop-color="#ffb703" stop-opacity=".95"/><stop offset="1" stop-color="#ff4d00" stop-opacity="0"/></radialGradient><clipPath id="mcp"><path d="${mt}"/></clipPath></defs>
+ <rect width="400" height="900" fill="url(#msk)"/>${stv}
+ <circle cx="200" cy="222" r="${(70+glow*80).toFixed(0)}" fill="url(#mgl)" opacity="${(.25+glow*.7).toFixed(2)}" class="pulse"/>
+ <path d="${mt}" fill="url(#mrk)" stroke="#8a4a30" stroke-width="2" stroke-linejoin="round"/>
+ <g clip-path="url(#mcp)"><path d="M155 230L200 230L170 900L-40 900Z" fill="#fff" opacity=".05"/><path d="M215 230L245 230L440 900L260 900Z" fill="#000" opacity=".2"/><g opacity="${(.35+glow*.65).toFixed(2)}">${riv(0)}${riv(1)}</g>
+ <path d="M120 420l14 30-10 24M270 400l-12 34 14 22M60 640l22 20-8 30M340 620l-20 26 12 28" fill="none" stroke="#1d0807" stroke-width="3" stroke-linecap="round" opacity=".5"/></g>
+ <ellipse cx="200" cy="230" rx="54" ry="15" fill="#2a0e09"/><ellipse class="pulse" cx="200" cy="230" rx="45" ry="10" fill="url(#mlv)"/>
+ <circle class="smk" cx="176" cy="206" r="9" fill="#bbb"/><circle class="smk s2" cx="226" cy="196" r="8" fill="#aaa"/><circle class="smk s3" cx="196" cy="186" r="10" fill="#999"/>${sparks(10,200,224,70,'sp')}
+ ${seg}<ellipse cx="200" cy="896" rx="270" ry="34" fill="url(#mlv)" opacity=".85"/><ellipse cx="200" cy="896" rx="270" ry="34" fill="#ff4d00" opacity=".25" class="pulse"/></svg>`}
+function mapScr(){stopRun();const glow=Math.min(1,.15+sumStars()/18);
+ let act=LV.findIndex((l,i)=>i<LV.length-1&&!(U.s[l.id]>0));if(act<0)act=LV.length-1;if(isAd())act=-1;
+ const pins=LV.map((l,i)=>{const [x,y]=MP[i],open=!l.fin||finOpen(),done=U.s[l.id]>0,side=l.fin?'C':x<200?'L':'R',left=side=='R'?`right:${(100-x/4).toFixed(2)}%`:`left:${(x/4).toFixed(2)}%`,sn=U.s[l.id]||0,lbl=l.fin&&!open?`noch ${4-cleared()} Orte`:`${stars(sn)}`;
+  return `<li class="pin ${side}${done?' done':''}${i==act&&open?' act':''}${l.fin?' fin':''}${open?'':' lock'}" style="${left};top:${(y/9).toFixed(2)}%"><button class="pn" ${open?`onclick="intro(${i})"`:'disabled'} aria-label="${l.n}, ${l.s}, ${open?sn+' von 3 Sternen':'noch verschlossen'}"><span class="pc"><span class="pe">${open?l.e:'🔒'}</span>${U.g[l.id]?`<span class="gb">${l.gem[0]}</span>`:''}${i==act&&open?'<span class="mascot" aria-hidden="true">🦎</span>':''}</span><span class="pl"><b>${l.n}</b><i>${lbl}</i></span></button></li>`}).join('');
+ show(`<div class="bar mapbar"><button class="sec" onclick="hub()">⬅ Zurück</button><h1>Vulkan-Karte</h1><span class="chip">⭐ ${sumStars()}/${LV.length*3}</span></div><div class="mapwrap">${mapArt(glow)}<ol class="pins">${pins}</ol></div>`);
+ const a=$('.pin.act');a&&a.scrollIntoView({block:'center'})}
+function intro(i){const l=LV[i],sec=Math.round((l.fuse||0)*CFG.fs*calm());const rule=l.mode=='lava'?`🌋 Die Lava steigt! Richtige Antworten drücken sie zurück, schnelle noch weiter.`:l.mode=='fuse'?`🧨 Pro Rätsel brennt die Zündschnur ${sec} Sekunden.`:`🌋 Die Lava steigt und 🧨 die Zündschnur brennt (${sec} Sekunden pro Rätsel).`;
+ show(`<div class="bar"><button class="sec" onclick="mapScr()">⬅ Zur Karte</button></div><div class="card c"><div class="bigE">${l.e}</div><h1>${l.n}</h1><p><span class="chip">${l.s}</span> <span class="chip">${l.N} Rätsel</span></p><p>${rule}</p><p class="stars">${stars(U.s[l.id]||0)}</p><p><button class="big" onclick="runLevel(${i})">🔥 Los!</button></p></div>`)}
+const runLevel=i=>{const l=LV[i];startRun({id:l.id,i,mode:l.mode,N:l.N,fuse:l.fuse,pool:l.pool,n:l.n,e:l.e})};
+/* ---------- Arcade ---------- */
+function arcIntro(){show(`<div class="bar"><button class="sec" onclick="hub()">⬅ Zurück</button></div><div class="card c"><div class="bigE">⚡🌋⚡</div><h1>Arcade-Ausbruch</h1><ul class="rules"><li>⚡ <b>Schnell antworten</b> drückt die Lava weit zurück.</li><li>🐢 <b>Zu langsam?</b> Die Lava steigt trotzdem weiter.</li><li>🌊 <b>Jede Welle</b> wird schwerer: kürzere Zündschnur, höherer Lava-Sockel.</li></ul><p>🏆 Dein Rekord: <b>${U.hi||0}</b> Punkte</p><p><button class="big" onclick="startArcade()">🔥 Los!</button></p></div>${board()}`)}
+const startArcade=()=>startRun({id:'arcade',arcade:true,mode:'both',n:'Arcade-Ausbruch',e:'⚡'});
+function board(){const L=Object.entries(DB.u).filter(([n,u])=>u.hi>0).sort((a,b)=>b[1].hi-a[1].hi).slice(0,5);return L.length?`<div class="card"><h2>🏆 Beste Feuerwehr-Helden auf diesem Gerät</h2><ol class="lb">${L.map(([n,u])=>`<li>${esc(n)} · ${u.hi}</li>`).join('')}</ol></div>`:''}
+/* ---------- Lauf ---------- */
+let G=null,raf=0,lastT=0;
+const hasLava=()=>G.mode=='lava'||G.mode=='both',hasFuse=()=>G.mode=='fuse'||G.mode=='both';
+const FUSE=`<div class="fuse"><div class="rope" aria-hidden="true"><i id="fr"></i><b id="fs">🔥</b></div><span class="bomb" aria-hidden="true">🧨</span></div>`;
+function lavaOn(){lavaOff();const d=document.createElement('div');d.id='lavabg';d.setAttribute('aria-hidden','true');d.innerHTML='<div class="lfl" id="lfl"><span>Sockel</span></div><div class="lv"><svg class="lw" viewBox="0 0 1600 40" preserveAspectRatio="none"><path d="M0 22Q50 4 100 22T200 22T300 22T400 22T500 22T600 22T700 22T800 22T900 22T1000 22T1100 22T1200 22T1300 22T1400 22T1500 22T1600 22V40H0Z" fill="#ffb703"/></svg><div class="lb2"></div></div>';document.body.insertBefore(d,document.body.firstChild)}
+function lavaOff(){const d=$('#lavabg');d&&d.remove()}
+function startRun(cfg){stopRun();G={cfg,mode:cfg.mode,N:cfg.arcade?Infinity:cfg.N,lava:cfg.arcade?4:0,floor:0,done:0,m:0,right:0,faults:[],state:'count',paused:false,speaking:false,streak:0,score:0,wave:1,wd:0,last:null,puz:null,fuseT:0,fuseMax:0,pt:0,arc:!!cfg.arcade,over:false};
+ const dots=G.arc?'':`<div class="dots" id="dots" aria-label="Fortschritt">${Array.from({length:G.N},()=>'<i></i>').join('')}</div>`;
+ show(`<div class="hud"><button id="bk" class="sm" onclick="quitRun()">⬅ Abbrechen</button><b class="ttl">${cfg.e} ${esc(cfg.n)}</b><button id="ps" class="sm" onclick="togglePause()" aria-label="Pause">⏸ Pause</button></div>
+ <div class="pan card">${hasFuse()?FUSE:''}<div class="info">${G.arc?'<div class="sc" id="sc"></div>':dots}${hasLava()?'<div class="lt" id="lt"></div>':''}</div></div>
+ <div class="card pz" id="pz"></div>`);
+ if(hasLava())lavaOn();
+ paintBars();countdown(3);cancelAnimationFrame(raf);lastT=performance.now();raf=requestAnimationFrame(tick)}
+function stopRun(){if(G){clearTimeout(G.cdT);clearTimeout(G.nxT);clearTimeout(G.spT);clearTimeout(G.prT)}G=null;cancelAnimationFrame(raf);window.speechSynthesis&&speechSynthesis.cancel();lavaOff();const o=$('#ov');o&&o.dataset.run&&o.remove()}
+function quitRun(){if(!G)return hub();const a=G.arc;stopRun();a?arcIntro():mapScr()}
+function countdown(n){if(!G)return;const pz=$('#pz');if(n==0)return nextPuz();pz.innerHTML=`<div class="cd">${n}</div><p class="c">Mach dich bereit …</p>`;G.cdT=setTimeout(()=>countdown(n-1),650)}
+const pickGen=()=>{let P;if(G.arc){const hard=Math.random()<CFG.hw[Math.min(G.wave,3)-1];P=hard?pk(CFG.hard):CFG.easy}else P=G.cfg.pool;let g,t=0;do{g=pk(P)}while(P.length>1&&g==G.last&&t++<20);G.last=g;return g};
+const lavaRate=()=>(G.arc?Math.min(1.6,.65+.13*G.wave):G.mode=='lava'?.9:.45)*CFG.lr/calm();
+const fuseSecs=()=>(G.arc?Math.max(CFG.arc[2],CFG.arc[0]-(G.wave-1)*CFG.arc[1]):G.cfg.fuse*CFG.fs)*calm();
+function nextPuz(){if(!G)return;if(!G.arc&&G.done>=G.N)return finish();let p,gen=pickGen();try{p=gen()}catch(e){p=gen()}G.puz=p;G.fuseMax=fuseSecs()*(G.arc?1+((p.tm||1)-1)*.5:(p.tm||1));G.fuseT=G.fuseMax;G.pt=0;
+ if(p.pre){G.state='pre';$('#pz').innerHTML=`<div class="q">${p.preQ||'Merk dir die Bilder!'}</div><div class="vis">${p.pre}</div><p class="c"><small>Gleich geht es weiter …</small></p>`;G.prT=setTimeout(()=>{if(G){G.state='ask';renderPuz()}},p.preMs);paintBars();return}
+ G.state='ask';renderPuz()}
+function renderPuz(){const p=G.puz;G.pt=0;$('#pz').innerHTML=`<div class="q" id="qq">${p.q}</div>${p.vis?`<div class="vis">${p.vis}</div>`:''}<div class="opts ${p.cls}" role="group" aria-label="Antworten">${p.opts.map((o,i)=>`<button class="o" data-i="${i}" aria-label="${esc(o.l)}" onclick="answer(${i})">${o.h}</button>`).join('')}</div><p class="row"><button class="sm" onclick="speak()">🔊 Vorlesen</button><span class="mini" id="fb" role="status"></span></p>`;paintBars()}
+function paintBars(){if(!G)return;if(hasLava()){const H=innerHeight,lv=$('#lavabg .lv');lv&&(lv.style.transform=`translateY(${((1-G.lava/100)*(H+40)).toFixed(1)}px)`);const bg=$('#lavabg');bg&&bg.classList.toggle('hot',G.lava>75);const f=$('#lfl');if(f){if(G.floor>0){f.style.display='block';f.style.top=((1-G.floor/100)*(H+40)).toFixed(1)+'px'}else f.style.display='none'}const t=$('#lt');t&&(t.textContent=`🌋 Lava ${Math.round(G.lava)} %`)}
+ if(hasFuse()){const w=G.fuseMax?Math.max(0,G.fuseT/G.fuseMax*100):100,fr=$('#fr'),fs=$('#fs');if(fr){fr.style.width=w+'%';fr.classList.toggle('low',w<30)}if(fs)fs.style.left=(100-w)+'%'}
+ const sc=$('#sc');if(sc)sc.innerHTML=`Welle <b>${G.wave}</b> · Punkte <b>${G.score}</b>${G.streak>1?` · 🔥 ${G.streak} in Folge`:''}`;
+ const d=document.querySelectorAll('#dots i');d.forEach((x,k)=>{x.className=G.res&&G.res[k]===1?'g':G.res&&G.res[k]===0?'r':k==G.done?'c':''})}
+function tick(now){raf=requestAnimationFrame(tick);if(!G)return;const dt=Math.min(.1,(now-lastT)/1000);lastT=now;if(G.paused||G.speaking||G.state!='ask')return;G.pt+=dt;
+ if(hasLava())G.lava+=lavaRate()*dt;if(hasFuse()){G.fuseT-=dt;if(G.fuseT<=0){G.fuseT=0;paintBars();return answer(-1)}}
+ if(G.lava>=100){G.lava=100;paintBars();return answer(-2)}paintBars()}
+const pushFrac=()=>hasFuse()?G.fuseT/G.fuseMax:Math.max(0,1-G.pt/(10*calm()*(G.puz.tm||1)));
+function answer(i){if(!G||G.state!='ask')return;G.state='reveal';const p=G.puz,ok=i==p.a,lost=i==-2;G.res=G.res||[];
+ const bs=document.querySelectorAll('.o');bs.forEach((b,k)=>{b.disabled=true;if(k==p.a)b.classList.add('ok');else if(k==i)b.classList.add('no');else b.classList.add('dim')});
+ const fb=$('#fb');U.n++;G.done++;
+ if(ok){U.r++;G.right++;G.streak++;G.res[G.done-1]=1;const fr=pushFrac();let msg='✔ Richtig!';if(hasLava()){const before=G.lava,push=4+8*fr;G.lava=Math.max(G.floor,G.lava-push);const dd=Math.round(before-G.lava);msg+=fr>.66?' ⚡ Blitzschnell!':'';msg+=dd>0?` 🌋 −${dd} %`:' (Lava am Sockel)'}if(G.arc){G.score+=10+Math.ceil(hasFuse()?G.fuseT:0)+Math.min(G.streak,10)*2}fb.textContent=msg}
+ else{G.m++;G.streak=0;G.res[G.done-1]=0;if(hasLava())G.lava=Math.min(100,G.lava+(i==-1&&hasFuse()?18:14));const to=i<0;G.faults.push({q:plain(p.q),a:p.opts[p.a].l});U.f.push({q:plain(p.q),a:p.opts[p.a].l,g:to?'(keine Zeit)':p.opts[i].l,l:G.cfg.id});if(U.f.length>60)U.f.shift();fb.textContent=lost?'🌋 Die Lava ist oben!':i==-1?'⏰ Die Schnur ist abgebrannt. Das war richtig: '+p.opts[p.a].l:'Das war richtig: '+p.opts[p.a].l}
+ if(G.arc){G.wd++;if(G.wd>=6){G.wd=0;G.wave++;G.floor=Math.min(40,(G.wave-1)*5);G.lava=Math.max(G.floor,G.lava-8);G.score+=50;fb.textContent+=` 🎉 Welle ${G.wave-1} geschafft!`}}
+ save();paintBars();const wait=ok?650:1900;G.nxT=setTimeout(()=>{if(!G)return;if(G.lava>=100&&hasLava())return finish();nextPuz()},wait)}
+function togglePause(){if(!G||G.state=='count')return;G.paused=!G.paused;$('#ps').textContent=G.paused?'▶ Weiter':'⏸ Pause';if(G.paused){const o=ovl(`<div class="card c"><h1>⏸ Pause</h1><p>Die Zeit steht still.</p><p><button class="big" onclick="togglePause()">▶ Weiter</button></p><p><button class="sec" onclick="$('#ov').remove();quitRun()">Abbrechen</button></p></div>`);o.dataset.run=1}else{const o=$('#ov');o&&o.remove()}}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&G&&!G.paused&&G.state!='count')togglePause()});
+document.addEventListener('keydown',e=>{if(G&&G.state=='ask'&&/^[1-4]$/.test(e.key)&&!/INPUT/.test(document.activeElement.tagName)){const i=+e.key-1;if(i<G.puz.opts.length)answer(i)}});
+function speak(){if(!G||!G.puz)return;if(!('speechSynthesis' in window)){const f=$('#fb');f&&(f.textContent='Vorlesen geht in diesem Browser leider nicht.');return}
+ speechSynthesis.cancel();const p=G.puz,u=new SpeechSynthesisUtterance(p.say+'. Antworten: '+p.opts.map(o=>o.l).join(', '));u.lang='de-DE';u.rate=.88;G.speaking=true;const end=()=>{G&&(G.speaking=false)};u.onend=u.onerror=end;speechSynthesis.speak(u);clearTimeout(G.spT);G.spT=setTimeout(end,15000)}
+/* ---------- Ende ---------- */
+function finish(){if(!G||G.over)return;G.over=true;const g=G,c=g.cfg;cancelAnimationFrame(raf);clearTimeout(g.nxT);const lostL=hasLavaOf(g)&&g.lava>=100;
+ if(g.arc){const hi=g.score>(U.hi||0);if(hi)U.hi=g.score;save();const f=g.faults;stopRunKeep();show(`<div class="card c"><div class="bigE">🌋💥</div><h1>Der Vulkan ist ausgebrochen!</h1><p>Du hast <b>${g.score}</b> Punkte geschafft und bist bis Welle <b>${g.wave}</b> gekommen.</p><p>${hi?'🎉 Neuer Rekord!':'🏆 Dein Rekord: '+U.hi+' Punkte'}</p><p><button class="big" onclick="startArcade()">🔁 Nochmal</button> <button class="sec" onclick="hub()">Zum Start</button></p></div>${board()}${faultHtml(f)}`);return}
+ let st=0;if(!lostL){const m=g.m;st=g.mode=='fuse'?(m<=1?3:m<=3?2:m<=5?1:0):(m<=1?3:m<=3?2:1)}
+ const old=U.s[c.id]||0;if(st>old)U.s[c.id]=st;const lv=LV.find(l=>l.id==c.id);let gemNew=false;if(st>0&&lv&&!U.g[c.id]){U.g[c.id]=1;gemNew=true}save();const f=g.faults;stopRunKeep();
+ const msg=lostL?'Der Vulkan ist ausgebrochen! Versuche es gleich nochmal. Du schaffst das!':st==3?'Fantastisch! Fast alles richtig!':st==2?'Sehr gut gemacht!':st==1?'Geschafft! Beim nächsten Mal geht noch mehr.':'Die Zündschnur war zu schnell. Probier es nochmal, vielleicht mit „Mehr Zeit“.';
+ const idx=LV.findIndex(l=>l.id==c.id),nxt=idx>=0&&idx<LV.length-1&&(!LV[idx+1].fin||finOpen())?idx+1:-1;
+ show(`<div class="card c"><div class="bigE">${lostL?'🌋💥':'🎉'}</div><h1>${lostL?'Ausbruch!':'Geschafft!'}</h1><p class="stars">${stars(st)}</p><p>${msg}</p><p>${g.right} von ${g.done} Rätseln richtig.</p>${gemNew?`<p class="gemnew">${lv.gem[0]} Du hast einen <b>${lv.gem[1]}</b> gefunden!</p>`:''}<p><button class="big" onclick="runLevel(${idx})">🔁 Nochmal</button> ${st>0&&nxt>=0?`<button class="big" onclick="intro(${nxt})">➡ Weiter</button>`:''} <button class="sec" onclick="mapScr()">🗺️ Zur Karte</button></p></div>${faultHtml(f)}`)}
+const hasLavaOf=g=>g.mode=='lava'||g.mode=='both';
+function stopRunKeep(){G=null;window.speechSynthesis&&speechSynthesis.cancel();lavaOff()}
+const faultHtml=f=>f.length?`<details class="card"><summary>Das kannst du noch üben (${f.length})</summary><ul class="fl">${f.map(x=>`<li>${esc(x.q)}<br><b>Richtig: ${esc(x.a)}</b></li>`).join('')}</ul></details>`:'';
+/* ---------- Urkunde und Ergebnisse ---------- */
+function cert(){const st=sumStars(),gems=LV.filter(l=>U.g[l.id]||isAd()).map(l=>l.gem[0]).join(' ');show(`<button class="sec noprint" onclick="hub()">⬅ Zurück</button><div class="card c cert"><h1>📜 Vulkan-Urkunde</h1><p>für</p><p class="nm" id="nm">Lava-Entdecker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Lava-Entdecker/in'"></label></p><p>hat im Vulkan <b>${st}</b> von ${LV.length*3} Sternen gesammelt${gems?` und diese Edelsteine gefunden:<br><span class="gems">${gems}</span>`:''}.</p><p>🏆 Arcade-Rekord: <b>${U.hi||0}</b> Punkte</p><p>Herzlichen Glückwunsch!</p><p class="noprint"><button class="big" onclick="window.print()">🖨️ Drucken</button></p></div>`)}
+function results(){ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="$('#ov').remove()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${Object.values(u.s).reduce((a,b)=>a+b,0)} von ${LV.length*3} · 🏆 ${u.hi||0} · ${u.r} von ${u.n} Rätseln richtig</summary><p>${LV.map(l=>`${l.n}: ${'⭐'.repeat(u.s[l.id]||0)||'–'}`).join('<br>')}</p>${u.f.length?`<div style="overflow-x:auto"><table><tr><th>Ort</th><th>Rätsel</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${esc(f.l)}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();results()}">🗑️ Alle Daten löschen</button></div>`)}
+/* ---------- Glut im Hintergrund ---------- */
+(()=>{const c=$('#emb'),g=c.getContext('2d'),RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;let W,H,P=[];const sz=()=>{W=c.width=innerWidth;H=c.height=innerHeight};sz();addEventListener('resize',sz);
+ for(let i=0;i<46;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.4,v:12+Math.random()*30,ph:Math.random()*6});
+ const draw=t=>{g.clearRect(0,0,W,H);for(const p of P){if(!RM){p.y-=p.v/60;p.x+=Math.sin(t/900+p.ph)*.35;if(p.y<-6){p.y=H+6;p.x=Math.random()*W}}g.globalAlpha=.25+.5*Math.abs(Math.sin(t/700+p.ph));g.fillStyle=p.r>2?'#ffb703':'#ff6b35';g.beginPath();g.arc(p.x,p.y,p.r,0,6.3);g.fill()}RM?0:requestAnimationFrame(draw)};requestAnimationFrame(draw)})();
+/* ---------- Start ---------- */
+DB.cur&&DB.u[DB.cur]?login(DB.cur):(U=mkU(),hub(),ask());
+
+</script></body></html>
