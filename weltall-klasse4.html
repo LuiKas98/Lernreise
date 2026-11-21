@@ -587,13 +587,8 @@ const nameErr=v=>{if(v.toLowerCase()==ADM)return'';if(v.length<2)return'Bitte sc
 function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
 function rs(){ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="$('#ov').remove()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${Object.values(u.d).reduce((a,b)=>a+b,0)} von 54 · ${u.r} von ${u.n} Aufgaben gleich richtig · ${u.f.length} Fehler</summary><p>${PL.map((p,i)=>`${p.n}: ${[0,1,2].map(l=>LC[l]+' '+(u.d[''+i+l]||0)+'⭐').join(' ')}`).join('<br>')}</p>${u.f.length?`<div style="overflow-x:auto"><table><tr><th>Planet</th><th>Stufe</th><th>Aufgabe</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${f.p<0?'Sonne':PL[f.p].n}</td><td>${f.p<0?'–':L[f.l]}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();rs()}">🗑️ Alle Daten löschen</button></div>`)}
 function rst(){if(confirm('Möchtest du wirklich deine Sterne löschen?')){U.d={};U.c={};U.f=[];U.n=0;U.r=0;D=U.d;save();map()}}
-(()=>{const r=Math.random,f=(n,d=1)=>n.toFixed(d),C=['#fff','#fff','#cfe3ff','#fff4c2'],E=()=>20+r()*660;
-let s='<defs><radialGradient id="g"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
-for(let i=0;i<110;i++)s+=`<circle cx="${f(r()*700)}" cy="${f(r()*700)}" r="${f(.5+r()*r()*1.3)}" fill="${C[i%4]}" opacity="${f(.35+r()*.6,2)}"/>`;
-for(let i=0;i<14;i++){const x=f(E()),y=f(E()),z=1.4+r()*1.4;s+=`<circle cx="${x}" cy="${y}" r="${f(z*4)}" fill="url(#g)" opacity=".55"/><circle cx="${x}" cy="${y}" r="${f(z)}" fill="#fff"/>`}
-for(let i=0;i<5;i++){const x=E(),y=E(),l=9+r()*9;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(l*.9)}" fill="url(#g)" opacity=".6"/><path d="M${f(x-l)} ${f(y)}H${f(x+l)}M${f(x)} ${f(y-l)}V${f(y+l)}" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/><circle cx="${f(x)}" cy="${f(y)}" r="2.2" fill="#fff"/>`}
-/* Sternbild: mit der Chance 1 zu 25 erscheint ein Sternbild (10 zur Auswahl), die Sterne sind mit feinen Linien verbunden. Zum Zeigen: Adresse#sternbild=1 bis 10 */
-const SBS=[[[8,64],[12,42],[40,40],[38,62],[58,34],[74,28],[92,36],[14,64]],[[0,1],[1,2],[2,3],[3,7],[7,0],[2,4],[4,5],[5,6]],
+/* Sternenhimmel: wird bei jedem Laden neu zufällig erzeugt, in Bildschirmgröße (keine Kacheln). Mit der Chance 1 zu 25 kommt zusätzlich ein Sternbild (10 zur Auswahl) an zufälliger Stelle dazu; Sterne in seiner Nähe werden entfernt. Zum Vorführen: Adresse#sternbild=1 bis 10 */
+(()=>{const SBS=[[[8,64],[12,42],[40,40],[38,62],[58,34],[74,28],[92,36],[14,64]],[[0,1],[1,2],[2,3],[3,7],[7,0],[2,4],[4,5],[5,6]],
  [[6,30],[26,64],[50,42],[74,66],[94,28]],[[0,1],[1,2],[2,3],[3,4]],
  [[92,20],[78,28],[66,40],[56,56],[36,50],[30,76],[52,80]],[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]],
  [[30,12],[70,16],[62,48],[50,46],[38,44],[68,88],[30,86]],[[0,1],[0,4],[1,2],[4,3],[3,2],[4,6],[2,5]],
@@ -603,12 +598,29 @@ const SBS=[[[8,64],[12,42],[40,40],[38,62],[58,34],[74,28],[92,36],[14,64]],[[0,
  [[30,10],[50,12],[28,36],[22,60],[14,86],[52,38],[60,62],[72,88]],[[0,2],[2,3],[3,4],[1,5],[5,6],[6,7],[2,5]],
  [[38,60],[26,44],[18,30],[50,46],[56,32],[90,14],[80,44]],[[0,1],[1,2],[0,3],[3,4],[4,5],[3,6]],
  [[50,10],[36,50],[62,54],[56,84],[30,80]],[[0,1],[0,2],[1,2],[2,3],[3,4],[4,1]]];
-const SB=(()=>{const m=/sternbild=(\d+)/.exec(location.hash||''),w=m&&+m[1]>=1&&+m[1]<=10?+m[1]-1:(r()<1/25?Math.floor(r()*10):-1);if(w<0)return null;
- const P=SBS[w*2].map(p=>[p[0]*.84+8+(r()-.5)*2.4,p[1]*.84+8+(r()-.5)*2.4]),L=SBS[w*2+1];let s='<defs><radialGradient id="h"><stop offset="0" stop-color="#cfe3ff" stop-opacity=".75"/><stop offset="1" stop-color="#cfe3ff" stop-opacity="0"/></radialGradient></defs>';
- L.forEach(([a,b])=>{const [x1,y1]=P[a],[x2,y2]=P[b],d=Math.hypot(x2-x1,y2-y1),k=3.4/d;s+=`<path d="M${f(x1+(x2-x1)*k)} ${f(y1+(y2-y1)*k)}L${f(x2-(x2-x1)*k)} ${f(y2-(y2-y1)*k)}" stroke="#bcd4ff" stroke-width="1" vector-effect="non-scaling-stroke" stroke-linecap="round" fill="none" opacity=".78"/>`});
- P.forEach(([x,y],i)=>{const z=1+((i*7+w)%3)*.35;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(z*4.2)}" fill="url(#h)" opacity=".7"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(z)}" fill="${i%3?'#fff':'#fff4c2'}"/>`});
- return{svg:`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='400' height='400'>${s}</svg>`,x:Math.round(r()<.5?3+r()*13:84+r()*13),y:Math.round(10+r()*80)}})();
-const e=document.createElement('style');e.textContent=`@media screen{body{background-image:${SB?`url("data:image/svg+xml,${encodeURIComponent(SB.svg)}"),`:''}url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'>${s}</svg>`)}");${SB?`background-repeat:no-repeat,repeat;background-position:${SB.x}% ${SB.y}%,0 0;background-size:clamp(200px,34vmin,300px),auto;`:''}background-attachment:fixed}}`;document.head.appendChild(e)})();
+const f=(n,d=1)=>n.toFixed(d),C=['#fff','#fff','#cfe3ff','#fff4c2'],mk=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const seed=Math.floor(Math.random()*4294967295),R0=mk(seed),hm=/sternbild=(\d+)/.exec(location.hash||'');
+const SW=hm&&+hm[1]>=1&&+hm[1]<=10?+hm[1]-1:(R0()<1/25?Math.floor(R0()*10):-1),CX=R0(),CY=R0();
+const el=document.createElement('div');el.id='sky';el.setAttribute('aria-hidden','true');el.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:hidden';
+document.body.insertBefore(el,document.body.firstChild);
+const st=document.createElement('style');st.textContent='@media print{#sky{display:none}}';document.head.appendChild(st);
+let gW=0,gH=0;
+function sky(){const W=innerWidth,V=innerHeight,H=Math.round(V*1.2),k=W*H/490000,r=mk(seed^0x9e3779b9);gW=W;gH=H;
+ let P=[],L=[];
+ if(SW>=0){const sz=Math.max(210,Math.min(340,Math.min(W,V)*.66)),x0=8+CX*(W-sz-16),y0=8+CY*(V-sz-16),rj=mk(seed^0x51ed270b);
+  P=SBS[SW*2].map(p=>[x0+(p[0]*.84+8)/100*sz+(rj()-.5)*sz*.02,y0+(p[1]*.84+8)/100*sz+(rj()-.5)*sz*.02]);L=SBS[SW*2+1]}
+ const dseg=(x,y,a,b)=>{const dx=b[0]-a[0],dy=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(y-a[1])*dy)/(dx*dx+dy*dy)));return Math.hypot(x-a[0]-t*dx,y-a[1]-t*dy)};
+ const near=(x,y,m)=>P.length&&(P.some(p=>Math.hypot(x-p[0],y-p[1])<m+12)||L.some(([a,b])=>dseg(x,y,P[a],P[b])<m));
+ let s='<defs><radialGradient id="g"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bl" filterUnits="userSpaceOnUse" x="0" y="0" width="'+W+'" height="'+H+'"><feGaussianBlur stdDeviation="2.4"/></filter></defs>';
+ for(let i=0,n=Math.round(110*k);i<n;i++){const x=r()*W,y=r()*H,z=.5+r()*r()*1.3,o=.35+r()*.6;if(near(x,y,16))continue;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(z)}" fill="${C[i%4]}" opacity="${f(o,2)}"/>`}
+ for(let i=0,n=Math.round(14*k);i<n;i++){const x=20+r()*(W-40),y=20+r()*(H-40),z=1.4+r()*1.4;if(near(x,y,30))continue;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(z*4)}" fill="url(#g)" opacity=".55"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(z)}" fill="#fff"/>`}
+ for(let i=0,n=Math.round(5*k);i<n;i++){const x=20+r()*(W-40),y=20+r()*(H-40),l=9+r()*9;if(near(x,y,l+26))continue;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(l*.9)}" fill="url(#g)" opacity=".6"/><path d="M${f(x-l)} ${f(y)}H${f(x+l)}M${f(x)} ${f(y-l)}V${f(y+l)}" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/><circle cx="${f(x)}" cy="${f(y)}" r="2.2" fill="#fff"/>`}
+ if(P.length){let d='';L.forEach(([a,b])=>{const [x1,y1]=P[a],[x2,y2]=P[b],q=Math.hypot(x2-x1,y2-y1),u=5/q;d+=`M${f(x1+(x2-x1)*u)} ${f(y1+(y2-y1)*u)}L${f(x2-(x2-x1)*u)} ${f(y2-(y2-y1)*u)}`});
+  s+=`<path d="${d}" stroke="#bcd8ff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".9" filter="url(#bl)"/><path d="${d}" stroke="#fff" stroke-width="1.1" stroke-linecap="round" fill="none" opacity=".95"/>`;
+  P.forEach(([x,y],i)=>{const z=1.7+((i*7+SW)%3)*.5;s+=`<circle cx="${f(x)}" cy="${f(y)}" r="${f(z*5)}" fill="url(#g)" opacity=".85"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(z)}" fill="${i%3?'#fff':'#fff4c2'}"/>`})}
+ el.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" style="position:absolute;left:0;top:0;display:block">${s}</svg>`}
+sky();let rz=0;addEventListener('resize',()=>{cancelAnimationFrame(rz);rz=requestAnimationFrame(()=>{if(innerWidth!==gW||innerHeight>gH)sky()})});
+addEventListener('hashchange',()=>location.reload())})();
 DB.cur&&DB.u[DB.cur]?login(DB.cur):(map(),ask());
 try{if(sessionStorage.getItem('warp')){sessionStorage.removeItem('warp');const w=document.createElement('div');w.id='wx';document.body.appendChild(w);setTimeout(()=>w.remove(),1000)}}catch(e){}
 </script>
