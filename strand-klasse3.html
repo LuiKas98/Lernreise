@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strand-Mathe – Klasse 3</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:20px/1.45 ui-rounded,"Nunito","Varela Round","Quicksand","Arial Rounded MT Bold","Segoe UI","Trebuchet MS",system-ui,sans-serif;background:#0a4f6b;color:#fff;min-height:100vh}
+main{max-width:880px;margin:auto;padding:12px}
+h1,h2{margin:.3em 0}h2{font-size:1.25em}
+.card{background:#fff;color:#1b1464;border:4px solid #ffd23f;border-radius:26px;padding:16px;margin:12px 0;box-shadow:0 7px 0 #0005}
+.c{text-align:center}.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+button{font:inherit;font-weight:bold;min-height:52px;min-width:52px;padding:8px 18px;margin:3px;border:3px solid #1b1464;border-radius:18px;background:#ffd23f;color:#1b1464;cursor:pointer;box-shadow:0 4px 0 #1b1464}
+button:hover{background:#ffe680}button:disabled{opacity:.75;cursor:default}
+button:focus-visible,input:focus-visible{outline:5px solid #ff4d6d;outline-offset:2px}
+.sec{background:#e8e6ff}.big{font-size:1.2em;padding:12px 24px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}.opts.n4{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}.opt{min-width:0;overflow-wrap:anywhere;hyphens:auto;line-height:1.25}
+.opt{font-size:1.1em}.good{background:#7ae582!important}
+input{font:inherit;padding:10px;border:3px solid #1b1464;border-radius:14px;min-height:52px;width:200px;max-width:100%;margin:3px}
+.tx{background:#e3f1ff;color:#0f2a5c;border-radius:14px;padding:10px 12px;border:2px solid #7fb4f5;border-left:8px solid #2f7de1}details.tx{margin:10px 0;box-shadow:0 3px 0 #2f7de1}details.tx[open]{background:#d4e9ff}details.tx summary{cursor:pointer;font-weight:800;color:#0b3a8a;min-height:44px;display:flex;align-items:center;gap:6px}details.tx summary:hover{color:#1d5fc4}details.tx p{margin:6px 0 0}
+.prog{height:18px;background:#ffffff44;border-radius:9px;overflow:hidden}.prog i{display:block;height:100%;background:#ffd23f}
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.pool,.bkt{min-height:64px;border:3px dashed #1b1464;border-radius:16px;padding:6px;margin:6px 0}
+.bkt{background:#eefaff}.bk{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.chip{background:#c9f0ff}.chip.on{background:#ff8fa3;outline:4px solid #1b1464}
+#fb{font-weight:bold;min-height:1.5em}li{text-align:left;margin:4px 0}ul{list-style:none;padding:0}
+.nm{font-size:1.8em;font-weight:bold}
+.sys{container-type:inline-size;position:relative;width:min(100%,700px);aspect-ratio:1;margin:8px auto}
+.orb{pointer-events:none;position:absolute;left:50%;top:50%;border:3px dashed #ffffff44;border-radius:50%;transform:translate(-50%,-50%)}
+.o0{width:42%;height:42%}.o1{width:64%;height:64%}.o2{width:86%;height:86%}
+.pw{position:absolute;left:50%;top:50%;width:14%;transform:translate(-50%,-50%)}
+.pb{pointer-events:auto;display:block;width:100%;min-width:0;min-height:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:#fff;border-radius:50%}
+.gw{display:block}.pic{display:grid;place-items:center;width:100%;aspect-ratio:1;container-type:inline-size}
+.pic svg{display:block;width:100%;height:100%}.emo{font-size:85cqw;line-height:1}
+.lb{position:absolute;left:50%;top:50%;z-index:8;pointer-events:none;white-space:nowrap;font-weight:bold;font-size:max(11px,2.5cqw);color:#fff;text-shadow:0 0 4px #000,0 2px 2px #000;transform:translate(-50%,0);transform-origin:50% 0;transition:transform .45s cubic-bezier(.2,.9,.25,1.25)}
+.sun{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);min-width:0;min-height:0;padding:0;margin:0;border:0;border-radius:50%;background:none;box-shadow:none;color:#fff;filter:drop-shadow(0 0 14px #ffb703);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.se{font-size:11cqw;line-height:1}.sl{font-size:max(10px,2.2cqw);line-height:1.15;font-weight:bold;text-align:center;text-shadow:0 0 4px #000,0 2px 2px #000}
+.pb:hover,.pb:focus-visible{background:none}.pb:focus-visible{outline:none}
+.gw{position:relative;isolation:isolate;border-radius:50%;transition:transform .45s cubic-bezier(.2,.9,.25,1.25)}
+.gw::before,.gw::after{content:"";position:absolute;border-radius:50%;pointer-events:none;z-index:-1;opacity:0;transition:opacity .35s}
+.gw::before{inset:-50%;background:radial-gradient(circle closest-side,var(--gc,#ffd23f) 0,var(--gc,#ffd23f) 48%,transparent 100%)}
+.gw::after{inset:-85%;background:repeating-conic-gradient(rgba(255,255,255,.9) 0 5deg,transparent 5deg 30deg);-webkit-mask:radial-gradient(circle closest-side,transparent 34%,#000 44%,transparent 100%);mask:radial-gradient(circle closest-side,transparent 34%,#000 44%,transparent 100%)}
+.pb:hover .gw,.pb.hot .gw,.pb:focus-visible .gw{transform:scale(1.5)}
+.pb:hover .gw::before,.pb.hot .gw::before,.pb:focus-visible .gw::before{opacity:.85}
+.pb:hover .gw::after,.pb.hot .gw::after,.pb:focus-visible .gw::after{opacity:.75;animation:rot 16s linear infinite}
+.pb:focus-visible .gw{box-shadow:0 0 0 .6cqw #ff4d6d}
+.lb.hot{transform:translate(-50%,3.4cqw) scale(1.2)}
+.pw.hot{z-index:3}
+
+@media(prefers-reduced-motion:reduce){.gw::after{animation:none!important}}
+
+
+
+.bigpl{width:150px;margin:8px auto}
+.mapg{display:grid;gap:6px 16px;grid-template-areas:"user" "ttl" "hint" "sys" "lk" "right"}
+.mapg .usr{grid-area:user;display:flex;align-items:center;justify-content:flex-end;gap:8px;font-weight:bold}
+.mapg .usr button{min-height:40px;padding:4px 14px;font-size:.8em;margin:0}
+.mapg .ttl{grid-area:ttl;position:relative;z-index:9}.mapg .hint{grid-area:hint;margin:4px 0;text-align:center}.mapg .sys{grid-area:sys;width:min(100%,700px)}.mapg #lk{grid-area:lk;margin:4px 0}.mapg .rt{grid-area:right}
+@media(min-width:1000px){.mapg{position:relative;left:50%;transform:translateX(-50%);width:min(1240px,calc(100vw - 48px));grid-template-columns:270px minmax(0,1fr) 270px;grid-template-rows:auto auto 1fr auto;grid-template-areas:"ttl ttl ttl" "user sys right" "hint sys right" ". lk ." ;align-items:start;gap:0 20px}
+ .mapg .sys{width:min(100%,calc(100vh - 180px),760px);width:min(100%,calc(100dvh - 180px),760px);min-width:380px;justify-self:center;margin:22px auto 0}
+ .mapg .usr{flex-direction:column;align-items:stretch;text-align:center;gap:8px;padding:14px 16px;margin-top:10px;border-radius:22px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid #ffffff3d;box-shadow:0 10px 30px #0006}
+ .mapg .usr button{font-size:.9em}
+ .mapg .hint{text-align:left;font-size:.9em;opacity:.9;padding:10px 6px}
+ .mapg .rt{margin-top:10px}.mapg .rk{max-width:none;margin:0 0 14px}}
+.ttl{text-align:center;font:900 min(2.3em,8.4vw)/1.1 "Baloo 2","Fredoka","Arial Rounded MT Bold","Avenir Next Rounded","Chalkboard SE","Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em;margin:.4em 0 .2em;color:#ffe566;text-shadow:0 2px 0 #c77700,0 0 8px #ffb703,0 0 22px #ff9f1c,0 0 40px #ff9f1c88}
+#ov{position:fixed;inset:0;z-index:20;background:#08405aee;display:grid;place-items:start center;padding:12px;overflow:auto}
+#ab{position:fixed;right:12px;bottom:12px;z-index:10;background:#fff}
+.sun.l{filter:grayscale(.7) drop-shadow(0 0 6px #fff6)}
+table{border-collapse:collapse;width:100%;font-size:.8em}td,th{border:1px solid #1b1464;padding:4px;text-align:left}details{margin:8px 0}summary{cursor:pointer;min-height:44px}
+/* Raketenkasten */
+.rk{display:flex;align-items:center;gap:16px;max-width:400px;margin:14px auto;padding:12px 18px;border-radius:22px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid #ffffff3d;box-shadow:0 10px 30px #0006;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.rkm{flex:none;width:58px}.rkm svg{display:block;width:100%;height:auto;filter:drop-shadow(0 0 8px #ffc85059)}
+.rkt{display:flex;flex-direction:column;gap:5px;font-size:.85em;line-height:1.3;min-width:0}.rkt b:first-child{font-size:1.2em}.rkt small{opacity:.75}
+.nw{white-space:nowrap}.seg{display:flex;gap:4px}.seg i{flex:1;height:7px;border-radius:4px;background:#ffffff2e}.seg i.on{background:linear-gradient(90deg,#ffd23f,#ff9f1c);box-shadow:0 0 8px #ffb703aa}
+.flame{transform-box:fill-box;transform-origin:50% 0;animation:fl .45s ease-in-out infinite alternate}
+@keyframes fl{to{transform:scaleY(1.14) scaleX(.94)}}
+.cs{display:block;width:96px;margin:6px auto}.cs svg{display:block;width:100%;height:auto}
+/* Pop-up: neues Raketenteil */
+#pop{position:fixed;inset:0;z-index:30;background:#052f45e6;display:grid;place-items:center;padding:16px;overflow:auto}
+.pbox{display:flex;flex-direction:column;align-items:center;gap:6px;width:min(420px,100%);text-align:center}
+.stage{position:relative;width:min(300px,76vw);aspect-ratio:1;display:grid;place-items:center}
+.rays{position:absolute;inset:-22%;background:repeating-conic-gradient(from 0deg,#ffe27a 0 6deg,#ffe27a00 6deg 18deg);-webkit-mask:radial-gradient(circle,#000 6%,#0000 66%);mask:radial-gradient(circle,#000 6%,#0000 66%);animation:rot 16s linear infinite}
+.halo{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,#ffd23fcc,#ffd23f00 70%)}
+.pp{position:relative;width:54%;animation:pin .7s cubic-bezier(.2,1.4,.4,1) both}.pp svg{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 10px #0008)}
+.pt{font-size:1.25em;font-weight:bold;line-height:1.3;margin:4px 0 8px}.pt b{color:#ffe566}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes pin{0%{transform:scale(.15) rotate(-14deg);opacity:0}100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.rays,.pp,.flame{animation:none}}
+/* Neue Aufgabenformate */
+button:disabled.dn,button:disabled.good{opacity:1}
+.insr{font-size:1.05em;line-height:2.9;margin:6px 0}.insr input{width:84px;line-height:1.2;margin:0 4px;vertical-align:middle}
+.seq{display:flex;flex-wrap:wrap;align-items:center;gap:2px;min-height:68px;border:3px solid #1b1464;border-radius:16px;padding:6px;margin:6px 0;background:#f4f2ff}
+.chip.sel{background:#ffd23f}.chip b{display:inline-grid;place-items:center;min-width:1.5em;height:1.5em;border-radius:50%;background:#1b1464;color:#fff;font-size:.8em;margin-right:4px}
+.imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px}.imgs.clocks{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.im{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:92px;margin:0;padding:6px 4px;background:#fff;font-size:.9em;min-width:0}.im .n{font-size:.82em;line-height:1.15;text-align:center;overflow-wrap:anywhere;hyphens:auto;max-width:100%}.im svg{max-width:100%;height:auto}.im .e{font-size:2.2em;line-height:1.1;display:block}.im.txt .n{font-size:1.1em}
+.im[aria-pressed=true]{background:#ffd23f;outline:4px solid #1b1464}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
+.mcd{min-height:82px;margin:0;padding:6px;background:#6c63ff;color:#fff;font-size:.95em;line-height:1.15;overflow-wrap:anywhere;hyphens:auto}.mcd.up{background:#fff;color:#1b1464}.mcd.dn{background:#7ae582;color:#1b1464}
+.mat{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mat>div{display:flex;flex-direction:column;gap:4px}.mt{margin:0;font-size:.9em;line-height:1.2;overflow-wrap:anywhere;background:#fff}.mt.on{background:#ff8fa3;outline:4px solid #1b1464}.mt.dn{background:#7ae582}
+@media print{body{background:#fff}.noprint,#pop{display:none!important}.card{box-shadow:none}}
+@keyframes wxo{to{opacity:0;transform:scale(1.6)}}#wx{position:fixed;inset:0;z-index:200;pointer-events:none;background:radial-gradient(circle,#fff 0,#d9f6ff 35%,#0a6f8f 100%);animation:wxo .9s ease-out forwards}
+/* ===== Strand ===== */
+.jbg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.slots{display:flex;gap:2px;flex-wrap:nowrap}.sl1{font-size:1.45em;line-height:1.1;filter:brightness(0) opacity(.28)}.sl1.on{filter:none;text-shadow:0 0 10px #ffd23f}
+.slots.lt .sl1{filter:brightness(0) opacity(.12)}.slots.lt .sl1.on{filter:none;text-shadow:none}
+.pp.art{font-size:min(34vw,140px);line-height:1;width:auto}
+.cslots{display:block;margin:6px auto;text-align:center}.cslots .slots{justify-content:center}.cslots .sl1{font-size:2.2em}
+.imgs.g3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:420px;margin:0 auto}
+.imgs.g3 .im{min-height:84px}
+.imgs.w3{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.gm{display:grid;grid-template-columns:repeat(3,minmax(0,100px));gap:4px;justify-content:center;margin:8px auto}.gm div{background:#eaf6e6;border:2px solid #1b1464;border-radius:12px;padding:4px 2px;text-align:center;font-size:.72em;overflow-wrap:anywhere;hyphens:auto;min-width:0;line-height:1.15;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center}.gm div b{font-size:1.9em;font-weight:400;line-height:1.1}
+.cmp{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;margin:4px 0}.cmp span{font-size:1.4em;background:#1b1464;color:#fff;border-radius:50%;width:2em;height:2em;display:grid;place-items:center}
+.vsvg{display:block;margin:6px auto;max-width:100%;height:auto}
+.tl{display:flex;flex-direction:column;gap:2px;margin:8px 0}
+.mat{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}.mt{padding:6px 8px;hyphens:auto}
+h2,.tx,.card p{overflow-wrap:anywhere;hyphens:auto}
+
+/* ---- Dschungelszene: Tiere und Dinge direkt auf der Karte ---- */
+.jm{border-radius:28px;box-shadow:0 10px 30px #0008,inset 0 0 0 3px #ffffff55;overflow:hidden;background:#f6e6b4}
+.jm .pw{width:22%}
+.jm .pb{display:flex;flex-direction:column;align-items:center;padding:2.6cqw 0 0;cursor:pointer}
+.st{position:relative;display:block;line-height:1}
+.sd{position:absolute;left:50%;bottom:-4%;width:78%;height:16%;transform:translateX(-50%);background:radial-gradient(closest-side,#000a,#0000)}
+.an{position:relative;display:block;font-size:10.5cqw;line-height:1;transform-origin:50% 100%;animation:idle 3.4s ease-in-out infinite;animation-delay:var(--d,0s);filter:drop-shadow(0 3px 2px #0006)}
+@keyframes idle{50%{transform:translateY(-3%) scale(1.02)}}
+.pb:hover .an,.pb.hot .an,.pb:focus-visible .an,.jt:hover .an,.jt:focus-visible .an{animation:var(--an,hop) .8s ease-in-out infinite}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1.12,.9)}30%{transform:translateY(-26%) scale(.96,1.1)}60%{transform:translateY(-26%) rotate(-7deg)}85%{transform:translateY(0) scale(1.14,.88)}}
+@keyframes flap{0%,100%{transform:translateY(0) rotate(0) scale(1.12)}25%{transform:translateY(-18%) rotate(-15deg) scale(1.14)}75%{transform:translateY(-18%) rotate(15deg) scale(1.14)}}
+@keyframes flutter{0%,100%{transform:translate(0,0) rotate(0) scale(1.12)}20%{transform:translate(12%,-16%) rotate(14deg)}50%{transform:translate(-12%,-22%) rotate(-14deg)}80%{transform:translate(9%,-9%) rotate(9deg)}}
+@keyframes nod{0%,100%{transform:rotate(0) scale(1.12)}50%{transform:translateY(-14%) rotate(9deg) scale(1.16)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-7deg) scale(1.12)}50%{transform:translateY(-12%) rotate(7deg) scale(1.12)}}
+@keyframes wobble{0%,100%{transform:rotate(-16deg) scale(1.14)}50%{transform:rotate(16deg) translateY(-9%) scale(1.14)}}
+.sg{position:relative;display:block;margin-top:1cqw;padding:.5cqw 1.8cqw;background:linear-gradient(176deg,#e9cf9b,#d2a96a 55%,#c49457);border:2px solid #8a5d2e;border-radius:6px 9px 7px 10px/9px 6px 10px 7px;color:#4a2a0e;font-weight:800;font-size:max(11px,2.05cqw);line-height:1.2;text-align:center;box-shadow:0 2px 0 #5c3a1a,0 5px 8px #5c3a1a66;white-space:nowrap;text-shadow:0 1px 0 #f3e2b8}
+.sg::before,.sg::after{content:"";position:absolute;top:50%;width:.55em;height:.55em;margin-top:-.28em;border-radius:50%;background:radial-gradient(circle at 35% 30%,#b8a58a,#5c3a1a);opacity:.85}.sg::before{left:.35em}.sg::after{right:.35em}
+.sg small{display:block;font-weight:700;font-size:.82em;color:#6b3f12}
+.pb:hover .sg,.pb.hot .sg,.pb:focus-visible .sg,.jt:hover .sg{background:linear-gradient(176deg,#f6e2b0,#e1b97a 55%,#d2a266)}
+.pb:focus-visible .st,.jt:focus-visible .st{outline:4px solid #ff4d6d;outline-offset:6px;border-radius:12px}
+.jm .sun{left:50%;top:15%;width:24%;aspect-ratio:auto;min-height:0;padding:2.4cqw 0 0;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 0 12px #ffd23f);animation:lt 3s ease-in-out infinite}
+@keyframes lt{50%{filter:drop-shadow(0 0 22px #fff3a0)}}
+.jm .sun.l{filter:drop-shadow(0 0 6px #fff5);animation:none}
+.jm .sun .an{font-size:12cqw}
+.lk{position:absolute;right:-6%;bottom:-6%;font-size:7cqw;filter:drop-shadow(0 2px 2px #000a)}
+.dc{position:absolute;line-height:1;pointer-events:none;transform:translate(-50%,-50%) rotate(var(--r,0deg));animation:sway 5.5s ease-in-out infinite;animation-delay:var(--d,0s);filter:drop-shadow(0 2px 2px #0005)}
+@keyframes sway{50%{transform:translate(-50%,-50%) rotate(calc(var(--r,0deg) + 5deg))}}
+.dc.fg{z-index:6}
+.bigpl .emo{display:block;animation:idle 3s ease-in-out infinite;transform-origin:50% 100%}
+@media(prefers-reduced-motion:reduce){.an,.dc,.bigpl .emo{animation:none!important}.pb:hover .an,.pb:focus-visible .an,.jt:hover .an{transform:scale(1.15)}}
+.kmap{position:relative;width:min(100%,460px);aspect-ratio:100/108;margin:8px auto;border:3px solid #1b1464;border-radius:14px;overflow:hidden;background:#d4ebbb;container-type:inline-size}
+.kmap>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.kmap .mp,.kmap .pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;margin:0;min-height:0;min-width:0;width:auto;max-width:36%;padding:2px 3px 3px;border-radius:12px;line-height:1.05;background:#fffdf0f2;border:2px solid #1b1464;box-shadow:0 2px 0 #1b146455;color:#1b1464}
+.kmap .pin{font-style:normal}.kmap .pin .n{font-style:normal}
+.kmap .e{font-size:clamp(20px,8.4cqw,38px);line-height:1.1}
+.kmap .n{font-size:clamp(9px,3.1cqw,15px);font-weight:800;line-height:1.1;overflow-wrap:anywhere;hyphens:auto}
+.kmap .mp:hover{transform:translate(-50%,-50%) scale(1.06)}
+.kmap .im[aria-pressed=true]{background:#ffd23f;outline:4px solid #1b1464}
+
+/* Fortschrittsring an den Stationen */
+.jm .st .ring{position:absolute;left:50%;top:48%;width:158%;aspect-ratio:1;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+.ring .rg{fill:none;stroke:#0b5a7a;stroke-width:7.5;stroke-linecap:round;opacity:.5}
+.ring .rg.on{stroke:#ff9f1c;stroke-width:9;opacity:1}
+.ring .rg:not(.on){stroke:#fff;opacity:.85;stroke-width:6}
+.ring.full .rg{stroke:#ffb400;stroke-width:10}
+.jm .pb .sg{position:relative;z-index:3}
+.jm .ok{position:absolute;right:-22%;top:-8%;width:5.2cqw;height:5.2cqw;min-width:20px;min-height:20px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff6b8,#ffd23f 60%,#e69a00);border:2px solid #1b1464;color:#1b1464;font-weight:900;font-size:max(12px,3.2cqw);line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 #1b1464}
+
+.sandbg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wv{animation:wv 7s ease-in-out infinite alternate}@keyframes wv{to{transform:translateX(-2.2px)}}
+@media(prefers-reduced-motion:reduce){.wv,.jm .sun{animation:none!important}}
+.jm .dc{filter:drop-shadow(0 2px 2px #0004)}
+
+/* ---- Ziffernblock ---- */
+.np{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-width:264px;margin:10px auto 4px}
+.np .nk{margin:0;min-height:56px;font-size:1.5em;padding:4px;background:#eaf7ff}.np .nk.sec{background:#ffe0e6}
+.np span{display:block}
+#in,.ins{text-align:center;font-weight:800;font-size:1.3em;caret-color:#1b1464}
+#in{width:min(100%,220px)}
+.insr input{width:88px}
+/* ---- Zahlenstrahl ---- */
+.nl{position:relative;height:96px;margin:10px 4px 6px;user-select:none}
+.nl .ln{position:absolute;left:14px;right:14px;top:44px;height:5px;margin-top:-2px;background:#1b1464;border-radius:3px}
+.nl .tk{position:absolute;top:36px;width:2px;height:21px;margin-left:-1px;background:#1b1464}
+.nl .tk.b{top:30px;height:33px;width:3px;margin-left:-1.5px}
+.nl .nt{position:absolute;top:66px;transform:translateX(-50%);font-size:.85em;white-space:nowrap}
+.nl .mk{position:absolute;top:8px;transform:translateX(-50%);line-height:0}
+.nl .mk svg{display:block}
+.nlr{position:absolute;left:0;top:8px;width:100%;height:38px;margin:0;padding:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;touch-action:pan-y}
+.nlr::-webkit-slider-runnable-track{height:38px;background:transparent}
+.nlr::-moz-range-track{height:38px;background:transparent}
+.nlr::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:42px;margin-top:-2px;border:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cpath d='M16 2V12' stroke='%23555' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M16 2L26 6L16 10Z' fill='%23ffd23f' stroke='%23a96a00'/%3E%3Cellipse cx='16' cy='24' rx='12' ry='13' fill='%23fff' stroke='%238c1f2c' stroke-width='2'/%3E%3Cpath d='M5 19Q16 15 27 19V24Q16 20 5 24Z' fill='%23e8374d'/%3E%3Cpath d='M5 29Q16 25 27 29V33Q16 30 5 33Z' fill='%23e8374d'/%3E%3C/svg%3E") center/contain no-repeat}
+.nlr::-moz-range-thumb{width:34px;height:42px;border:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cpath d='M16 2V12' stroke='%23555' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M16 2L26 6L16 10Z' fill='%23ffd23f' stroke='%23a96a00'/%3E%3Cellipse cx='16' cy='24' rx='12' ry='13' fill='%23fff' stroke='%238c1f2c' stroke-width='2'/%3E%3Cpath d='M5 19Q16 15 27 19V24Q16 20 5 24Z' fill='%23e8374d'/%3E%3Cpath d='M5 29Q16 25 27 29V33Q16 30 5 33Z' fill='%23e8374d'/%3E%3C/svg%3E") center/contain no-repeat}
+.nlr:focus-visible{outline:4px solid #ff4d6d;outline-offset:2px;border-radius:8px}
+/* ---- Zahlenmauer ---- */
+.wall{display:flex;flex-direction:column;align-items:center;gap:4px;margin:10px 0}
+.wr{display:flex;gap:4px;justify-content:center}
+.wc{display:grid;place-items:center;width:clamp(52px,17vw,76px);height:52px;margin:0;border:3px solid #6b4423;border-radius:8px;background:#f6dca0;font-weight:800;font-size:1.15em;padding:0}
+.wc.g{background:#ffe9b0}
+input.wc{background:#fff;width:clamp(52px,17vw,76px);min-height:52px;padding:2px}
+/* ---- Stellenwert ---- */
+.sw{display:flex;gap:8px;justify-content:center;margin:8px 0}
+.swc{flex:1;max-width:130px;text-align:center;background:#eefaff;border:3px solid #1b1464;border-radius:16px;padding:6px 4px}
+.swh{display:block;font-size:1.3em}
+.swv{min-height:84px;display:flex;flex-wrap:wrap;align-content:flex-end;justify-content:center;gap:3px;padding:4px}
+.swn{font-size:1.8em;font-weight:900}
+.pt{display:inline-block;border:2px solid #1b1464;border-radius:4px}
+.pT{width:30px;height:30px;background:#9a78ee}.pH{width:28px;height:28px;background:#4da3ff}.pZ{width:9px;height:28px;background:#3dbb78}.pE{width:10px;height:10px;background:#ff9f1c}
+.swc button{min-width:44px;min-height:44px;padding:2px 8px}
+/* ---- Eis (Kombinatorik) ---- */
+.cb{display:flex;flex-direction:column;gap:6px}.cbg>b{display:block;margin:2px 0}
+.cb .imgs.g3{max-width:none;margin:0}.cb .im{min-height:76px}
+.cbl{min-height:52px;padding:8px;border:3px dashed #1b1464;border-radius:14px;background:#fffaf0}
+.cbl .chip{font-size:1.4em;margin:2px}
+/* ---- Spiegeln ---- */
+.mir{display:grid;grid-template-columns:repeat(var(--w),minmax(0,1fr));gap:0;width:min(100%,calc(var(--w) * 54px));margin:10px auto;border:3px solid #1b1464;border-radius:8px;overflow:hidden;background:#fff}
+.mc{aspect-ratio:1;border:1px solid #9aa6d6;margin:0;padding:0;min-height:0;min-width:0;border-radius:0;background:#fff;box-shadow:none}
+.mc.on{background:#f08c4a}.mc.t:hover{background:#ffe7d3}.mc.t.on:hover{background:#f08c4a}
+.mc.t{cursor:pointer}.mc:not(.t){background-image:none}.mc:not(.t):not(.on){background:#f1f4ff}
+.mc.axv{border-left:3px dashed #e8374d}.mc.axh{border-top:3px dashed #e8374d}
+/* ---- Messbecher, Regler ---- */
+.bkr{text-align:center}.bkr .vsvg{margin:6px auto}
+.rng{width:min(100%,360px);height:44px;accent-color:#2a8bd6}
+/* ---- Münzen ---- */
+.coins,.tray>div{display:flex;flex-wrap:wrap;gap:2px;justify-content:center}
+.cn{min-width:0;min-height:0;padding:2px;margin:2px;background:#fff;border-radius:50%;line-height:0;border-width:2px;box-shadow:0 2px 0 #1b1464}
+.cn svg{display:block}
+.tray{min-height:84px;margin:8px 0;padding:8px;border:3px dashed #1b1464;border-radius:14px;background:#effcff}
+/* ---- Diagramm bauen ---- */
+.bars{display:flex;gap:6px;justify-content:center;align-items:flex-end;margin:8px 0}
+.bc{flex:1;max-width:96px;text-align:center}
+.bcol{display:flex;flex-direction:column-reverse;gap:2px;height:176px;justify-content:flex-start;padding:2px;border:2px solid #1b1464;border-radius:8px;background:#f4faff}
+.bcol i{display:block;height:20px;border-radius:4px;border:2px dashed #b9c4e8}
+.bcol i.on{background:#ff9f1c;border:2px solid #1b1464}
+.bc:nth-child(2) .bcol i.on{background:#2a8bd6}.bc:nth-child(3) .bcol i.on{background:#e8374d}.bc:nth-child(4) .bcol i.on{background:#3dbb78}.bc:nth-child(5) .bcol i.on{background:#9a78ee}
+.bc button{min-width:42px;min-height:42px;padding:2px 6px}
+/* ---- Zufall ---- */
+.bag{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:300px;margin:8px auto;padding:12px;border:3px solid #6b4423;border-radius:20px 20px 30px 30px;background:#f7e7c6}
+.bl{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;border:2px solid #1b1464;font-style:normal;font-weight:800;font-size:.8em;color:#fff}
+.dr{display:flex;flex-direction:column;gap:4px;margin:6px 0}
+.ty{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;vertical-align:middle}
+.tg{position:relative;display:inline-flex;gap:3px}
+.tg i,.t1{display:inline-block;width:3px;height:22px;background:#1b1464;border-radius:2px}
+.tg u{position:absolute;left:-3px;right:-3px;top:10px;height:3px;background:#e8374d;transform:rotate(-24deg);border-radius:2px}
+/* ---- Tabellen und Aufgaben-Kästen ---- */
+.tb{border-collapse:collapse;margin:8px auto;font-size:.95em}.tb td,.tb th{border:2px solid #1b1464;padding:6px 10px;text-align:center;background:#fffaf0}.tb th{background:#ffe9b0}
+.sch{font:700 1.5em/1.35 ui-monospace,Menlo,Consolas,monospace;text-align:right;display:table;margin:8px auto;padding:6px 14px;background:#fffaf0;border:3px solid #1b1464;border-radius:12px;white-space:pre}
+.sch u{display:block;border-bottom:3px solid #1b1464;text-decoration:none;height:0;margin:0 -4px}
+.pik{display:flex;flex-direction:column;gap:4px;margin:8px auto;max-width:360px;font-size:1.3em}.pik div{display:flex;align-items:center;gap:8px}.pik b{min-width:5.5em;font-size:.7em}
+.eqv{font-size:1.6em;font-weight:800;text-align:center;margin:8px 0}
+
+.imgs.g5{grid-template-columns:repeat(5,minmax(0,1fr));max-width:420px;margin:0 auto}.imgs.g5 .im{min-height:58px;padding:4px}.imgs.g5 .n{display:none}
+.swv.big{min-height:110px;gap:5px}.swv.big .pH{width:46px;height:46px}.swv.big .pZ{width:14px;height:46px}.swv.big .pE{width:15px;height:15px}
+.imgs.g2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:420px;margin:0 auto}.imgs.g2 .im{min-height:96px}
+.imgs.nn .n{display:none}
+.hf{display:inline-block;width:.55em;overflow:hidden;white-space:nowrap;vertical-align:bottom;line-height:1}
+.chip{max-width:100%;overflow-wrap:anywhere;hyphens:auto}
+@media(max-width:340px){.tb{font-size:.8em}.tb th,.tb td{padding:4px 5px}}
+
+/* ---- Strandkarte neu: Panorama + Hochformat ---- */
+.ico{display:block;width:1em;height:1em;overflow:visible}
+.gsv{display:block;width:100%;height:100%;overflow:visible}
+.jm.w{aspect-ratio:16/10}.jm.p{aspect-ratio:100/165}
+.jm.w .pw{width:14%}.jm.p .pw{width:34%}
+.jm.w .an{font-size:6.4cqw}.jm.p .an{font-size:13cqw}
+.jm.w .sg{font-size:max(11px,1.3cqw)}.jm.p .sg{font-size:max(11px,3.5cqw);padding:.6cqw 2.4cqw}
+.jm .sun{transform:translate(-50%,-50%);aspect-ratio:auto}
+.jm.w .sun{width:14%}.jm.p .sun{width:34%}
+.jm.w .sun .an{font-size:6.6cqw}.jm.p .sun .an{font-size:12cqw}
+.jm.w .pb{padding-top:1.4cqw}.jm.p .pb{padding-top:2.6cqw}
+.jm .st .ring{width:150%}
+.jm.w .ok{width:2.4cqw;height:2.4cqw;font-size:max(12px,1.6cqw)}
+.jm.w .dc.fg{z-index:2}
+.dc.crab{animation:scut 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes scut{0%,100%{transform:translate(-50%,-50%)}22%{transform:translate(-50%,-50%) translateX(-1.8cqw)}30%{transform:translate(-50%,-50%) translateX(-1.8cqw) rotate(8deg)}62%{transform:translate(-50%,-50%) translateX(1.6cqw)}}
+.gold{position:absolute;transform:translate(-50%,-50%);z-index:4;width:max(44px,4.6cqw);height:max(44px,4.6cqw);min-width:0;min-height:0;margin:0;padding:6px;background:none;border:0;box-shadow:none;border-radius:50%;cursor:pointer;filter:drop-shadow(0 0 5px #ffe066) drop-shadow(0 2px 2px #0005);animation:gwob 3.2s ease-in-out infinite}
+.jm.p .gold{width:max(44px,9.5cqw);height:max(44px,9.5cqw)}
+.gold:hover,.gold:focus-visible{background:none;transform:translate(-50%,-50%) scale(1.25)}
+.gold:focus-visible{outline:3px solid #ff4d6d;outline-offset:2px}
+.gold .gl{position:absolute;right:-4px;top:-8px;font-size:max(14px,1.8cqw);animation:twk 1.6s ease-in-out infinite}
+@keyframes gwob{50%{transform:translate(-50%,-50%) rotate(7deg) scale(1.06)}}
+@keyframes twk{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+.plk{position:absolute;transform:translate(-50%,-50%);z-index:3;padding:.3cqw 1.2cqw;border-radius:6px 9px 7px 10px/9px 6px 10px 7px;background:linear-gradient(176deg,#e9cf9b,#d2a96a);border:2px solid #8a5d2e;color:#4a2a0e;font-weight:800;font-size:max(11px,1.25cqw);white-space:nowrap;box-shadow:0 2px 0 #5c3a1a;pointer-events:none}
+.jm.p .plk{font-size:max(11px,3.2cqw)}
+.pp.goldpp{width:62%}.goldpp svg{filter:drop-shadow(0 0 14px #ffd23f) drop-shadow(0 6px 10px #0008)}
+.gsm{margin:0 0 8px;opacity:.9}
+.mapg.sb .stp{margin:6px 0 0;color:#fff;background:#ffffff1f;border-radius:12px;padding:6px 10px}
+.mapg.sb .hint p{margin:4px 0}
+.mapg.sb .sys{margin:8px auto;min-width:0;width:min(100%,520px)}
+@media(min-width:760px){
+ .mapg.sb{position:relative;left:50%;transform:translateX(-50%);width:min(1240px,calc(100vw - 32px));grid-template-columns:minmax(190px,.75fr) minmax(0,1.5fr) minmax(250px,1fr);grid-template-rows:auto auto auto auto;grid-template-areas:"ttl ttl ttl" "sys sys sys" "user hint right" "user lk right";align-items:start;gap:0 20px}
+ .mapg.sb .sys{width:min(100%,calc((100vh - 130px)*1.6),1240px);width:min(100%,calc((100dvh - 130px)*1.6),1240px);min-width:min(100%,640px);margin:4px auto 10px}
+ .mapg.sb .usr{margin-top:0}
+ .mapg.sb .hint{padding:0 6px;font-size:.95em;text-align:left}
+ .mapg.sb .rt{margin-top:0}
+}
+@media(prefers-reduced-motion:reduce){.dc.crab,.gold,.gold .gl{animation:none!important}}
+
+.jm.w .lk{font-size:3.2cqw;right:-14%;bottom:-2%}.jm.p .lk{font-size:7cqw;right:-14%}
+.jm{isolation:isolate}
+</style>
+</head>
+<body>
+<main><noscript>Bitte schalte JavaScript ein.</noscript></main>
+<script>
+const $=s=>document.querySelector(s),M=$('main');
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>[...a].sort(()=>Math.random()-.5),pk=a=>a[R(0,a.length-1)];
+/* Aufgabenformate: mc = Auswahl, in = Eingabe, ins = mehrere Lücken, dd = Sortieren, ord = Reihenfolge, img = Felder anklicken, mem = Memo, mat = Zuordnen */
+const MC=(q,a,w,h,x={})=>({t:'mc',q,a:String(a),o:[a,...w].map(String),h,...x});
+const IN=(q,a,h,x={})=>({t:'in',q,a:String(a),h,...x});
+const DD=(q,b,it,h,x={})=>({t:'dd',q,b,it,h,...x});
+const INS=(q,parts,h,x={})=>({t:'ins',q,parts,ans:parts.filter(p=>typeof p!='string').map(p=>String(p.a)),h,...x});
+const ORD=(q,s,h,x={})=>({t:'ord',q,s,it:[...s],h,...x});
+const IMG=(q,it,h,x={})=>({t:'img',q,it,h,...x});
+const MEM=(q,pr,h,x={})=>({t:'mem',q,pr,h,...x});
+const MAT=(q,pr,h,x={})=>({t:'mat',q,pr,h,...x});
+const NM=a=>{const s=new Set();for(const x of [a+10,a-10,a+1,a-1,a+2,a-2,a+5])if(x>=0&&x!==a&&s.size<3)s.add(x);return[...s]};
+const NQ=(q,a,h)=>MC(q,a,NM(a),h);
+const L=['Leicht','Mittel','Schwierig'],LC=['🟢','🟡','🔴'];
+/* Zufällige Auswahl aus einem Aufgabenpool: höchstens 2 Aufgaben pro Format, solange der Pool es erlaubt */
+const draw=(pool,l,n,cnt={})=>{const out=[],used=new Set;
+ for(const lim of[2,9])for(const f of sh(pool)){if(out.length>=n)break;if(used.has(f))continue;const t=f(l);if(!t||(cnt[t.t]||0)>=lim)continue;cnt[t.t]=(cnt[t.t]||0)+1;used.add(f);out.push(t)}
+ return sh(out)};
+const bal=(gen,k,i=1)=>{let it;for(let n=0;n<80;n++){it=gen();if(new Set(it.map(x=>x[i])).size>=k)return it}return it};
+const uniq=(n,gen)=>{const s=new Set;for(let i=0;i<500&&s.size<n;i++)s.add(gen());return[...s]};
+const KLASSE=3;
+/* ---------- Helfer ---------- */
+const qa=(A,l)=>{let p=A.filter(x=>x[0]==l);if(!p.length||R(0,2)==0)p=A.filter(x=>x[0]<=l);const x=pk(p);return MC(x[1],x[2],x[3],x[4])};
+const lvn=(l,a,b,c)=>l==0?a:l==1?b:c;
+const wrong=(a,k=3,ds)=>{ds=ds||[1,-1,10,-10,2,-2,100,-100,5,-5,20,-20];const s=new Set;for(const d of sh(ds)){const v=a+d;if(v>=0&&v!==a)s.add(v);if(s.size>=k)break}return[...s]};
+const eur=c=>Math.floor(c/100)+','+String(c%100).padStart(2,'0')+' €';
+const eurA=c=>{const e=Math.floor(c/100),r=c%100,a=e+','+String(r).padStart(2,'0');return r==0?a+'|'+e+',0|'+e:r%10==0?a+'|'+e+','+(r/10):a};
+const CX=(q,h,o)=>({t:'cx',q,h,...o});
+const dd2=(q,b,A,B,h,n=3)=>DD(q,b,[...sh(A).slice(0,n).map(x=>[x,0]),...sh(B).slice(0,n).map(x=>[x,1])],h);
+const tap=(q,G,B,h,ng=3,nb=3,x={})=>IMG(q,[...sh(G).slice(0,ng).map(a=>[a[0],a[1],1]),...sh(B).slice(0,nb).map(a=>[a[0],a[1],0])],h,x);
+const matp=(q,P,h,n)=>MAT(q,sh(P).slice(0,n),h);
+const uniqN=(n,gen)=>{const s=new Map;for(let i=0;i<600&&s.size<n;i++){const v=gen();s.set(JSON.stringify(v),v)}return[...s.values()]};
+/* Zahlwörter bis 999 */
+const W1=['','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'],W10=['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+const nw=n=>n<20?W1[n]:n%10==0?W10[n/10]:(n%10==1?'ein':W1[n%10])+'und'+W10[Math.floor(n/10)];
+const zw=n=>{if(n<100)return nw(n);const h=Math.floor(n/100),r=n%100;return (h==1?'ein':W1[h])+'hundert'+(r?nw(r):'')};
+const zwT=n=>{if(n<1000)return zw(n);const t=Math.floor(n/1000),r=n%1000;return (t==1?'ein':nw(t))+'tausend'+(r?zw(r):'')};
+/* ---------- Bilder (SVG) ---------- */
+const SV=(vb,inner,w,cls='vsvg',lab='Bild')=>`<svg class="${cls}" ${w?`width="${w}" `:''}viewBox="${vb}" role="img" aria-label="${lab}">${inner}</svg>`;
+const BUOY=`<svg viewBox="0 0 32 40" width="30" height="38" aria-hidden="true"><path d="M16 2V12" stroke="#555" stroke-width="2" stroke-linecap="round"/><path d="M16 2L26 6L16 10Z" fill="#ffd23f" stroke="#a96a00" stroke-width="1"/><ellipse cx="16" cy="24" rx="12" ry="13" fill="#fff" stroke="#8c1f2c" stroke-width="2"/><path d="M5 19Q16 15 27 19V24Q16 20 5 24Z" fill="#e8374d"/><path d="M5 29Q16 25 27 29V33Q16 30 5 33Z" fill="#e8374d"/></svg>`;
+/* Zahlenstrahl als HTML: Striche und Beschriftung, optional feste Boje */
+const nlHtml=o=>{const{lo,hi,n}=o,val=i=>lo+i*(hi-lo)/n,X=i=>`left:calc(14px + (100% - 28px) * ${(i/n).toFixed(4)})`;let h=`<div class="nl${o.cls?' '+o.cls:''}" role="img" aria-label="Zahlenstrahl von ${lo} bis ${hi}"><div class="ln"></div>`;
+ for(let i=0;i<=n;i++){const b=o.lab(i);h+=`<i class="tk${b?' b':''}" style="${X(i)}"></i>${b?`<b class="nt" style="${X(i)}">${val(i)}</b>`:''}`}
+ if(o.mark!=null)h+=`<span class="mk" style="${X(o.mark)}">${BUOY}</span>`;
+ return h+(o.range||'')+'</div>'};
+/* Lineal: Gegenstand von a bis b (in cm), max cm, mm = Millimeterstriche */
+const rulerSvg=(o)=>{const{max,a,b,mm,obj}=o,W=max*34+30,H=112;let s=`<rect x="4" y="52" width="${W-8}" height="50" rx="5" fill="#ffe9a8" stroke="#a97d2a" stroke-width="1.6"/>`;
+ for(let i=0;i<=max*10;i++){const x=15+i*3.4;if(i%10==0)s+=`<path d="M${x} 52V80" stroke="#6b4a10" stroke-width="1.8"/><text x="${x}" y="96" font-size="13" font-weight="700" text-anchor="middle" fill="#6b4a10" font-family="Arial">${i/10}</text>`;else if(i%5==0)s+=`<path d="M${x} 52V70" stroke="#6b4a10" stroke-width="1.3"/>`;else if(mm)s+=`<path d="M${x} 52V62" stroke="#6b4a10" stroke-width=".9"/>`}
+ const x0=15+a*34,x1=15+b*34,y=22;
+ if(obj=='shell')s+=`<path d="M${x0} ${y+14}Q${x0} ${y-6} ${(x0+x1)/2} ${y-6}Q${x1} ${y-6} ${x1} ${y+14}Z" fill="#f4b6c8" stroke="#c4568a" stroke-width="1.8"/><path d="M${(x0+x1)/2} ${y+14}L${x0+(x1-x0)*.25} ${y}M${(x0+x1)/2} ${y+14}L${(x0+x1)/2} ${y-5}M${(x0+x1)/2} ${y+14}L${x0+(x1-x0)*.75} ${y}" stroke="#c4568a" stroke-width="1.2"/>`;
+ else s+=`<rect x="${x0}" y="${y-2}" width="${Math.max(6,x1-x0-14)}" height="18" fill="#ffd23f" stroke="#a96a00" stroke-width="1.6"/><path d="M${x1-14} ${y-2}L${x1} ${y+7}L${x1-14} ${y+16}Z" fill="#f2cfa0" stroke="#a96a00" stroke-width="1.6"/><path d="M${x1-5} ${y+4}L${x1} ${y+7}L${x1-5} ${y+10}Z" fill="#333"/>`;
+ s+=`<path d="M${x0} ${y+18}V52M${x1} ${y+18}V52" stroke="#e8374d" stroke-width="1.3" stroke-dasharray="3 3"/>`;
+ return SV(`0 0 ${W} ${H}`,s,Math.min(W,330),'vsvg','Lineal mit Gegenstand')};
+/* Analoge Uhr */
+const clockSvg=(h,m,w=130)=>{let s='<circle cx="50" cy="50" r="46" fill="#fff" stroke="#1b1464" stroke-width="4"/>';
+ for(let i=0;i<60;i++){const a=i*6*Math.PI/180,l=i%5?2:5;s+=`<path d="M${50+(44-l)*Math.sin(a)} ${50-(44-l)*Math.cos(a)}L${50+44*Math.sin(a)} ${50-44*Math.cos(a)}" stroke="#1b1464" stroke-width="${i%5?.8:1.6}"/>`}
+ for(let i=1;i<=12;i++){const a=i*30*Math.PI/180;s+=`<text x="${50+33*Math.sin(a)}" y="${50-33*Math.cos(a)+4}" font-size="11" font-weight="700" text-anchor="middle" fill="#1b1464" font-family="Arial">${i}</text>`}
+ const ha=((h%12)+m/60)*30*Math.PI/180,ma=m*6*Math.PI/180;
+ s+=`<path d="M50 50L${50+22*Math.sin(ha)} ${50-22*Math.cos(ha)}" stroke="#1b1464" stroke-width="4.4" stroke-linecap="round"/><path d="M50 50L${50+34*Math.sin(ma)} ${50-34*Math.cos(ma)}" stroke="#e8374d" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="50" r="3.2" fill="#1b1464"/>`;
+ return SV('0 0 100 100',s,w,'vsvg','Analoge Uhr')};
+/* Zeigerwaage / Messuhr: Wert val, Skala 0..max, Beschriftung alle major, Striche alle minor */
+const gaugeSvg=o=>{const{max,major,minor,val,unit}=o,A0=-130,A1=130,ang=v=>(A0+(A1-A0)*v/max)*Math.PI/180,P=(r,a)=>[50+r*Math.sin(a),56-r*Math.cos(a)];let s='<circle cx="50" cy="54" r="46" fill="#fff" stroke="#1b1464" stroke-width="3.5"/><path d="M12 82Q50 100 88 82" fill="none"/>';
+ for(let v=0;v<=max+1e-9;v+=minor){const a=ang(v),big=Math.abs(v/major-Math.round(v/major))<1e-9,[x0,y0]=P(big?33:37,a),[x1,y1]=P(41,a);s+=`<path d="M${x0} ${y0}L${x1} ${y1}" stroke="#1b1464" stroke-width="${big?1.6:.8}"/>`;if(big){const[tx,ty]=P(26,a);s+=`<text x="${tx}" y="${ty+2.4}" font-size="7" font-weight="700" text-anchor="middle" fill="#1b1464" font-family="Arial">${Math.round(v*100)/100}</text>`}}
+ const[nx,ny]=P(34,ang(val));s+=`<path d="M50 56L${nx} ${ny}" stroke="#e8374d" stroke-width="2.4" stroke-linecap="round"/><circle cx="50" cy="56" r="3.4" fill="#1b1464"/><text x="50" y="80" font-size="8" font-weight="700" text-anchor="middle" fill="#1b1464" font-family="Arial">${unit}</text>`;
+ return SV('0 0 100 104',s,190,'vsvg','Anzeige einer Waage')};
+/* Würfelbauwerk (isometrisch): H = Höhen je Feld, Zeilen von hinten nach vorn */
+const isoSvg=(H,w=190)=>{const a=17.32,b=10,e=20,pts=[];let minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;const cells=[];
+ H.forEach((row,i)=>row.forEach((h,j)=>{for(let z=0;z<h;z++){const x=(j-i)*a,y=(i+j)*b-z*e;cells.push({x,y,i,j,z});minx=Math.min(minx,x-a);maxx=Math.max(maxx,x+a);miny=Math.min(miny,y);maxy=Math.max(maxy,y+2*e)}}));
+ cells.sort((p,q)=>(p.i+p.j)-(q.i+q.j)||p.z-q.z);
+ const s=cells.map(c=>{const{x,y}=c;return `<path d="M${x} ${y}L${x+a} ${y+b}L${x} ${y+2*b}L${x-a} ${y+b}Z" fill="#fff0bd" stroke="#8a5a14" stroke-width="1"/><path d="M${x-a} ${y+b}L${x} ${y+2*b}L${x} ${y+2*b+e}L${x-a} ${y+b+e}Z" fill="#f0b64f" stroke="#8a5a14" stroke-width="1"/><path d="M${x} ${y+2*b}L${x+a} ${y+b}L${x+a} ${y+b+e}L${x} ${y+2*b+e}Z" fill="#d9892a" stroke="#8a5a14" stroke-width="1"/>`}).join('');
+ return SV(`${minx-4} ${miny-4} ${maxx-minx+8} ${maxy-miny+8}`,s,w,'vsvg','Würfelbauwerk aus Holzwürfeln')};
+/* Gitterbild: Zellen als Set "r,c", Zellgröße z */
+const gridSvg=(w,h,fill,o={})=>{const z=o.z||26;let s='';for(let r=0;r<h;r++)for(let c=0;c<w;c++){const on=fill.has(r+','+c);s+=`<rect x="${2+c*z}" y="${2+r*z}" width="${z}" height="${z}" fill="${on?(o.col||'#f08c4a'):'#fff'}" stroke="#1b1464" stroke-width="1.2"/>`}
+ return SV(`0 0 ${w*z+4} ${h*z+4}`,s+(o.extra||''),Math.min(w*z+4,o.w||300),'vsvg',o.lab||'Gitter')};
+/* Säulendiagramm: cats [[Name,Wert]], Schrittweite step (Achse), max */
+const barSvg=(cats,o)=>{const{step,max}=o,n=cats.length,W=60+n*54,Hh=170,y=v=>140-v/max*120;let s='';
+ for(let v=0;v<=max+1e-9;v+=step){s+=`<path d="M40 ${y(v)}H${W-6}" stroke="#b9c4e8" stroke-width="1"/><text x="34" y="${y(v)+4}" font-size="11" text-anchor="end" font-family="Arial" fill="#1b1464">${v}</text>`}
+ cats.forEach(([nm,v],i)=>{const x=50+i*54;s+=`<rect x="${x}" y="${y(v)}" width="36" height="${140-y(v)}" fill="${['#ff9f1c','#2a8bd6','#e8374d','#3dbb78','#9a78ee','#f06aa0'][i%6]}" stroke="#1b1464" stroke-width="1.4"/><text x="${x+18}" y="162" font-size="17" text-anchor="middle" font-family="Arial" font-weight="700" fill="#1b1464">${nm}</text>`});
+ s+=`<path d="M40 14V140H${W-6}" fill="none" stroke="#1b1464" stroke-width="2"/>`;
+ return SV(`0 0 ${W} ${Hh}`,s,Math.min(W*1.2,380),'vsvg','Säulendiagramm')};
+const tallyH=n=>{let h='<span class="ty" aria-label="'+n+'">';for(let i=0;i<Math.floor(n/5);i++)h+='<span class="tg"><i></i><i></i><i></i><i></i><u></u></span>';for(let i=0;i<n%5;i++)h+='<i class="t1"></i>';return h+'</span>'};
+/* Glücksrad: Felder [Farbe,Anzahl] */
+const COL={r:['#e8374d','R'],b:['#2a8bd6','B'],g:['#ffd23f','G'],n:['#3dbb78','N']};
+const wheelSvg=F=>{const tot=F.reduce((a,x)=>a+x[1],0);let s='',ang=-90;F.forEach(([k,n])=>{const a0=ang*Math.PI/180,a1=(ang+360*n/tot)*Math.PI/180,l=n/tot>.5?1:0;
+  for(let q=0;q<n;q++){const b0=(ang+360*q/tot)*Math.PI/180,b1=(ang+360*(q+1)/tot)*Math.PI/180;s+=`<path d="M50 50L${50+44*Math.cos(b0)} ${50+44*Math.sin(b0)}A44 44 0 0 1 ${50+44*Math.cos(b1)} ${50+44*Math.sin(b1)}Z" fill="${COL[k][0]}" stroke="#fff" stroke-width="1.6"/>`;const m=(b0+b1)/2;s+=`<text x="${50+27*Math.cos(m)}" y="${50+27*Math.sin(m)+3.4}" font-size="9" font-weight="800" text-anchor="middle" fill="${k=='g'?'#5a4300':'#fff'}" font-family="Arial">${COL[k][1]}</text>`}ang+=360*n/tot});
+ return SV('0 0 100 100',s+'<circle cx="50" cy="50" r="5" fill="#fff" stroke="#1b1464" stroke-width="1.6"/><path d="M50 2L44 12H56Z" fill="#1b1464"/><circle cx="50" cy="50" r="44" fill="none" stroke="#1b1464" stroke-width="2.4"/>',150,'vsvg','Glücksrad')};
+const bagH=F=>`<div class="bag" role="img" aria-label="Beutel mit ${F.map(([k,n])=>n+' '+({r:'roten',b:'blauen',g:'gelben',n:'grünen'})[k]).join(', ')} Kugeln">${sh(F.flatMap(([k,n])=>Array(n).fill(k))).map(k=>`<i class="bl" style="background:${COL[k][0]}">${COL[k][1]}</i>`).join('')}</div>`;
+const CN={r:'rot',b:'blau',g:'gelb',n:'grün'};
+
+/* ---------- Eigene Aufgabenformate (cx) ---------- */
+/* Zahlenstrahl: Boje auf eine Zahl setzen. o: lo,hi,n,lab(i),target(Index),tol(Index) */
+function nlSet(el){const t=T[I];t.setv&&t.setv(+el.value)}
+const NL=(q,h,o)=>{const val=i=>o.lo+i*(o.hi-o.lo)/o.n;let v=o.target<o.n/2?o.n:0,moved=false;
+ return CX(q,h,{say:[],
+  html:()=>nlHtml({...o,range:`<input type="range" class="nlr" min="0" max="${o.n}" step="1" value="${v}" aria-label="Zahlenstrahl: Schiebe die Boje an die richtige Stelle" oninput="nlSet(this)">`}),
+  setv(x){v=x;moved=true},
+  chk(){if(!moved)return{msg:'Schiebe zuerst die Boje auf dem Zahlenstrahl. 👆'};return{ok:Math.abs(v-o.target)<=(o.tol||0),ans:'die Boje bei '+val(o.target),g:'Boje bei '+val(v)}},
+  solve(){v=o.target;moved=true}})};
+/* Waage: links a feste Steine + eigene, rechts b Steine. Aufgabe: so viele Steine legen, bis die Waage im Gleichgewicht ist */
+function balAdd(d){const t=T[I];t.add&&t.add(d)}
+const BAL=(q,h,a,b)=>{let x=0;const need=b-a;
+ const stones=(n,own,cx,top)=>{let s='';for(let i=0;i<n;i++){const r=Math.floor(i/6),c=i%6;s+=`<circle cx="${cx-30+c*12}" cy="${top-8-r*12}" r="5.4" fill="${own&&i>=n-own?'#ff9f1c':'#8d96a6'}" stroke="#444" stroke-width="1"/>`}return s};
+ const draw=()=>{const d=Math.max(-12,Math.min(12,(b-(a+x))*3)),r=d*Math.PI/180,lx=160-100*Math.cos(r),ly=64-100*Math.sin(r),rx=160+100*Math.cos(r),ry=64+100*Math.sin(r);
+  const pan=(px,py,n,own)=>`<path d="M${px} ${py}L${px-34} ${py+48}M${px} ${py}L${px+34} ${py+48}" stroke="#555" stroke-width="1.6"/><path d="M${px-42} ${py+48}H${px+42}Q${px+36} ${py+62} ${px} ${py+62}Q${px-36} ${py+62} ${px-42} ${py+48}Z" fill="#c58a3d" stroke="#6b4423" stroke-width="2"/>${stones(n,own,px,py+46)}<text x="${px}" y="${py+80}" text-anchor="middle" font-size="16" font-weight="800" fill="#1b1464" font-family="Arial">${n}</text>`;
+  return SV('0 0 320 215',`<path d="M160 64V190M130 192H190" stroke="#6b4423" stroke-width="6" stroke-linecap="round"/><path d="M${lx} ${ly}L${rx} ${ry}" stroke="#8a5a14" stroke-width="7" stroke-linecap="round"/><circle cx="160" cy="64" r="7" fill="#ffd23f" stroke="#6b4423" stroke-width="2"/>${pan(lx,ly,a+x,x)}${pan(rx,ry,b,0)}`,320,'vsvg','Waage mit Steinen')};
+ return CX(q,h,{say:[],
+  html:()=>`<div id="bal">${draw()}</div><p class="c"><button class="sec" onclick="balAdd(-1)" aria-label="Einen Stein wegnehmen">➖ Stein</button><button onclick="balAdd(1)" aria-label="Einen Stein dazulegen">➕ Stein</button></p><p class="c"><small>Orange Steine hast du selbst dazugelegt: <b>${x}</b></small></p>`,
+  add(d){x=Math.max(0,Math.min(20,x+d));if(a+x>30)x=30-a;redo()},
+  chk(){return{ok:x==need,ans:`${need} Steine (${a} + ${need} = ${b})`,g:`${x} Steine`}},
+  solve(){x=need}})};
+/* Zahlenmauer: n = Breite unten, hide = Anzahl versteckter Felder, rng = Zahlenbereich unten */
+const wallGen=(n,hide,lo,hi,mul=1)=>{for(let t=0;t<300;t++){const base=Array.from({length:n},()=>R(lo,hi)*mul),rows=[base];for(let r=1;r<n;r++){const p=rows[r-1];rows.push(p.slice(1).map((v,i)=>v+p[i]))}
+  const cells=[];rows.forEach((row,r)=>row.forEach((v,c)=>cells.push([r,c])));const hid=new Set(sh(cells).slice(0,hide).map(x=>x.join(',')));
+  const known=rows.map((row,r)=>row.map((v,c)=>hid.has(r+','+c)?null:v));let ch=true;while(ch){ch=false;for(let r=1;r<n;r++)for(let c=0;c<known[r].length;c++){const a=known[r-1][c],b=known[r-1][c+1],u=known[r][c];const k=[a,b,u].filter(v=>v==null).length;if(k==1){if(u==null)known[r][c]=a+b,ch=true;else if(a==null)known[r-1][c]=u-b,ch=true;else if(b==null)known[r-1][c+1]=u-a,ch=true}}}
+  if(known.every(row=>row.every(v=>v!=null))&&known.every((row,r)=>row.every((v,c)=>v==rows[r][c])))return{rows,hid}}throw new Error('Mauer')};
+const WALL=(q,h,n,hide,lo,hi,mul=1)=>{const g=wallGen(n,hide,lo,hi,mul),order=[];
+ const rowsH=()=>{let s='';for(let r=n-1;r>=0;r--){s+='<div class="wr">';g.rows[r].forEach((v,c)=>{s+=g.hid.has(r+','+c)?`<input class="ins wc" ${nin()} maxlength="4" aria-label="Stein ${c+1} in Reihe ${r+1}" onkeydown="if(event.key=='Enter')chk()">`:`<span class="wc g">${v}</span>`});s+='</div>'}return s};
+ g.hid.forEach(k=>order.push(k));
+ return CX(q,h,{say:[],html:()=>`<div class="wall" role="group" aria-label="Zahlenmauer">${rowsH()}</div><p><button onclick="chk()">✔ Prüfen</button></p>${npad(0)}`,nochk:true,
+  chk(){const ins=[...document.querySelectorAll('.wc.ins')],ks=[];for(let r=n-1;r>=0;r--)g.rows[r].forEach((v,c)=>{if(g.hid.has(r+','+c))ks.push(v)});
+   const vs=ins.map(i=>i.value.trim());if(vs.some(x=>!x))return{msg:'Fülle zuerst alle leeren Steine aus. ✏️'};let bad=0;ins.forEach((i,k)=>{const ok=+vs[k]==ks[k];if(!ok)bad++});
+   return{ok:!bad,ans:ks.join(', ')+' (von oben nach unten, von links nach rechts)',g:vs.join(', ')}},
+  fix(){const ins=[...document.querySelectorAll('.wc.ins')],ks=[];for(let r=n-1;r>=0;r--)g.rows[r].forEach((v,c)=>{if(g.hid.has(r+','+c))ks.push(v)});ins.forEach((i,k)=>{if(+i.value!=ks[k])i.value=''})},
+  solve(){const ins=[...document.querySelectorAll('.wc.ins')],ks=[];for(let r=n-1;r>=0;r--)g.rows[r].forEach((v,c)=>{if(g.hid.has(r+','+c))ks.push(v)});ins.forEach((i,k)=>i.value=ks[k])}})};
+/* Stellenwert-Spiel: Zahl mit Plättchen legen. cols: ['H','Z','E'] */
+function swAdd(c,d){const t=T[I];t.add&&t.add(c,d)}
+const SW=(q,h,target,cols=['H','Z','E'])=>{const nC=cols.length,cnt=Array(nC).fill(0),name={T:'Tausender',H:'Hunderter',Z:'Zehner',E:'Einer'},val=i=>Math.pow(10,nC-1-i);
+ const unit=(k)=>k=='T'?'<i class="pt pT"></i>':k=='H'?'<i class="pt pH"></i>':k=='Z'?'<i class="pt pZ"></i>':'<i class="pt pE"></i>';
+ return CX(q,h,{say:[],
+  html:()=>`<div class="sw">${cols.map((k,i)=>`<div class="swc"><b class="swh">${k}</b><div class="swv" aria-hidden="true">${unit(k).repeat(cnt[i])}</div><div class="swn" aria-label="${name[k]}: ${cnt[i]}">${cnt[i]}</div><div><button class="sec" onclick="swAdd(${i},-1)" aria-label="${name[k]} weniger">➖</button><button onclick="swAdd(${i},1)" aria-label="${name[k]} mehr">➕</button></div></div>`).join('')}</div>`,
+  add(c,d){cnt[c]=Math.max(0,Math.min(9,cnt[c]+d));redo()},
+  chk(){const v=cnt.reduce((a,c,i)=>a+c*val(i),0);return{ok:v==target,ans:String(target),g:String(v)}},
+  solve(){String(target).padStart(nC,'0').split('').forEach((d,i)=>cnt[i]=+d)}})};
+/* Kombinatorik: alle Möglichkeiten zusammenstellen. G = [[Titel,[[Emoji,Name],...]],...] */
+function cbPick(g,k){const t=T[I];t.pick&&t.pick(g,k)}
+function cbAdd(){const t=T[I];t.addc&&t.addc()}
+const COMBO=(q,h,G)=>{const sel=G.map(()=>-1),list=[],total=G.reduce((a,g)=>a*g[1].length,1),key=s=>s.join('-');
+ return CX(q,h,{say:[],total,
+  html:()=>`<div class="cb">${G.map((g,gi)=>`<div class="cbg"><b>${g[0]}</b><div class="imgs g3 w3">${g[1].map((x,k)=>`<button class="im" aria-pressed="${sel[gi]==k}" onclick="cbPick(${gi},${k})"><span class="e">${x[0]}</span><span class="n">${x[1]}</span></button>`).join('')}</div></div>`).join('')}<p class="c"><button onclick="cbAdd()">➕ In die Liste</button></p><div class="cbl" aria-live="polite"><b>Deine Liste (${list.length}):</b> ${list.map(s=>`<span class="chip sel">${s.map((k,gi)=>G[gi][1][k][0]).join('')}</span>`).join('')||'<i>noch leer</i>'}</div></div>`,
+  pick(g,k){sel[g]=sel[g]==k?-1:k;redo()},
+  addc(){if(sel.some(v=>v<0))return fb('Wähle in jeder Zeile eine Möglichkeit aus. 👆');if(list.some(s=>key(s)==key(sel)))return fb('Diese Möglichkeit hast du schon in deiner Liste. 😊');list.push([...sel]);sel.fill(-1);redo();fb('')},
+  chk(){if(list.length<total)return{msg:`Du hast ${list.length} Möglichkeiten gefunden. Es gibt noch mehr! Gehe ganz ordentlich vor. 🔍`};return{ok:true,ans:String(total),g:String(list.length)}},
+  solve(){list.length=0;const rec=(i,cur)=>{if(i==G.length){list.push(cur);return}G[i][1].forEach((x,k)=>rec(i+1,[...cur,k]))};rec(0,[])}})};
+/* Spiegeln: Achse senkrecht ('v') oder waagerecht ('h'), halbes Bild vorgegeben, Rest durch Antippen ergänzen */
+function mrT(r,c){const t=T[I];t.tog&&t.tog(r,c)}
+const MIR=(q,h,W,H,axis,dens=.5)=>{const fill=new Set,mine=new Set,half=axis=='v'?W/2:H/2;
+ for(let n=0;n<200;n++){fill.clear();for(let r=0;r<H;r++)for(let c=0;c<W;c++){const g=axis=='v'?c<half:r<half;if(g&&Math.random()<dens)fill.add(r+','+c)}
+  const near=[...fill].filter(k=>{const[r,c]=k.split(',').map(Number);return axis=='v'?c==half-1:r==half-1}).length;if(fill.size>=4&&near>=2)break}
+ const mirror=k=>{const[r,c]=k.split(',').map(Number);return axis=='v'?r+','+(W-1-c):(H-1-r)+','+c};
+ const goal=new Set([...fill,...[...fill].map(mirror)]);
+ return CX(q,h,{say:[],
+  html:()=>{let s='<div class="mir" style="--w:'+W+'">';for(let r=0;r<H;r++)for(let c=0;c<W;c++){const k=r+','+c,given=axis=='v'?c<half:r<half,on=given?fill.has(k):mine.has(k),ax=(axis=='v'&&c==half)?' axv':(axis=='h'&&r==half)?' axh':'';
+    s+=given?`<span class="mc${on?' on':''}${ax}"></span>`:`<button class="mc t${on?' on':''}${ax}" aria-pressed="${on}" aria-label="Feld Zeile ${r+1} Spalte ${c+1}" onclick="mrT(${r},${c})"></button>`}return s+'</div><p class="c"><small>Die gestrichelte Linie ist die Spiegelachse.</small></p>'},
+  tog(r,c){const k=r+','+c;mine.has(k)?mine.delete(k):mine.add(k);redo()},
+  chk(){const want=new Set([...goal].filter(k=>{const[r,c]=k.split(',').map(Number);return axis=='v'?c>=half:r>=half}));const bad=[...want].filter(k=>!mine.has(k)).length+[...mine].filter(k=>!want.has(k)).length;return{ok:!bad,ans:'Das gespiegelte Bild',g:bad+' Felder falsch'}},
+  fix(){const want=new Set([...goal].filter(k=>{const[r,c]=k.split(',').map(Number);return axis=='v'?c>=half:r>=half}));[...mine].forEach(k=>{if(!want.has(k))mine.delete(k)});redo()},
+  solve(){goal.forEach(k=>{const[r,c]=k.split(',').map(Number);if(axis=='v'?c>=half:r>=half)mine.add(k)})}})};
+/* Messbecher: Wasser mit Schieberegler einfüllen */
+function bkSet(el){const t=T[I];t.setv&&t.setv(+el.value)}
+const BEAK=(q,h,o)=>{const{max,step,lab,minor,target,tol,unit}=o;let v=0,moved=false;
+ const svg=()=>{const y=x=>150-x/max*130;let s=`<rect x="26" y="${y(v)}" width="68" height="${150-y(v)}" fill="#6ec9f0" opacity=".85"/><path d="M26 ${y(v)}Q43 ${y(v)-3} 60 ${y(v)}T94 ${y(v)}" stroke="#3a9bd0" stroke-width="1.6" fill="none"/>`;
+  for(let x=0;x<=max+1e-9;x+=minor){const big=Math.abs(x/lab-Math.round(x/lab))<1e-9;s+=`<path d="M${big?26:26}  ${y(x)}H${big?44:36}" stroke="#1b1464" stroke-width="${big?1.6:1}"/>${big?`<text x="22" y="${y(x)+4}" font-size="10" text-anchor="end" font-weight="700" fill="#1b1464" font-family="Arial">${x}</text>`:''}`}
+  return SV('0 0 120 168',s+'<path d="M26 14V150Q26 156 32 156H88Q94 156 94 150V14" fill="none" stroke="#1b1464" stroke-width="3.4" stroke-linejoin="round"/><path d="M20 14H100" stroke="#1b1464" stroke-width="3.4" stroke-linecap="round"/>'+`<text x="108" y="12" font-size="9" font-weight="700" fill="#1b1464" font-family="Arial">${unit}</text>`,170,'vsvg','Messbecher')};
+ return CX(q,h,{say:[],html:()=>`<div class="bkr"><div id="bkv">${svg()}</div><input type="range" class="rng" min="0" max="${max}" step="${step}" value="${v}" aria-label="Wasserstand einstellen" oninput="bkSet(this)"></div>`,
+  setv(x){v=x;moved=true;const e=$('#bkv');if(e)e.innerHTML=svg()},
+  chk(){if(!moved)return{msg:'Stelle zuerst mit dem Regler den Wasserstand ein. 💧'};return{ok:Math.abs(v-target)<=(tol||0),ans:target+' '+unit,g:v+' '+unit}},
+  solve(){v=target;moved=true}})};
+/* Münzen und Scheine: Betrag in Cent genau bezahlen */
+const CO=[[1,'1 ct','c1'],[2,'2 ct','c1'],[5,'5 ct','c1'],[10,'10 ct','c2'],[20,'20 ct','c2'],[50,'50 ct','c2'],[100,'1 €','c3'],[200,'2 €','c3'],[500,'5 €','nt5'],[1000,'10 €','nt10']];
+const coinH=(x,s=54)=>x[2][0]=='n'?`<svg viewBox="0 0 80 46" width="${s*1.5}" height="${s*.86}" aria-hidden="true"><rect x="2" y="3" width="76" height="40" rx="5" fill="${x[2]=='nt5'?'#b9c9b8':'#f0a0a0'}" stroke="#5a5a5a" stroke-width="2"/><circle cx="14" cy="23" r="9" fill="none" stroke="#5a5a5a" stroke-width="1.4"/><text x="52" y="31" text-anchor="middle" font-size="22" font-weight="800" fill="#333" font-family="Arial">${x[1].split(' ')[0]}</text></svg>`:`<svg viewBox="0 0 60 60" width="${s}" height="${s}" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="${x[2]=='c1'?'#d9895a':x[2]=='c2'?'#f3d36a':'#f3d36a'}" stroke="#7a5a1a" stroke-width="2.4"/>${x[2]=='c3'?'<circle cx="30" cy="30" r="19" fill="#c9d1db" stroke="#7a5a1a" stroke-width="1.6"/>':''}<text x="30" y="${x[1].includes('€')?37:36}" text-anchor="middle" font-size="${x[1].length>4?15:19}" font-weight="800" fill="#4b3510" font-family="Arial">${x[1].split(' ')[0]}${x[1].includes('€')?'€':''}</text></svg>`;
+function payA(k){const t=T[I];t.add&&t.add(k)}
+function payR(k){const t=T[I];t.rem&&t.rem(k)}
+const PAY=(q,h,target,kinds,showSum,fewest)=>{const tray=[],avail=CO.filter(x=>kinds.includes(x[0])),min=(()=>{let r=target,n=0;for(const k of[...kinds].sort((a,b)=>b-a)){n+=Math.floor(r/k);r%=k}return n})();
+ return CX(q,h,{say:[],html:()=>`<p class="c"><small>Tippe auf Münzen und Scheine, um sie zu legen. Tippe auf einen gelegten Betrag, um ihn zurückzunehmen.</small></p><div class="coins">${avail.map(x=>`<button class="cn" onclick="payA(${x[0]})" aria-label="${x[1]} legen">${coinH(x,52)}</button>`).join('')}</div><div class="tray" aria-live="polite"><b>Dein Bezahlfeld${showSum?': '+eur(tray.reduce((a,b)=>a+b,0)):''}</b><div>${tray.map((k,i)=>`<button class="cn" onclick="payR(${i})" aria-label="${CO.find(x=>x[0]==k)[1]} zurücknehmen">${coinH(CO.find(x=>x[0]==k),40)}</button>`).join('')||'<i>leer</i>'}</div></div>`,
+  add(k){if(tray.length<24){tray.push(k);tray.sort((a,b)=>b-a);redo()}},rem(i){tray.splice(i,1);redo()},
+  chk(){const s=tray.reduce((a,b)=>a+b,0);if(!tray.length)return{msg:'Lege zuerst Münzen oder Scheine. 👆'};const ok=s==target&&(!fewest||tray.length==min);return{ok,ans:eur(target)+(fewest?` mit ${min} Münzen oder Scheinen`:''),g:eur(s)+' mit '+tray.length+' Stück'}},
+  solve(){tray.length=0;let r=target;for(const k of[...kinds].sort((a,b)=>b-a)){while(r>=k){tray.push(k);r-=k}}}})};
+/* Säulendiagramm bauen: cats [[Name,Wert]], je Kästchen 'per' Einheiten */
+function brAdd(i,d){const t=T[I];t.add&&t.add(i,d)}
+const BARS=(q,h,cats,per,maxB)=>{const cnt=cats.map(()=>0);
+ return CX(q,h,{say:[],html:()=>`<div class="bars" role="group" aria-label="Diagramm bauen">${cats.map((c,i)=>`<div class="bc"><div class="bcol" aria-hidden="true">${Array.from({length:maxB},(_,k)=>`<i class="${k<cnt[i]?'on':''}"></i>`).join('')}</div><b>${c[0]}</b><div><button class="sec" onclick="brAdd(${i},-1)" aria-label="${c[0]} weniger">➖</button><button onclick="brAdd(${i},1)" aria-label="${c[0]} mehr">➕</button></div></div>`).join('')}</div><p class="c"><small>Ein Kästchen steht für <b>${per}</b>.</small></p>`,
+  add(i,d){cnt[i]=Math.max(0,Math.min(maxB,cnt[i]+d));redo()},
+  chk(){const want=cats.map(c=>c[1]/per);const bad=cnt.filter((v,i)=>v!=want[i]).length;return{ok:!bad,ans:cats.map((c,i)=>c[0]+': '+want[i]+' Kästchen').join('; '),g:cnt.join(', ')}},
+  fix(){const want=cats.map(c=>c[1]/per);cnt.forEach((v,i)=>{if(v!=want[i])cnt[i]=0});redo()},
+  solve(){cats.forEach((c,i)=>cnt[i]=c[1]/per)}})};
+/* Zufall: mit Zurücklegen ziehen, danach auswerten */
+function drDo(){const t=T[I];t.go&&t.go()}
+function drPick(k){const t=T[I];t.pick&&t.pick(k)}
+const DRAW=(q,h,F,n,askText)=>{const pool=F.flatMap(([k,c])=>Array(c).fill(k)),res={};let done=false,ch=null;const keys=F.map(f=>f[0]);
+ return CX(q,h,{say:[],html:()=>`${bagH(F)}<p class="c"><button onclick="drDo()" ${done?'disabled':''}>🎲 ${n}-mal ziehen</button></p><div class="dr">${done?keys.map(k=>`<span><i class="bl" style="background:${COL[k][0]}">${COL[k][1]}</i> ${tallyH(res[k]||0)} <b>${res[k]||0}</b></span>`).join(''):'<i>Noch nicht gezogen.</i>'}</div>${done?`<p><b>${askText}</b></p><div class="opts n3">${[...keys,'gleich'].map((k,i)=>`<button class="opt" aria-pressed="${ch===k}" onclick="drPick('${k}')">${k=='gleich'?'beide gleich oft':CN[k]}</button>`).join('')}</div>`:''}`,
+  go(){if(done)return;for(let i=0;i<n;i++){const k=pool[R(0,pool.length-1)];res[k]=(res[k]||0)+1}done=true;redo()},
+  pick(k){ch=k;redo()},
+  chk(){if(!done)return{msg:'Ziehe zuerst aus dem Beutel. 🎲'};if(!ch)return{msg:'Wähle zuerst eine Antwort. 👆'};const mx=Math.max(...keys.map(k=>res[k]||0)),top=keys.filter(k=>(res[k]||0)==mx),want=top.length>1?'gleich':top[0];return{ok:ch==want,ans:want=='gleich'?'beide gleich oft':CN[want],g:ch=='gleich'?'beide gleich oft':CN[ch]}},
+  solve(){this.go();const mx=Math.max(...keys.map(k=>res[k]||0)),top=keys.filter(k=>(res[k]||0)==mx);ch=top.length>1?'gleich':top[0]}})};
+
+/* ---------- Gebiet 1: Muschelbank (Zahlen und Stellenwerte bis 1000) ---------- */
+const dig=n=>[Math.floor(n/100),Math.floor(n/10)%10,n%10];
+const repN=(n,k)=>{const[h,z,e]=dig(n);return k==0?String(n):k==1?`${h} H ${z} Z ${e} E`:k==2?`${h*100} + ${z*10} + ${e}`:zw(n)};
+const g_zs=l=>{
+ if(l==0){const t=R(1,9);return NL(`Setze die Boje auf die Zahl ${t*100}.`,'Zwischen 0 und 1000 liegen zehn gleich große Schritte. Jeder Schritt ist 100 groß.',{lo:0,hi:1000,n:10,lab:i=>i%2==0,target:t,tol:0})}
+ if(l==1){let t;do t=R(1,19);while(t%10==0);return NL(`Setze die Boje auf die Zahl ${t*50}.`,'Beschriftet sind nur 0, 500 und 1000. Zwischen zwei Strichen liegen 50.',{lo:0,hi:1000,n:20,lab:i=>i%10==0,target:t,tol:0})}
+ const W=R(1,9)*100,t=R(1,9);return NL(`Setze die Boje auf die Zahl ${W+t*10}. Achtung: Der Zahlenstrahl geht nur von ${W} bis ${W+100}.`,`Hier ist jeder Schritt 10 groß. Die Mitte ist ${W+50}.`,{lo:W,hi:W+100,n:10,lab:i=>i%5==0,target:t,tol:0})};
+const g_zsr=l=>{
+ if(l==0){const t=R(1,9);return IN('Welche Zahl zeigt die Boje?',t*100,'Von einem Strich zum nächsten sind es 100. Zähle in Hunderterschritten.',{v:nlHtml({lo:0,hi:1000,n:10,lab:i=>i%5==0,mark:t})})}
+ if(l==1){const W=R(1,9)*100,t=R(1,9);return IN('Welche Zahl zeigt die Boje?',W+t*10,`Schau auf die beschrifteten Zahlen. Zwischen ${W} und ${W+100} liegen zehn Schritte, jeder ist 10 groß.`,{v:nlHtml({lo:W,hi:W+100,n:10,lab:i=>i%5==0,mark:t})})}
+ let V;do V=R(110,890);while(V%100==0);const a=Math.floor(V/100)*100;
+ return MC('Zwischen welchen Hunderterzahlen liegt die Boje?',`${a} und ${a+100}`,[...new Set([-200,-100,100,200].map(d=>a+d).filter(x=>x>=0&&x<=900).map(x=>`${x} und ${x+100}`))].slice(0,3),'Suche die beschrifteten Striche links und rechts von der Boje.',{v:nlHtml({lo:0,hi:1000,n:10,lab:i=>i%5==0,mark:V/100})})};
+const g_sw=l=>{
+ if(l==0){const h=R(1,9),z=R(0,1)?R(1,9):0,e=z?0:R(1,9);const t=h*100+z*10+e;return SW(`Lege die Zahl ${t} mit Plättchen. Tippe auf ➕ und ➖.`,'Jedes Plättchen im ersten Feld ist ein Hunderter (H), im zweiten ein Zehner (Z), im dritten ein Einer (E).',t)}
+ if(l==1){const t=R(1,9)*100+R(1,9)*10+R(1,9);return SW(`Lege die Zahl ${t} mit Plättchen. Tippe auf ➕ und ➖.`,'Hunderter, Zehner und Einer: Die Ziffern sagen dir, wie viele Plättchen in jedes Feld gehören.',t)}
+ const v=R(0,5);let b,d,tx;
+ if(v==0){b=R(1,8)*100+99;d=1;tx='um 1 größer als'}else if(v==1){b=R(2,9)*100;d=-1;tx='um 1 kleiner als'}
+ else if(v==2){b=R(1,8)*100+90+R(0,9);d=10;tx='um 10 größer als'}else if(v==3){b=R(2,9)*100+R(0,9);d=-10;tx='um 10 kleiner als'}
+ else if(v==4){b=R(1,8)*100+R(1,9)*10+R(1,9);d=100;tx='um 100 größer als'}else{b=R(2,9)*100+R(1,9)*10+R(1,9);d=-100;tx='um 100 kleiner als'}
+ return SW(`Lege die Zahl, die ${tx} ${b} ist.`,'Rechne zuerst im Kopf und lege dann die Zahl. Achtung bei Zehnerüberschritten, zum Beispiel 399 und 400.',b+d)};
+const swV=n=>{const[h,z,e]=dig(n);return `<div class="swv big" aria-label="${h} Hunderter, ${z} Zehner, ${e} Einer">${'<i class="pt pH"></i>'.repeat(h)}${'<i class="pt pZ"></i>'.repeat(z)}${'<i class="pt pE"></i>'.repeat(e)}</div>`};
+const g_swl=l=>{
+ if(l==0){const n=R(1,5)*100+R(0,5)*10+(R(0,2)?R(0,5):0);return IN('Welche Zahl ist hier gelegt? Große Quadrate sind Hunderter, lange Streifen Zehner, kleine Würfel Einer.',n,'Zähle zuerst die Hunderter, dann die Zehner, dann die Einer.',{v:swV(n)})}
+ if(l==1){const n=R(1,9)*100+R(0,9)*10+R(0,9);return IN('Welche Zahl ist hier gelegt? Große Quadrate sind Hunderter, lange Streifen Zehner, kleine Würfel Einer.',n,'Hunderter, Zehner und Einer ergeben zusammen die Zahl.',{v:swV(n)})}
+ if(R(0,1)){const z=R(11,25),e=R(11,29);return IN(`Welche Zahl ist das? ${z} Zehner und ${e} Einer.`,z*10+e,`Bündele: ${e} Einer sind ${Math.floor(e/10)} Zehner und ${e%10} Einer.`)}
+ const n=R(2,9)*100+R(1,9)*10+R(1,9);return IN(`Wie viele Zehner stecken insgesamt in der Zahl ${n}? Zähle die Hunderter mit.`,Math.floor(n/10),'Ein Hunderter besteht aus 10 Zehnern.')};
+const g_nach=l=>{
+ if(l==0){const x=pk([R(2,98)*10,R(2,9)*100]);return INS(`Wie heißen Vorgänger und Nachfolger von ${x}?`,['Vorgänger: ',{a:x-1},'  Nachfolger: ',{a:x+1}],'Der Vorgänger ist um 1 kleiner, der Nachfolger um 1 größer.')}
+ if(l==1){let x;do x=R(101,989);while(x%10==0);return INS(`Wie heißen die Nachbarzehner von ${x}?`,['kleinerer Zehner: ',{a:Math.floor(x/10)*10},'  größerer Zehner: ',{a:Math.floor(x/10)*10+10}],'Die Nachbarzehner sind die Zehnerzahlen direkt vor und direkt hinter der Zahl.')}
+ let x;do x=R(101,989);while(x%100==0);return INS(`Wie heißen die Nachbarhunderter von ${x}?`,['kleinerer Hunderter: ',{a:Math.floor(x/100)*100},'  größerer Hunderter: ',{a:Math.floor(x/100)*100+100}],'Die Nachbarhunderter sind die vollen Hunderter direkt vor und direkt hinter der Zahl.')};
+const g_mitte=l=>{if(l==0)return null;let a,d;if(l==1){d=20;a=R(1,9)*20+R(0,4)*100}else{d=pk([100,200,400]);a=R(1,(1000-d)/100)*100}return IN(`Welche Zahl liegt genau in der Mitte zwischen ${a} und ${a+d}?`,a+d/2,'Gehe von der kleineren Zahl aus die Hälfte des Abstands nach oben.')};
+const g_ordn=l=>{
+ const set=new Set;if(l==0)while(set.size<4)set.add(R(1,9)*100+R(0,9)*10+R(0,9));
+ else if(l==1){const h=R(1,8)*100;while(set.size<5)set.add(h+R(1,9)*10+R(0,9))}
+ else while(set.size<4)set.add(R(1,9)*100+R(1,9)*10+R(1,9));
+ const A=[...set].sort((a,b)=>a-b),k=A.map(()=>l<2?0:R(0,3)),sd=A.map((n,i)=>repN(n,k[i]));
+ return ORD(l==2?'Ordne die Zahlen von der kleinsten zur größten. Sie sind unterschiedlich aufgeschrieben.':'Ordne die Zahlen von der kleinsten zur größten.',sd,l==0?'Schau zuerst auf die Hunderter. Die kleinste Zahl hat die wenigsten Hunderter.':l==1?'Alle Zahlen haben gleich viele Hunderter. Vergleiche die Zehner und dann die Einer.':'Schreibe jede Zahl erst mit Ziffern auf. Dann ordnest du sie.')};
+const g_vgl=l=>{
+ if(l==0){let a=R(100,999),b;do b=R(100,999);while(Math.floor(a/100)==Math.floor(b/100));const an=a<b?'<':'>';return MC(`Welches Zeichen passt? ${a} ☐ ${b}`,an,['<','>','='].filter(x=>x!=an),'Vergleiche zuerst die Hunderter.')}
+ if(l==1){const n=R(1,9)*100+R(0,9)*10+R(0,9),k=R(0,2);let Lx,Rx,an;
+  if(k==0){Lx=repN(n,pk([1,2]));Rx=String(n);an='='}else{const c=[];for(const d of [1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90]){if(n+d<=999)c.push(n+d);if(n-d>=100)c.push(n-d)}const m=pk(c);Lx=String(n);Rx=String(m);an=n<m?'<':'>'}
+  return MC(`Welches Zeichen passt? ${Lx} ☐ ${Rx}`,an,['<','>','='].filter(x=>x!=an),'Schreibe beide Zahlen mit Ziffern auf und vergleiche Stelle für Stelle.')}
+ for(let t=0;t<50;t++){const a=R(1,9),c=R(1,9),mid=R(2,8),gt=R(0,1),n=a*100+mid*10+c;const items=[...Array(10).keys()].map(d=>[String(d),String(d),(gt?(a*100+d*10+c>n):(a*100+d*10+c<n))?1:0]);const good=items.filter(x=>x[2]).length;
+  if(good>=2&&good<=8)return IMG(`Welche Ziffern passen in die Lücke? ${a}☐${c} ${gt?'>':'<'} ${n}`,items,'Probiere die Ziffern aus. Entscheidend ist die Zehnerstelle.',{ns:1,cls:'g5'})}
+ return g_vgl(1)};
+const g_zer=l=>{const nums=[];while(nums.length<4){const n=R(1,9)*100+R(1,9)*10+R(1,9);if(!nums.includes(n))nums.push(n)}
+ return MAT(l==0?'Was gehört zusammen? Ordne zu.':l==1?'Was gehört zusammen? Ordne die Zahl ihrer Zerlegung zu.':'Was gehört zusammen? Ordne das Zahlwort der Zahl zu.',nums.slice(0,l==0?3:4).map(n=>l==2?[zw(n),String(n)]:[String(n),repN(n,l==0?1:2)]),'Hunderter, Zehner und Einer werden zusammengezählt. Achte auf jede Stelle.')};
+const g_wort=l=>{let n;if(l==0){n=R(1,9)*100+(R(0,1)?R(1,9):R(1,9)*10)}else n=R(1,9)*100+R(2,9)*10+R(1,9);
+ const[h,z,e]=dig(n),pool=[`${h}${e}${z}`,`${z}${h}${e}`,`${e}${z}${h}`,`${h}0${z}${e}`,`${h}${z}${e}0`,`${h}${e}`,`${h*10+z}${e}`,String(n+10),String(n-10),String(n+100),String(n-1)];
+ const opts=[...new Set(pool.filter(x=>x!=String(n)&&x[0]!='0'&&+x>=10))];const o=sh(opts).slice(0,3);
+ return MC(`Wie schreibt man „${zw(n)}“ mit Ziffern?`,String(n),o,'Achte auf die Reihenfolge: Bei „siebenundvierzig“ hörst du die 7 (Einer) zuerst, sie steht aber hinten in der Zahl.')};
+const mk0=seed=>{let r=seed*7919+13;return()=>(r=(r*9301+49297)%233280)/233280};
+const g_sch=l=>{if(l==2)return null;const n=l==0?R(2,4)*10+R(0,9):R(5,9)*10+R(0,9),rr=mk0(n+R(0,9999)),pts=[];let guard=0;
+ while(pts.length<n&&guard++<6000){const x=100+rr()*190,y=8+rr()*104;if(pts.every(p=>Math.hypot(p[0]-x,p[1]-y)>11.5))pts.push([x,y])}
+ if(pts.length<n)return g_sch(l);
+ const dot=(x,y)=>`<circle cx="${x}" cy="${y}" r="4.8" fill="#f4b6c8" stroke="#c4568a" stroke-width="1.4"/>`;let ref='';for(let i=0;i<10;i++)ref+=dot(16+(i%5)*15,24+Math.floor(i/5)*16);
+ const near=Math.round(n/10)*10,o=sh([near+20,near-20,near+40,near-30,near+30].filter(x=>x>=10)).slice(0,3);
+ return MC('Schätze: Wie viele Muscheln liegen ungefähr im Sand? Links siehst du als Hilfe 10 Muscheln.',String(near),o.map(String),'Vergleiche den Platz: Wie oft passen die 10 Muscheln von links in die große Fläche?',{v:SV('0 0 300 120',`<rect x="1" y="1" width="298" height="118" rx="10" fill="#fbeec6" stroke="#c9a85a" stroke-width="2"/><rect x="6" y="8" width="84" height="52" rx="6" fill="#fff8e0" stroke="#c9a85a" stroke-dasharray="3 3"/>${ref}<text x="48" y="76" font-size="11" font-weight="700" text-anchor="middle" fill="#6b4a10" font-family="Arial">10 Muscheln</text>${pts.map(p=>dot(p[0].toFixed(0),p[1].toFixed(0))).join('')}`,320,'vsvg','Muscheln im Sand')})};
+const g_mus=l=>{let a,d,seq=[];
+ if(l==0){d=pk([5,10,-10,100,-100]);a=d==5?R(1,30)*5:d==10?R(1,40)*10:d==100?R(1,4)*100+R(0,9)*10:R(6,9)*100+R(0,9)*10;if(d==-10)a=R(5,9)*100+R(0,9)*10}
+ else if(l==1){d=pk([20,25,50,-20,-25,-50]);a=d>0?R(1,5)*100+R(0,3)*(Math.abs(d)==25?25:10):R(5,9)*100+R(0,3)*(Math.abs(d)==25?25:10)}
+ else{a=R(1,6)*10;d=pk([10,20]);const dd=pk([10,20]);let v=a;for(let i=0;i<6;i++){seq.push(v);v+=d;d+=dd}}
+ if(l<2)for(let i=0;i<6;i++)seq.push(a+i*d);
+ if(seq.some(x=>x<0||x>999))return g_mus(l);
+ const parts=['Setze fort: '];seq.slice(0,4).forEach(v=>parts.push(v+', '));parts.push({a:seq[4]});parts.push(', ');parts.push({a:seq[5]});
+ return INS(l==2?'Die Schritte werden immer größer. Setze die Zahlenfolge fort.':'Setze die Zahlenfolge fort.',parts,l==0?'Finde den gleichen Schritt zwischen allen Zahlen.':l==1?'Rechne den Unterschied zwischen zwei Zahlen aus und rechne dann weiter.':'Schau, wie viel jedes Mal dazukommt. Auch dieser Schritt wird gleichmäßig größer.')};
+const g_rund=l=>{
+ if(l==0){let n;do n=R(11,99);while(n%10==0||n%10==5);return IN(`Runde ${n} auf Zehner.`,Math.round(n/10)*10,'Schau auf die Einer. Bei 0 bis 4 wird abgerundet, bei 5 bis 9 aufgerundet.')}
+ if(l==1){let n;do n=R(101,989);while(n%10==0||n%10==5);return IN(`Runde ${n} auf Zehner.`,Math.round(n/10)*10,'Schau auf die Einer: 0 bis 4 abrunden, 5 bis 9 aufrunden.')}
+ const n=pk([R(1,8)*100+50,R(1,8)*100+49,R(1,8)*100+R(51,99),R(1,8)*100+R(1,48)]);return IN(`Runde ${n} auf Hunderter.`,Math.round(n/100)*100,'Schau auf die Zehner: 0 bis 4 abrunden, 5 bis 9 aufrunden. Bei genau 50 wird aufgerundet.')};
+const uset=(n,f)=>{const a=[];let g=0;while(a.length<n&&g++<500){const x=f();if(!a.includes(x))a.push(x)}return a};
+const g_dd1=l=>{
+ if(l==0)return DD('Sortiere die Zahlen.',['kleiner als 500','größer als 500'],[...uset(3,()=>R(10,49)*10+R(0,9)).map(x=>[String(x),0]),...uset(3,()=>R(51,99)*10+R(0,9)).map(x=>[String(x),1])],'Vergleiche mit 500. Schau auf die Hunderter.');
+ if(l==1)return DD('Sortiere die Zahlen.',['volle Zehner (Endziffer 0)','keine vollen Zehner'],[...uset(3,()=>R(10,98)*10).map(x=>[String(x),0]),...uset(3,()=>R(10,98)*10+R(1,9)).map(x=>[String(x),1])],'Volle Zehner enden immer auf 0.');
+ return DD('Sortiere die Zahlen.',['zwischen 450 und 550','nicht zwischen 450 und 550'],[...uset(3,()=>R(451,549)).filter(x=>x!=500).map(x=>[String(x),0]),...uset(3,()=>pk([R(100,449),R(551,950)])).map(x=>[String(x),1])],'Die Zahl muss größer als 450 und kleiner als 550 sein.')};
+const z0=[g_zs,g_zsr,g_sw,g_swl,g_nach,g_mitte,g_ordn,g_vgl,g_zer,g_wort,g_sch,g_mus,g_rund,g_dd1];
+
+/* ---------- Gebiet 2: Sandburg-Werkstatt (Rechnen und Rechenwege) ---------- */
+const addC=(a,b)=>{let c=0,x=a,y=b,carry=0;while(x||y||carry){const s=x%10+y%10+carry;carry=s>=10?1:0;if(carry)c++;x=Math.floor(x/10);y=Math.floor(y/10)}return c};
+const subC=(a,b)=>{let c=0,x=a,y=b,bo=0;while(x||y){let d=x%10-y%10-bo;bo=d<0?1:0;if(bo)c++;x=Math.floor(x/10);y=Math.floor(y/10)}return c};
+const g_kopf=l=>{
+ if(l==0){const t=pk([0,1,2]);let a,b,op;
+  if(t==0){a=R(2,9)*10;b=R(1,9)*10;op='+'}else if(t==1){a=R(3,9)*10+R(1,9);b=R(1,9)*10;op='+'}else{a=R(3,9)*100;b=R(1,2)*100;op='−'}
+  return IN(`Rechne im Kopf: ${a} ${op} ${b}`,op=='+'?a+b:a-b,'Rechne zuerst die vollen Zehner (oder Hunderter). Die Einer kommen danach.')}
+ if(l==1){const t=pk([0,1,2,3]);let a,b,op;
+  if(t==0){a=R(1,8)*100+R(1,9)*10;b=R(1,9)*10+R(1,9);op='+';}else if(t==1){a=R(3,9)*100+R(1,9)*10+R(1,9);b=R(1,2)*100+R(1,9)*10;op='−'}
+  else if(t==2){a=R(2,8)*100+R(1,9)*10;b=R(1,9)*100+R(0,9)*10;if(a+b>1000)b=R(1,5)*100;op='+'}else{a=R(500,999);b=R(2,9)*10+9;op='−'}
+  return IN(`Rechne im Kopf: ${a} ${op} ${b}`,op=='+'?a+b:a-b,t==3?'Tipp: Rechne −'+(b+1)+' und gib 1 wieder dazu.':'Zerlege die zweite Zahl in Hunderter, Zehner und Einer und rechne in Schritten.')}
+ const t=pk([0,1,2]);let a,b,op,h;
+ if(t==0){b=pk([98,99,101,102,199,299,198]);a=R(2,6)*100+R(11,89);op='+';h=`Rechne mit der nahen Zahl: ${b} ist fast ${Math.round(b/100)*100}. Dann korrigiere.`}
+ else if(t==1){b=pk([98,99,101,102,199,198]);a=R(5,9)*100+R(11,89);op='−';h=`Rechne mit ${Math.round(b/100)*100} und korrigiere am Ende.`}
+ else{const k=R(1,4)*100+R(1,9)*10;a=R(120,480);b=R(120,480);op='+';return IN(`Rechne geschickt im Kopf: ${a} + ${b} − ${a}`,b,'Zuerst dazu, dann wieder weg: Das hebt sich auf.')}
+ return IN(`Rechne geschickt im Kopf: ${a} ${op} ${b}`,op=='+'?a+b:a-b,h)};
+const g_mauer=l=>{
+ if(l==0)return WALL('Fülle die Zahlenmauer aus. Die Zahl in einem Stein ist die Summe der zwei Steine darunter.','Zähle immer die beiden Steine unter dem leeren Stein zusammen. Oder rechne rückwärts mit Minus.',3,2,2,9,10);
+ if(l==1)return WALL('Fülle die Zahlenmauer aus. Die Zahl in einem Stein ist die Summe der zwei Steine darunter.','Wenn unten ein Stein fehlt, rechne mit Minus: oberer Stein minus bekannter Stein.',3,3,10,60,5);
+ return WALL('Fülle die Zahlenmauer aus. Die Zahl in einem Stein ist die Summe der zwei Steine darunter.','Fange dort an, wo du schon zwei Zahlen kennst. Rechne dann Schritt für Schritt weiter.',4,5,5,40,5)};
+const g_waage=l=>{
+ if(l==0){const a=R(2,8),b=a+R(2,6);return BAL(`Die Waage soll im Gleichgewicht sein. Auf einer Seite liegen ${a} Steine, auf der anderen ${b}. Lege Steine dazu.`,'Zähle, wie viele Steine auf der leichten Seite fehlen.',a,b)}
+ if(l==1){const a=R(10,15),b=a+R(5,14);return BAL(`Links liegen ${a} Steine, rechts ${b}. Lege so viele Steine links dazu, dass die Waage im Gleichgewicht ist.`,'Der Unterschied zwischen den beiden Zahlen ist die Zahl der fehlenden Steine.',a,b)}
+ const a=R(20,60),d=R(8,30);return IN(`Auf einer Waagschale liegen ${a+d} Steine, auf der anderen ${a}. Wie viele Steine fehlen links, damit die Waage im Gleichgewicht ist? Rechne mit einer Gleichung: ${a} + ☐ = ${a+d}.`,d,'Das ist eine Ergänzungsaufgabe. Rechne mit Minus: '+(a+d)+' − '+a+'.')};
+const g_einmal=l=>{
+ const mk=(a,b,sw)=>sw?`${a} · ${b}`:`${b} · ${a}`;
+ if(l==0){const a=R(2,10),b=R(2,10);return IN(`Rechne: ${a} · ${b}`,a*b,'Das Einmaleins musst du auswendig können. Wenn du es nicht weißt, rechne mit Verdoppeln: 2 · ... und 4 · ...')}
+ if(l==1){const a=pk([6,7,8,9]),b=R(3,9),t=R(0,1);return t?IN(`Nutze die Tauschaufgabe: ${a} · ${b} = ${b} · ☐`,a,'Beim Malnehmen darf man die Zahlen tauschen. Das Ergebnis bleibt gleich.'):IN(`Ich weiß: ${a} · 5 = ${a*5}. Wie viel ist ${a} · 6?`,a*6,'Einmal die Zahl dazu: 6 mal ist 5 mal und noch 1 mal.')}
+ const a=R(6,9),b=R(6,9),k=pk([1,2]);return k==1?IN(`Ich weiß: ${a} · ${b} = ${a*b}. Wie viel ist dann ${a} · ${b+1}?`,a*(b+1),'Eine Zeile weiter im Einmaleins: Rechne die Aufgabe plus noch einmal '+a+'.'):IN(`Ich weiß: 8 · ${b} = ${8*b}. Wie viel ist dann 4 · ${b}?`,4*b,'4 ist die Hälfte von 8. Also ist auch das Ergebnis halb so groß.')};
+const g_div=l=>{
+ if(l==0){const b=R(2,10),q=R(2,10);return IN(`Rechne: ${b*q} : ${b}`,q,`Frage dich: ${b} mal wie viel ergibt ${b*q}?`)}
+ if(l==1){const b=R(2,9),q=R(3,9),r=R(1,b-1),a=b*q+r;return IN(`Teile mit Rest: ${a} : ${b} = ${q} Rest ☐`,r,`${b} mal ${q} ist ${b*q}. Was bleibt bis ${a} übrig?`)}
+ const b=R(3,9),q=R(4,12),r=R(1,b-1),a=b*q+r;return INS(`Teile mit Rest: ${a} : ${b}`,[`${a} : ${b} = `,{a:q},' Rest ',{a:r}],`Suche die nächstkleinere Zahl im ${b}er-Einmaleins. Der Rest muss kleiner als ${b} sein.`)};
+const g_str=l=>{
+ if(l==0){let a,b;do{a=R(100,500);b=R(10,200)}while(addC(a,b)>0||a+b>999);return IN(`Rechne schriftlich: ${a} + ${b}`,a+b,'Schreibe die Zahlen stellengerecht untereinander. Fange bei den Einern an.')}
+ if(l==1){let a,b;do{a=R(120,700);b=R(120,290)}while(addC(a,b)==0||a+b>999);return IN(`Rechne schriftlich: ${a} + ${b}`,a+b,'Schreibe stellengerecht untereinander. Bei einem Übertrag schreibst du die kleine Eins in die nächste Stelle.')}
+ const t=pk([0,1]);if(t==0){let a,b,c;do{a=R(120,400);b=R(120,300);c=R(60,200)}while(addC(a,b)==0||a+b+c>999);return IN(`Rechne schriftlich: ${a} + ${b} + ${c}`,a+b+c,'Rechne Stelle für Stelle. Übertrag nicht vergessen!')}
+ let a,b;do{a=R(300,999);b=R(120,a-20)}while(subC(a,b)==0);return IN(`Rechne schriftlich: ${a} − ${b}`,a-b,'Wenn du in einer Stelle nicht abziehen kannst, entbündele: Eine Zehn wird zu 10 Einern.')};
+const g_strm=l=>{
+ if(l==0){let a,b;do{a=R(300,900);b=R(100,a-100)}while(subC(a,b)>0);return IN(`Rechne schriftlich: ${a} − ${b}`,a-b,'Rechne von rechts nach links. Ziehe in jeder Stelle ab.')}
+ if(l==1){let a,b;do{a=R(300,999);b=R(120,a-30)}while(subC(a,b)==0);return IN(`Rechne schriftlich: ${a} − ${b}`,a-b,'Wenn du nicht abziehen kannst, entbündelst du: Eine Zehn gibt 10 Einer.')}
+ let a,b;do{a=R(401,999);b=R(120,a-30);}while(subC(a,b)<2||a%100==0&&false);return IN(`Rechne schriftlich: ${a} − ${b}`,a-b,'Hier musst du mehrmals entbündeln. Mache anschließend die Probe mit Plus.')};
+const g_umk=l=>{
+ if(l==0){const a=R(5,10),b=R(2,8),c=a+b;return MC(`Zu ${a} + ${b} = ${c} gehört eine Umkehraufgabe. Welche?`,`${c} − ${b} = ${a}`,[`${c} + ${b} = ${a}`,`${a} − ${b} = ${c}`,`${c} − ${c} = ${a}`],'Die Umkehraufgabe macht die Rechnung rückgängig. Aus Plus wird Minus.')}
+ if(l==1){const a=R(150,450),b=R(120,400);return IN(`Mache die Probe mit der Umkehraufgabe: ${a+b} − ${b} = ☐`,a,'Wenn du etwas dazugetan hast und es dann wieder wegnimmst, bist du am Anfang.')}
+ const a=R(300,900),b=R(120,a-30),c=a-b,wrongc=c+pk([10,-10,100,-100]);if(wrongc<=0||wrongc==a||wrongc==b)return g_umk(2);
+ return MC(`Tom hat ${a} − ${b} = ${wrongc} gerechnet. Mit welcher Probe findest du heraus, ob das stimmt?`,`${wrongc} + ${b} = ${a}?`,[`${wrongc} − ${b} = ${a}?`,`${a} + ${b} = ${wrongc}?`,`${b} − ${wrongc} = ${a}?`],'Bei Minusaufgaben macht man die Probe mit Plus: Ergebnis plus abgezogene Zahl.')};
+const g_schr=l=>{
+ if(l==0){const a=R(30,80),b=R(11,40),c=a+b;return MC(`Welche Rechnung passt zur Aufgabe: Du hast ${a} Muscheln und findest ${b} dazu.`,`${a} + ${b} = ${c}`,[`${a} − ${b} = ${a-b}`,`${a} · ${b}`,`${a} : ${b}`].slice(0,3),'Wenn etwas dazukommt, rechnest du Plus.')}
+ if(l==1){const a=R(3,9),b=R(3,9);return MC(`Welche Rechnung passt: ${a} Eimer mit je ${b} Muscheln. Wie viele Muscheln sind es?`,`${a} · ${b}`,[`${a} + ${b}`,`${a} − ${b}`,`${a*b} − ${a}`],'Gleich große Gruppen: Das ist eine Malaufgabe.')}
+ const a=R(4,9),b=R(30,90);return MC(`Welche Rechnung passt: ${a*b} Muscheln werden gerecht auf ${a} Kinder verteilt. Wie viele bekommt jedes Kind?`,`${a*b} : ${a}`,[`${a*b} · ${a}`,`${a*b} − ${a}`,`${a*b} + ${a}`],'Gerecht verteilen heißt teilen.')};
+const g_ue=l=>{
+ if(l==0){const a=R(150,400),b=R(100,500);return IN(`Überschlage: ${a} + ${b}. Runde beide Zahlen auf volle Hunderter und rechne.`,Math.round(a/100)*100+Math.round(b/100)*100,'Runde jede Zahl auf den nächsten Hunderter. Dann rechne mit diesen runden Zahlen.')}
+ if(l==1){let a,b,s;do{a=R(210,890);b=R(110,380);s=Math.round(a/100)*100-Math.round(b/100)*100}while(s<0);return IN(`Überschlage: ${a} − ${b}. Runde beide Zahlen auf volle Hunderter.`,s,'Runde jede Zahl auf Hunderter und rechne dann.')}
+ const a=R(213,689),b=R(121,298),r=a+b,bad=r+pk([300,-300,400,-400]);if(bad<0||bad>1000)return g_ue(2);
+ return MC(`Der Überschlag für ${a} + ${b} ist ungefähr ${Math.round(a/100)*100+Math.round(b/100)*100}. Welches Ergebnis kann auf keinen Fall stimmen?`,String(bad),[String(r),String(r+10),String(r-10)],'Das genaue Ergebnis liegt nahe beim Überschlag. Suche die Zahl, die viel zu weit weg ist.')};
+const g_fehl=l=>{
+ if(l==0){const a=R(130,400),b=R(120,350),ok=R(0,1),c=ok?a+b:a+b+pk([10,-10,100,-100]);return MC(`Mia rechnet ${a} + ${b} = ${c}. Stimmt das?`,ok?'Ja, das stimmt.':'Nein, das stimmt nicht.',ok?['Nein, das stimmt nicht.','Das kann man nicht wissen.']:['Ja, das stimmt.','Das kann man nicht wissen.'],`Rechne selbst nach: ${a} + ${b}.`)}
+ if(l==1){const a=R(213,689),b=R(121,298);if(addC(a,b)==0)return g_fehl(1);const w=a+b-pk([10,100]);return MC(`Finde den Fehler: ${a} + ${b} = ${w}. Was ist passiert?`,'Ein Übertrag wurde vergessen.',['Es wurde minus statt plus gerechnet.','Die Zahlen wurden vertauscht.','Es wurde richtig gerechnet.'],`Vergleiche mit der richtigen Lösung ${a+b}. Was fehlt?`)}
+ let a,b,w;do{a=R(402,903);b=R(121,398);const f=(x,y)=>Math.abs(Math.floor(x/100)-Math.floor(y/100))*100+Math.abs(Math.floor(x/10)%10-Math.floor(y/10)%10)*10+Math.abs(x%10-y%10);w=f(a,b)}while(a<=b||subC(a,b)==0||w==a-b);
+ return MC(`Lisa rechnet ${a} − ${b} = ${w}. Das ist falsch. Welchen Fehler hat sie gemacht?`,'Sie hat in jeder Stelle die kleinere von der größeren Ziffer abgezogen.',['Sie hat plus statt minus gerechnet.','Sie hat die Zahlen vertauscht.','Sie hat nur die Einer gerechnet.'],`Die richtige Lösung ist ${a-b}. Schau, in welcher Stelle sich die Ziffern unterscheiden.`)};
+const g_pack=l=>{
+ if(l==0){const n=R(2,6),k=R(3,6);return IN(`${n} Beutel mit je ${k} Muscheln. Wie viele Muscheln sind es?`,n*k,`Rechne ${n} mal ${k}.`)}
+ if(l==1){const n=R(3,9),k=R(11,25);return IN(`Rechne halbschriftlich: ${n} · ${k}. Zerlege ${k} in Zehner und Einer.`,n*k,`Rechne ${n} · ${Math.floor(k/10)*10} und ${n} · ${k%10}. Zähle beides zusammen.`)}
+ const n=R(3,9),k=R(31,89);return IN(`Rechne halbschriftlich: ${n} · ${k}. Zerlege geschickt.`,n*k,`Zerlege ${k} in ${Math.floor(k/10)*10} und ${k%10}. Rechne beide Teile mal ${n} und addiere.`)};
+const g_tz=l=>{
+ if(l==0){const a=R(10,40);return MC(`Welche Aufgaben haben das gleiche Ergebnis wie ${a} + ${a}?`,`2 · ${a}`,[`${a} − ${a}`,`${a} : 2`,`${a} + 2`],'Verdoppeln und mal 2 rechnen ist dasselbe.')}
+ if(l==1){const a=pk([3,4,5,6]),b=pk([2,3,4]);return IN(`${a} · ${b} + ${a} = ☐ · ${a}`,b+1,'Wie viele Gruppen zu je '+a+' sind es insgesamt?')}
+ const a=R(20,60);return IN(`${a} + ${a} + ${a} + ${a} ist dasselbe wie ☐ · ${a}.`,4,'Zähle, wie oft die Zahl vorkommt.')};
+const g_dd2=l=>{
+ if(l==0){const lo=uset(3,()=>R(1,2)*10+R(0,2)*10).map(x=>[x,R(1,2)*10]),hi=uset(3,()=>R(4,6)*10).map(x=>[x,R(2,4)*10]);const f=(a,b)=>`${a} + ${b}`;return DD('Sortiere die Aufgaben nach ihrem Ergebnis.',['Ergebnis kleiner als 50','Ergebnis größer als 50'],[...lo.slice(0,3).map(([a,b])=>[f(a,b),0]).filter(x=>eval(x[0])<50),...hi.map(([a,b])=>[f(a+10,b+10),1]).filter(x=>eval(x[0])>50)].filter((x,i,A)=>A.findIndex(y=>y[0]==x[0])==i).slice(0,6),'Rechne jede Aufgabe aus und vergleiche das Ergebnis mit 50.')}
+ if(l==1){const a=[],b=[];let g=0;while((a.length<3||b.length<3)&&g++<400){const x=R(120,700),y=R(110,290),c=addC(x,y)>0;if(x+y>999)continue;const t=`${x} + ${y}`;if(c&&b.length<3&&!b.some(z=>z[0]==t))b.push([t,1]);else if(!c&&a.length<3&&!a.some(z=>z[0]==t))a.push([t,0])}return DD('Sortiere die Aufgaben: Brauchst du beim schriftlichen Addieren einen Übertrag?',['ohne Übertrag','mit Übertrag'],[...a,...b],'Schau, ob die Summe der Ziffern in einer Stelle 10 oder mehr ergibt.')}
+ const a=[],b=[];let g=0;while((a.length<3||b.length<3)&&g++<400){const x=R(300,900),y=R(110,x-50),e=subC(x,y)>0;const t=`${x} − ${y}`;if(e&&b.length<3&&!b.some(z=>z[0]==t))b.push([t,1]);else if(!e&&a.length<3&&!a.some(z=>z[0]==t))a.push([t,0])}return DD('Sortiere die Aufgaben: Musst du beim schriftlichen Subtrahieren entbündeln?',['nicht entbündeln','entbündeln'],[...a,...b],'Du musst entbündeln, wenn in einer Stelle die obere Ziffer kleiner ist als die untere.')};
+const g_ordr=l=>{
+ if(l==0){const A=[];let g=0;while(A.length<4&&g++<300){const x=R(2,9)*10,y=R(1,4)*10;if(!A.some(p=>p[0]+p[1]==x+y))A.push([x,y])}return ORD('Ordne die Aufgaben nach dem Ergebnis, das kleinste zuerst.',A.sort((p,q)=>p[0]+p[1]-q[0]-q[1]).map(([x,y])=>`${x} + ${y}`),'Rechne jede Aufgabe aus und ordne dann nach dem Ergebnis.')}
+ if(l==1){const v=uset(4,()=>R(2,9)*R(3,9));const A=[];let g=0;while(A.length<4&&g++<200){const a=R(3,9),b=R(3,9);if(!A.some(x=>x[0]*x[1]==a*b))A.push([a,b])}return ORD('Ordne die Aufgaben nach dem Ergebnis, das kleinste zuerst.',A.sort((p,q)=>p[0]*p[1]-q[0]*q[1]).map(([a,b])=>`${a} · ${b}`),'Rechne jedes Ergebnis aus und ordne dann.')}
+ const n=R(3,8),k=R(21,49),z=Math.floor(k/10)*10,e=k%10;return ORD(`Rechne ${n} · ${k} halbschriftlich. Bringe die Rechenschritte in die richtige Reihenfolge.`,[`${k} = ${z} + ${e}`,`${n} · ${z} = ${n*z}`,`${n} · ${e} = ${n*e}`,`${n*z} + ${n*e} = ${n*k}`],'Zuerst zerlegst du, dann rechnest du die Teile mal, am Ende addierst du.')};
+const g_matp2=l=>{
+ if(l==0){const P=uset(12,()=>R(2,9)+','+R(2,9)).map(x=>x.split(',').map(Number)).filter(([a,b],i,A)=>a<b&&true);if(P.length<4)return g_matp2(0);return MAT('Was gehört zusammen? Ordne jede Aufgabe ihrer Tauschaufgabe zu.',sh(P).slice(0,4).map(([a,b])=>R(0,1)?[`${a} · ${b}`,`${b} · ${a}`]:[`${b} · ${a}`,`${a} · ${b}`]),'Bei der Tauschaufgabe stehen die Zahlen vertauscht. Das Ergebnis bleibt gleich.')}
+ if(l==1){const P=uset(4,()=>R(2,9)+','+R(11,60)).map(x=>x.split(',').map(Number));return MAT('Was gehört zusammen? Ordne jede Plusaufgabe ihrer Umkehraufgabe zu.',P.slice(0,4).map(([a,b])=>[`${a} + ${b} = ${a+b}`,`${a+b} − ${b} = ${a}`]),'Die Umkehraufgabe macht die Rechnung rückgängig: aus Plus wird Minus.')}
+ const P=uset(14,()=>R(3,9)+','+R(3,9)).map(x=>x.split(',').map(Number)).filter(([a,b],i,A)=>a!=b&&A.findIndex(([c,d])=>c*d==a*b)==i).slice(0,4);if(P.length<4)return g_matp2(2);return MAT('Was gehört zusammen? Ordne jede Malaufgabe ihrer Geteiltaufgabe zu.',P.map(([a,b])=>[`${a} · ${b} = ${a*b}`,`${a*b} : ${a} = ${b}`]),'Aus Mal wird Geteilt: Das Ergebnis wird durch einen Faktor geteilt.')};
+const z1=[g_kopf,g_mauer,g_waage,g_einmal,g_div,g_str,g_strm,g_umk,g_schr,g_ue,g_fehl,g_pack,g_tz,g_dd2,g_ordr,g_matp2];
+
+/* ---------- Gebiet 3: Strandkiosk (Sachaufgaben und Kombinatorik) ---------- */
+const NAMEN=['Mia','Ben','Lena','Tom','Emil','Nora','Jan','Lilly','Paul','Sara','Ali','Mara'];
+const nm2=()=>{const a=sh(NAMEN);return[a[0],a[1]]};
+const KI=[['Eis',90],['Brezel',120],['Limo',150],['Wasser',80],['Sandeimer',250],['Muschelkette',180],['Sonnenhut',450],['Strandball',320],['Sonnencreme',590]];
+const priceTab=(items)=>`<table class="tb" aria-label="Preisliste"><tr><th>Ware</th><th>Preis</th></tr>${items.map(x=>`<tr><td>${x[0]}</td><td>${eur(x[1])}</td></tr>`).join('')}</table>`;
+const g_sach=l=>{const[a,b]=nm2();
+ if(l==0){const n=R(30,70),m=R(11,29),t=R(0,1);return IN(t?`${a} hat ${n+m} Muscheln gesammelt. ${m} davon schenkt ${a} ${b}. Wie viele Muscheln behält ${a}?`:`${a} hat ${n} Muscheln. ${b} schenkt ${a} noch ${m} Muscheln. Wie viele Muscheln hat ${a} jetzt?`,t?n:n+m,'Überlege: Kommt etwas dazu (plus) oder geht etwas weg (minus)?')}
+ if(l==1){const n=R(120,400),m=R(110,300),k=R(20,90);return IN(`Am Samstag kommen ${n} Gäste an den Strand, am Sonntag ${m} Gäste mehr als am Samstag. Wie viele Gäste kommen am Sonntag?`,n+m,'Mehr als heißt: Du musst dazurechnen.')}
+ let n,m,k;do{n=R(250,500);m=R(120,200);k=R(40,90)}while(n-m-k<20);return IN(`Am Strand liegen ${n} Muscheln. ${a} sammelt ${m} ein, ${b} sammelt ${k} ein. Wie viele Muscheln liegen noch am Strand?`,n-m-k,'Zuerst: Wie viele Muscheln werden eingesammelt? Dann ziehe das von der Gesamtzahl ab.')};
+const g_sach2=l=>{const[a]=nm2();
+ if(l==0){const k=R(2,5),n=R(2,6);return IN(`${a} kauft ${k} Eis für je ${n} Euro. Wie viel Euro muss ${a} bezahlen?`,k*n,'Gleiche Preise: Rechne mal.')}
+ if(l==1){const k=R(3,9),n=R(11,25);return IN(`${a} will ${k} Sandeimer kaufen. Ein Eimer kostet ${n} Euro. Wie viel Euro kosten alle zusammen?`,k*n,'Rechne halbschriftlich: erst die Zehner, dann die Einer.')}
+ const k=R(3,6),p=R(45,95);return IN(`${a} kauft ${k} Brezeln für je ${p} Cent. Wie viel Cent muss ${a} bezahlen?`,k*p,'Rechne halbschriftlich: Zerlege den Preis in Zehner und Einer.')};
+const g_frage=l=>{
+ const T=[['Im Kiosk gibt es 24 Eis. 9 Eis werden verkauft.','Wie viele Eis sind noch übrig?','Wie viele Eis wurden verkauft?',['Wie alt ist der Verkäufer?','Wie warm ist es?']],
+  ['Lena hat 5 Euro. Sie kauft eine Limo für 1,50 Euro.','Wie viel Geld hat Lena noch?','Wie viele Limos kann sie kaufen?',['Wie alt ist Lena?','Wo steht der Kiosk?']],
+  ['Ein Boot fasst 6 Kinder. Es sind 4 Boote da.','Wie viele Kinder passen in alle Boote?','Wie viele Boote sind da?',['Wie schnell fährt ein Boot?','Wie heißt das Boot?']],
+  ['Tom sammelt 12 große und 15 kleine Muscheln.','Wie viele Muscheln hat Tom insgesamt?','Wie viele kleine Muscheln hat er?',['Wo wohnt Tom?','Wie schwer ist eine Muschel?']]];
+ const [txt,fq,fq2,fw]=pk(T);
+ if(l==0)return MC(`${txt} Welche Frage passt zum Text?`,fq,fw,'Die Frage muss sich mit den Zahlen im Text beantworten lassen.');
+ if(l==1){const t=pk(T);return MC(`${t[0]} Welche Frage kann man mit dem Text beantworten?`,t[1],t[3],'Prüfe: Stehen im Text die Angaben, die du für die Frage brauchst?')}
+ const t=pk(T);return MC(`${t[0]} Welche Frage kann man mit dem Text NICHT beantworten?`,t[3][0],[t[1],t[2],t[3][1]].slice(0,3),'Eine Frage lässt sich nur beantworten, wenn die Zahlen dazu im Text stehen.')};
+const g_rel=l=>{
+ if(l==0)return DD('Eine Sachaufgabe: „Wie viel kostet 1 Eis und 1 Limo zusammen?“ Was brauchst du dafür?',['Wichtig','Nicht wichtig'],[['Eis: 1 Euro',0],['Limo: 2 Euro',0],['Der Kiosk ist blau',1],['Es ist Mittag',1]],'Du brauchst nur Zahlen, die zur Frage gehören.');
+ if(l==1)return DD('Aufgabe: „Wie viele Kinder fahren mit dem Boot?“ Was brauchst du dafür?',['Wichtig','Nicht wichtig'],[['Es sind 4 Boote',0],['In jedes Boot passen 5 Kinder',0],['Das Wetter ist schön',1],['Die Boote sind rot',1],['Es ist 14 Uhr',1]].slice(0,5),'Welche Zahlen brauchst du für „Wie viele Kinder?“');
+ return DD('Aufgabe: „Wie viel Geld bekommt Ali zurück?“ Welche Angaben brauchst du?',['Wichtig','Nicht wichtig'],[['Ali bezahlt mit 10 Euro',0],['Das Eis kostet 2,50 Euro',0],['Die Limo kostet 1,50 Euro',0],['Ali ist 9 Jahre alt',1],['Er wohnt in der Nähe',1],['Es sind 28 Grad',1]],'Wichtig sind das bezahlte Geld und der Preis der Waren.')};
+const g_tab=l=>{const it=sh(KI.slice(0,6)).slice(0,3);
+ if(l==0){const x=pk(it);return MC(`Schau auf die Preisliste. Wie viel kostet ${x[0]}?`,eur(x[1]),[eur(x[1]+30),eur(x[1]-20),eur(x[1]+100)],'Suche die Ware in der Tabelle.',{v:priceTab(it)})}
+ if(l==1){const[a,b]=it;return IN(`Wie viel kosten ${a[0]} und ${b[0]} zusammen? Gib den Preis in Cent an.`,a[1]+b[1],'Rechne mit Cent. 1 Euro sind 100 Cent.',{v:priceTab(it)})}
+ const x=it[0],y=it[1],pay=1000,tot=x[1]+y[1]*2;return IN(`Du kaufst 1 ${x[0]} und 2 ${y[0]}. Du bezahlst mit 10 Euro. Wie viel Rückgeld bekommst du in Cent?`,pay-tot,'Rechne zuerst den Gesamtpreis, dann das Rückgeld: 1000 Cent minus Gesamtpreis.',{v:priceTab(it)})};
+const g_eis=l=>{
+ const SO=[['🍫','Schoko'],['🍓','Erdbeere'],['🍋','Zitrone'],['🥥','Kokos']],BE=[['🍦','Waffel'],['🥣','Becher']],TO=[['🍒','Kirsche'],['🍯','Soße'],['✨','Streusel']];
+ if(l==0)return COMBO('Das Eis im Kiosk gibt es mit verschiedenen Sorten und Behältern. Finde alle Möglichkeiten. Wähle in jeder Zeile eine aus und tippe auf „Möglichkeit merken“.','Gehe ordentlich vor: Nimm zuerst eine Sorte und probiere sie mit jedem Behälter. Dann kommt die nächste Sorte.',[['Sorte',SO.slice(0,3)],['Behälter',BE]]);
+ if(l==1)return COMBO('Du kannst zwischen Eissorten, Behältern und einem Topping wählen. Finde alle Möglichkeiten. Wähle jeweils eine Möglichkeit und merke sie dir.','Gehe systematisch vor. Wechsle immer nur eine Wahl und lass die anderen gleich.',[['Sorte',SO.slice(0,2)],['Behälter',BE],['Topping',TO.slice(0,2)]]);
+ return COMBO('Finde alle Möglichkeiten für ein Eis. Überlege vorher, wie viele es sein müssen.','Rechne zuerst: Wie viele Sorten, wie viele Behälter, wie viele Toppings? Mit der Malaufgabe weißt du, wann du fertig bist.',[['Sorte',SO.slice(0,3)],['Behälter',BE],['Topping',TO.slice(0,3)]])};
+const g_kom=l=>{
+ if(l==0){const a=R(2,3),b=R(2,4);return IN(`${a} Badehosen und ${b} T-Shirts: Wie viele verschiedene Outfits gibt es?`,a*b,`Jede Badehose passt zu jedem T-Shirt. Rechne ${a} mal ${b}.`)}
+ if(l==1){const a=R(2,4),b=R(2,5),c=R(2,3);return IN(`Es gibt ${a} Sorten Eis, ${b} Soßen und ${c} Behälter. Wie viele verschiedene Eisbecher gibt es?`,a*b*c,'Rechne alle Möglichkeiten malnehmen.')}
+ const a=R(3,5),b=R(3,5),k=a*b;return MC(`Im Kiosk gibt es ${a} Sorten Eis und ${b} Soßen. Max sagt: „Es gibt ${a+b} verschiedene Eis-Soße-Kombinationen.“ Hat er recht?`,`Nein, es sind ${a} · ${b} = ${k}.`,[`Ja, ${a} + ${b} = ${a+b}.`,`Nein, es sind ${a*b+a}.`,`Nein, es sind ${a*b*2}.`],'Jede Sorte kann mit jeder Soße kombiniert werden. Das gibt eine Malaufgabe.')};
+const g_vert=l=>{const[a]=nm2();
+ if(l==0){const k=R(2,5),n=R(2,5);return IN(`${a} verteilt ${k*n} Muscheln gerecht auf ${k} Eimer. Wie viele Muscheln kommen in jeden Eimer?`,n,`Rechne ${k*n} geteilt durch ${k}.`)}
+ if(l==1){const b=R(3,8),q=R(4,9),r=R(1,b-1);return IN(`${a} hat ${b*q+r} Muscheln und legt immer ${b} in ein Netz. Wie viele Netze werden voll?`,q,`Teile mit Rest: ${b*q+r} : ${b}. Das ganze Ergebnis ist die Antwort.`)}
+ const b=R(4,8),q=R(3,7),r=R(1,b-1);return IN(`${b*q+r} Kinder fahren Boot. In jedes Boot passen ${b} Kinder. Wie viele Boote werden mindestens gebraucht?`,q+1,`Teile mit Rest: ${b*q+r} : ${b} = ${q} Rest ${r}. Die Kinder, die übrig bleiben, brauchen auch ein Boot.`)};
+const g_antw=l=>{const[a]=nm2();const n=R(20,60),m=R(11,29);
+ if(l==0)return INS('Löse die Aufgabe und vervollständige den Antwortsatz: Rechnung und Antwort.',[`${a} hat ${n} Muscheln und findet ${m} dazu. Rechnung: ${n} + ${m} = `,{a:n+m},'. Antwort: ',a,' hat jetzt ',{a:n+m},' Muscheln.'],'Zuerst rechnen, dann die Zahl in den Antwortsatz schreiben.');
+ if(l==1){const k=R(3,6),p=R(11,25);return INS('Rechne und schreibe den Antwortsatz.',[`${k} Sonnenhüte kosten je ${p} Euro. Rechnung: ${k} · ${p} = `,{a:k*p},'. Antwort: Die Hüte kosten zusammen ',{a:k*p},' Euro.'],'Rechne halbschriftlich: erst die Zehner, dann die Einer.')}
+ const k=R(3,5),p=R(11,19),pay=100;return INS('Rechne in zwei Schritten und schreibe den Antwortsatz.',[`${a} kauft ${k} Brezeln für je ${p} Cent. Schritt 1: ${k} · ${p} = `,{a:k*p},' Cent. Schritt 2: 100 − ',{a:k*p},' = ',{a:100-k*p},'. Antwort: ',a,' bekommt ',{a:100-k*p},' Cent zurück.'],'Zuerst das Gesamtgeld der Brezeln, dann das Rückgeld.')};
+const g_geld=l=>{
+ if(l==0){const p=R(3,9)*10;return IN(`Eine Brezel kostet ${p} Cent. Du bezahlst mit 1 Euro. Wie viel Rückgeld bekommst du in Cent?`,100-p,'1 Euro sind 100 Cent.')}
+ if(l==1){const p=R(6,29)*10;return IN(`Das Eis kostet ${eur(p)}. Du hast 5 Euro. Wie viel Cent bekommst du zurück?`,500-p,'5 Euro sind 500 Cent. Rechne 500 − '+p+'.')}
+ const a=R(150,350),b=R(150,350);const t=a+b;return MC(`Ein Eis kostet ${eur(a)}, eine Limo ${eur(b)}. Reichen 5 Euro für beides?`,t<=500?'Ja, zusammen sind es '+eur(t)+'.':'Nein, zusammen sind es '+eur(t)+'.',[t<=500?'Nein, zusammen sind es mehr als 5 Euro.':'Ja, zusammen sind es höchstens 5 Euro.',`Das kann man nicht sagen.`],'Zähle die Preise zusammen und vergleiche mit 500 Cent.')};
+const g_rueck=l=>{const[a]=nm2();
+ if(l==0){const x=R(10,40),y=R(11,30);return IN(`${a} hat ein paar Muscheln. ${y} kommen dazu. Jetzt sind es ${x+y}. Wie viele waren es am Anfang?`,x,`Mache es rückwärts: Von der Endzahl gehst du ${y} zurück.`)}
+ if(l==1){const x=R(100,300),y=R(100,250);return IN(`${a} hat ${x+y} Muscheln. Nach dem Verschenken sind es noch ${x}. Wie viele hat ${a} verschenkt?`,y,'Berechne den Unterschied: Wie viele sind weg?')}
+ const x=R(30,80),y=R(11,40),z=R(10,25);return IN(`${a} sammelt Muscheln. Zuerst legt ${a} ${y} weg, dann kommen ${z} dazu. Jetzt sind es ${x}. Wie viele hatte ${a} am Anfang?`,x+y-z,'Rechne alles rückwärts: Plus wird zu Minus, Minus wird zu Plus. Beginne bei der Endzahl.')};
+const g_story=l=>{const a=R(3,9),b=R(3,9),c=a*b;
+ if(l==0)return MC(`Welche Geschichte passt zu ${a} + ${b}?`,`${a} Kinder sind am Strand. ${b} Kinder kommen dazu.`,[`${a} Kinder sind am Strand. ${b} Kinder gehen weg.`,`${a} Kinder bekommen je ${b} Eis.`,`${a} Kinder teilen ${b} Eis.`],'Plus bedeutet: Es kommt etwas dazu.');
+ if(l==1)return MC(`Welche Geschichte passt zu ${c} : ${a}?`,`${c} Eis werden gerecht auf ${a} Kinder verteilt.`,[`${c} Kinder kaufen ${a} Eis.`,`${a} Kinder bekommen je ${c} Eis.`,`${a} Eis kosten ${c} Euro mehr.`],'Geteilt durch heißt: gerecht verteilen.');
+ return MC(`Welche Geschichte passt zu ${a} · ${b} + 2?`,`${a} Eimer mit je ${b} Muscheln und 2 Muscheln extra.`,[`${a} Eimer, aus denen ${b} Muscheln fallen.`,`${a} Muscheln werden auf ${b} Kinder geteilt.`,`Zuerst ${a + b} Muscheln, dann 2 Kinder.`],'Mal bedeutet gleich große Gruppen. Plus 2 bedeutet: zwei kommen dazu.')};
+const z2=[g_sach,g_sach2,g_frage,g_rel,g_tab,g_eis,g_kom,g_vert,g_antw,g_geld,g_rueck,g_story];
+
+/* ---------- Gebiet 4: Baumeister-Bucht (Raum und Form) ---------- */
+const sumH=H=>H.flat().reduce((a,b)=>a+b,0);
+/* alle Würfel sichtbar? (kein Würfel liegt genau diagonal hinter einem höheren) */
+const allVis=H=>{const g=(i,j)=>(H[i]&&H[i][j])||0;return H.every((row,i)=>row.every((h,j)=>{for(let z=0;z<h;z++)for(let k=1;k<4;k++)if(g(i+k,j+k)>z+k)return false;return true}))};
+const sigH=H=>{const s=new Set;H.forEach((row,i)=>row.forEach((h,j)=>{for(let z=0;z<h;z++)s.add(((j-i))+','+((i+j)-2*z))}));return[...s].sort().join('|')};
+const planH=(H,cls='')=>`<table class="tb plan ${cls}" aria-label="Bauplan: Zahl = Würfel im Turm; obere Zeile = hinten"><tbody>${H.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+const hgen=(r,c,mx,minC)=>{for(let t=0;t<400;t++){const H=Array.from({length:r},()=>Array.from({length:c},()=>R(0,mx)));const s=sumH(H);if(s>=minC&&allVis(H))return H}return Array.from({length:r},(_,i)=>Array.from({length:c},(_,j)=>Math.min(mx,1+(i==0?1:0))))};
+const g_bau=l=>{
+ if(l==0){const H=hgen(2,2,2,3);return IN('Wie viele Holzwürfel hat das Bauwerk? Es sind keine Würfel versteckt.',sumH(H),'Zähle die Würfel Turm für Turm. Beginne hinten.',{v:isoSvg(H,170)})}
+ if(l==1){const H=hgen(2,3,3,6);return IN('Wie viele Holzwürfel hat das Bauwerk? Es sind keine Würfel versteckt.',sumH(H),'Zähle die Würfel in jeder Spalte und zähle dann alle Spalten zusammen.',{v:isoSvg(H,230)})}
+ const H=hgen(3,3,3,9).map(r=>r.map(v=>Math.max(v,0)));const k=pk([3,4]),need=sumH(H.map(r=>r.map(v=>k)))-sumH(H);
+ return IN(`Der Bauplan zeigt, wie viele Würfel in jedem Turm stehen (obere Zeile = hinten). Wie viele Würfel musst du noch dazulegen, damit jeder Turm ${k} Würfel hoch ist?`,need,`Für jedes Feld: ${k} minus die Zahl im Feld. Rechne alle Felder zusammen.`,{v:planH(H)})};
+const g_plan=l=>{
+ const mk=()=>l==0?hgen(2,2,2,3):l==1?hgen(2,3,3,5):hgen(3,2,3,6);
+ let H,opts;for(let t=0;t<60;t++){H=mk();opts=[H];const sg=new Set([sigH(H)]);for(let u=0;u<80&&opts.length<4;u++){const W=H.map(r=>[...r]);const i=R(0,W.length-1),j=R(0,W[0].length-1);W[i][j]=Math.max(0,Math.min(3,W[i][j]+pk([-1,1])));if(sg.has(sigH(W))||!allVis(W))continue;sg.add(sigH(W));opts.push(W)}if(opts.length==4)break}
+ if(opts.length<4)return g_plan(l);
+ const sz=l==0?96:l==1?110:104;
+ return IMG(l==2?`Welches Bauwerk gehört zu diesem Bauplan? Achte auf die Höhe jedes Turms. (Obere Zeile = hinten)`:`Welches Bauwerk gehört zu diesem Bauplan? (Obere Zeile = hinten)`,sh(opts).map((W,k)=>[isoSvg(W,sz),'Bauwerk '+(k+1),W===H?1:0]),'Vergleiche Turm für Turm mit der Zahl im Bauplan.',{ns:1,cls:'g2 w2',v:planH(H)})};
+/* Würfelnetze: Faltsimulation durch Abrollen eines Würfels */
+const netValid=cells=>{const set=new Set(cells.map(c=>c.join(',')));const seen={};const roll=(d,dr,dc)=>{let[t,b,n,s,e,w]=d;if(dc==1)return[w,e,n,s,t,b];if(dc==-1)return[e,w,n,s,b,t];if(dr==1)return[n,s,b,t,e,w];return[s,n,t,b,e,w]};
+ const q=[[cells[0],[1,0,2,3,4,5]]];seen[cells[0].join(',')]=0;let cnt=1;const used=new Set([0]);let ok=true;
+ while(q.length){const[c,d]=q.shift();for(const[dr,dc]of[[0,1],[0,-1],[1,0],[-1,0]]){const k=(c[0]+dr)+','+(c[1]+dc);if(!set.has(k)||seen[k]!==undefined)continue;const nd=roll(d,dr,dc);if(used.has(nd[1]))ok=false;used.add(nd[1]);seen[k]=nd[1];q.push([[c[0]+dr,c[1]+dc],nd])}}
+ return ok&&Object.keys(seen).length==6&&used.size==6};
+const netFace=cells=>{const set=new Set(cells.map(c=>c.join(',')));const roll=(d,dr,dc)=>{let[t,b,n,s,e,w]=d;if(dc==1)return[w,e,n,s,t,b];if(dc==-1)return[e,w,n,s,b,t];if(dr==1)return[n,s,b,t,e,w];return[s,n,t,b,e,w]};const lab={};lab[cells[0].join(',')]=0;const q=[[cells[0],[1,0,2,3,4,5]]];
+ while(q.length){const[c,d]=q.shift();for(const[dr,dc]of[[0,1],[0,-1],[1,0],[-1,0]]){const k=(c[0]+dr)+','+(c[1]+dc);if(!set.has(k)||lab[k]!==undefined)continue;const nd=roll(d,dr,dc);lab[k]=nd[1];q.push([[c[0]+dr,c[1]+dc],nd])}}return lab};
+const randNet=()=>{for(let t=0;t<500;t++){const cells=[[1,1]];const set=new Set(['1,1']);while(cells.length<6){const c=pk(cells),[dr,dc]=pk([[0,1],[0,-1],[1,0],[-1,0]]),r=c[0]+dr,cc=c[1]+dc;if(r<0||r>3||cc<0||cc>4||set.has(r+','+cc))continue;set.add(r+','+cc);cells.push([r,cc])}
+  if(cells.every(c=>true))return cells}return[]};
+const normNet=cells=>{const mr=Math.min(...cells.map(c=>c[0])),mc=Math.min(...cells.map(c=>c[1]));return cells.map(c=>[c[0]-mr,c[1]-mc])};
+const netSvg=(cells,lab,w=150)=>{const z=26,N=normNet(cells),mr=Math.max(...N.map(c=>c[0]))+1,mc=Math.max(...N.map(c=>c[1]))+1;let s='';N.forEach((c,i)=>{s+=`<rect x="${2+c[1]*z}" y="${2+c[0]*z}" width="${z}" height="${z}" fill="#ffe9a8" stroke="#8a5a14" stroke-width="1.6"/>`;if(lab)s+=`<text x="${2+c[1]*z+z/2}" y="${2+c[0]*z+z/2+5}" font-size="15" font-weight="800" text-anchor="middle" fill="#1b1464" font-family="Arial">${lab[i]}</text>`});
+ return SV(`0 0 ${mc*z+4} ${mr*z+4}`,s,Math.min(w,mc*z+4),'vsvg','Netz aus sechs Quadraten')};
+const netsOf=(valid,k)=>{const a=[],keys=new Set;for(let t=0;t<4000&&a.length<k;t++){const c=randNet();if(c.length<6)continue;const N=normNet(c);if(N.some(x=>x[0]>3||x[1]>4))continue;if(netValid(c)!=valid)continue;const key=JSON.stringify(N.map(x=>x.join(',')).sort());if(keys.has(key))continue;keys.add(key);a.push(c)}return a};
+const g_netz=l=>{
+ if(l==0){const v=netsOf(true,1),u=netsOf(false,3);if(v.length<1||u.length<3)return null;return IMG('Aus welchem Netz kann man einen Würfel falten? Tippe auf alle richtigen Netze.',sh([[netSvg(v[0]),'Netz A',1],...u.map((n,i)=>[netSvg(n),'Netz '+'BCD'[i],0])]),'Stelle dir vor, wie die Quadrate nach oben geklappt werden. Es dürfen sich keine zwei Flächen überlappen.',{ns:1,cls:'g2 w2'})}
+ if(l==1){const v=netsOf(true,3),u=netsOf(false,1);if(v.length<3||u.length<1)return null;return IMG('Welches Netz ist KEIN Würfelnetz? Tippe darauf.',sh([[netSvg(u[0]),'Netz A',1],...v.map((n,i)=>[netSvg(n),'Netz '+'BCD'[i],0])]),'Drei Netze lassen sich zu einem Würfel falten. Suche das Netz, bei dem zwei Flächen übereinander landen würden.',{ns:1,cls:'g2 w2'})}
+ const v=netsOf(true,1)[0];if(!v)return null;const lab=netFace(v),N=normNet(v),num=sh([1,2,3,4,5,6]),L=v.map(c=>num[lab[c.join(',')]]);const f0=pk([1,2,3,4,5,6]);const idx=L.indexOf(f0),fid=lab[v[idx].join(',')],opp=fid^1,oi=v.findIndex(c=>lab[c.join(',')]==opp);const ans=L[oi];
+ return MC(`Das Netz wird zu einem Würfel gefaltet. Welche Zahl liegt gegenüber der ${f0}?`,String(ans),[1,2,3,4,5,6].filter(x=>x!=ans&&x!=f0).slice(0,3).map(String),'Gegenüberliegende Flächen berühren sich nie. Falte im Kopf: Zwei Flächen mit einem Zwischenfeld liegen oft gegenüber.',{v:netSvg(v,L,170)})};
+const g_mirr=l=>{
+ if(l==0)return MIR('Spiegle das Muster an der gestrichelten Linie. Tippe die Felder an, die auf der rechten Seite gefärbt sein müssen.','Jedes Feld hat auf der anderen Seite der Achse ein Spiegelfeld mit gleichem Abstand zur Linie.',6,3,'v',.5);
+ if(l==1)return MIR('Spiegle das Muster an der gestrichelten Linie nach unten. Tippe die Felder an.','Die oberste Zeile wird zur untersten. Die zweite Zeile zur zweitletzten.',5,6,'h',.45);
+ return MIR('Spiegle das Muster. Achte darauf: Das Bild reicht über viele Zeilen und Spalten.','Gehe Zeile für Zeile vor. Zähle von der Achse aus die Felder nach außen.',8,6,'v',.5)};
+const SYMS=['A','H','M','O','T','U','V','W','X','Y','I'],NSYM=['F','G','J','L','N','P','R','S','Z','Q','K'];
+const g_sym=l=>{
+ if(l==0)return tap('Tippe auf alle Buchstaben, die du spiegeln kannst: Sie haben eine Spiegelachse.',SYMS.map(x=>[x,x]),NSYM.map(x=>[x,x]),'Falte den Buchstaben im Kopf an einer Linie. Passen beide Hälften genau aufeinander?',3,3,{ns:1,cls:'g3 nn'});
+ if(l==1){const F=[['Rechteck (kein Quadrat)',2,'<rect x="6" y="14" width="64" height="40" fill="#ffd9a0" stroke="#8a5a14" stroke-width="2"/>'],['Quadrat',4,'<rect x="12" y="6" width="48" height="48" fill="#ffd9a0" stroke="#8a5a14" stroke-width="2"/>'],['gleichseitiges Dreieck',3,'<path d="M36 6L66 58H6Z" fill="#ffd9a0" stroke="#8a5a14" stroke-width="2"/>'],['Raute',2,'<path d="M36 4L68 30L36 56L4 30Z" fill="#ffd9a0" stroke="#8a5a14" stroke-width="2"/>']];const f=pk(F);return MC(`Wie viele Spiegelachsen hat diese Figur: ${f[0]}?`,String(f[1]),['1','2','3','4','5'].filter(x=>x!=String(f[1])).slice(0,3),'Falte im Kopf die Figur. Wie viele verschiedene Falten gibt es, bei denen beide Hälften genau aufeinander passen?',{v:SV('0 0 76 62',f[2],130,'vsvg',f[0])})}
+ return MC('Welche Aussage stimmt?','Ein Quadrat hat mehr Spiegelachsen als ein Rechteck, das kein Quadrat ist.',['Ein Quadrat hat genau 2 Spiegelachsen.','Ein Rechteck, das kein Quadrat ist, hat 4 Spiegelachsen.','Jede Figur hat genau eine Spiegelachse.'],'Zähle bei beiden Figuren die Achsen: waagerecht, senkrecht und bei einem Quadrat auch die schrägen.')};
+const KOER=[['⚽','Kugel'],['🥫','Zylinder'],['🎲','Würfel'],['📦','Quader'],['🔺','Pyramide'],['🍦','Kegel']];
+const g_koer=l=>{
+ if(l==0)return MAT('Welcher Körper gehört zu welchem Gegenstand? Ordne zu.',sh(KOER).slice(0,4).map(([e,n])=>[e,n]),'Denke an die Form: rund wie eine Kugel, eckig wie ein Würfel oder Quader.');
+ if(l==1){const q=pk([['Er hat 6 Flächen, alle gleich groß und quadratisch.','Würfel',['Quader','Kugel','Zylinder']],['Er hat keine Ecken und keine Kanten und rollt in jede Richtung.','Kugel',['Würfel','Zylinder','Pyramide']],['Er hat zwei runde Flächen und kann rollen.','Zylinder',['Kugel','Würfel','Quader']],['Er hat 6 Flächen, aber nicht alle sind gleich groß. Alle Flächen sind Rechtecke.','Quader',['Würfel','Kugel','Kegel']]]);return MC('Welcher Körper wird beschrieben? '+q[0],q[1],q[2],'Denke an die Eigenschaften: Flächen, Kanten, Ecken und ob er rollen kann.')}
+ const q=pk([['Wie viele Ecken hat ein Würfel?',8],['Wie viele Kanten hat ein Würfel?',12],['Wie viele Flächen hat ein Quader?',6],['Wie viele Ecken hat ein Quader?',8],['Wie viele Kanten hat ein Quader?',12]]);return IN(q[0]+' Stelle ihn dir vor oder denke an eine Schachtel.',q[1],'Zähle: Eine Schachtel hat oben und unten je 4 Ecken und 4 Kanten, dazu 4 Kanten, die nach oben gehen.')};
+const SHP=[['Rechteck',[[0,0],[4,0],[4,2],[0,2]]],['Quadrat',[[0,0],[3,0],[3,3],[0,3]]],['rechtwinkliges Dreieck',[[0,0],[4,0],[0,3]]],['Trapez mit zwei rechten Winkeln',[[0,0],[5,0],[3,2],[0,2]]],['Parallelogramm',[[1,0],[5,0],[4,2],[0,2]]],['gleichschenkliges Dreieck',[[0,3],[2,0],[4,3]]]];
+const rightN=P=>P.reduce((a,p,i)=>{const q=P[(i+1)%P.length],o=P[(i+P.length-1)%P.length],u=[q[0]-p[0],q[1]-p[1]],v=[o[0]-p[0],o[1]-p[1]];return a+(u[0]*v[0]+u[1]*v[1]==0?1:0)},0);
+const shpSvg=(P,w=100,mark=true)=>{const z=17,X=Math.max(...P.map(p=>p[0]))+1,Y=Math.max(...P.map(p=>p[1]))+1;return SV(`0 0 ${X*z+8} ${Y*z+8}`,`<path d="${P.map((p,i)=>(i?'L':'M')+(4+p[0]*z)+' '+(4+p[1]*z)).join('')}Z" fill="#ffe0b0" stroke="#8a5a14" stroke-width="2.2" stroke-linejoin="round"/>`,w,'vsvg','Figur')};
+const g_wink=l=>{
+ if(l==0){const A=SHP.filter(s=>rightN(s[1])>=1),B=SHP.filter(s=>rightN(s[1])==0);return tap('Tippe auf alle Figuren, die mindestens einen rechten Winkel haben (wie die Ecke eines Blattes).',A.map(s=>[shpSvg(s[1],84),s[0]]),B.map(s=>[shpSvg(s[1],84),s[0]]),'Ein rechter Winkel sieht aus wie die Ecke eines Blattes Papier.',2,2,{ns:1,cls:'g2 w2'})}
+ if(l==1){const s=pk(SHP);return IN(`Wie viele rechte Winkel hat diese Figur: ${s[0]}?`,rightN(s[1]),'Prüfe jede Ecke mit der Ecke eines Blattes Papier.',{v:shpSvg(s[1],130)})}
+ const t=pk([1,2]);const A=SHP.filter(s=>rightN(s[1])==(t==1?1:2)),B=SHP.filter(s=>rightN(s[1])!=(t==1?1:2));return IMG(`Welche Figur hat genau ${t} rechte${t==1?'n':''} Winkel? Tippe auf die Figur.`,[...sh(A).slice(0,1).map(s=>[shpSvg(s[1],84),s[0],1]),...sh(B).slice(0,3).map(s=>[shpSvg(s[1],84),s[0],0])].sort(()=>Math.random()-.5),'Zähle bei jeder Figur die rechten Winkel genau.',{ns:1,cls:'g2 w2'})};
+const g_fl=l=>{
+ if(l==0){const w=R(2,5),h=R(2,4);const f=new Set;for(let r=0;r<h;r++)for(let c=0;c<w;c++)f.add(r+','+c);return IN('Wie viele Kästchen ist die Fläche groß?',w*h,'Zähle die Kästchen Zeile für Zeile oder rechne mal.',{v:gridSvg(w,h,f,{z:26,lab:'Fläche aus Kästchen'})})}
+ if(l==1){const w=R(3,6),h=R(2,4);const f=new Set;for(let r=0;r<h;r++)for(let c=0;c<w;c++)f.add(r+','+c);return IN('Wie lang ist der Weg rund um die Fläche? Zähle die Kästchenseiten am Rand.',2*(w+h),'Zähle alle Kästchenseiten am Rand. Oder rechne: zweimal die Länge und zweimal die Breite.',{v:gridSvg(w,h,f,{z:26,lab:'Rechteck aus Kästchen'})})}
+ const w=R(4,6),h=R(3,5),cut=R(1,2);const f=new Set;for(let r=0;r<h;r++)for(let c=0;c<w;c++)if(!(r<cut&&c>=w-cut))f.add(r+','+c);const area=w*h-cut*cut,per=2*(w+h);return MC('Zwei Fragen zu dieser Figur. Welche Aussage stimmt? (Eine Ecke fehlt.)',`Die Fläche beträgt ${area} Kästchen, der Weg rundherum ${per} Kästchenseiten.`,[`Die Fläche beträgt ${area} Kästchen, der Weg rundherum ${per-cut*2} Kästchenseiten.`,`Die Fläche beträgt ${w*h} Kästchen, der Weg rundherum ${per} Kästchenseiten.`,`Die Fläche beträgt ${area} Kästchen, der Weg rundherum ${per+2} Kästchenseiten.`],'Beim Umfang ändert sich durch eine fehlende Ecke nichts. Bei der Fläche fehlen Kästchen.',{v:gridSvg(w,h,f,{z:24,lab:'Figur aus Kästchen'})})};
+const PQ=[['🏖️','Strand'],['⛵','Boot'],['🦀','Krebs'],['🌴','Palme'],['🐚','Muschel'],['⛱️','Sonnenschirm'],['🍦','Eisstand'],['🏰','Sandburg']];
+const pqSvg=(cells,N=5)=>{const z=40;let s='';const cols='ABCDE'.slice(0,N);for(let r=0;r<N;r++)for(let c=0;c<N;c++)s+=`<rect x="${24+c*z}" y="${2+r*z}" width="${z}" height="${z}" fill="${(r+c)%2?'#fff3c6':'#ffe9a8'}" stroke="#a97d2a" stroke-width="1.2"/>`;
+ for(let c=0;c<N;c++)s+=`<text x="${24+c*z+z/2}" y="${N*z+20}" font-size="16" font-weight="800" text-anchor="middle" fill="#1b1464" font-family="Arial">${cols[c]}</text>`;
+ for(let r=0;r<N;r++)s+=`<text x="12" y="${2+r*z+z/2+6}" font-size="16" font-weight="800" text-anchor="middle" fill="#1b1464" font-family="Arial">${N-r}</text>`;
+ cells.forEach(([c,r,e])=>{s+=`<text x="${24+c*z+z/2}" y="${2+(N-1-r)*z+z/2+9}" font-size="26" text-anchor="middle">${e}</text>`});
+ return SV(`0 0 ${24+N*z+4} ${N*z+30}`,s,Math.min(300,24+N*z+4),'vsvg','Strandplan mit Planquadraten')};
+const g_pq=l=>{const N=5,pos=sh([...Array(25).keys()]).slice(0,5).map(i=>[i%5,Math.floor(i/5)]),it=sh(PQ).slice(0,5),cells=pos.map((p,i)=>[p[0],p[1],it[i][0]]),nm=p=>'ABCDE'[p[0]]+(p[1]+1);
+ if(l==0){const k=R(0,4);return MC(`Schau auf den Strandplan. In welchem Feld steht: ${it[k][1]}?`,nm(pos[k]),[...new Set(sh(pos.filter((_,i)=>i!=k).map(nm)))].slice(0,3),'Lies zuerst den Buchstaben (unten), dann die Zahl (links).',{v:pqSvg(cells)})}
+ if(l==1){const k=R(0,4);return MC(`Schau auf den Strandplan. Was steht im Feld ${nm(pos[k])}?`,it[k][1],it.filter((_,i)=>i!=k).map(x=>x[1]).slice(0,3),'Suche den Buchstaben unten und die Zahl links. Dort treffen sich beide.',{v:pqSvg(cells)})}
+ const k=R(0,4),dc=R(-2,2),dr=R(-2,2);const p=pos[k],c=p[0]+dc,r=p[1]+dr;if(c<0||c>4||r<0||r>4||(dc==0&&dr==0))return g_pq(2);const tx=[dc?`${Math.abs(dc)} Feld${Math.abs(dc)>1?'er':''} nach ${dc>0?'rechts':'links'}`:'',dr?`${Math.abs(dr)} Feld${Math.abs(dr)>1?'er':''} nach ${dr>0?'oben':'unten'}`:''].filter(Boolean).join(' und ');
+ const dst=nm([c,r]);const all=[];for(let a=0;a<5;a++)for(let b=0;b<5;b++)all.push(nm([a,b]));const near=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1]].map(([x,y])=>[c+x,r+y]).filter(([x,y])=>x>=0&&x<5&&y>=0&&y<5).map(nm);const ws=[...new Set([...sh(near),...sh(all)])].filter(x=>x!=dst).slice(0,3);return MC(`Du startest bei „${it[k][1]}“ (${nm(p)}) und gehst ${tx}. In welchem Feld kommst du an?`,dst,ws,'Gehe Schritt für Schritt. Rechts und links ändern den Buchstaben, oben und unten die Zahl.',{v:pqSvg(cells)})};
+const BM=['🐚','🦀','⭐','🐠','🌴','🐙'];
+const g_band=l=>{const e=sh(BM);
+ if(l==0){const p=[e[0],e[1]],s=[...p,...p,...p,p[0]];return MC(`Welches Zeichen kommt als Nächstes? ${s.join(' ')} ☐`,p[1],[e[2],e[3],e[4]],'Das Muster wiederholt sich. Suche den Baustein, der sich wiederholt.')}
+ if(l==1){const p=[e[0],e[1],e[1]],s=[...p,...p,p[0],p[1]];return MC(`Welches Zeichen kommt als Nächstes? ${s.join(' ')} ☐`,p[2],[e[2],e[3],p[0]],'Finde zuerst den Baustein, der sich wiederholt: Welche Zeichen stehen in einer Gruppe?')}
+ const p=[e[0],e[1],e[2],e[1]],k=R(11,25),at=p[(k-1)%4];return MC(`Das Muster ${p.join(' ')} ${p.join(' ')} … setzt sich immer weiter fort. Welches Zeichen steht an der ${k}. Stelle?`,at,[...new Set(e.slice(0,4).filter(x=>x!=at))].slice(0,3),'Der Baustein hat 4 Zeichen. Teile die Stellenzahl durch 4: Der Rest verrät dir das Zeichen.')};
+const g_ddk=l=>{
+ if(l==0)return DD('Sortiere die Gegenstände.',['rollt gut','rollt nicht gut'],[['⚽ Ball',0],['🥫 Dose',0],['🌍 Globus',0],['📦 Schachtel',1],['🎲 Spielwürfel',1],['🧱 Ziegelstein',1]],'Denke an runde Flächen: Sie rollen.');
+ if(l==1)return DD('Sortiere die Körper.',['hat Ecken','hat keine Ecken'],[['Würfel',0],['Quader',0],['Pyramide',0],['Kugel',1],['Zylinder',1]],'Ecken sind die Stellen, an denen mehrere Kanten zusammentreffen.');
+ return DD('Sortiere die Aussagen über einen Würfel.',['stimmt','stimmt nicht'],[['Er hat 6 Flächen.',0],['Er hat 12 Kanten.',0],['Er hat 8 Ecken.',0],['Er hat 4 Flächen.',1],['Er hat 10 Kanten.',1],['Er hat 6 Ecken.',1]],'Denke an einen Spielwürfel. Zähle die Seiten, die Ränder und die Ecken.')};
+const z3=[g_bau,g_plan,g_netz,g_mirr,g_sym,g_koer,g_wink,g_fl,g_pq,g_band,g_ddk];
+
+/* ---------- Gebiet 5: Hafen (Größen und Messen) ---------- */
+const pad2=m=>String(m).padStart(2,'0');
+const tm=(h,m)=>`${h}:${pad2(m)} Uhr`;
+const g_lin=l=>{
+ if(l==0){const b=R(3,9);return IN('Wie lang ist die Muschel? Lies am Lineal ab (in cm).',b,'Die Muschel beginnt bei 0. Lies die Zahl ab, bei der sie endet.',{v:rulerSvg({max:10,a:0,b,obj:'shell'})})}
+ if(l==1){const a=R(1,4),b=a+R(3,5);return IN('Wie lang ist der Bleistift? Er beginnt nicht bei 0! Gib die Länge in cm an.',b-a,'Rechne: Ende minus Anfang. Zähle die Zentimeter zwischen beiden Strichen.',{v:rulerSvg({max:10,a,b,obj:'pencil'})})}
+ const c=R(3,9),m=R(1,9);return INS('Wie lang ist die Muschel? Gib in cm und mm an.',['',{a:c},' cm ',{a:m},' mm'],'Die langen Striche sind ganze Zentimeter. Zwischen zwei Zentimetern liegen 10 kleine Striche (Millimeter).',{v:rulerSvg({max:10,a:0,b:c+m/10,mm:1,obj:'shell'})})};
+const g_uhr=l=>{
+ if(l==0){const h=R(1,12),t=pk([0,30]);return INS('Wie spät ist es? Gib Stunden und Minuten an.',[{a:String(h)},' Uhr ',{a:t?'30':'0|00'},' Minuten'],t?'Der große Zeiger steht unten bei der 6. Das sind 30 Minuten nach der vollen Stunde.':'Der große Zeiger zeigt nach oben: Es ist eine volle Stunde, also 0 Minuten.',{v:clockSvg(h,t,130)})}
+ if(l==1){const h=R(1,12),m=R(1,11)*5;return INS('Wie spät ist es? Gib Stunden und Minuten an.',[{a:String(h)},' Uhr ',{a:m+'|'+pad2(m)},' Minuten'],'Der kleine Zeiger zeigt die Stunde. Der große Zeiger zeigt die Minuten: Zähle in Fünferschritten, bei jeder Zahl 5 Minuten mehr.',{v:clockSvg(h,m,130)})}
+ const h=R(1,12);let m;do m=R(1,59);while(m%5==0);return INS('Wie spät ist es? Gib Stunden und Minuten an.',[{a:String(h)},' Uhr ',{a:m+'|'+pad2(m)},' Minuten'],'Der kleine Zeiger zeigt die Stunde: Nimm die kleinere Zahl, wenn er noch nicht ganz bei der nächsten ist. Zähle die Minuten in Fünferschritten und dann die kleinen Striche einzeln.',{v:clockSvg(h,m,130)})};
+const g_zeit=l=>{
+ if(l==0){const h=R(8,13),d=R(1,4);return IN(`Der Ausflug beginnt um ${h} Uhr und dauert ${d} Stunden. Um wie viel Uhr ist er zu Ende?`,h+d,'Rechne die Stunden dazu.')}
+ if(l==1){const h=R(8,12),m=pk([0,15,30,45]),d=pk([20,25,40,45,50]);const t=h*60+m+d,eh=Math.floor(t/60),em=t%60;return INS(`Das Boot fährt um ${tm(h,m)} ab und die Fahrt dauert ${d} Minuten. Wann kommt es an?`,[{a:String(eh)},' Uhr ',{a:em+'|'+pad2(em)},' Minuten'],'Rechne zuerst bis zur nächsten vollen Stunde, dann den Rest.')}
+ const h=R(9,15),m=R(5,50),h2=h+R(1,2),m2=R(5,50);let t=(h2*60+m2)-(h*60+m);if(t<=0)return g_zeit(2);return IN(`Das Eis wird um ${tm(h,m)} gekauft und um ${tm(h2,m2)} aufgegessen. Wie viele Minuten sind das?`,t,'Rechne bis zur nächsten vollen Stunde, dann den Rest dazu.')};
+const g_wage=l=>{
+ if(l==0){const v=R(1,9)*100;return IN('Wie viel Gramm zeigt die Waage?',v,'Die Zahlen auf der Waage sind Hunderterschritte. Der Zeiger zeigt, wo das Gewicht liegt.',{v:gaugeSvg({max:1000,major:100,minor:50,val:v,unit:'g'})})}
+ if(l==1){const v=R(1,24)*20+R(0,1)*0;return IN('Wie viel Gramm zeigt die Waage? Zwischen zwei Zahlen liegen 5 kleine Striche.',v,'Zwischen 0 und 100 liegen 5 Schritte: Jeder kleine Strich ist 20 g.',{v:gaugeSvg({max:500,major:100,minor:20,val:v,unit:'g'})})}
+ const v=R(1,9)*500;const kg=v/1000,txt=String(kg).replace('.',',');return IN('Wie viel Gramm zeigt die Waage? Rechne die Anzeige in Gramm um (1 kg = 1000 g).',v,'Eine Hälfte-Stufe ist 500 g. Der Zeiger zeigt Kilogramm.',{v:gaugeSvg({max:5,major:1,minor:.5,val:kg,unit:'kg'})})};
+const g_becher=l=>{
+ if(l==0){const t=R(1,4)*100;return BEAK(`Fülle den Messbecher mit ${t} ml Wasser.`,'Die langen Striche sind 100 ml. Zwischen zwei Strichen liegt eine Hälfte: 50 ml.',{max:500,step:50,lab:100,minor:50,target:t,tol:0,unit:'ml'})}
+ if(l==1){const t=R(1,9)*100+pk([0,50]);return BEAK(`Fülle den Messbecher mit ${t} ml Wasser.`,'Zähle die Striche. Zwischen zwei Zahlen liegt je ein Strich für 50 ml.',{max:1000,step:50,lab:250,minor:50,target:t>1000?950:t,tol:0,unit:'ml'})}
+ const t=pk([250,500,750]);const txt=t==250?'einem Viertelliter':t==500?'einem halben Liter':'drei Vierteln Liter';return BEAK(`Fülle den Messbecher mit ${txt} Wasser. (1 l = 1000 ml)`,'Ein Liter sind 1000 ml. Ein halber Liter ist 500 ml, ein Viertelliter 250 ml.',{max:1000,step:50,lab:250,minor:50,target:t,tol:0,unit:'ml'})};
+const g_pay=l=>{
+ if(l==0){const t=pk([30,40,60,70,80,90]);return PAY(`Bezahle genau ${t} Cent. Lege Münzen.`,'Zerlege den Betrag in Zehner: 70 Cent sind zum Beispiel 50 + 20.',t,[10,20,50],true,false)}
+ if(l==1){const t=R(11,49)*10;return PAY(`Bezahle genau ${eur(t)}. Lege Münzen.`,'Lege zuerst die Euro-Stücke, dann die Cent.',t,[10,20,50,100,200],true,false)}
+ const t=R(11,49)*10;return PAY(`Bezahle genau ${eur(t)} mit möglichst wenigen Münzen.`,'Beginne mit dem größten passenden Stück. Dann kommt das nächste.',t,[10,20,50,100,200],true,true)};
+const g_einh=l=>{
+ if(l==0){const q=pk([['Ein Strandkorb ist etwa 1,5 ___ hoch.','m',['km','mm']],['Der Weg zum Strand ist etwa 2 ___ lang.','km',['cm','m']],['Eine Muschel ist etwa 5 ___ lang.','cm',['m','km']],['Eine Flasche Wasser enthält 1 ___.','l',['g','cm']],['Ein Eis wiegt etwa 90 ___.','g',['kg','l']],['Ein Eimer Sand wiegt etwa 5 ___.','kg',['g','ml']]]);return MC(q[0].replace('___','☐'),q[1],q[2],'Denke an einen bekannten Gegenstand: Wie lang ist ein Bleistift (cm)? Wie schwer ist ein Apfel (g)?')}
+ if(l==1){const q=pk([['Wie hoch ist ein Strandkorb ungefähr?','150 cm',['150 m','15 mm','1,5 km']],['Wie schwer ist ein Eis ungefähr?','90 g',['90 kg','9 g','900 kg']],['Wie viel Wasser passt in einen Eimer?','10 l',['10 ml','100 l','1 ml']],['Wie lang ist eine Bootsfahrt ungefähr?','20 Minuten',['20 Sekunden','20 Stunden','2 Tage']]]);return MC(q[0],q[1],q[2],'Überlege, welche Größe zum Gegenstand passt.')}
+ const A=[['Ein Eimer fasst 10 l.'],['Ein Apfel wiegt 150 g.'],['Ein Kind ist 130 cm groß.'],['Ein Eis kostet 90 ct.'],['Ein Film dauert 90 Minuten.']],B=[['Ein Auto wiegt 5 g.'],['Der Strand ist 3 cm lang.'],['Ein Film dauert 2 Sekunden.'],['Eine Flasche enthält 1 km.'],['Ein Kind wiegt 3 t.']];return DD('Finde die Unsinn-Angaben. Sortiere.',['sinnvoll','Unsinn'],[...sh(A).slice(0,3).map(x=>[x[0],0]),...sh(B).slice(0,3).map(x=>[x[0],1])],'Vergleiche mit Dingen, die du kennst.')};
+const g_umw=l=>{
+ if(l==0){const t=pk([['m','cm',100],['kg','g',1000],['€','ct',100],['h','min',60],['l','ml',1000]]),n=t[0]=='h'?R(1,4):R(1,9);return IN(`${n} ${t[0]} = ☐ ${t[1]}`,n*t[2],`1 ${t[0]} sind ${t[2]} ${t[1]}.`)}
+ if(l==1){const t=pk([['m','cm',100,'m'],['kg','g',1000,'kg'],['€','ct',100,'€']]),a=R(1,9),b=pk([20,25,50,75]);const bt=t[2]==1000?b*10:b;return IN(`${a} ${t[0]} ${bt} ${t[1]} = ☐ ${t[1]}`,a*t[2]+bt,`Wandle erst die große Einheit in die kleine um und zähle dann die Reste dazu.`)}
+ const t=pk([['cm','m',100],['g','kg',1000],['ct','€',100]]),a=R(1,9),b=pk(t[2]==1000?[250,500,750,120]:[20,25,50,75,5]);return INS(`${a*t[2]+b} ${t[0]} = ☐ ${t[1]} ☐ ${t[0]}`,[`${a*t[2]+b} ${t[0]} = `,{a:a},` ${t[1]} `,{a:b},` ${t[0]}`],`1 ${t[1]} sind ${t[2]} ${t[0]}. Wie oft passen ${t[2]} in ${a*t[2]+b}?`)};
+const g_schaetz=l=>{
+ if(l==0){const q=pk([['Wie lang ist ein Strandhandtuch?','1 m 50 cm',['15 cm','15 m','150 km']],['Wie schwer ist eine Muschel?','20 g',['20 kg','2 t','200 kg']],['Wie lange dauert es, ein Eis zu essen?','10 Minuten',['10 Sekunden','10 Stunden','1 Tag']]]);return MC(q[0]+' Schätze.',q[1],q[2],'Vergleiche mit einem Gegenstand, den du kennst.')}
+ if(l==1){const k=pk([5,10,20]);return IN(`Ein Schritt von dir ist etwa 50 cm lang. Wie viele Schritte brauchst du ungefähr für ${k/2} m?`,k,'1 m sind 100 cm. Wie viele Schritte brauchst du für 1 m?')}
+ const w=pk([4,5,6]);return IN(`Eine Wippe darf höchstens ${w*30} kg tragen. Ein Kind wiegt etwa 30 kg. Wie viele Kinder dürfen höchstens auf die Wippe?`,w,'Rechne mit geteilt: Gesamtgewicht durch das Gewicht eines Kindes.')};
+const fmtL=(c)=>{const m=Math.floor(c/100),r=c%100;return m&&r?`${m} m ${r} cm`:m?`${m} m`:`${r} cm`};
+const g_ordg=l=>{
+ const mk=a=>{const o=a.sort((x,y)=>x[0]-y[0]);return o.map(x=>x[1])};
+ let A=[];
+ if(l==0){const v=sh([20,35,50,75,90,120,140]).slice(0,4);A=v.map(c=>[c,c+' cm'])}
+ else if(l==1){const v=sh([60,100,125,150,200,240,300]).slice(0,4);A=v.map(c=>[c,c>=100&&c%100==0?c/100+' m':c>=100&&Math.random()<.5?fmtL(c):c+' cm'])}
+ else{const v=sh([80,150,200,320,450,50]).slice(0,4);A=v.map(c=>[c,pk([c+' cm',fmtL(c),c*10+' mm'].filter(x=>true))])}
+ return ORD(l==0?'Ordne die Längen vom kürzesten zum längsten Gegenstand.':'Ordne die Längen vom kürzesten zum längsten. Die Einheiten sind verschieden.',mk(A),l==0?'Alle Längen sind in cm. Vergleiche die Zahlen.':'Wandle alles in dieselbe Einheit um, am besten in cm.')};
+const g_vglg=l=>{
+ if(l==0){const a=R(2,9),b=a*100+pk([-20,0,20,50]);const an=b==a*100?'=':b>a*100?'<':'>';return MC(`Welches Zeichen passt? ${a} m ☐ ${b} cm`,an,['<','>','='].filter(x=>x!=an),'Wandle in dieselbe Einheit um: 1 m = 100 cm.')}
+ if(l==1){const a=R(1,5),b=a*1000+pk([-250,0,250,500]);const an=b==a*1000?'=':b>a*1000?'<':'>';return MC(`Welches Zeichen passt? ${a} kg ☐ ${b} g`,an,['<','>','='].filter(x=>x!=an),'1 kg = 1000 g. Schreibe beide in Gramm.')}
+ const a=R(1,4),b=R(1,59),c=a*60+b+pk([-10,0,10,15]);const an=c==a*60+b?'=':c>a*60+b?'<':'>';return MC(`Welches Zeichen passt? ${a} h ${b} min ☐ ${c} min`,an,['<','>','='].filter(x=>x!=an),'1 Stunde = 60 Minuten. Wandle beides in Minuten um.')};
+const g_rechg=l=>{
+ if(l==0){const a=R(20,80),b=R(10,a-5);return IN(`Ein Seil ist ${a} cm lang. ${b} cm werden abgeschnitten. Wie viele cm bleiben übrig?`,a-b,'Schneide ab heißt: minus rechnen.')}
+ if(l==1){const m=R(2,5),c=R(20,80),d=R(10,19);return IN(`Ein Seil ist ${m} m ${c} cm lang. Es werden ${d} cm abgeschnitten. Wie viele cm bleiben übrig?`,m*100+c-d,'Wandle zuerst alles in cm um: 1 m sind 100 cm.')}
+ const k=pk([3,4]),g=pk([300,400,500,600]);const t=k*g;if(t<1000)return g_rechg(2);return INS(`Eine Tüte Sand wiegt ${g} g. ${k} Tüten wiegen zusammen ...`,[`${k} Tüten wiegen `,{a:Math.floor(t/1000)},' kg ',{a:t%1000},' g'],`Rechne ${k} · ${g} in Gramm. Dann wandle um: 1000 g sind 1 kg.`)};
+const MON=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],MD=[31,28,31,30,31,30,31,31,30,31,30,31],WT=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+const g_kal=l=>{
+ if(l==0){const w=R(0,6),k=R(1,5);return MC(`Heute ist ${WT[w]}. Welcher Tag ist in ${k} Tag${k>1?'en':''}?`,WT[(w+k)%7],sh(WT.filter(x=>x!=WT[(w+k)%7])).slice(0,3),'Zähle die Wochentage weiter. Nach Sonntag kommt wieder Montag.')}
+ if(l==1){const m=R(0,10),d=R(1,20),w=R(0,6);return MC(`Der ${d}. ${MON[m]} ist ein ${WT[w]}. Welcher Wochentag ist der ${d+14}. ${MON[m]}?`,WT[w],sh(WT.filter(x=>x!=WT[w])).slice(0,3),'Eine Woche hat 7 Tage. Nach 14 Tagen sind es zwei Wochen: wieder derselbe Wochentag.')}
+ const m=R(0,10),d=R(MD[m]-5,MD[m]),e=R(2,7);return IN(`Wie viele Tage sind es vom ${d}. ${MON[m]} bis zum ${e}. ${MON[m+1]}?`,MD[m]-d+e,`Der ${MON[m]} hat ${MD[m]} Tage. Zähle bis zum Monatsende und dann bis zum ${e}. ${MON[m+1]}.`)};
+const z5=[g_lin,g_uhr,g_zeit,g_wage,g_becher,g_pay,g_einh,g_umw,g_schaetz,g_ordg,g_vglg,g_rechg,g_kal];
+
+/* ---------- Gebiet 6: Delfin-Riff (Daten und Zufall) ---------- */
+const TIERE=[['Möwen','🐦'],['Krebse','🦀'],['Muscheln','🐚'],['Fische','🐟'],['Seesterne','⭐'],['Quallen','🪼']];
+const ct=(n,e)=>`<span class="pk" aria-label="${n} mal">${e.repeat(n)}</span>`;
+const g_strich=l=>{const t=sh(TIERE).slice(0,l==0?2:3),n=t.map(()=>l==0?R(3,12):l==1?R(8,24):R(12,33));
+ const v=`<table class="tb" aria-label="Strichliste"><tr><th>Tier</th><th>Striche</th></tr>${t.map((x,i)=>`<tr><td>${x[1]} ${x[0]}</td><td>${tallyH(n[i])}</td></tr>`).join('')}</table>`;
+ if(l<2)return INS('Zähle die Striche. Fünf Striche sind ein Bündel.',t.flatMap((x,i)=>[(i?'  ':'')+x[0]+': ',{a:n[i]}]),'Zähle zuerst die Bündel mal 5, dann die einzelnen Striche.',{v});
+ return IN(`Wie viele Tiere wurden insgesamt gezählt? Zähle alle Striche zusammen.`,n.reduce((a,b)=>a+b,0),'Zähle jede Zeile einzeln und addiere am Ende. Ein Bündel sind 5.',{v})};
+const leg=t=>t.map(x=>x[1]+' '+x[0]).join(', ');
+const legH=t=>`<p class="c"><small>${leg(t)}</small></p>`;
+const g_bars=l=>{const t=sh(TIERE).slice(0,l==0?3:4);
+ if(l==0){const v=t.map(x=>[x[1],R(1,5)]);return BARS(`Baue das Säulendiagramm (${leg(t)}). Jedes Kästchen ist 1 Tier. Die Zahlen: ${v.map(x=>x[0]+' '+x[1]).join(', ')}.`,'Tippe auf ➕, bis die Säule so hoch ist wie die Zahl.',v,1,6)}
+ if(l==1){const v=t.map(x=>[x[1],R(1,5)*2]);return BARS(`Baue das Säulendiagramm (${leg(t)}). Jedes Kästchen sind 2 Tiere. Die Zahlen: ${v.map(x=>x[0]+' '+x[1]).join(', ')}.`,'Teile die Zahl durch 2: So viele Kästchen brauchst du.',v,2,6)}
+ const v=t.map(x=>[x[1],R(1,6)*5]);return BARS(`Baue das Säulendiagramm (${leg(t)}). Jedes Kästchen sind 5 Tiere. Die Zahlen: ${v.map(x=>x[0]+' '+x[1]).join(', ')}.`,'Wie viele Fünfer stecken in der Zahl? Das ist die Zahl der Kästchen.',v,5,8)};
+const g_lesen=l=>{const t=sh(TIERE).slice(0,4);
+ if(l==0){const v=t.map(x=>[x[1],R(1,6)]);const k=pk(v);return IN(`Wie viele ${t[v.indexOf(k)][0]} wurden gezählt?`,k[1],'Lies die Höhe der Säule an der Zahlenachse ab.',{v:legH(t)+barSvg(v,{step:1,max:7})})}
+ if(l==1){const v=t.map(x=>[x[1],R(2,8)*2]);const a=v[0],b=v[1];if(a[1]==b[1])return g_lesen(1);return IN(`Wie groß ist der Unterschied zwischen den Säulen „${t[0][0]}“ und „${t[1][0]}“?`,Math.abs(a[1]-b[1]),'Lies beide Säulen ab und rechne den Unterschied aus.',{v:legH(t)+barSvg(v,{step:2,max:16})})}
+ const v=t.map(x=>[x[1],R(2,9)*5]);const tot=v.reduce((a,x)=>a+x[1],0),mx=Math.max(...v.map(x=>x[1]));if(v.filter(x=>x[1]==mx).length>1)return g_lesen(2);const big=v.find(x=>x[1]==mx);const T=t[v.indexOf(big)][0];return MC('Welche Aussage über das Diagramm stimmt?',`Es gibt ${T} am häufigsten, insgesamt wurden ${tot} Tiere gezählt.`,[`Es gibt ${T} am häufigsten, insgesamt wurden ${tot+10} Tiere gezählt.`,`Es gibt ${T} am seltensten, insgesamt wurden ${tot} Tiere gezählt.`,`Alle Tiere kommen gleich oft vor.`],'Finde die höchste Säule. Lies dann alle Zahlen ab und addiere sie.',{v:legH(t)+barSvg(v,{step:5,max:50})})};
+const g_tab2=l=>{const t=sh(TIERE).slice(0,3);const d=t.map(()=>[R(5,30),R(5,30)]);const v=`<table class="tb" aria-label="Tabelle"><tr><th>Tier</th><th>Samstag</th><th>Sonntag</th></tr>${t.map((x,i)=>`<tr><td>${x[1]} ${x[0]}</td><td>${d[i][0]}</td><td>${d[i][1]}</td></tr>`).join('')}</table>`;
+ if(l==0){const i=R(0,2),j=R(0,1);return IN(`Wie viele ${t[i][0]} wurden am ${j?'Sonntag':'Samstag'} gezählt?`,d[i][j],'Suche die Zeile des Tieres und die Spalte des Tages.',{v})}
+ if(l==1){const i=R(0,2);return IN(`Wie viele ${t[i][0]} wurden an beiden Tagen zusammen gezählt?`,d[i][0]+d[i][1],'Lies beide Zahlen in der Zeile ab und addiere.',{v})}
+ const j=R(0,1),tot=d.reduce((a,x)=>a+x[j],0);return IN(`Wie viele Tiere wurden am ${j?'Sonntag':'Samstag'} insgesamt gezählt? Zähle alle Tiere zusammen.`,tot,'Addiere alle Zahlen einer Spalte.',{v})};
+const g_pikto=l=>{const t=sh(TIERE).slice(0,3);
+ if(l==0){const n=t.map(()=>R(2,6)),v=`<table class="tb" aria-label="Bilddiagramm"><tr><th>Tier</th><th>Anzahl</th></tr>${t.map((x,i)=>`<tr><td>${x[0]}</td><td>${ct(n[i],x[1])}</td></tr>`).join('')}</table><p class="c"><small>1 Bild = 1 Tier</small></p>`;const k=R(0,2);return IN(`Wie viele ${t[k][0]} gibt es?`,n[k],'Zähle die Bilder in der Zeile.',{v})}
+ if(l==1){const n=t.map(()=>R(2,6)),v=`<table class="tb" aria-label="Bilddiagramm"><tr><th>Tier</th><th>Anzahl</th></tr>${t.map((x,i)=>`<tr><td>${x[0]}</td><td>${ct(n[i],x[1])}</td></tr>`).join('')}</table><p class="c"><small>1 Bild = 5 Tiere</small></p>`;const k=R(0,2);return IN(`Wie viele ${t[k][0]} gibt es?`,n[k]*5,'Jedes Bild steht für 5 Tiere. Zähle die Bilder und rechne mal 5.',{v})}
+ const n=t.map(()=>R(1,5)),hf=t.map(()=>R(0,1)),v=`<table class="tb" aria-label="Bilddiagramm"><tr><th>Tier</th><th>Anzahl</th></tr>${t.map((x,i)=>`<tr><td>${x[0]}</td><td>${ct(n[i],x[1])}${hf[i]?'<span class="hf" aria-label="halbes Bild">'+x[1]+'</span>':''}</td></tr>`).join('')}</table><p class="c"><small>1 ganzes Bild = 10 Tiere, 1 halbes Bild = 5 Tiere</small></p>`;const k=R(0,2);return IN(`Wie viele ${t[k][0]} gibt es?`,n[k]*10+hf[k]*5,'Ein halbes Bild steht für 5 Tiere. Zähle die ganzen Bilder mal 10 und addiere die 5.',{v})};
+const BG=[[['r',3],['b',1]],[['r',1],['b',4]],[['g',1],['b',2],['r',1]],[['r',5],['b',2]],[['n',1],['r',1],['b',3]]];
+const g_beutel=l=>{
+ if(l==0){const F=pk(BG.slice(0,2).concat([[['g',4],['b',1]]]));const mx=Math.max(...F.map(x=>x[1])),top=F.find(x=>x[1]==mx)[0];return MC('Du ziehst ohne hinzusehen eine Kugel. Welche Farbe ziehst du am ehesten?',CN[top],F.filter(x=>x[0]!=top).map(x=>CN[x[0]]).concat(['alle Farben gleich']).slice(0,3),'Die Farbe, von der die meisten Kugeln im Beutel sind, wird am wahrscheinlichsten gezogen.',{v:bagH(F)})}
+ if(l==1){const F=pk([[['r',3],['b',2]],[['b',4],['g',1]],[['n',2],['r',3]]]);const have=F.map(x=>x[0]);const miss=['r','b','g','n'].filter(k=>!have.includes(k));const q=pk([['Du ziehst eine '+CN[miss[0]]+'e Kugel.','unmöglich'],['Du ziehst eine '+CN[have[0]]+'e Kugel.','möglich'],['Du ziehst eine Kugel.','sicher']]);return MC(`${q[0]} Wie sicher ist das?`,q[1],['sicher','möglich','unmöglich'].filter(x=>x!=q[1]),'Sicher: Es kann gar nichts anderes passieren. Unmöglich: Die Farbe gibt es nicht. Möglich: Es kann passieren, muss aber nicht.',{v:bagH(F)})}
+ const A=[['r',R(2,4)],['b',R(2,4)]],B=[['r',R(2,6)],['b',R(2,6)]];const fa=A[0][1]/(A[0][1]+A[1][1]),fb=B[0][1]/(B[0][1]+B[1][1]);if(Math.abs(fa-fb)<.12)return g_beutel(2);
+ const win=fa>fb?'A':'B';return MC('Du willst eine rote Kugel ziehen. Aus welchem Beutel ziehst du eher eine rote Kugel?','Beutel '+win,['Beutel '+(win=='A'?'B':'A'),'Es ist egal, beide gleich.'],'Vergleiche, wie groß der Anteil der roten Kugeln an allen Kugeln im Beutel ist.',{v:`<div class="two"><div><b>Beutel A</b>${bagH(A)}</div><div><b>Beutel B</b>${bagH(B)}</div></div>`})};
+const g_rad=l=>{
+ if(l==0){const F=pk([[['r',4],['b',1],['g',1]],[['b',3],['r',1],['g',1]],[['g',4],['r',2]]]);const mx=Math.max(...F.map(x=>x[1])),top=F.find(x=>x[1]==mx)[0];return MC('Auf welcher Farbe bleibt das Glücksrad am ehesten stehen?',CN[top],[...F.filter(x=>x[0]!=top).map(x=>CN[x[0]]),...['rot','blau','gelb','grün'].filter(c=>c!=CN[top]&&!F.some(x=>CN[x[0]]==c))].slice(0,3),'Die Farbe mit den meisten Feldern hat die größte Chance.',{v:wheelSvg(F)})}
+ if(l==1){const F=pk([[['r',2],['b',3],['g',1]],[['r',3],['b',2],['g',2]]]);const k=pk(F);return IN(`Wie viele von ${F.reduce((a,x)=>a+x[1],0)} Feldern sind ${CN[k[0]]}?`,k[1],'Zähle die Felder der Farbe.',{v:wheelSvg(F)})}
+ const F=[['r',3],['b',3],['g',2]];const q=pk([['Rot','rot und blau gleich wahrscheinlich',['Rot ist wahrscheinlicher als Blau.','Blau ist wahrscheinlicher als Gelb.','Gelb ist am wahrscheinlichsten.']]]);return MC('Welche Aussage über das Glücksrad stimmt?','Rot und Blau sind gleich wahrscheinlich, Gelb ist weniger wahrscheinlich.',['Rot ist wahrscheinlicher als Blau.','Gelb ist am wahrscheinlichsten.','Gelb ist genauso wahrscheinlich wie Rot.'],'Vergleiche die Anzahl der Felder jeder Farbe.',{v:wheelSvg(F)})};
+const g_zieh=l=>{
+ if(l==0)return DRAW('Ziehe 10-mal aus dem Beutel. Die Kugel wird immer wieder zurückgelegt. Welche Farbe wurde öfter gezogen?','Schau auf die Striche. Die Farbe mit mehr Strichen wurde öfter gezogen.',[['r',4],['b',1]],10);
+ if(l==1)return DRAW('Ziehe 20-mal. Welche Farbe wurde öfter gezogen? Denke vorher: Welche Farbe wird wohl öfter gezogen?','Im Beutel sind viel mehr Kugeln von einer Farbe. Das ist wahrscheinlicher, aber nicht sicher.',[['g',4],['b',2]],20);
+ return DRAW('Ziehe 30-mal. Es gibt drei Farben. Welche kommt öfter?','Vergleiche die Zahl der Striche. Prüfe, ob das zu den Kugeln im Beutel passt.',[['r',3],['b',2],['n',1]],30)};
+const g_ereig=l=>{
+ if(l==0){const q=pk([['Morgen geht die Sonne auf.','sicher'],['Ein Würfel zeigt die Zahl 7.','unmöglich'],['Du wirfst eine Münze und es fällt Kopf.','möglich'],['Wenn du ins Wasser fällst, wirst du nass.','sicher'],['Ein Fisch lernt in der Schule rechnen.','unmöglich']]);return MC(`Wie sicher ist das? ${q[0]}`,q[1],['sicher','möglich','unmöglich'].filter(x=>x!=q[1]),'Sicher: passiert immer. Möglich: kann passieren. Unmöglich: passiert nie.')}
+ if(l==1){const q=pk([['eine gerade Zahl','3 von 6'],['eine Zahl größer als 4','2 von 6'],['eine 6','1 von 6'],['eine Zahl kleiner als 7','6 von 6'],['eine Zahl kleiner als 4','3 von 6']]);return MC(`Du würfelst mit einem Würfel (1 bis 6). Für wie viele der 6 Zahlen gilt: Du würfelst ${q[0]}?`,q[1],['1 von 6','2 von 6','3 von 6','4 von 6','6 von 6'].filter(x=>x!=q[1]).slice(0,3),'Schreibe alle Würfelzahlen von 1 bis 6 auf und streiche die, die passen.')}
+ return MC('Welches Ereignis ist wahrscheinlicher?','Beim Würfeln eine gerade Zahl (2, 4 oder 6)',['Beim Würfeln eine Zahl größer als 4 (5 oder 6)','Beim Würfeln eine 6','Beide sind gleich wahrscheinlich.'],'Zähle bei jedem Ereignis, wie viele der 6 Zahlen passen. Mehr Zahlen heißt wahrscheinlicher.')};
+const g_sort=l=>{
+ if(l==0)return DD('Sortiere die Ereignisse.',['sicher','unmöglich'],[['Nach der Nacht kommt der Tag.',0],['Wenn es regnet, wird es nass.',0],['Ein Hund spricht Deutsch.',1],['Ein Würfel zeigt die Zahl 9.',1]],'Sicher: passiert immer. Unmöglich: passiert nie.');
+ if(l==1)return DD('Sortiere die Ereignisse. Es gibt einen Beutel mit 3 roten und 1 blauen Kugel.',['wahrscheinlich','unwahrscheinlich'],[['Du ziehst eine rote Kugel.',0],['Du ziehst keine blaue Kugel.',0],['Du ziehst eine blaue Kugel.',1],['Du ziehst zweimal hintereinander blau (mit Zurücklegen).',1]],'Rot kommt häufiger vor als Blau.');
+ return DD('Sortiere die Aussagen über Zufall.',['stimmt','stimmt nicht'],[['Wer oft eine 6 würfelt, würfelt beim nächsten Mal sicher keine.',1],['Jede Zahl auf dem Würfel kann fallen.',0],['Ein Ergebnis im Zufall kann man nicht sicher vorhersagen.',0],['Nach zehnmal Kopf kommt sicher Zahl.',1]],'Beim Zufall hat jeder Wurf wieder die gleichen Chancen.')};
+const z6=[g_strich,g_bars,g_lesen,g_tab2,g_pikto,g_beutel,g_rad,g_zieh,g_ereig,g_sort];
+
+/* ---------- Zusammenstellung ---------- */
+const PL=[
+{n:'Muschelbank',e:'🐚',c:'#ff9db0',f:'Zahlen und Operationen',d:'Zahlen und Stellenwerte',g:l=>draw(z0,l,5)},
+{n:'Sandburg-Werkstatt',e:'🏰',c:'#ffe07a',f:'Zahlen und Operationen',d:'Rechnen und Rechenwege',g:l=>draw(z1,l,5)},
+{n:'Strandkiosk',e:'🍦',c:'#c9b6ff',f:'Zahlen und Operationen',d:'Sachaufgaben und Kombinatorik',g:l=>draw(z2,l,5)},
+{n:'Baumeister-Bucht',e:'⛱️',c:'#8fe3b0',f:'Raum und Form',d:'Körper, Figuren, Symmetrie',g:l=>draw(z3,l,5)},
+{n:'Hafen',e:'⛵',c:'#8fd3ff',f:'Größen und Messen',d:'Länge, Gewicht, Zeit, Geld',g:l=>draw(z5,l,5)},
+{n:'Delfin-Riff',e:'🐬',c:'#ffb38a',f:'Daten und Zufall',d:'Diagramme und Wahrscheinlichkeit',g:l=>draw(z6,l,5)}];
+const smP=[...z0.slice(0,5),...z1.slice(0,5),...z2.slice(0,3),...z3.slice(0,4),...z5.slice(0,5),...z6.slice(0,4)].filter(f=>![g_mitte,g_sch].includes(f));
+const sdP=[...z0,...z1,...z2,...z3,...z5,...z6];
+/* ---------- Speicher ---------- */
+let DB={u:{}},CUR='',U={d:{},c:{},f:[],n:0,r:0},D=U.d;try{DB=JSON.parse(localStorage.getItem('strand-k3'))||DB;DB.u=DB.u||{}}catch(e){}
+const save=()=>{try{localStorage.setItem('strand-k3',JSON.stringify(DB))}catch(e){}};
+const st=(p,l)=>D[''+p+l]||0,total=()=>Object.values(D).reduce((a,b)=>a+b,0);
+const stars=n=>n?'⭐'.repeat(n):'☆';
+const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent};
+/* ---------- Sammelstücke: 6 Stück, alle 9 Sterne ein neues ---------- */
+const IC=(inner,vb='0 0 64 64')=>`<svg viewBox="${vb}" width="1em" height="1em" style="display:inline-block;vertical-align:-.12em" aria-hidden="true">${inner}</svg>`;
+const SEESTERN=(()=>{let d='';for(let i=0;i<10;i++){const a=(-90+i*36)*Math.PI/180,r=i%2?12:29;d+=(i?'L':'M')+(32+r*Math.cos(a)).toFixed(1)+' '+(32+r*Math.sin(a)).toFixed(1)}
+ let dots='';for(let i=0;i<5;i++){const a=(-90+i*72)*Math.PI/180;for(const r of[10,17,24])dots+=`<circle cx="${(32+r*Math.cos(a)).toFixed(1)}" cy="${(32+r*Math.sin(a)).toFixed(1)}" r="${r<12?1.6:1.2}" fill="#ffe3b0"/>`}
+ return IC(`<defs><radialGradient id="gsn" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#ffc16b"/><stop offset=".6" stop-color="#ff8a2a"/><stop offset="1" stop-color="#e0560b"/></radialGradient></defs><path d="${d}Z" fill="url(#gsn)" stroke="#e0560b" stroke-width="7" stroke-linejoin="round"/><path d="${d}Z" fill="url(#gsn)" stroke="url(#gsn)" stroke-width="5" stroke-linejoin="round"/>${dots}`)})();
+const PERLMUSCHEL=IC('<defs><linearGradient id="gpm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe0ec"/><stop offset="1" stop-color="#f08fba"/></linearGradient><radialGradient id="gpp" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".7" stop-color="#f1ecf7"/><stop offset="1" stop-color="#c9bfe0"/></radialGradient></defs><path d="M32 58C12 56 4 38 8 24C14 12 24 8 32 8C40 8 50 12 56 24C60 38 52 56 32 58Z" fill="url(#gpm)" stroke="#c4568a" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 56L14 20M32 56L23 13M32 56L32 9M32 56L41 13M32 56L50 20" stroke="#c4568a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/><path d="M22 58H42L40 52H24Z" fill="#c4568a"/><circle cx="32" cy="36" r="8.5" fill="url(#gpp)" stroke="#a79bc4" stroke-width="1.4"/><ellipse cx="29" cy="33" rx="2.6" ry="1.8" fill="#fff"/>');
+const FLASCHENPOST=IC('<g transform="rotate(-38 32 32)"><rect x="21" y="17" width="22" height="42" rx="9" fill="#bfe9f2" fill-opacity=".75" stroke="#3d95ad" stroke-width="2.4"/><rect x="26" y="7" width="12" height="14" rx="3" fill="#bfe9f2" fill-opacity=".75" stroke="#3d95ad" stroke-width="2.4"/><rect x="25" y="2" width="14" height="8" rx="2.5" fill="#b87b3a" stroke="#6b4423" stroke-width="2"/><rect x="25" y="26" width="14" height="26" rx="3" fill="#fff0c2" stroke="#b08a3c" stroke-width="1.6"/><path d="M28 32H36M28 37H36M28 42H34" stroke="#b08a3c" stroke-width="1.6" stroke-linecap="round"/><path d="M24 24Q23 40 25 54" stroke="#fff" stroke-width="2" fill="none" opacity=".8" stroke-linecap="round"/></g>');
+const RETTUNGSRING=IC('<circle cx="32" cy="32" r="20" fill="none" stroke="#8c1f2c" stroke-width="17"/><circle cx="32" cy="32" r="20" fill="none" stroke="#e8374d" stroke-width="14"/><circle cx="32" cy="32" r="20" fill="none" stroke="#fff" stroke-width="14" stroke-dasharray="15.7 31.4" stroke-dashoffset="-7.85"/><circle cx="32" cy="32" r="27.2" fill="none" stroke="#8c1f2c" stroke-width="1.4"/><circle cx="32" cy="32" r="12.9" fill="none" stroke="#8c1f2c" stroke-width="1.4"/>');
+const STEUERRAD=(()=>{let s='';for(let i=0;i<8;i++){const a=i*45*Math.PI/180,c=Math.cos(a),n=Math.sin(a);s+=`<path d="M${32+8*c} ${32+8*n}L${32+27*c} ${32+27*n}" stroke="#7a4a1a" stroke-width="4.4" stroke-linecap="round"/><circle cx="${32+27.5*c}" cy="${32+27.5*n}" r="3.4" fill="#c58a3d" stroke="#7a4a1a" stroke-width="1.4"/>`}
+ return IC(`${s}<circle cx="32" cy="32" r="17" fill="none" stroke="#7a4a1a" stroke-width="6.5"/><circle cx="32" cy="32" r="17" fill="none" stroke="#c58a3d" stroke-width="3.6"/><circle cx="32" cy="32" r="7" fill="#ffd23f" stroke="#a96a00" stroke-width="2"/>`)})();
+const ARTE=[[SEESTERN,'Seestern'],[PERLMUSCHEL,'Perlmuschel'],[FLASCHENPOST,'Flaschenpost'],[RETTUNGSRING,'Rettungsring'],[STEUERRAD,'Steuerrad'],['🔱','Dreizack']];
+const LH=`<svg viewBox="0 0 60 92" style="width:1em;height:1.5em;display:block;overflow:visible" aria-hidden="true"><defs><linearGradient id="glh" x1="0" x2="1"><stop offset="0" stop-color="#e9edf5"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#c9d1e0"/></linearGradient></defs><path d="M17 88L22 30H38L43 88Z" fill="url(#glh)" stroke="#6a7488" stroke-width="1.6" stroke-linejoin="round"/><path d="M19.4 66H40.6L41.6 76H18.4ZM21.6 40H38.4L39.2 50H20.8Z" fill="#e8374d" opacity=".95"/><rect x="14" y="26" width="32" height="6" rx="2" fill="#5b6478"/><rect x="21" y="14" width="18" height="13" rx="2" fill="#ffe27a" stroke="#6a7488" stroke-width="1.6"/><path d="M26 14V27M34 14V27" stroke="#6a7488" stroke-width="1.2"/><path d="M18 14L30 3L42 14Z" fill="#e8374d" stroke="#8c1f2c" stroke-width="1.4" stroke-linejoin="round"/><rect x="26" y="74" width="8" height="14" rx="3" fill="#6b4423"/><path d="M10 88H50" stroke="#6a7488" stroke-width="2" stroke-linecap="round"/></svg>`;
+const slots=(t,light)=>`<span class="slots${light?' lt':''}" role="img" aria-label="${nParts(t)} von 6 Sammelstücken gefunden">${ARTE.map((a,i)=>`<span class="sl1${i<nParts(t)?' on':''}" aria-hidden="true">${a[0]}</span>`).join('')}</span>`;
+const nParts=t=>Math.min(6,Math.floor(t/9));
+const rkBox=t=>{const n=nParts(t),nx=n<6?`Nächstes Sammelstück: <b>${ARTE[n][1]}</b> · <span class="nw">noch ${9*(n+1)-t} ⭐</span>`:'Alle Sammelstücke sind gefunden. Der Leuchtturm wartet! 💡';
+ return`<div class="rk"><div class="rkt"><b>Deine Sammelstücke</b>${slots(t)}<span>${nx}</span><small>⭐ ${t} von 54 Sternen</small></div></div>`};
+/* Pop-up beim Finden eines Sammelstücks */
+function popPart(i){closePop(true);const o=document.createElement('div');o.id='pop';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Neues Sammelstück: '+ARTE[i][1]);
+ o.innerHTML=`<div class="pbox"><div class="stage"><div class="rays" aria-hidden="true"></div><div class="halo" aria-hidden="true"></div><div class="pp art" aria-hidden="true">${ARTE[i][0]}</div></div><p class="pt" role="status">Du hast ein neues Sammelstück gefunden: <b>${ARTE[i][1]}</b></p><button class="big" id="pok" onclick="closePop()">Super! 🎉</button></div>`;
+ document.body.appendChild(o);$('#pok').focus()}
+function closePop(quiet){const o=$('#pop');o&&o.remove();if(!quiet&&POPQ.length)setTimeout(()=>popPart(POPQ.shift()),250)}
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&$('#pop'))closePop()});
+
+/* ---------- Ansichten ---------- */
+let P=0,LV=0,T=[],I=0,PT=0,RS=[],tr=0,sel=null,pl={},sq=[],ms=new Set(),mm={},mt=0,POPQ=[];
+/* ---------- Strandkarte: Panorama mit Steg, Sandburg, Muscheln ---------- */
+/* ---------- Geometrie: Panorama (breit) und Hochformat (schmal) mit eigenen Koordinaten ---------- */
+const WM=window.matchMedia('(min-width:760px)');
+const GEO={
+ w:{W:160,H:100,POS:[[11,72],[27,57],[69,58],[87,81],[87,24],[17,27]],TMP:[55,20],B:[38,0],E:[87,33.5],C:[[66,44],[80,41]],isl:[88,27.5,14.5,5.2],reef:[17,29],dock:139.2,hw:7.5,
+  sh:x=>46+3.2*Math.sin(x*.045+.6)+2.2*Math.sin(x*.11+1.4),bx:14,by:9.5,palms:[[3.5,92],[96.5,93]]},
+ p:{W:100,H:165,POS:[[24,59],[76,61],[26,76],[74,79],[78,38],[24,28]],TMP:[62,14],B:[46,0],E:[60,43],C:[[47,68],[56,53]],isl:[62,37,19,6.5],reef:[24,29],dock:84,hw:11,
+  sh:x=>78+3*Math.sin(x*.09+.5)+2*Math.sin(x*.21)+6*Math.exp(-(((x-84)/9)**2)),bx:17,by:9,palms:[[5,95],[95,96]]}};
+GEO.w.B[0]=GEO.w.W*.40;GEO.p.B[0]=46;
+GEO.w.B[1]=GEO.w.sh(GEO.w.W*.40)+6;GEO.p.B[1]=GEO.p.sh(46)+3;
+const pg=i=>[0,1,2].reduce((a,l)=>a+st(i,l),0);
+const gl=i=>{const p=pg(i),b=p*1.8;return p?`filter:drop-shadow(0 0 ${b/4+1}px rgba(255,255,255,.9)) drop-shadow(0 0 ${b+2}px rgba(255,140,0,${.35+p/16}))`:''};
+/* Steg: jedes Level mit mindestens einem Stern legt eine Planke */
+const NPL=18,planks=()=>{let n=0;for(let i=0;i<6;i++)for(let l=0;l<3;l++)if(st(i,l)>0)n++;return n};
+const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+let HOT=-1;
+const rngf=seed=>{let r=seed;return()=>(r=(r*9301+49297)%233280)/233280};
+/* Fortschrittsring: 9 Bögen = 9 Sterne, orange Bögen leuchten */
+const ring=i=>{const n=pg(i),c=50,r=44,seg=[];for(let k=0;k<9;k++){const a0=(-90+k*40+5)*Math.PI/180,a1=(-90+k*40+35)*Math.PI/180,x0=c+r*Math.cos(a0),y0=c+r*Math.sin(a0),x1=c+r*Math.cos(a1),y1=c+r*Math.sin(a1);
+  seg.push(`<path d="M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}" class="${k<n?'rg on':'rg'}"/>`)}
+ return`<svg class="ring${n>=9?' full':''}" viewBox="0 0 100 100" aria-hidden="true">${seg.join('')}</svg>`};
+/* ---------- Symbole: Sandburg aus Sand, goldene Muschel ---------- */
+const CASTLE=(()=>{let t='';
+ const teeth=(x0,x1,y,n,fill)=>{const w=(x1-x0)/(2*n-1);let r='';for(let k=0;k<n;k++)r+=`<rect x="${(x0+2*k*w).toFixed(2)}" y="${y}" width="${w.toFixed(2)}" height="5" fill="${fill}" stroke="#a37a38" stroke-width="1"/>`;return r};
+ t+='<defs><linearGradient id="gcs" x1="0" x2="1"><stop offset="0" stop-color="#f6e2a6"/><stop offset=".55" stop-color="#ebcf88"/><stop offset="1" stop-color="#d4aa5c"/></linearGradient><linearGradient id="gcm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8cc86"/><stop offset="1" stop-color="#cfa65a"/></linearGradient></defs>';
+ t+='<ellipse cx="32" cy="57" rx="30" ry="6" fill="url(#gcm)" stroke="#a37a38" stroke-width="1"/>';
+ t+=teeth(5,21,26,3,'url(#gcs)')+teeth(43,59,26,3,'url(#gcs)')+teeth(19,45,15,4,'url(#gcs)');
+ t+='<rect x="5" y="30" width="16" height="26" fill="url(#gcs)" stroke="#a37a38" stroke-width="1.2"/><rect x="43" y="30" width="16" height="26" fill="url(#gcs)" stroke="#a37a38" stroke-width="1.2"/><rect x="19" y="20" width="26" height="36" fill="url(#gcs)" stroke="#a37a38" stroke-width="1.2"/>';
+ t+='<path d="M32 20V56M43 30V56M59 30V56" stroke="#b98d43" stroke-width="1" opacity=".35"/>';
+ t+='<g fill="none" stroke="#b98d43" stroke-width=".9" stroke-linecap="round" opacity=".7"><path d="M7 36Q13 38 19 36M7 44Q13 46 19 44M45 36Q51 38 57 36M45 44Q51 46 57 44M21 28Q32 30 43 28M21 38Q32 40 43 38M21 48Q32 50 43 48"/></g>';
+ t+='<path d="M27 56V46a5 5 0 0 1 10 0V56Z" fill="#8c6a32"/><rect x="29" y="27" width="6" height="8" rx="3" fill="#8c6a32"/><rect x="11" y="38" width="3.4" height="7" rx="1.7" fill="#8c6a32"/><rect x="49.6" y="38" width="3.4" height="7" rx="1.7" fill="#8c6a32"/>';
+ t+='<path d="M32 15V3" stroke="#8c6a32" stroke-width="1.6" stroke-linecap="round"/><path d="M32.8 3.4L44 7 32.8 10.6Z" fill="#e8505b" stroke="#b02a37" stroke-width=".8"/>';
+ let d='';const r=rngf(9);for(let k=0;k<26;k++)d+=`<circle cx="${(6+r()*52).toFixed(1)}" cy="${(24+r()*32).toFixed(1)}" r=".55" fill="#a37a38" opacity=".6"/>`;
+ t+=d+'<g fill="#fff3c9" opacity=".55"><ellipse cx="9" cy="33" rx="1.6" ry="3"/><ellipse cx="22.5" cy="24" rx="1.4" ry="3.4"/></g>';
+ return`<svg class="ico" viewBox="0 0 64 64" aria-hidden="true">${t}</svg>`})();
+const GOLD=(()=>{const cx=32,cy=56,R=39,n=7,pts=[];for(let i=0;i<=n;i++){const a=(200-i*220/n)*Math.PI/180;pts.push([cx+R*Math.cos(a),cy-R*Math.sin(a)])}
+ let d=`M32 58L${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`,ribs='';for(let i=0;i<n;i++){d+=`A8.2 8.2 0 0 1 ${pts[i+1][0].toFixed(1)} ${pts[i+1][1].toFixed(1)}`}d+='Z';
+ for(let i=1;i<n;i++)ribs+=`M32 58L${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
+ return`<svg class="gsv" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="ggd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6b0"/><stop offset=".45" stop-color="#ffc928"/><stop offset="1" stop-color="#c47d00"/></linearGradient></defs><path d="${d}" fill="url(#ggd)" stroke="#9a5f00" stroke-width="1.6" stroke-linejoin="round"/><path d="${ribs}" stroke="#b36f00" stroke-width="1.3" fill="none" opacity=".75"/><path d="M25 57h14l-2 5h-10z" fill="#d99a10" stroke="#9a5f00" stroke-width="1.2"/><path d="M22 20Q27 12 34 11" stroke="#fffbe0" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".8"/></svg>`})();
+const ico=i=>i==1?CASTLE:PL[i].e;
+const pic=i=>`<span class="pic"><span class="emo">${ico(i)}</span></span>`;
+/* ---------- Hintergrund ---------- */
+const fx1=n=>n.toFixed(1);
+/* eine Planke: Mitte x,y; Winkel in Grad; Dicke (entlang des Stegs) th; Breite (quer) pw */
+const plankSvg=(x,y,ang,th,pw,k,ghost)=>{
+ if(ghost)return`<g transform="translate(${fx1(x)} ${fx1(y)}) rotate(${fx1(ang)})"><rect x="${fx1(-th/2)}" y="${fx1(-pw/2)}" width="${fx1(th)}" height="${fx1(pw)}" rx=".3" fill="#fff" fill-opacity=".12" stroke="#fff" stroke-opacity=".6" stroke-width=".3"/></g>`;
+ const c=['#dcb87c','#d2a76a','#e0c088','#cfa264'][k%4];
+ return`<g transform="translate(${fx1(x)} ${fx1(y)}) rotate(${fx1(ang)})"><rect x="${fx1(-th/2+.15)}" y="${fx1(-pw/2+.25)}" width="${fx1(th)}" height="${fx1(pw)}" rx=".3" fill="#5c3a1a" opacity=".35"/><rect x="${fx1(-th/2)}" y="${fx1(-pw/2)}" width="${fx1(th)}" height="${fx1(pw)}" rx=".3" fill="${c}" stroke="#7a5128" stroke-width=".3"/><path d="M${fx1(-th/2+th*.3)} ${fx1(-pw/2+1)}V${fx1(pw/2-1)}" stroke="#a87d44" stroke-width=".22" opacity=".8"/><circle cx="${fx1(0)}" cy="${fx1(-pw/2+1)}" r=".28" fill="#5c3a1a"/><circle cx="0" cy="${fx1(pw/2-1)}" r=".28" fill="#5c3a1a"/></g>`};
+const bez=(P,t)=>{const u=1-t;return[u*u*u*P[0][0]+3*u*u*t*P[1][0]+3*u*t*t*P[2][0]+t*t*t*P[3][0],u*u*u*P[0][1]+3*u*u*t*P[1][1]+3*u*t*t*P[2][1]+t*t*t*P[3][1]]};
+const along=(P,n)=>{const S=300,arr=[bez(P,0)],cum=[0];let L=0;for(let i=1;i<=S;i++){const q=bez(P,i/S),p=arr[i-1];L+=Math.hypot(q[0]-p[0],q[1]-p[1]);cum.push(L);arr.push(q)}
+ return Array.from({length:n},(_,k)=>{const s=(k+.5)/n*L;let j=Math.max(1,cum.findIndex(c=>c>=s));const a=arr[j-1],b=arr[j],f=(s-cum[j-1])/((cum[j]-cum[j-1])||1);return{x:a[0]+(b[0]-a[0])*f,y:a[1]+(b[1]-a[1])*f,ang:Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI,seg:L/n}})};
+const post=(x,y,r)=>`<circle cx="${fx1(x)}" cy="${fx1(y+r*.5)}" r="${fx1(r)}" fill="#3d2610" opacity=".35"/><circle cx="${fx1(x)}" cy="${fx1(y)}" r="${fx1(r)}" fill="#7a5128" stroke="#4a2f14" stroke-width=".25"/><circle cx="${fx1(x-r*.25)}" cy="${fx1(y-r*.25)}" r="${fx1(r*.4)}" fill="#a87d44"/>`;
+function bgSvg(m){const g=GEO[m],W=g.W,H=g.H,sh=g.sh,rnd=rngf(m=='w'?5:11),sx=W/100;
+ const shore=(dy)=>{let d='';for(let x=0;x<=W;x+=2)d+=(x?'L':'M')+x+' '+fx1(sh(x)+dy);return d};
+ const sc=m=='w'?1:1.5;
+ let s=`<defs><linearGradient id="bsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ec4ee"/><stop offset=".55" stop-color="#9be3f4"/><stop offset="1" stop-color="#d4f6f4"/></linearGradient><linearGradient id="bsand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3dfa6"/><stop offset=".1" stop-color="#fcf1cd"/><stop offset="1" stop-color="#f0d89c"/></linearGradient><radialGradient id="bis" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#f6e6b4"/><stop offset="1" stop-color="#dcc085"/></radialGradient></defs>`;
+ s+=`<rect width="${W}" height="${H}" fill="url(#bsea)"/>`;
+ s+=`<path d="${shore(-5*sc)}V${H}H0Z" fill="#c6f1f1" opacity=".7"/>`;
+ let wv='';for(let i=0;i<(m=='w'?16:12);i++){const x=4+rnd()*(W-26),y=3+rnd()*(sh(x)-12);wv+=`<path d="M${fx1(x)} ${fx1(y)}q${fx1(2.5*sx)} -1.4 ${fx1(5*sx)} 0t${fx1(5*sx)} 0" stroke-width=".35"/>`}
+ s+=`<g class="wv" fill="none" stroke="#fff" stroke-linecap="round" opacity=".6">${wv}</g>`;
+ /* Riff der Delfine */
+ const [rx,ry]=[g.reef[0]*sx,g.reef[1]*H/100];
+ s+=`<g><ellipse cx="${fx1(rx)}" cy="${fx1(ry+2)}" rx="${m=='w'?17:19}" ry="${m=='w'?9:11}" fill="#8fe6e8" opacity=".55"/><ellipse cx="${fx1(rx)}" cy="${fx1(ry+2)}" rx="${m=='w'?13:15}" ry="${m=='w'?6.5:8}" fill="none" stroke="#fff" stroke-width=".4" opacity=".8"/><ellipse cx="${fx1(rx)}" cy="${fx1(ry+2)}" rx="${m=='w'?9:11}" ry="${m=='w'?4.2:5.4}" fill="none" stroke="#fff" stroke-width=".3" opacity=".6"/></g>`;
+ /* Sand */
+ s+=`<path d="${shore(0)}V${H}H0Z" fill="url(#bsand)"/>`;
+ s+=`<path d="${shore(0)}" fill="none" stroke="#fff" stroke-width="${m=='w'?1:.9}" stroke-linecap="round" opacity=".95"/><path d="${shore(-1.8*sc)}" fill="none" stroke="#fff" stroke-width=".45" stroke-dasharray="1.6 1.8" stroke-linecap="round" opacity=".8"/><g class="wv"><path d="${shore(-3.6*sc)}" fill="none" stroke="#fff" stroke-width=".35" stroke-dasharray=".8 2.6" stroke-linecap="round" opacity=".7"/></g>`;
+ /* Windrippen und Sandkörner (hell/dunkel), keine Steine */
+ let rp='';for(let i=0;i<(m=='w'?11:12);i++){const x=rnd()*(W-30),y=sh(x)+8+rnd()*(H-sh(x)-14),l=(8+rnd()*12)*sx;rp+=`<path d="M${fx1(x)} ${fx1(y)}q${fx1(l/4)} -1.2 ${fx1(l/2)} 0t${fx1(l/2)} 0"/>`}
+ s+=`<g fill="none" stroke="#dcbd7c" stroke-width=".4" stroke-linecap="round" opacity=".7">${rp}</g>`;
+ for(let i=0;i<150;i++){const x=rnd()*W,y=sh(x)+3+rnd()*(H-sh(x)-3);s+=`<circle cx="${fx1(x)}" cy="${fx1(y)}" r="${fx1(.14+rnd()*.22)}" fill="#cfae6a" opacity="${fx1(.25+rnd()*.35)}"/>`}
+ /* Leuchtturm-Insel aus Sand */
+ const [ix,iy,irx,iry]=g.isl;
+ s+=`<ellipse cx="${ix}" cy="${iy+1}" rx="${irx+2.2}" ry="${iry+1.2}" fill="#fff" opacity=".5"/><ellipse cx="${ix}" cy="${iy}" rx="${irx}" ry="${iry}" fill="#d8bd80"/><ellipse cx="${ix}" cy="${iy-.9}" rx="${irx-1.6}" ry="${iry-1.2}" fill="url(#bis)"/><g fill="none" stroke="#c9a85a" stroke-width=".35" opacity=".8"><path d="M${ix-irx*.6} ${iy+1}q${irx*.3} -1 ${irx*.6} 0"/><path d="M${ix+irx*.1} ${iy+2}q${irx*.3} -1 ${irx*.6} 0"/></g><g fill="#6fae5a"><ellipse cx="${ix-irx*.8}" cy="${iy-.2}" rx="1.1" ry=".6"/><ellipse cx="${ix+irx*.78}" cy="${iy+.3}" rx="1.2" ry=".6"/></g>`;
+ /* Hafen-Steg im gleichen Planken-Stil */
+ const dx=g.dock,dy1=sh(dx)+1.5,hp=g.POS[4],dy0=hp[1]*H/100+(m=='w'?9:12.5),dn=Math.max(3,Math.round((dy1-dy0)/(m=='w'?1.7:1.9))),dpl=along([[dx,dy1],[dx,dy1-(dy1-dy0)/3],[dx,dy0+(dy1-dy0)/3],[dx,dy0]],dn);
+ let dk='';dpl.forEach((p,k)=>{dk+=plankSvg(p.x,p.y,-90,p.seg*.84,g.hw*.82,k+1)});
+ [0,Math.floor(dn/2),dn-1].forEach(k=>{const p=dpl[k];dk+=post(p.x-g.hw*.5,p.y,.8)+post(p.x+g.hw*.5,p.y,.8)});
+ s+=`<g>${dk}</g>`;
+ /* Steg zum Leuchtturm: 18 Planken, nur so viele sind da wie Level geschafft sind */
+ const n=planks(),P=[g.B.slice(),g.C[0],g.C[1],g.E.slice()],pl=along(P,NPL),pw=g.hw;
+ let pr='',gh='',pc='',bk='';
+ pl.forEach((p,k)=>{if(k%3==1){const r=p.ang*Math.PI/180,nx=-Math.sin(r),ny=Math.cos(r),o=pw/2+.9;pc+=post(p.x+nx*o,p.y+ny*o,.85)+post(p.x-nx*o,p.y-ny*o,.85)}});
+ pl.forEach((p,k)=>{if(k<n)pr+=plankSvg(p.x,p.y,p.ang,p.seg*.84,pw,k);else gh+=plankSvg(p.x,p.y,p.ang,p.seg*.84,pw,k,1)});
+ if(n<NPL){const p=pl[n],a=p.ang*Math.PI/180,nx=-Math.sin(a),ny=Math.cos(a);
+  bk=`<g transform="translate(${fx1(p.x+nx*pw*.62)} ${fx1(p.y+ny*pw*.62-.5)}) rotate(${fx1(p.ang+24)})"><path d="M-2.2 -.6L1.6 -.8L2.2 .2L.6 .7L-1 .5L-2.2 .6Z" fill="#c9a064" stroke="#6b4a28" stroke-width=".3"/></g><g transform="translate(${fx1(p.x-nx*pw*.7)} ${fx1(p.y-ny*pw*.7+.4)}) rotate(${fx1(p.ang-33)})"><path d="M-1.8 -.5L1.4 -.7L1.9 .1L.5 .6L-1.2 .5Z" fill="#b88c52" stroke="#6b4a28" stroke-width=".3"/></g>`}
+ s+=`<g role="img" aria-label="Steg zum Leuchtturm: ${n} von ${NPL} Planken">${pc}${gh}${bk}${pr}</g>`;
+ if(n>=NPL)s+=`<g fill="#fff6b0" opacity=".9">${pl.filter((p,k)=>k%3==0).map(p=>`<path d="M${fx1(p.x)} ${fx1(p.y-1.6)}l.4 1.1 1.1.4-1.1.4-.4 1.1-.4-1.1-1.1-.4 1.1-.4z"/>`).join('')}</g>`;
+ return`<svg class="sandbg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="false">${s}</svg>`}
+/* ---------- Zufälliger Strandschmuck: pro Seitenaufruf neu, auch die goldene Muschel (1 von 25) ---------- */
+const DEC={};let GOLDGONE=false;
+let GOLDLOT=Math.random()<1/25;
+function decor(m){if(DEC[m])return DEC[m];const g=GEO[m],R=Math.random,out=[],W=g.W,H=g.H;
+ const nS=2+Math.floor(R()*4),nC=1+Math.floor(R()*3),kinds=[...Array(nS).fill('s'),...Array(nC).fill('c')];if(GOLDLOT)kinds.push('g');
+ const rects=g.POS.map(p=>[p[0],p[1],g.bx+2,g.by+1]);rects.push([g.TMP[0],g.TMP[1],g.bx,g.by+2]);
+ const bx=g.B[0]/W*100,by=g.B[1]/H*100;rects.push([bx,by+4,10,9]);
+ for(const k of kinds){for(let t=0;t<400;t++){const x=8+R()*84,y=g.sh(x*W/100)/H*100+5+R()*(93-g.sh(x*W/100)/H*100-5);
+   if(y>92||rects.some(([a,b,hw,hh])=>Math.abs(a-x)<hw&&Math.abs(b-y)<hh))continue;if(out.some(o=>Math.hypot((o.x-x)*W/100,(o.y-y)*H/100)<(m=='w'?9:12)))continue;
+   out.push({k,x,y,r:Math.round(R()*40-20),d:(R()*5).toFixed(1),z:R()});break}}
+ return DEC[m]=out}
+const decHtml=m=>{const w=m=='w';return decor(m).map(o=>{
+  if(o.k=='g'){return GOLDGONE?'':`<button class="gold" style="left:${o.x.toFixed(1)}%;top:${o.y.toFixed(1)}%" onclick="goldFind()" aria-label="Eine glitzernde Muschel am Strand. Antippen!"><span class="gl" aria-hidden="true">✨</span>${GOLD}</button>`}
+  const sz=o.k=='c'?(w?2.8+o.z*.8:7+o.z*2):(w?2.3+o.z*1.1:5.6+o.z*2.2);
+  return`<span class="dc${o.k=='c'?' crab':''}" aria-hidden="true" style="left:${o.x.toFixed(1)}%;top:${o.y.toFixed(1)}%;font-size:${sz.toFixed(1)}cqw;--r:${o.k=='c'?0:o.r}deg;--d:-${o.d}s">${o.k=='c'?'🦀':'🐚'}</span>`}).join('')+GEO[m].palms.map(([x,y],i)=>`<span class="dc fg" aria-hidden="true" style="left:${x}%;top:${y}%;font-size:${w?7:15}cqw;--r:${i?8:-6}deg;--d:-${i*2}s">🌴</span>`).join('')};
+function popGold(){closePop(true);const o=document.createElement('div');o.id='pop';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Goldene Muschel gefunden');
+ o.innerHTML=`<div class="pbox"><div class="stage"><div class="rays" aria-hidden="true"></div><div class="halo" aria-hidden="true"></div><div class="pp art goldpp" aria-hidden="true">${GOLD}</div></div><p class="pt" role="status">Glückwunsch! Du hast die <b>seltene goldene Muschel</b> gefunden! ✨</p><p class="gsm">Sie versteckt sich nur ganz selten am Strand.</p><button class="big" id="pok" onclick="closePop(1);const b=document.querySelector('.pb');b&&b.focus({preventScroll:true})">Wow! 🎉</button></div>`;
+ document.body.appendChild(o);$('#pok').focus()}
+function goldFind(){GOLDGONE=true;const b=document.querySelector('.gold');b&&b.remove();popGold()}
+const AN=['hop','nod','bob','wobble','flap','flutter'];
+function hot(b){document.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot'));HOT=-1;if(b){HOT=+b.dataset.i;b.classList.add('hot')}}
+document.addEventListener('focusin',e=>{const b=e.target.closest&&e.target.closest('.pb');if(b&&b.matches(':focus-visible'))hot(b)});
+document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('.pb'))hot(null)});
+
+
+function map(){window.speechSynthesis&&speechSynthesis.cancel();HOT=-1;const t=total(),op=sunOpen(),m=WM.matches?'w':'p',g=GEO[m],n=planks();
+ const pos=(x,y)=>`left:${x}%;top:${y}%`;
+ const stn=PL.map((p,i)=>`<div class="pw" id="pw${i}" style="${pos(g.POS[i][0],g.POS[i][1])};z-index:${Math.round(g.POS[i][1])}"><button class="pb" data-i="${i}" onclick="lv(${i})" aria-label="${p.n}, ${p.f}: ${p.d}, ${pg(i)} von 9 Sternen" style="--an:${AN[i]}"><span class="st${pg(i)>=9?' fin':''}" style="${gl(i)}">${ring(i)}<span class="sd"></span><span class="an" style="--d:-${i*.7}s">${ico(i)}</span>${pg(i)>=9?'<span class="ok">✔</span>':''}</span><span class="sg">${p.n}<small>⭐ ${pg(i)} von 9</small></span></button></div>`).join('');
+ const bx=g.B[0]/g.W*100,by=g.B[1]/g.H*100;
+ M.innerHTML=`<div class="mapg sb"><div class="usr"><span>👤 ${esc(CUR)} · Klasse 3${isAd()?' · Admin':''}</span><button class="sec" onclick="ask()">Name wechseln</button></div><h1 class="ttl">🏖️ Strand-Mathe</h1><div class="hint"><p>Tippe auf ein Gebiet am Strand. Je mehr Sterne ⭐ ein Gebiet hat, desto heller leuchtet es! ✨</p><p class="stp"><b>🪵 Steg zum Leuchtturm: ${n} von ${NPL} Planken.</b> ${n>=NPL?'Der Steg ist fertig!':'Jedes geschaffte Level legt eine neue Planke.'}</p></div><div class="sys jm ${m}">${bgSvg(m)}${decHtml(m)}<span class="plk" aria-hidden="true" style="${pos(bx,by+(m=='w'?7:5))}">🪵 ${n}/${NPL}</span><button class="sun jt${op?'':' l'}" style="--an:wobble;${pos(g.TMP[0],g.TMP[1])}" onclick="sun()" aria-label="Leuchtturm${op?'':', verschlossen'}"><span class="st"><span class="sd"></span><span class="an">${LH}</span>${op?'':'<span class="lk">🔒</span>'}</span><span class="sg">Leuchtturm</span></button>${stn}</div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="rt">${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p><p class="c"><button class="sec" onclick="location.href='index.html'">🏠 Startseite</button></p></div></div>`}
+let WMV=WM.matches;const wmCh=()=>{if(WM.matches!==WMV){WMV=WM.matches;if(document.querySelector('.sys.jm')&&!document.querySelector('#pop'))map()}};
+WM.addEventListener?WM.addEventListener('change',wmCh):WM.addListener(wmCh);
+function sun(){if(!sunOpen()){$('#lk').innerHTML='🔒 Der Leuchtturm ist noch verschlossen. Spiele zuerst in jedem Gebiet mindestens eine Stufe durch. Es fehlen noch: <b>'+PL.filter((p,i)=>!U.c[i]).map(p=>p.n).join(', ')+'</b>';return}
+ const cnt={};P=-1;LV=0;T=sh([...draw(smP,0,3,cnt),...draw(sdP,0,3,cnt)]).map(norm);I=0;PT=0;RS=[];show()}
+
+function lv(i){P=i;const p=PL[i];M.innerHTML=`<button class="sec" onclick="map()">⬅ Zur Karte</button><div class="c"><div class="bigpl"><div class="gw" style="${gl(i)}">${pic(i)}</div></div><h1>${p.n}</h1></div><div class="card c"><p>${p.f}: ${p.d}</p><p>Wähle deine Stufe:</p>${L.map((x,l)=>`<p><button class="big" onclick="go(${l})">${LC[l]} ${x} ${stars(st(i,l))}</button></p>`).join('')}<p><small>Du kannst jede Stufe so oft üben, wie du möchtest. Die Aufgaben ändern sich dabei.</small></p></div>`}
+const norm=t=>{t={...t};if(t.o)t.o=sh(t.o);
+ if((t.t=='dd'||t.t=='img')&&!t.ns)t.it=sh(t.it);
+ if(t.t=='ord'){let a,n=0;do{a=sh(t.it);n++}while(n<20&&a.length>1&&a.every((x,i)=>x==t.s[i]));t.it=a}
+ if(t.t=='mem')t.cards=sh(t.pr.flatMap((p,i)=>[{i,s:p[0]},{i,s:p[1]}]));
+ if(t.t=='mat')t.rt=sh(t.pr.map((p,i)=>i));
+ return t};
+function go(l){LV=l;const g=PL[P].g(l);T=g.map(norm);I=0;PT=0;RS=[];g.intro?intro(g.intro):show()}
+let IX='';
+function intro(x){IX=x.tx;window.speechSynthesis&&speechSynthesis.cancel();M.innerHTML=`<div class="bar"><button class="sec" onclick="lv(${P})">⬅ Zurück</button><b>${PL[P].n} · Lesen</b></div><div class="card"><h2>📖 Lies den Text in Ruhe</h2><p>Gleich wird der Text versteckt. Dann beantwortest du Fragen dazu. Lies deshalb genau!</p><p class="tx">${x.tx}</p><p><button onclick="speak(plain(IX))">🔊 Vorlesen</button><button class="big" id="rdy" onclick="window.speechSynthesis&&speechSynthesis.cancel();show()">✔ Ich habe gelesen – Fragen starten</button></p><p id="fb" role="status" aria-live="polite"></p></div>`;scrollTo(0,0)}
+const fb=h=>{$('#fb').innerHTML=h};
+const num=a=>/^\d+$/.test(String(a).split('|')[0])?'inputmode="numeric"':'';
+function show(){const t=T[I];tr=0;sel=null;pl={};sq=[];ms=new Set();clearTimeout(mt);
+ M.innerHTML=`<div class="bar"><button class="sec" onclick="${P<0?'map()':'lv('+P+')'}">⬅ Zurück</button><b>${P<0?'💡 Leuchtturm':PL[P].n} · Aufgabe ${I+1} von ${T.length} · ⭐ ${PT} Punkte</b></div><div class="prog" role="progressbar" aria-valuenow="${Math.round(I*100/T.length)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${I*100/T.length}%"></i></div><div class="card"><button onclick="say()">🔊 Vorlesen</button><button class="sec" onclick="tip()">💡 Tipp</button>${t.tx?(t.hid?`<details class="tx" id="dtx"><summary>📖 Text noch einmal lesen</summary><p>${t.tx}</p></details>`:`<p class="tx">${t.tx}</p>`):''}<h2>${t.q}</h2>${t.v||''}<div id="a">${ui(t)}</div><p id="fb" role="status" aria-live="polite"></p><p id="nx"></p></div>`;
+ scrollTo(0,0);if(t.init)t.init();const i=$('#in')||$('.ins');if(i)i.focus()}
+function ui(t){
+ if(t.t=='cx')return t.html()+(t.nochk?'':'<p><button onclick="chk()">✔ Prüfen</button></p>');
+ if(t.t=='mc')return`<div class="opts n${t.o.length}">${t.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>`;
+ if(t.t=='in')return`<input id="in" ${nin()} maxlength="9" aria-label="Deine Antwort" onkeydown="if(event.key=='Enter')chk()"><button onclick="chk()">✔ Prüfen</button>${npad(hasC(t.a))}`;
+ if(t.t=='ins')return`<div class="insr">${t.parts.map(p=>typeof p=='string'?`<span>${p}</span>`:`<input class="ins" ${nin()} maxlength="${p.m||6}" aria-label="Lücke" onkeydown="if(event.key=='Enter')chk()">`).join('')}</div><button onclick="chk()">✔ Prüfen</button>${npad(t.ans.some(hasC))}`;
+ if(t.t=='dd')return ddui();
+ if(t.t=='ord')return ordui();
+ if(t.t=='img')return imgui();
+ if(t.t=='mem')return memui();
+ return matui()}
+/* ---------- Strand: Ziffernblock und eigene Aufgabenformate (cx) ---------- */
+let NIN=null;
+document.addEventListener('focusin',e=>{if(e.target.matches&&e.target.matches('#in,.ins'))NIN=e.target});
+const npad=c=>`<div class="np" role="group" aria-label="Zifferntasten">${[7,8,9,4,5,6,1,2,3].map(n=>`<button type="button" class="nk" onclick="npk('${n}')">${n}</button>`).join('')}<button type="button" class="nk sec" onclick="npk('⌫')" aria-label="Zeichen löschen">⌫</button><button type="button" class="nk" onclick="npk('0')">0</button>${c?`<button type="button" class="nk" onclick="npk(',')" aria-label="Komma">,</button>`:'<span></span>'}</div>`;
+function npk(c){const f=NIN&&document.body.contains(NIN)&&!NIN.disabled?NIN:document.querySelector('#in,.ins');if(!f||f.disabled)return;
+ if(c=='⌫')f.value=f.value.slice(0,-1);else if(f.value.length<(f.maxLength>0?f.maxLength:9)&&(c!=','||!f.value.includes(','))&&(c!=','||f.value.length))f.value+=c;
+ try{f.focus({preventScroll:true})}catch(e){}}
+const hasC=a=>String(a).includes(',');
+const nin=a=>`inputmode="none" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9,]/g,'')"`;
+const redo=()=>{$('#a').innerHTML=ui(T[I]);const t=T[I];t.init&&t.init()};
+
+/* Drag-and-drop (auch per Tippen/Tastatur) */
+const chip=(k,x)=>`<button class="chip${sel===k?' on':''}" draggable="true" ondragstart="event.dataTransfer.setData('text',${k})" onclick="selc(${k})">${x[0]}</button>`;
+function ddui(){const t=T[I],e=`<i>Alle Wörter sind sortiert.</i>`;
+ return`<p><small>Tippe ein Feld an und dann auf die richtige Gruppe. Du kannst es auch ziehen.</small></p><div class="pool" ondragover="event.preventDefault()" ondrop="drop(event,-1)">${t.it.map((x,k)=>pl[k]===undefined?chip(k,x):'').join('')||e}</div><div class="bk">${t.b.map((b,j)=>`<div class="bkt" ondragover="event.preventDefault()" ondrop="drop(event,${j})"><button class="sec" onclick="put(${j})">📥 ${b}</button><br>${t.it.map((x,k)=>pl[k]===j?chip(k,x):'').join('')}</div>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+function selc(k){if(pl[k]!==undefined){delete pl[k];sel=null}else sel=k;redo()}
+function put(j){if(sel!==null){pl[sel]=j;sel=null;redo()}else fb('Tippe zuerst ein Feld an. 👆')}
+function drop(e,j){e.preventDefault();const k=+e.dataTransfer.getData('text');if(j<0)delete pl[k];else pl[k]=j;sel=null;redo()}
+/* Reihenfolge */
+function ordui(){const t=T[I];
+ return`<p><small>Tippe die Karten in der richtigen Reihenfolge an. Tippe auf eine Karte in der Reihe, um sie zurückzulegen.</small></p><div class="seq" aria-label="Deine Reihe">${sq.map((k,n)=>`<button class="chip sel" onclick="ordB(${k})"><b>${n+1}</b> ${t.it[k]}</button>`).join('')||'<i>Noch leer</i>'}</div><div class="pool">${t.it.map((x,k)=>sq.includes(k)?'':`<button class="chip" onclick="ordA(${k})">${x}</button>`).join('')||'<i>Alle Karten liegen in der Reihe.</i>'}</div><button onclick="chk()">✔ Prüfen</button><button class="sec" onclick="sq=[];redo()">↩ Neu anfangen</button>`}
+const f1=()=>{const f=document.querySelector('#a .pool .chip');f&&f.focus()};
+function ordA(k){sq.push(k);redo();f1()}
+function ordB(k){sq=sq.filter(x=>x!=k);redo();f1()}
+/* Felder anklicken (Mehrfachauswahl) */
+function imgui(){const t=T[I];
+ return`<p><small>Tippe alle richtigen Felder an. Tippe noch einmal, um ein Feld abzuwählen.</small></p><div class="imgs${t.cls?' '+t.cls:''}">${t.it.map((x,k)=>`<button class="im${x[0]?'':' txt'}" data-k="${k}" aria-pressed="${ms.has(k)}" onclick="imgT(${k})">${x[0]?`<span class="e">${x[0]}</span>`:''}<span class="n">${x[1]}</span></button>`).join('')}</div><button onclick="chk()">✔ Prüfen</button>`}
+function imgT(k){ms.has(k)?ms.delete(k):ms.add(k);document.querySelector(`.im[data-k="${k}"]`).setAttribute('aria-pressed',ms.has(k))}
+/* Memo */
+function memui(){const t=T[I];mm={open:[],done:new Set,mis:0,busy:false};
+ return`<p><small>Decke zwei Karten auf. Finde alle Paare!</small></p><div class="mg">${t.cards.map((c,k)=>`<button class="mcd" onclick="memC(${k})" aria-label="Karte ${k+1}, verdeckt">⭐</button>`).join('')}</div><p><small id="mst">Versuche: 0</small></p>`}
+function memR(){const t=T[I];document.querySelectorAll('.mcd').forEach((b,k)=>{const up=mm.open.includes(k),dn=mm.done.has(k);b.className='mcd'+(dn?' dn':up?' up':'');b.textContent=up||dn?t.cards[k].s:'⭐';b.setAttribute('aria-label',up||dn?plain(t.cards[k].s):'Karte '+(k+1)+', verdeckt')});const s=$('#mst');if(s)s.textContent='Versuche: '+mm.mis}
+function memC(k){const t=T[I];if(mm.busy||mm.done.has(k)||mm.open.includes(k))return;mm.open.push(k);memR();
+ if(mm.open.length<2)return;const[a,b]=mm.open;
+ if(t.cards[a].i==t.cards[b].i){mm.done.add(a);mm.done.add(b);mm.open=[];memR();if(mm.done.size==t.cards.length)pairsDone(mm.mis);else fb('✅ Ein Paar gefunden!')}
+ else{mm.mis++;mm.busy=true;fb('Das passt nicht zusammen. Merke dir die Karten!');mt=setTimeout(()=>{mm.open=[];mm.busy=false;memR()},1000)}}
+/* Zuordnen */
+function matui(){const t=T[I];mm={a:null,done:new Set,mis:0};
+ return`<p><small>Tippe links ein Feld an und dann rechts das passende Feld.</small></p><div class="mat"><div>${t.pr.map((p,i)=>`<button class="mt" data-s="L" data-i="${i}" onclick="matL(${i})">${p[0]}</button>`).join('')}</div><div>${t.rt.map(i=>`<button class="mt" data-s="R" data-i="${i}" onclick="matP(${i})">${t.pr[i][1]}</button>`).join('')}</div></div>`}
+function matU(){document.querySelectorAll('.mt').forEach(b=>{const i=+b.dataset.i;b.className='mt'+(mm.done.has(i)?' dn':b.dataset.s=='L'&&mm.a===i?' on':'')})}
+function matL(i){if(mm.done.has(i))return;mm.a=mm.a===i?null:i;matU()}
+function matP(j){const t=T[I];if(mm.done.has(j))return;if(mm.a===null)return fb('Tippe zuerst links ein Feld an. 👈');
+ if(mm.a===j){mm.done.add(j);mm.a=null;matU();if(mm.done.size==t.pr.length)pairsDone(mm.mis);else fb('✅ Das passt!')}
+ else{mm.mis++;mm.a=null;matU();fb('Das passt nicht. Versuche es noch einmal!')}}
+function pairsDone(mis){tr=mis>2?1:0;fin(true,'','')}
+/* Prüfen */
+function pick(k){const t=T[I],ok=t.o[k]==t.a;if(!ok)document.querySelectorAll('.opt')[k].disabled=true;fin(ok,t.a,t.o[k])}
+const eq=(v,a,cs)=>a.split('|').some(x=>cs?v==x:v.toLowerCase()==x.toLowerCase());
+function chk(){const t=T[I];let ok,ans,g;
+ if(t.t=='cx'){const r=t.chk();if(r.msg)return fb(r.msg);ok=r.ok;ans=r.ans;g=r.g;if(!ok&&t.fix)t.fix()}
+ else if(t.t=='in'){const v=$('#in').value.trim();if(!v)return fb('Schreibe zuerst deine Antwort auf. ✏️');g=v;ans=t.a.split('|')[0];ok=eq(v,t.a,t.cs)}
+ else if(t.t=='ins'){const v=[...document.querySelectorAll('.ins')].map(i=>i.value.trim());if(v.some(x=>!x))return fb('Fülle zuerst alle Lücken aus. ✏️');g=v.join(', ');ans=t.ans.map(a=>a.split('|')[0]).join(', ');ok=v.every((x,i)=>eq(x,t.ans[i]))}
+ else if(t.t=='ord'){if(sq.length<t.it.length)return fb('Lege zuerst alle Karten in die Reihe. 😊');const w=sq.map(k=>t.it[k]);ok=w.every((x,i)=>x==t.s[i]);g=w.join(' → ');ans=t.s.join(' → ');if(!ok){let n=0;while(n<w.length&&w[n]==t.s[n])n++;sq=sq.slice(0,n);redo()}}
+ else if(t.t=='img'){if(!ms.size)return fb('Tippe zuerst auf mindestens ein Feld. 👆');const good=t.it.map((x,k)=>x[2]?k:-1).filter(k=>k>=0),bad=[...ms].filter(k=>!good.includes(k));ok=!bad.length&&good.every(k=>ms.has(k));g=[...ms].map(k=>plain(t.it[k][1])).join(', ');ans=good.map(k=>plain(t.it[k][1])).join(', ');if(!ok){bad.forEach(k=>ms.delete(k));redo()}}
+ else{if(Object.keys(pl).length<t.it.length)return fb('Sortiere zuerst alle Felder ein! 😊');const bad=t.it.map((x,k)=>k).filter(k=>pl[k]!==t.it[k][1]);ok=!bad.length;g=bad.map(k=>t.it[k][0]).join(', ');bad.forEach(k=>delete pl[k]);ans=t.it.map(x=>x[0]+' → '+t.b[x[1]]).join('<br>');if(!ok)redo()}
+ fin(ok,ans,g)}
+function lock(){const t=T[I];document.querySelectorAll('#a button,#a input').forEach(b=>b.disabled=true);document.querySelectorAll('.opt').forEach(b=>{if(b.textContent==t.a)b.classList.add('good')});if(t.t=='img')document.querySelectorAll('.im').forEach(b=>{if(t.it[+b.dataset.k][2])b.classList.add('good')});$('#nx').innerHTML=`<button class="big" onclick="nxt()">${I<T.length-1?'Weiter ➡':'Fertig 🏁'}</button>`;$('#nx button').focus()}
+function fin(ok,ans,g){const t=T[I];tr++;if(!isAd()){if(ok||tr>1)U.n++;if(ok&&tr==1)U.r++;if(!ok)U.f.push({p:P,l:LV,q:plain(t.q).slice(0,90),a:plain(String(ans).replace(/<br>/g,'; ')),g:g||''});U.f=U.f.slice(-80);save()}
+ if(ok){const p=tr==1?10:5;PT+=p;RS.push(tr);fb(`✅ ${['Super!','Toll gemacht!','Richtig!','Spitze!'][R(0,3)]} +${p} Punkte`);lock()}
+ else if(tr==1)fb('🤔 Das war noch nicht richtig. Aus Fehlern lernt man! Versuche es noch einmal. Der Tipp 💡 hilft dir.');
+ else{RS.push(0);fb(`Das war knifflig! Die richtige Lösung:<br><b>${ans}</b><br>💡 ${t.h}`);lock()}}
+function nxt(){I++;I<T.length?show():res()}
+function tip(){fb('💡 '+T[I].h)}
+const optsOf=t=>t.t=='cx'?(t.say||[]):t.o?t.o:t.t=='dd'?t.it.map(x=>x[0]):t.t=='img'?t.it.map(x=>x[1]):t.t=='ord'?t.it:t.t=='mat'?[...t.pr.map(p=>p[0]),...t.rt.map(i=>t.pr[i][1])]:[];
+function speak(txt){if(!('speechSynthesis' in window)){return fb('Vorlesen geht in diesem Browser leider nicht. Bitte lies selbst oder lass dir vorlesen. 📖')}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='de-DE';u.rate=.85;speechSynthesis.speak(u)}
+function say(){const t=T[I],o=optsOf(t),extra=t.parts?' '+t.parts.map(p=>typeof p=='string'?p:' Lücke ').join(''):'',d=$('#dtx'),tx=t.tx&&(!t.hid||(d&&d.open))?t.tx:'';
+ speak(plain(tx+' '+t.q+extra+(o.length?'. Felder: '+o.join(', '):'')).replace(/\+/g,' plus ').replace(/−/g,' minus ').replace(/=/g,' gleich ').replace(/€/g,' Euro ').replace(/_+/g,' Lücke ').replace(/×/g,' mal ').replace(/ : /g,' geteilt durch '))}
+function res(){const mx=T.length*10,s=PT>=mx*.9?3:PT>=mx*.6?2:PT>=mx*.3?1:0;POPQ=[];
+ if(P>=0){const b0=nParts(total());D[''+P+LV]=Math.max(st(P,LV),s);U.c[P]=1;save();for(let k=b0;k<nParts(total());k++)POPQ.push(k)}
+ M.innerHTML=`<div class="card c"><h1>${['Weiter üben! 💪','Gut gemacht! 🎉','Sehr gut! 🌟','Strandprofi! 🏖️'][s]}</h1><p class="big">${stars(s)}</p><p><b>${PT} von ${mx} Punkten</b></p>${s==0?'<p>Jeder Fehler hilft dir beim Lernen. Versuche es gleich noch einmal!</p>':''}<ul>${T.map((t,k)=>`<li>${RS[k]==1?'✅':RS[k]==2?'🟡':'❌'} ${plain(t.q).slice(0,70)}</li>`).join('')}</ul><p><small>✅ gleich richtig · 🟡 im 2. Versuch richtig · ❌ nochmal üben</small></p><button class="big" onclick="${P<0?'sun()':'go('+LV+')'}">🔁 Nochmal</button>${P<0?'':`<button class="big sec" onclick="lv(${P})">Andere Stufe</button>`}<button class="big sec" onclick="map()">🗺️ Zur Karte</button></div>`;
+ scrollTo(0,0);if(POPQ.length)setTimeout(()=>popPart(POPQ.shift()),600)}
+function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick="map()">⬅ Zur Karte</button><div class="card c"><h1>📜 Urkunde</h1><p>für</p><p class="nm" id="nm">Strand-Mathematiker/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Strand-Mathematiker/in'"></label></p><p>hat bei der Strand-Mathewelt <b>${t} von 54 Sternen</b> gesammelt!</p><span class="cslots">${slots(t,1)}</span><p>${PL.map((p,i)=>`${ico(i)} ${p.n}: ${pg(i)} von 9 ⭐`).join('<br>')}</p><p>Herzlichen Glückwunsch! 🎉</p></div><button class="noprint big" onclick="print()">🖨️ Drucken</button>`}
+
+
+const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const isAd=()=>CUR.toLowerCase()==ADM,sunOpen=()=>isAd()||[0,1,2,3,4,5].every(i=>U.c[i]);
+function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;
+ U=isAd()?{d:{},c:{},f:[],n:0,r:0}:(DB.u[CUR]=DB.u[CUR]||{d:{},c:{},f:[],n:0,r:0});D=U.d;DB.cur=isAd()?'':CUR;save();
+ const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
+ if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="rs()">📊 Ergebnisse anzeigen</button>');map()}
+function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o)}
+function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>👋 Willkommen!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Muschelkrabbe“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><button class="big" onclick="okName()">🏖️ Los geht’s</button><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p>'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(''):''}</div>`);const u=$('#un');u&&u.focus()}
+/* ---------- Namensregel: nur Geheimnamen ---------- */
+const NF=s=>s.toLowerCase().replace(/ß/g,'ss').replace(/[äàá]/g,'a').replace(/[öòó]/g,'o').replace(/[üùú]/g,'u').replace(/[éè]/g,'e');
+const RN=new Set(NF("emma mia hannah hanna sophia sofia sophie emilia lina marie lea leonie lena anna clara klara johanna laura lara amelie mila ella nele charlotte maja maya luisa louisa paula pia lilly lilli lia julia sarah sara zoe nora greta frieda frida ida merle jana lisa katharina katja selina celina emily chiara elena eva jule finja fiona alina mara marlene tessa carla helena isabell isabella josefine leni matilda mathilda melina mira nina rosa ronja sina stella svenja theresa vanessa viktoria victoria yasmin zeynep ayla elif fatma aylin amira leyla alexandra anja andrea sabine petra monika claudia sandra nicole melanie christina kristina jessica jasmin anke birgit susanne katrin lotta emmi inga jette olivia sonja tina nadine miriam annika mareike noah ben leon elias paul finn fynn felix luis louis lukas luca luka jonas maximilian max henry henri emil anton theo oskar oscar moritz jakob jacob liam niklas nico nils tim tom jan jannik jannis david daniel julian samuel simon philipp tobias matteo mattis milan mohammed muhammad ali mustafa yusuf emir eren can ahmet mehmet alexander johannes fabian florian sebastian marcel dennis kevin patrick marvin lennard leonard linus levi mats malte marlon jonathan justus konstantin vincent karl carl hugo rafael raphael erik eric jannes jakub michael thomas stefan andreas christian peter markus frank jurgen klaus hans wolfgang uwe ralf dirk jens torsten bernd matthias martin sven kai lars timo dominik benjamin joshua jason ole juri tristan valentin ferdinand fritz otto ludwig bruno arthur adrian aaron leo leandro lenny luan noel nelson mika mikail enzo ismail ibrahim omar hamza murat kerem emre burak muller schmidt schneider fischer weber meyer wagner becker schulz hoffmann schafer koch bauer richter schroder neumann zimmermann kruger hofmann hartmann lange schmitt werner schmitz krause meier lehmann schmid schulze maier kohler herrmann konig walter mayer huber kaiser peters lang scholz moller schubert friedrich keller gunther berger winkler lorenz baumann franke albrecht schuster simon ludwig bohm kraus schumacher kramer vogt jager seidel heinrich brandt haas schreiber graf schulte dietrich ziegler kuhn pohl bergmann voigt sauer arnold pfeiffer yilmaz kaya demir sahin celik yildiz ozturk arslan dogan kilic aydin nowak kowalski wojcik kaminski lewandowski kastner").split(' '));
+const isReal=n=>n.replace(/([a-zäöüß])([A-ZÄÖÜ])/g,'$1 $2').split(/[^a-zA-ZäöüÄÖÜß]+/).map(NF).some(x=>x.length>1&&RN.has(x));
+const nameErr=v=>{if(v.toLowerCase()==ADM)return'';if(v.length<2)return'Bitte schreibe mindestens 2 Zeichen.';if(/\s/.test(v))return'Bitte nur ein Wort, ohne Leerzeichen. Beispiel: Muschelkrabbe';if(/@|\d{4,}/.test(v))return'Bitte keine E-Mail-Adresse und keine Telefonnummer.';return isReal(v)?'Das sieht nach einem echten Namen aus. Denke dir einen Geheimnamen aus, zum Beispiel „Muschelkrabbe“.':''};
+function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
+function rs(){ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="$('#ov').remove()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${Object.values(u.d).reduce((a,b)=>a+b,0)} von 54 · ${u.r} von ${u.n} Aufgaben gleich richtig · ${u.f.length} Fehler</summary><p>${PL.map((p,i)=>`${p.n}: ${[0,1,2].map(l=>LC[l]+' '+(u.d[''+i+l]||0)+'⭐').join(' ')}`).join('<br>')}</p>${u.f.length?`<div style="overflow-x:auto"><table><tr><th>Gebiet</th><th>Stufe</th><th>Aufgabe</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${f.p<0?'Leuchtturm':PL[f.p].n}</td><td>${f.p<0?'–':L[f.l]}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();rs()}">🗑️ Alle Daten löschen</button></div>`)}
+function rst(){if(confirm('Möchtest du wirklich deine Sterne löschen?')){U.d={};U.c={};U.f=[];U.n=0;U.r=0;D=U.d;save();map()}}
+(()=>{const e=document.createElement('style');e.textContent='@media screen{body{background:radial-gradient(1100px 650px at 15% -5%,#1fa3c4 0,transparent 62%),radial-gradient(900px 700px at 95% 105%,#128aa6 0,transparent 62%),#0a4f6b;background-attachment:fixed}}';document.head.appendChild(e)})();
+
+DB.cur&&DB.u[DB.cur]?login(DB.cur):(map(),ask());
+try{if(sessionStorage.getItem('warp')){sessionStorage.removeItem('warp');const w=document.createElement('div');w.id='wx';document.body.appendChild(w);setTimeout(()=>w.remove(),1000)}}catch(e){}
+</script>
+</body>
+</html>
