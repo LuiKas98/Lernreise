@@ -59,6 +59,14 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .lg .nm{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:.4em}
 .lg.nudge{animation:nudge .6s}
 .lg #lg-nm{font-weight:900;color:#ffe566}
+/* Anmelde-Fenster: Hintergrund abgedunkelt und gesperrt */
+.lgov{position:fixed;inset:0;z-index:200;background:rgba(6,4,30,.88);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto;overscroll-behavior:contain}
+.lgov[hidden]{display:none}
+.lgov .lg{text-align:center;margin:auto;width:min(520px,100%);background:linear-gradient(160deg,#3a2c94,#241a6b);border:2px solid #ffd23f;border-radius:24px;box-shadow:0 14px 0 #0006,0 0 60px #000a;padding:20px 18px;animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.88);opacity:0}to{transform:none;opacity:1}}
+.who{margin:.9em auto 0;font-weight:700}.who #who-nm{color:#ffe566;font-weight:900}.who .lb{margin-left:.4em}
+.lg.nudge{animation:nudge .6s}
+@media(prefers-reduced-motion:reduce){.lgov .lg{animation:none}}
 /* Klassenwahl */
 .kl{margin:1.4em auto .2em;max-width:560px}
 .kl h2{margin:0 0 .5em;font-size:1.1em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#cfd8ff;opacity:.95}
@@ -123,20 +131,8 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Sachunterricht, Kunst und Musik und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier oder im Konzerthaus) und tippe auf das Portal. Viel Spaß!</p>
  </div>
 
- <section class="lg" id="login" aria-labelledby="lg-h">
-  <h2 id="lg-h">Wer bist du?</h2>
-  <div id="lg-form">
-   <p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Sternenfuchs“.</p>
-   <p><b>Schreibe nicht deinen echten Namen!</b></p>
-   <div class="lrow"><input id="lg-in" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Dein Geheimname"><button class="lb" id="lg-go" type="button">Los geht’s</button></div>
-   <p id="lg-err" role="alert"></p>
-   <div id="lg-names"></div>
-  </div>
-  <div id="lg-hi" hidden>
-   <p>Hallo, <span id="lg-nm"></span>! 👋</p>
-   <p><button class="lb s" id="lg-out" type="button">Name wechseln</button></p>
-  </div>
- </section>
+ <p class="who" id="who" hidden><span aria-hidden="true">👤</span> <span id="who-nm"></span> <button class="lb s" id="lg-out" type="button">Name wechseln</button></p>
+
 
  <section class="kl" id="klasse" aria-labelledby="kl-h">
   <h2 id="kl-h">In welche Klasse gehst du?</h2>
@@ -212,6 +208,17 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  </svg>
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
+<div class="lgov" id="lgov" hidden>
+ <div class="lg" role="dialog" aria-modal="true" aria-labelledby="lg-h">
+  <h2 id="lg-h">Wer bist du?</h2>
+  <p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Sternenfuchs“.</p>
+  <p><b>Schreibe nicht deinen echten Namen!</b></p>
+  <div class="lrow"><input id="lg-in" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Dein Geheimname"><button class="lb" id="lg-go" type="button">Los geht’s</button></div>
+  <p id="lg-err" role="alert"></p>
+  <div id="lg-names"></div>
+  <p><button class="lb s" id="lg-cancel" type="button" hidden>Abbrechen</button></p>
+ </div>
+</div>
 
 <script>
 const TAU=Math.PI*2,RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -492,17 +499,22 @@ try{USER=(localStorage.getItem(SKEY)||'').trim()}catch(_){}
 if(USER&&nameErr(USER))USER='';
 function alleNamen(){const s=new Set();try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!k||k==SKEY||k=='kastner-klasse')continue;let v;try{v=JSON.parse(localStorage.getItem(k))}catch(_){continue}if(v&&typeof v=='object'&&v.u&&typeof v.u=='object')Object.keys(v.u).forEach(x=>{if(x&&!nameErr(x)&&x.toLowerCase()!=ADM)s.add(x)})}}catch(_){}return[...s].sort((a,b)=>a.localeCompare(b,'de'))}
 function setUser(n){USER=n;try{n?localStorage.setItem(SKEY,n):localStorage.removeItem(SKEY)}catch(_){}zeigeL();zeigeK()}
-function zeigeL(){
- $('#lg-form').hidden=!!USER;$('#lg-hi').hidden=!USER;
- if(USER){$('#lg-nm').textContent=USER.toLowerCase()==ADM?'Herr Kastner':USER;$('#lg-h').textContent='Angemeldet'}
- else{$('#lg-h').textContent='Wer bist du?';const N=alleNamen(),b=$('#lg-names');
+function sperre(on){for(const el of document.body.children){if(el.id=='lgov'||el.id=='toast'||el.tagName=='SCRIPT')continue;on?el.setAttribute('inert',''):el.removeAttribute('inert')}document.body.style.overflow=on?'hidden':''}
+function zeigeL(open){
+ const show=!USER||open===true;
+ $('#who').hidden=!USER;if(USER)$('#who-nm').textContent=USER.toLowerCase()==ADM?'Herr Kastner':USER;
+ $('#lgov').hidden=!show;sperre(show);$('#lg-cancel').hidden=!USER;
+ if(show){$('#lg-err').textContent='';const N=alleNamen(),b=$('#lg-names');
   b.innerHTML=N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p><div class="nm">'+N.map((n,i)=>'<button class="lb s" type="button" data-n="'+i+'">'+esc(n)+'</button>').join('')+'</div>':'';
-  b.querySelectorAll('button').forEach(x=>x.addEventListener('click',()=>setUser(N[+x.dataset.n])))}}
+  b.querySelectorAll('button').forEach(x=>x.addEventListener('click',()=>setUser(N[+x.dataset.n])));
+  setTimeout(()=>{const i=$('#lg-in');i&&i.focus({preventScroll:true})},60)}}
 function anmelden(){const v=nrm($('#lg-in').value),e=nameErr(v);$('#lg-err').textContent=e;if(e||!v)return;
  const ex=alleNamen().find(x=>x.toLowerCase()==v.toLowerCase());setUser(v.toLowerCase()==ADM?'Herr Kastner':ex||v)}
 $('#lg-go').addEventListener('click',anmelden);$('#lg-in').addEventListener('keydown',e=>{if(e.key=='Enter')anmelden()});
-$('#lg-out').addEventListener('click',()=>{setUser('');$('#lg-in').value='';$('#lg-in').focus()});
-function nudgeLogin(){sag('👆 Schreibe zuerst deinen Geheimnamen auf.');const l=$('#login');l.classList.remove('nudge');void l.offsetWidth;l.classList.add('nudge');l.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});setTimeout(()=>{l.classList.remove('nudge');const i=$('#lg-in');i&&!i.closest('[hidden]')&&i.focus({preventScroll:true})},700)}
+$('#lg-out').addEventListener('click',()=>{$('#lg-in').value='';zeigeL(true)});
+$('#lg-cancel').addEventListener('click',()=>zeigeL(false));
+addEventListener('keydown',e=>{if(e.key=='Escape'&&USER&&!$('#lgov').hidden)zeigeL(false)});
+function nudgeLogin(){zeigeL(true)}
 
 /* ---------- Klassenwahl (wird nur in diesem Browser gemerkt) ---------- */
 let K=0;const KEY='kastner-klasse';
@@ -513,7 +525,7 @@ function zeigeK(){
  for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id);
   if(K&&USER){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
    $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
-  else{a.setAttribute('href',USER?'#klasse':'#login');a.setAttribute('aria-label',nm+': '+fach+(USER?'. Wähle zuerst deine Klasse.':'. Melde dich zuerst an.'));
+  else{a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': '+fach+(USER?'. Wähle zuerst deine Klasse.':'. Melde dich zuerst an.'));
    $('#s-'+id).textContent=fach+' · Klasse 1 bis 4';bd.classList.remove('on')}}
  $('#kl-hint').textContent=K?'Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.':'Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'
 }
