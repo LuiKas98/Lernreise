@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Herr Kastners Lernapps</title>
-<meta name="description" content="Lernspiele für Mathe, Deutsch, Heimat- und Sachunterricht und Kunst, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan oder im Pariser Künstleratelier.">
+<meta name="description" content="Lernspiele für Mathe, Deutsch, Heimat- und Sachunterricht, Kunst und Musik, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier oder im Konzerthaus.">
 <style>
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:#0a1040}
@@ -31,7 +31,7 @@ h1{margin:.1em 0 .1em;font:900 min(2.6em,9vw)/1.1 "Baloo 2","Fredoka","Arial Rou
 h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#cfd8ff;opacity:.9}
 /* Portale */
 .portals{display:grid;grid-template-columns:1fr;justify-items:center;column-gap:20px}
-@media(min-width:880px){.portals{grid-template-columns:1fr 1fr}.pcard h3{font-size:1.45em}.pcard:last-child{grid-column:1/-1}}
+@media(min-width:880px){.portals{grid-template-columns:1fr 1fr}.pcard h3{font-size:1.45em}.pcard:last-child:nth-child(odd){grid-column:1/-1}}
 .pcard{display:flex;flex-direction:column;align-items:center;color:inherit;text-decoration:none;margin:10px auto 34px;width:min(480px,100%);-webkit-tap-highlight-color:transparent}
 .pcard:focus-visible{outline:none}
 .pt{position:relative;width:min(380px,92vw);aspect-ratio:1;border-radius:50%}
@@ -71,6 +71,7 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .warp.gr{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0c4a22,#02140a 75%)!important}
 .warp.st{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0b7f8a,#032a31 75%)!important}
 .warp.at{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#b8307a,#1d0b45 75%)!important}
+.warp.ko{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#7a1228,#1a0308 75%)!important}
 .warp.vk{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#a8260c,#1a0402 75%)!important}
 .warp{position:fixed;inset:0;width:100%;height:100%;z-index:100;opacity:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0b1260,#02030f 75%);animation:wi .5s forwards}
 @keyframes wi{to{opacity:1}}
@@ -105,7 +106,7 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  <h1>Herr Kastners Lernapps</h1>
  <div class="hi">
   <p><b>Hallo, du kleiner Entdecker, hallo, du kleine Entdeckerin!</b> 👋</p>
-  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Sachunterricht und Kunst und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan oder im Künstleratelier) und tippe auf das Portal. Viel Spaß!</p>
+  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Sachunterricht, Kunst und Musik und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier oder im Konzerthaus) und tippe auf das Portal. Viel Spaß!</p>
  </div>
 
  <section class="kl" id="klasse" aria-labelledby="kl-h">
@@ -152,6 +153,12 @@ h2.pick{margin:1.6em 0 .2em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <div class="pt"><canvas data-scene="atelier" aria-hidden="true"></canvas><span class="badge" id="b-atelier" aria-hidden="true"><small>Klasse</small><b></b></span></div>
   <h3>🎨 Atelier Montmartre</h3>
   <p class="sub" id="s-atelier">Farben, Künstler und Kunst · Klasse 1 bis 4</p>
+  <span class="go">Los geht’s!</span>
+ </a>
+ <a class="pcard" id="c-konzert" href="#klasse" aria-label="Konzerthaus: Instrumente, Noten, Rhythmus und eigene Musik. Wähle zuerst deine Klasse.">
+  <div class="pt"><canvas data-scene="konzert" aria-hidden="true"></canvas><span class="badge" id="b-konzert" aria-hidden="true"><small>Klasse</small><b></b></span></div>
+  <h3>🎼 Konzerthaus</h3>
+  <p class="sub" id="s-konzert">Musik hören, spielen und erfinden · Klasse 1 bis 4</p>
   <span class="go">Los geht’s!</span>
  </a>
  </div>
@@ -345,6 +352,41 @@ function szeneAtelier(g,c,R,t,hov,p){
 }
 const rimAtelier=['#ff8fb1','#ffd36e','#ffffff'];
 
+/* ---------- Szene: Konzerthaus (Bühne mit Samtvorhang, Flügel, Kronleuchter, aufsteigende Noten) ---------- */
+function szeneKonzert(g,c,R,t,hov,p){
+ if(!p.nt){p.nt=Array.from({length:9},(_,i)=>({a:rnd()*TAU,x:-.7+rnd()*1.4,s:.12+rnd()*.2,z:.1+rnd()*.07,k:i%3}));p.tw=Array.from({length:14},()=>({x:rnd()*2-1,ph:rnd()*TAU}))}
+ const X=(v)=>c+R*v;
+ let q=g.createLinearGradient(0,c-R,0,c+R*1.1);q.addColorStop(0,'#1a050c');q.addColorStop(.55,'#4e0a18');q.addColorStop(1,'#2a0710');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ /* Bühnenbogen aus Gold */
+ g.strokeStyle='#e9c46a';g.lineWidth=Math.max(2,R*.035);g.beginPath();g.moveTo(X(-.82),X(.5));g.lineTo(X(-.82),X(-.18));g.quadraticCurveTo(X(0),X(-1.05),X(.82),X(-.18));g.lineTo(X(.82),X(.5));g.stroke();
+ g.fillStyle='#14040a';g.beginPath();g.moveTo(X(-.76),X(.5));g.lineTo(X(-.76),X(-.16));g.quadraticCurveTo(X(0),X(-.95),X(.76),X(-.16));g.lineTo(X(.76),X(.5));g.closePath();g.fill();
+ /* Lichtkegel */
+ q=g.createLinearGradient(0,c-R*.9,0,c+R*.45);q.addColorStop(0,'rgba(255,236,170,.55)');q.addColorStop(1,'rgba(255,236,170,.05)');g.fillStyle=q;g.beginPath();g.moveTo(X(-.07),X(-.9));g.lineTo(X(.07),X(-.9));g.lineTo(X(.62),X(.46));g.lineTo(X(-.62),X(.46));g.closePath();g.fill();
+ /* Kronleuchter */
+ g.strokeStyle='#e9c46a';g.lineWidth=Math.max(1.2,R*.012);g.beginPath();g.moveTo(X(0),X(-1.05));g.lineTo(X(0),X(-.8));g.stroke();
+ g.lineWidth=Math.max(2,R*.03);g.beginPath();g.ellipse(X(0),X(-.78),R*.2,R*.05,0,0,TAU);g.stroke();g.beginPath();g.ellipse(X(0),X(-.7),R*.12,R*.03,0,0,TAU);g.stroke();
+ for(let i=0;i<7;i++){const a=-.18+i*.06,tw=.5+.5*Math.sin(t*2.4+i*1.7);g.globalAlpha=.55+.45*tw;g.fillStyle='#fff2c9';g.beginPath();g.moveTo(X(a*3.3),X(-.74));g.lineTo(X(a*3.3-.012),X(-.68));g.lineTo(X(a*3.3),X(-.6));g.lineTo(X(a*3.3+.012),X(-.68));g.closePath();g.fill()}
+ g.globalAlpha=1;
+ /* Vorhänge */
+ for(const sd of [-1,1]){g.fillStyle='#8a1030';g.beginPath();g.moveTo(X(sd*1.3),X(-1.3));g.lineTo(X(sd*.62),X(-1.3));g.quadraticCurveTo(X(sd*.8),X(-.3),X(sd*.7),X(.5));g.lineTo(X(sd*1.3),X(.5));g.closePath();g.fill();
+  g.strokeStyle='rgba(40,0,10,.45)';g.lineWidth=Math.max(1,R*.012);for(let i=0;i<5;i++){g.beginPath();g.moveTo(X(sd*(.7+i*.12)),X(-1.2));g.quadraticCurveTo(X(sd*(.78+i*.12)),X(-.2),X(sd*(.72+i*.12)),X(.5));g.stroke()}}
+ g.fillStyle='#e9c46a';g.beginPath();g.moveTo(X(-1.3),X(-.98));g.quadraticCurveTo(X(0),X(-1.28),X(1.3),X(-.98));g.lineTo(X(1.3),X(-1.08));g.quadraticCurveTo(X(0),X(-1.38),X(-1.3),X(-1.08));g.closePath();g.fill();
+ /* Bühnenboden */
+ q=g.createLinearGradient(0,X(.38),0,X(.62));q.addColorStop(0,'#c98a4a');q.addColorStop(1,'#6a3a18');g.fillStyle=q;g.beginPath();g.moveTo(X(-.9),X(.62));g.lineTo(X(-.74),X(.38));g.lineTo(X(.74),X(.38));g.lineTo(X(.9),X(.62));g.closePath();g.fill();
+ /* Flügel */
+ g.save();g.translate(X(.02),X(.34));g.fillStyle='#0c0508';g.beginPath();g.moveTo(-R*.5,0);g.lineTo(-R*.5,-R*.14);g.quadraticCurveTo(-R*.42,-R*.34,-R*.1,-R*.4);g.lineTo(R*.34,-R*.5);g.quadraticCurveTo(R*.48,-R*.4,R*.4,-R*.2);g.lineTo(R*.4,-R*.14);g.lineTo(R*.5,-R*.14);g.lineTo(R*.5,0);g.closePath();g.fill();
+ g.fillStyle='#fffbe8';g.fillRect(-R*.5,-R*.12,R*1,R*.06);g.fillStyle='#0c0508';for(let i=0;i<9;i++)g.fillRect(-R*.46+i*R*.11,-R*.12,R*.04,R*.035);
+ g.fillStyle='#0c0508';g.fillRect(-R*.45,-R*.06,R*.05,R*.2);g.fillRect(R*.38,-R*.06,R*.05,R*.2);g.restore();
+ /* Noten steigen auf */
+ const boost=1+hov*1.1;g.textAlign='center';g.shadowColor='#ffd36e';g.shadowBlur=R*.05;for(const n of p.nt){const u=(t*n.s*boost*.5+n.a)%1;g.globalAlpha=Math.sin(u*Math.PI)*.95;g.fillStyle='#ffe08a';g.font=Math.round(R*(n.z+.12))+'px Georgia,serif';g.fillText(['♪','♫','♩'][n.k],X(n.x*.6+Math.sin(t+n.a*9)*.04),X(.4-u*1.3))}
+ g.globalAlpha=1;g.shadowBlur=0;
+ /* Publikum */
+ g.fillStyle='#0a0306';g.beginPath();g.moveTo(X(-1.3),X(1.3));g.lineTo(X(-1.3),X(.9));for(let i=0;i<14;i++){const x=-1.3+i*.2;g.lineTo(X(x),X(.9));g.arc(X(x+.1),X(.9),R*.085,Math.PI,0)}g.lineTo(X(1.3),X(.9));g.lineTo(X(1.3),X(1.3));g.closePath();g.fill();
+ g.fillStyle='#6a1024';g.fillRect(c-R*1.3,X(.98),R*2.6,R*.4);
+ q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(10,2,6,0)');q.addColorStop(1,'rgba(10,2,6,.62)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+}
+const rimKonzert=['#e9c46a','#a81e3d','#fff2c9'];
+
 /* ---------- Portal-Motor: wabernder Rand, schneller und unregelmäßiger bei Hover ---------- */
 const portals=[];
 function kante(a,t,h){
@@ -379,27 +421,28 @@ neu($('canvas[data-scene=dschungel]'),szeneDschungel,rimDschungel);
 neu($('canvas[data-scene=strand]'),szeneStrand,rimStrand);
 neu($('canvas[data-scene=vulkan]'),szeneVulkan,rimVulkan);
 neu($('canvas[data-scene=atelier]'),szeneAtelier,rimAtelier);
+neu($('canvas[data-scene=konzert]'),szeneKonzert,rimKonzert);
 let last=performance.now();
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;for(const p of portals)if(p.vis)zeichne(p,dt);requestAnimationFrame(frame)}
 if(RM){portals.forEach(p=>zeichne(p,0));addEventListener('resize',()=>portals.forEach(p=>zeichne(p,0)))}else requestAnimationFrame(frame);
 
 /* ---------- Warpantrieb ---------- */
-function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier';
- const c=document.createElement('canvas');c.className='warp'+(gruen?' gr':strand?' st':vk?' vk':at?' at':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
+function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert';
+ const c=document.createElement('canvas');c.className='warp'+(gruen?' gr':strand?' st':vk?' vk':at?' at':ko?' ko':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext('2d');g.scale(dpr,dpr);
- const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:80+Math.random()*18}));
+ const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:ko?(Math.random()<.6?38+Math.random()*14:350+Math.random()*10):at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:80+Math.random()*18}));
  const DUR=1700,t0=performance.now();
  (function f(now){const tau=Math.min(1,(now-t0)/DUR),sp=1+90*tau*tau*tau,dt=1/60;
   g.clearRect(0,0,W,H);g.lineCap='round';
   /* Tunnel-Ringe */
-  for(let i=0;i<6;i++){const u=((tau*2.6+i/6)%1),r=u*u*diag*.8;g.strokeStyle=`rgba(${gruen?'140,255,170':strand?'140,240,235':vk?'255,150,80':at?'255,150,210':'140,170,255'},${(1-u)*.28*(.3+tau)})`;g.lineWidth=2+u*10;g.beginPath();g.arc(cx,cy,r,0,TAU);g.stroke()}
+  for(let i=0;i<6;i++){const u=((tau*2.6+i/6)%1),r=u*u*diag*.8;g.strokeStyle=`rgba(${gruen?'140,255,170':strand?'140,240,235':vk?'255,150,80':at?'255,150,210':ko?'255,215,130':'140,170,255'},${(1-u)*.28*(.3+tau)})`;g.lineWidth=2+u*10;g.beginPath();g.arc(cx,cy,r,0,TAU);g.stroke()}
   /* Sterne werden zu Streifen */
   for(const s of S){const r0=s.r;s.r+=(s.r+24)*s.v*.8*sp*dt*.9;if(s.r>diag){s.r=Math.random()*40;s.a=Math.random()*TAU}
    const tail=s.r/(1+.06*sp*s.v),ca=Math.cos(s.a),sa=Math.sin(s.a);
    g.strokeStyle=`hsla(${s.h},100%,${s.l}%,${Math.min(1,.35+s.r/diag+tau)})`;g.lineWidth=1+s.r/260*(1+tau*2);
    g.beginPath();g.moveTo(cx+ca*Math.min(tail,r0),cy+sa*Math.min(tail,r0));g.lineTo(cx+ca*s.r,cy+sa*s.r);g.stroke()}
   /* Lichtblitz am Ende */
-  if(tau>.7){const k=Math.pow((tau-.7)/.3,1.6),q=g.createRadialGradient(cx,cy,0,cx,cy,diag*(.15+1.1*k));q.addColorStop(0,`rgba(255,255,255,${Math.min(1,k*1.4)})`);q.addColorStop(.6,`rgba(${gruen?'190,255,200':strand?'255,240,200':vk?'255,225,170':at?'255,205,235':'190,215,255'},${k*.85})`);q.addColorStop(1,gruen?'rgba(150,255,170,0)':strand?'rgba(160,240,235,0)':vk?'rgba(255,170,90,0)':at?'rgba(255,150,210,0)':'rgba(150,180,255,0)');g.fillStyle=q;g.fillRect(0,0,W,H);if(tau>.97){g.fillStyle='#fff';g.fillRect(0,0,W,H)}}
+  if(tau>.7){const k=Math.pow((tau-.7)/.3,1.6),q=g.createRadialGradient(cx,cy,0,cx,cy,diag*(.15+1.1*k));q.addColorStop(0,`rgba(255,255,255,${Math.min(1,k*1.4)})`);q.addColorStop(.6,`rgba(${gruen?'190,255,200':strand?'255,240,200':vk?'255,225,170':at?'255,205,235':ko?'255,235,180':'190,215,255'},${k*.85})`);q.addColorStop(1,gruen?'rgba(150,255,170,0)':strand?'rgba(160,240,235,0)':vk?'rgba(255,170,90,0)':at?'rgba(255,150,210,0)':ko?'rgba(255,215,130,0)':'rgba(150,180,255,0)');g.fillStyle=q;g.fillRect(0,0,W,H);if(tau>.97){g.fillStyle='#fff';g.fillRect(0,0,W,H)}}
   tau<1?requestAnimationFrame(f):fertig()})(t0)}
 
 /* ---------- Klassenwahl (wird nur in diesem Browser gemerkt) ---------- */
@@ -407,7 +450,7 @@ let K=0;const KEY='kastner-klasse';
 try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
 function zeigeK(){
  document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
- const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse']];
+ const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse']];
  for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id);
   if(K){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
    $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
@@ -464,7 +507,7 @@ function reise(id,idx,pre){
   if(RM){location.href=href;return}
   portals[idx].tg=1;const[cx,cy]=mitte('#c-'+id+' .pt');
   SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href},id)})})}
-reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');
+reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');
 addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
 
 </script>
