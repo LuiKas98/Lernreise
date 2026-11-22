@@ -162,6 +162,41 @@ table{border-collapse:collapse;width:100%;font-size:.85em}th,td{border:1px solid
 <canvas id="emb" aria-hidden="true"></canvas>
 <main id="app"></main>
 <script>
+/*KSHARED*/
+/* Gemeinsame Hilfen: Ton-Freischaltung am Handy, robustes Vorlesen, gemeinsame Anmeldung (Index-Seite) */
+(function(){
+ if(window.__ks)return;window.__ks=1;
+ var SKEY='kastner-user',au=null,warned=0;
+ window.ksU=function(){try{return (localStorage.getItem(SKEY)||'').trim()}catch(e){return ''}};
+ window.wechseln=function(){try{localStorage.removeItem(SKEY)}catch(e){}try{if(typeof DB!='undefined'){DB.cur='';if(typeof save=='function')save()}}catch(e){}location.href='index.html'};
+ function silent(){var n=800,b=new Uint8Array(44+n),v=new DataView(b.buffer),w=function(o,s){for(var i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);for(var i=0;i<n;i++)b[44+i]=128;return URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}
+ function unlock(){
+  /* iPhone: Ton auch bei Stumm-Schalter erlauben (Web Audio und Vorlesen) */
+  try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch(e){}
+  try{if(!navigator.audioSession&&/iP(hone|ad|od)/.test(navigator.userAgent)&&!au){au=new Audio(silent());au.loop=true;au.play().catch(function(){au=null})}}catch(e){}
+  try{if(typeof ac=='function'){var a=ac();if(a&&!unlock.p&&a.state!=='closed'){unlock.p=1;var s=a.createBufferSource();s.buffer=a.createBuffer(1,1,22050);s.connect(a.destination);s.start(0)}}}catch(e){}
+  try{window.speechSynthesis&&speechSynthesis.getVoices()}catch(e){}
+ }
+ window.ksUnlock=unlock;
+ ['touchend','click','keydown'].forEach(function(ev){addEventListener(ev,unlock,{capture:true,passive:true})});
+ function note(msg){if(warned++>2)return;var d=document.createElement('div');d.setAttribute('role','status');d.style.cssText='position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;max-width:90vw;background:#fff;color:#1b1464;font:700 15px/1.3 system-ui,sans-serif;padding:12px 18px;border-radius:14px;border:3px solid #ffd23f;box-shadow:0 6px 0 #0004;text-align:center';d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove()},5200)}
+ window.ksNote=note;
+ var ss=window.speechSynthesis;
+ if(ss&&ss.speak){
+  var _sp=ss.speak.bind(ss),_ca=ss.cancel.bind(ss),lastC=0,vo=null;
+  function pick(){try{var vs=ss.getVoices().filter(function(v){return /^de/i.test(v.lang)});if(vs.length)vo=vs.filter(function(v){return v.localService&&/de[-_]DE/i.test(v.lang)})[0]||vs.filter(function(v){return /de[-_]DE/i.test(v.lang)})[0]||vs[0]}catch(e){}}
+  pick();if(ss.addEventListener)ss.addEventListener('voiceschanged',pick);
+  ss.cancel=function(){if(ss.speaking||ss.pending)lastC=Date.now();_ca()};
+  ss.speak=function(u){
+   unlock();if(!vo)pick();if(vo&&!u.voice){u.voice=vo;u.lang=vo.lang}
+   var oe=u.onerror;u.onerror=function(e){if(e&&e.error&&e.error!=='interrupted'&&e.error!=='canceled')note('🔇 Vorlesen klappt nicht. Bitte Lautstärke und Stumm-Schalter prüfen.');oe&&oe.call(u,e)};
+   var go=function(){try{if(ss.paused)ss.resume();_sp(u)}catch(e){}},d=Date.now()-lastC;
+   /* Chrome auf Android: direkt nach cancel() geht das nächste speak() manchmal verloren */
+   if(d<150)setTimeout(go,160-d);else go()}
+ }
+})();
+
+
 "use strict";
 const $=s=>document.querySelector(s),R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a},pk=a=>a[R(0,a.length-1)];
 const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
@@ -477,7 +512,7 @@ const finOpen=()=>isAd()||cleared()>=4;
 function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o);return o}
 function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>👋 Willkommen am Vulkan!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Lavafuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><p><button class="big" onclick="okName()">🔥 Los geht’s</button></p><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p>'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(' '):''}</div>`);const u=$('#un');u&&u.focus()}
 function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
-function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
+function login(n){try{localStorage.setItem('kastner-user',String(n).trim().replace(/\s+/g,' '))}catch(e){}CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
  if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="results()">📊 Ergebnisse anzeigen</button>');hub()}
 /* ---------- Kunst: Funken, Hero, Karte ---------- */
 const SVGNS='http://www.w3.org/2000/svg';
@@ -497,7 +532,7 @@ function hub(){stopRun();const st=sumStars(),nm=isAd()?'Herr Kastner':CUR,gems=L
  <h1 class="logo"><span>VULKAN</span><small>Rätsel · Klasse ${CLS}</small></h1>${heroSvg()}
  <div class="cta"><button class="cbtn a" onclick="mapScr()"><span class="ci">🗺️</span><span class="cw">Abenteuer</span><span class="cs">${cleared()} von ${LV.length-1} Orten</span></button><button class="cbtn b" onclick="arcIntro()"><span class="ci">⚡</span><span class="cw">Arcade</span><span class="cs">${U.hi?'Rekord '+U.hi:'Wie weit kommst du?'}</span></button></div>
  <p class="gemrow" role="group" aria-label="Gesammelte Edelsteine">${gems}</p>
- <nav class="tools" aria-label="Weitere Funktionen"><button onclick="cert()"><span>📜</span>Urkunde</button><button id="cb" class="${DB.calm?'on':''}" aria-pressed="${DB.calm?'true':'false'}" onclick="toggleCalm()" title="Mehr Zeit: Zündschnur brennt länger, Lava steigt langsamer"><span>🐢</span>Mehr Zeit</button><button onclick="ask()"><span>👤</span>Wechseln</button><button onclick="resetMe()"><span>🗑️</span>Neu</button><a class="lnk" href="index.html"><span>🏠</span>Start</a></nav></div>`)}
+ <nav class="tools" aria-label="Weitere Funktionen"><button onclick="cert()"><span>📜</span>Urkunde</button><button id="cb" class="${DB.calm?'on':''}" aria-pressed="${DB.calm?'true':'false'}" onclick="toggleCalm()" title="Mehr Zeit: Zündschnur brennt länger, Lava steigt langsamer"><span>🐢</span>Mehr Zeit</button><button onclick="wechseln()"><span>👤</span>Wechseln</button><button onclick="resetMe()"><span>🗑️</span>Neu</button><a class="lnk" href="index.html"><span>🏠</span>Start</a></nav></div>`)}
 function toggleCalm(){DB.calm=DB.calm?0:1;save();hub()}
 function resetMe(){if(confirm('Möchtest du wirklich alle deine Sterne und Edelsteine löschen?')){U.s={};U.g={};U.hi=0;U.f=[];U.n=0;U.r=0;save();hub()}}
 /* ---------- Karte ---------- */
@@ -592,6 +627,6 @@ function results(){ovl(`<div class="card" style="width:min(900px,100%)"><div cla
  for(let i=0;i<46;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.4,v:12+Math.random()*30,ph:Math.random()*6});
  const draw=t=>{g.clearRect(0,0,W,H);for(const p of P){if(!RM){p.y-=p.v/60;p.x+=Math.sin(t/900+p.ph)*.35;if(p.y<-6){p.y=H+6;p.x=Math.random()*W}}g.globalAlpha=.25+.5*Math.abs(Math.sin(t/700+p.ph));g.fillStyle=p.r>2?'#ffb703':'#ff6b35';g.beginPath();g.arc(p.x,p.y,p.r,0,6.3);g.fill()}RM?0:requestAnimationFrame(draw)};requestAnimationFrame(draw)})();
 /* ---------- Start ---------- */
-DB.cur&&DB.u[DB.cur]?login(DB.cur):(U=mkU(),hub(),ask());
+ksU()&&nameErr(ksU())===''?login(ksU()):DB.cur&&DB.u[DB.cur]?login(DB.cur):(U=mkU(),hub(),ask());
 
 </script></body></html>

@@ -204,6 +204,41 @@ details.card summary{cursor:pointer;font-weight:900}
 </defs></svg>
 <main id="app"></main>
 <script>
+/*KSHARED*/
+/* Gemeinsame Hilfen: Ton-Freischaltung am Handy, robustes Vorlesen, gemeinsame Anmeldung (Index-Seite) */
+(function(){
+ if(window.__ks)return;window.__ks=1;
+ var SKEY='kastner-user',au=null,warned=0;
+ window.ksU=function(){try{return (localStorage.getItem(SKEY)||'').trim()}catch(e){return ''}};
+ window.wechseln=function(){try{localStorage.removeItem(SKEY)}catch(e){}try{if(typeof DB!='undefined'){DB.cur='';if(typeof save=='function')save()}}catch(e){}location.href='index.html'};
+ function silent(){var n=800,b=new Uint8Array(44+n),v=new DataView(b.buffer),w=function(o,s){for(var i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);for(var i=0;i<n;i++)b[44+i]=128;return URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}
+ function unlock(){
+  /* iPhone: Ton auch bei Stumm-Schalter erlauben (Web Audio und Vorlesen) */
+  try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch(e){}
+  try{if(!navigator.audioSession&&/iP(hone|ad|od)/.test(navigator.userAgent)&&!au){au=new Audio(silent());au.loop=true;au.play().catch(function(){au=null})}}catch(e){}
+  try{if(typeof ac=='function'){var a=ac();if(a&&!unlock.p&&a.state!=='closed'){unlock.p=1;var s=a.createBufferSource();s.buffer=a.createBuffer(1,1,22050);s.connect(a.destination);s.start(0)}}}catch(e){}
+  try{window.speechSynthesis&&speechSynthesis.getVoices()}catch(e){}
+ }
+ window.ksUnlock=unlock;
+ ['touchend','click','keydown'].forEach(function(ev){addEventListener(ev,unlock,{capture:true,passive:true})});
+ function note(msg){if(warned++>2)return;var d=document.createElement('div');d.setAttribute('role','status');d.style.cssText='position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;max-width:90vw;background:#fff;color:#1b1464;font:700 15px/1.3 system-ui,sans-serif;padding:12px 18px;border-radius:14px;border:3px solid #ffd23f;box-shadow:0 6px 0 #0004;text-align:center';d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove()},5200)}
+ window.ksNote=note;
+ var ss=window.speechSynthesis;
+ if(ss&&ss.speak){
+  var _sp=ss.speak.bind(ss),_ca=ss.cancel.bind(ss),lastC=0,vo=null;
+  function pick(){try{var vs=ss.getVoices().filter(function(v){return /^de/i.test(v.lang)});if(vs.length)vo=vs.filter(function(v){return v.localService&&/de[-_]DE/i.test(v.lang)})[0]||vs.filter(function(v){return /de[-_]DE/i.test(v.lang)})[0]||vs[0]}catch(e){}}
+  pick();if(ss.addEventListener)ss.addEventListener('voiceschanged',pick);
+  ss.cancel=function(){if(ss.speaking||ss.pending)lastC=Date.now();_ca()};
+  ss.speak=function(u){
+   unlock();if(!vo)pick();if(vo&&!u.voice){u.voice=vo;u.lang=vo.lang}
+   var oe=u.onerror;u.onerror=function(e){if(e&&e.error&&e.error!=='interrupted'&&e.error!=='canceled')note('🔇 Vorlesen klappt nicht. Bitte Lautstärke und Stumm-Schalter prüfen.');oe&&oe.call(u,e)};
+   var go=function(){try{if(ss.paused)ss.resume();_sp(u)}catch(e){}},d=Date.now()-lastC;
+   /* Chrome auf Android: direkt nach cancel() geht das nächste speak() manchmal verloren */
+   if(d<150)setTimeout(go,160-d);else go()}
+ }
+})();
+
+
 "use strict";
 const $=s=>document.querySelector(s),R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a},pk=a=>a[R(0,a.length-1)];
 const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),plain=s=>String(s).replace(/<[^>]+>/g,'');
@@ -598,8 +633,8 @@ const starTxt=n=>n?'⭐'.repeat(n)+'☆'.repeat(3-n):'☆☆☆';
 const unlocked=l=>{if(isAd())return true;const L=LV.filter(x=>x.pl==l.pl),i=L.indexOf(l);if(i==0)return true;const p=L[i-1];return p.t=='paint'?U.q[p.id]!=null:U.s[p.id]>0};
 function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>🎨 Bonjour im Atelier!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Pinselfuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><p><button class="big" onclick="okName()">🖌️ Los geht’s</button></p><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p><div class="row">'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(' ')+'</div>':''}</div>`);const u=$('#un');u&&u.focus()}
 function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
-function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();closeOv();const b=$('#ab');b&&b.remove();if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="results()">📊 Ergebnisse anzeigen</button>');hub()}
-function logout(){DB.cur='';save();stopG();CUR='';U=mkU();const b=$('#ab');b&&b.remove();hub();ask()}
+function login(n){try{localStorage.setItem('kastner-user',String(n).trim().replace(/\s+/g,' '))}catch(e){}CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();closeOv();const b=$('#ab');b&&b.remove();if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="results()">📊 Ergebnisse anzeigen</button>');hub()}
+function logout(){wechseln()}
 function resetMe(){if(confirm('Möchtest du wirklich alle deine Sterne, Karten, Farben und Bilder löschen?')){U.s={};U.a={};U.c={};U.m={};U.q={};U.f=[];U.n=0;U.r=0;save();hub()}}
 function hub(){stopG();PS=null;const nm=isAd()?'Herr Kastner':CUR;show(`<div class="logo"><span>Atelier Montmartre</span><small>${nm?'Bonjour, '+esc(nm)+'! Tippe auf ein Gebäude.':'Mal-, Farb- und Kunstabenteuer in Paris'}</small></div>${hubScene()}<div class="prog" aria-label="Fortschritt"><span>⭐ ${sumStars()} / ${MAXS}</span><span>🎴 ${nCards()} / ${ART.length}</span><span>🎨 ${nCols()} / ${MIXN.length}</span><span>🖼️ ${nPics()} / ${PSTAT.length}</span></div><div class="tools"><button onclick="mappe()"><span aria-hidden="true">📖</span>Meine Mappe</button><button onclick="cert()"><span aria-hidden="true">📜</span>Urkunde</button><button onclick="logout()"><span aria-hidden="true">👤</span>Wechseln</button><button onclick="resetMe()"><span aria-hidden="true">🗑️</span>Neu beginnen</button><button onclick="location.href='index.html'"><span aria-hidden="true">🏠</span>Startseite</button></div>`);parallax()}
 /* ---- Ort als Lernpfad ---- */
@@ -739,6 +774,6 @@ function results(){const sm=u=>Object.values(u.s||{}).reduce((a,b)=>a+b,0);ovl(`
  function f(t){x.clearRect(0,0,W,H);for(const p of P){p.y-=p.vy;p.x+=p.vx;if(p.y<-120){p.y=H+120;p.x=Math.random()*W}const g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);g.addColorStop(0,p.c);g.addColorStop(1,'rgba(0,0,0,0)');x.globalAlpha=.16+.08*Math.sin(t/1400+p.ph);x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}x.globalAlpha=1;if(!REDUCED)requestAnimationFrame(f)}
  requestAnimationFrame(f)})();
 /* ---- Start ---- */
-DB.cur&&DB.u[DB.cur]?login(DB.cur):(U=mkU(),hub(),ask());
+ksU()&&nameErr(ksU())===''?login(ksU()):DB.cur&&DB.u[DB.cur]?login(DB.cur):(U=mkU(),hub(),ask());
 
 </script></body></html>

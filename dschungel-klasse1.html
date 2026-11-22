@@ -167,6 +167,41 @@ h2,.tx,.card p{overflow-wrap:anywhere;hyphens:auto}
 <body>
 <main><noscript>Bitte schalte JavaScript ein.</noscript></main>
 <script>
+/*KSHARED*/
+/* Gemeinsame Hilfen: Ton-Freischaltung am Handy, robustes Vorlesen, gemeinsame Anmeldung (Index-Seite) */
+(function(){
+ if(window.__ks)return;window.__ks=1;
+ var SKEY='kastner-user',au=null,warned=0;
+ window.ksU=function(){try{return (localStorage.getItem(SKEY)||'').trim()}catch(e){return ''}};
+ window.wechseln=function(){try{localStorage.removeItem(SKEY)}catch(e){}try{if(typeof DB!='undefined'){DB.cur='';if(typeof save=='function')save()}}catch(e){}location.href='index.html'};
+ function silent(){var n=800,b=new Uint8Array(44+n),v=new DataView(b.buffer),w=function(o,s){for(var i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);for(var i=0;i<n;i++)b[44+i]=128;return URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}
+ function unlock(){
+  /* iPhone: Ton auch bei Stumm-Schalter erlauben (Web Audio und Vorlesen) */
+  try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch(e){}
+  try{if(!navigator.audioSession&&/iP(hone|ad|od)/.test(navigator.userAgent)&&!au){au=new Audio(silent());au.loop=true;au.play().catch(function(){au=null})}}catch(e){}
+  try{if(typeof ac=='function'){var a=ac();if(a&&!unlock.p&&a.state!=='closed'){unlock.p=1;var s=a.createBufferSource();s.buffer=a.createBuffer(1,1,22050);s.connect(a.destination);s.start(0)}}}catch(e){}
+  try{window.speechSynthesis&&speechSynthesis.getVoices()}catch(e){}
+ }
+ window.ksUnlock=unlock;
+ ['touchend','click','keydown'].forEach(function(ev){addEventListener(ev,unlock,{capture:true,passive:true})});
+ function note(msg){if(warned++>2)return;var d=document.createElement('div');d.setAttribute('role','status');d.style.cssText='position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;max-width:90vw;background:#fff;color:#1b1464;font:700 15px/1.3 system-ui,sans-serif;padding:12px 18px;border-radius:14px;border:3px solid #ffd23f;box-shadow:0 6px 0 #0004;text-align:center';d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove()},5200)}
+ window.ksNote=note;
+ var ss=window.speechSynthesis;
+ if(ss&&ss.speak){
+  var _sp=ss.speak.bind(ss),_ca=ss.cancel.bind(ss),lastC=0,vo=null;
+  function pick(){try{var vs=ss.getVoices().filter(function(v){return /^de/i.test(v.lang)});if(vs.length)vo=vs.filter(function(v){return v.localService&&/de[-_]DE/i.test(v.lang)})[0]||vs.filter(function(v){return /de[-_]DE/i.test(v.lang)})[0]||vs[0]}catch(e){}}
+  pick();if(ss.addEventListener)ss.addEventListener('voiceschanged',pick);
+  ss.cancel=function(){if(ss.speaking||ss.pending)lastC=Date.now();_ca()};
+  ss.speak=function(u){
+   unlock();if(!vo)pick();if(vo&&!u.voice){u.voice=vo;u.lang=vo.lang}
+   var oe=u.onerror;u.onerror=function(e){if(e&&e.error&&e.error!=='interrupted'&&e.error!=='canceled')note('🔇 Vorlesen klappt nicht. Bitte Lautstärke und Stumm-Schalter prüfen.');oe&&oe.call(u,e)};
+   var go=function(){try{if(ss.paused)ss.resume();_sp(u)}catch(e){}},d=Date.now()-lastC;
+   /* Chrome auf Android: direkt nach cancel() geht das nächste speak() manchmal verloren */
+   if(d<150)setTimeout(go,160-d);else go()}
+ }
+})();
+
+
 const $=s=>document.querySelector(s),M=$('main');
 const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>[...a].sort(()=>Math.random()-.5),pk=a=>a[R(0,a.length-1)];
 /* Aufgabenformate: mc = Auswahl, in = Eingabe, ins = mehrere Lücken, dd = Sortieren, ord = Reihenfolge, img = Felder anklicken, mem = Memo, mat = Zuordnen */
@@ -497,7 +532,7 @@ document.addEventListener('focusin',e=>{const b=e.target.closest&&e.target.close
 document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('.pb'))hot(null)});
 const pic=i=>`<span class="pic"><span class="emo">${PL[i].e}</span></span>`;
 function map(){window.speechSynthesis&&speechSynthesis.cancel();HOT=-1;const t=total(),op=sunOpen();
- M.innerHTML=`<div class="mapg"><div class="usr"><span>👤 ${esc(CUR)} · Klasse 1${isAd()?' · Admin':''}</span><button class="sec" onclick="ask()">Name wechseln</button></div><h1 class="ttl">🌴 Dschungel-Abenteuer</h1><p class="hint">Tippe auf ein Tier oder Ding im Dschungel. Je mehr Sterne ⭐ ein Gebiet hat, desto heller leuchtet es! ✨</p><div class="sys jm">${JBG}${DECO}<button class="sun jt${op?'':' l'}" style="--an:wobble" onclick="sun()" aria-label="Schatztempel${op?'':', verschlossen'}"><span class="st"><span class="sd"></span><span class="an">🏛️</span>${op?'':'<span class="lk">🔒</span>'}</span><span class="sg">Schatztempel</span></button>${PL.map((p,i)=>`<div class="pw" id="pw${i}" style="left:${POS[i][0]}%;top:${POS[i][1]}%;z-index:${Math.round(POS[i][1])}"><button class="pb" data-i="${i}" onclick="lv(${i})" aria-label="${p.n}, ${p.f}: ${p.d}, ${pg(i)} von 9 Sternen" style="--an:${AN[i]}"><span class="st${pg(i)?'':' z'}${pg(i)>=9?' fin':''}" style="${gl(i)}">${ring(i)}<span class="sd"></span><span class="an" style="--d:-${i*.7}s">${p.e}</span>${pg(i)>=9?'<span class="ok">✔</span>':''}</span><span class="sg">${p.n}<small>⭐ ${pg(i)} von 9</small></span></button></div>`).join('')}</div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="rt">${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p><p class="c"><button class="sec" onclick="location.href='index.html'">🏠 Startseite</button></p></div></div>`}
+ M.innerHTML=`<div class="mapg"><div class="usr"><span>👤 ${esc(CUR)} · Klasse 1${isAd()?' · Admin':''}</span><button class="sec" onclick="wechseln()">Name wechseln</button></div><h1 class="ttl">🌴 Dschungel-Abenteuer</h1><p class="hint">Tippe auf ein Tier oder Ding im Dschungel. Je mehr Sterne ⭐ ein Gebiet hat, desto heller leuchtet es! ✨</p><div class="sys jm">${JBG}${DECO}<button class="sun jt${op?'':' l'}" style="--an:wobble" onclick="sun()" aria-label="Schatztempel${op?'':', verschlossen'}"><span class="st"><span class="sd"></span><span class="an">🏛️</span>${op?'':'<span class="lk">🔒</span>'}</span><span class="sg">Schatztempel</span></button>${PL.map((p,i)=>`<div class="pw" id="pw${i}" style="left:${POS[i][0]}%;top:${POS[i][1]}%;z-index:${Math.round(POS[i][1])}"><button class="pb" data-i="${i}" onclick="lv(${i})" aria-label="${p.n}, ${p.f}: ${p.d}, ${pg(i)} von 9 Sternen" style="--an:${AN[i]}"><span class="st${pg(i)?'':' z'}${pg(i)>=9?' fin':''}" style="${gl(i)}">${ring(i)}<span class="sd"></span><span class="an" style="--d:-${i*.7}s">${p.e}</span>${pg(i)>=9?'<span class="ok">✔</span>':''}</span><span class="sg">${p.n}<small>⭐ ${pg(i)} von 9</small></span></button></div>`).join('')}</div><p id="lk" role="status" aria-live="polite" class="c"></p><div class="rt">${rkBox(t)}<p class="c"><button onclick="cert()">📜 Urkunde</button><button class="sec" onclick="rst()">🗑️ Sterne löschen</button></p><p class="c"><button class="sec" onclick="location.href='index.html'">🏠 Startseite</button></p></div></div>`}
 function sun(){if(!sunOpen()){$('#lk').innerHTML='🔒 Der Schatztempel ist noch verschlossen. Spiele zuerst in jedem Gebiet mindestens eine Stufe durch. Es fehlen noch: <b>'+PL.filter((p,i)=>!U.c[i]).map(p=>p.n).join(', ')+'</b>';return}
  const cnt={};P=-1;LV=0;T=sh([...draw(smP,0,3,cnt),...draw(sdP,0,3,cnt)]).map(norm);I=0;PT=0;RS=[];show()}
 
@@ -591,7 +626,7 @@ function cert(){const t=total();M.innerHTML=`<button class="sec noprint" onclick
 
 const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const isAd=()=>CUR.toLowerCase()==ADM,sunOpen=()=>isAd()||[0,1,2,3,4,5].every(i=>U.c[i]);
-function login(n){CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;
+function login(n){try{localStorage.setItem('kastner-user',String(n).trim().replace(/\s+/g,' '))}catch(e){}CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;
  U=isAd()?{d:{},c:{},f:[],n:0,r:0}:(DB.u[CUR]=DB.u[CUR]||{d:{},c:{},f:[],n:0,r:0});D=U.d;DB.cur=isAd()?'':CUR;save();
  const o=$('#ov'),b=$('#ab');o&&o.remove();b&&b.remove();
  if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="rs()">📊 Ergebnisse anzeigen</button>');map()}
@@ -609,7 +644,7 @@ function rst(){if(confirm('Möchtest du wirklich deine Sterne löschen?')){U.d={
 for(let i=0;i<60;i++){const x=rnd()*700,y=rnd()*700,z=10+rnd()*26;s+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(z)}" ry="${f(z*.45)}" fill="${['#14532d','#166534','#0d3f22','#1a6b3a'][i%4]}" opacity="${f(.25+rnd()*.3)}" transform="rotate(${f(rnd()*180)} ${f(x)} ${f(y)})"/>`}
 const e=document.createElement('style');e.textContent=`@media screen{body{background-image:url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'>${s}</svg>`)}");background-attachment:fixed}}`;document.head.appendChild(e)})();
 
-DB.cur&&DB.u[DB.cur]?login(DB.cur):(map(),ask());
+ksU()&&nameErr(ksU())===''?login(ksU()):DB.cur&&DB.u[DB.cur]?login(DB.cur):(map(),ask());
 try{if(sessionStorage.getItem('warp')){sessionStorage.removeItem('warp');const w=document.createElement('div');w.id='wx';document.body.appendChild(w);setTimeout(()=>w.remove(),1000)}}catch(e){}
 </script>
 </body>
