@@ -115,12 +115,29 @@ input[type=text],input:not([type]){font:inherit;font-weight:700;padding:.65em .9
 .tgb button span{font-size:1.25em}
 /* Geobrett */
 .gbs{display:block;width:100%;height:auto;max-width:460px;margin:4px auto;touch-action:manipulation;user-select:none;-webkit-user-select:none;border-radius:20px;background:linear-gradient(180deg,#fff,#e9f0f8);box-shadow:0 0 0 1px var(--line)}
-.gbs .peg{cursor:pointer}svg [role=button],svg [tabindex]{outline:none!important}.gbs .peg:focus-visible circle.pr2,.gbs .peg:focus circle.pr2{fill:#0fb5e8;stroke:#0a74c9;stroke-width:.08}.gbs .peg:focus-visible circle.pr2{r:.22}.tgs .pc:focus-visible path.pp{stroke:#0a74c9;stroke-width:.14}
+.gbs .peg{cursor:pointer}svg [role=button],svg [tabindex]{outline:none!important}.gbs .peg:focus-visible circle.pr2{fill:#0fb5e8;stroke:#0a74c9;stroke-width:.08}.gbs .peg:focus-visible circle.pr2{r:.22}.tgs .pc:focus-visible path.pp{stroke:#0a74c9;stroke-width:.14}
 .tool{margin:8px auto 2px;max-width:460px;text-align:center}.tool label{display:block;font-weight:700;color:var(--mut);font-size:.95em;margin-bottom:8px}.trow{display:flex;gap:12px;align-items:center;justify-content:center}.trow button{flex:none;white-space:nowrap;min-height:44px;padding:.4em .8em}.trow input[type=range]{flex:1 1 200px;min-width:0;height:36px;accent-color:#0fb5e8}.trow input[type=range]:focus-visible{outline:4px solid var(--cy);outline-offset:3px}#tsv svg{display:block;margin:0 auto}
 .gbrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
 .gbcol{flex:1 1 200px;min-width:0;text-align:center;font-size:.85em;color:var(--mut)}
 /* Würfelgebäude */
-.cbg{display:grid;gap:8px;justify-content:center;margin:8px auto}
+.cbw{display:flex;flex-direction:column;gap:6px}
+.cbb{display:flex;flex-direction:column;align-items:center}
+.cbg{display:grid;gap:8px;justify-content:center;margin:6px auto}
+.cbc{position:relative;transition:box-shadow .15s,background .15s}
+.cbc .cbn{font:800 .72em system-ui;color:var(--mut);line-height:1;margin-top:1px}
+.cbc.sel{background:linear-gradient(180deg,#fff4df,#ffe2b0);box-shadow:0 0 0 3px #ff9f1c,0 4px 12px rgba(255,159,28,.35)}
+.cbc.sel .cbn{color:#a85a00}
+.front.fr{width:100%;max-width:var(--cbw,300px);background:#e3f5ec;color:#1f6b49;font-weight:800;border-radius:8px;padding:2px 0;box-shadow:inset 0 -3px 0 #2f9e6b}
+.cbl{margin-top:2px}
+.rv{display:flex;flex-direction:column;align-items:center;gap:4px}
+.rvs{display:block;width:100%;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;border-radius:18px}
+.rvs.grab{cursor:grabbing}
+.rvs:focus-visible{outline:3px solid #2b6cb0;outline-offset:2px}
+.rvs svg{pointer-events:none;display:block;margin:0 auto}
+.rvc{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:2px}
+.rvc button{min-height:44px;min-width:44px;padding:.3em .8em;font-size:.95em}
+.rvh{color:var(--mut);font-size:.8em}
+@media(min-width:820px){.cbw{flex-direction:row;align-items:flex-start;justify-content:center;gap:28px}.cbw .cbb{flex:0 1 440px}.cbw .cbl{flex:1 1 380px;min-width:340px;max-width:520px}}
 .cbc{display:flex;flex-direction:column;align-items:center;gap:2px;background:linear-gradient(180deg,#fff,#e9eff7);border-radius:14px;padding:4px;box-shadow:0 0 0 1px var(--line)}
 .cbc output{font:800 1.3em system-ui;min-width:1.6em;text-align:center;display:block}
 .cbc button{min-height:44px;min-width:44px;padding:0;font-size:1.3em;border-radius:12px}
@@ -241,7 +258,7 @@ const isoBox=(X,Y,Z,w,d,h,s,C)=>{C=C||CCOL;const p=(x,y,z)=>isoP(x,y,z,s).map(v=
  return `<polygon points="${p(X,Y,Z+h)} ${p(X+w,Y,Z+h)} ${p(X+w,Y+d,Z+h)} ${p(X,Y+d,Z+h)}" fill="${C.t}" ${st}/><polygon points="${p(X,Y,Z)} ${p(X+w,Y,Z)} ${p(X+w,Y,Z+h)} ${p(X,Y,Z+h)}" fill="${C.f}" ${st}/><polygon points="${p(X+w,Y,Z)} ${p(X+w,Y+d,Z)} ${p(X+w,Y+d,Z+h)} ${p(X+w,Y,Z+h)}" fill="${C.r}" ${st}/>`};
 const KOERPER={
  kugel:{n:'Kugel',d:'die',ec:0,ka:0,fl:'1 (gekrümmt)',svg:()=>`<circle cx="60" cy="62" r="44" fill="url(#gSph)" stroke="#44546c" stroke-width="2"/><ellipse cx="44" cy="40" rx="12" ry="7" fill="#fff" opacity=".55" transform="rotate(-35 44 40)"/>`},
- wuerfel:{n:'Würfel',d:'der',ec:8,ka:12,fl:6,svg:()=>`<g transform="translate(60 74)">${isoBox(-.5,-.5,0,1,1,1,56).replace(/<polygon/g,'<polygon')}</g>`.replace('translate(60 74)','translate(60 70)')},
+ wuerfel:{n:'Würfel',d:'der',ec:8,ka:12,fl:6,svg:()=>`<g transform="translate(60 81)">${isoBox(-.5,-.5,0,1,1,1,46)}</g>`},
  quader:{n:'Quader',d:'der',ec:8,ka:12,fl:6,svg:()=>`<g transform="translate(60 74)">${isoBox(-1,-.5,0,2,1,.8,34)}</g>`},
  zylinder:{n:'Zylinder',d:'der',ec:0,ka:2,fl:3,svg:()=>`<path d="M24 36V88A36 13 0 0 0 96 88V36Z" fill="url(#gCyl)" stroke="#44546c" stroke-width="2"/><ellipse cx="60" cy="36" rx="36" ry="13" fill="#f4f8ff" stroke="#44546c" stroke-width="2"/>`},
  kegel:{n:'Kegel',d:'der',ec:1,ka:1,fl:2,svg:()=>`<path d="M60 10L100 90A40 14 0 0 1 20 90Z" fill="url(#gCyl)" stroke="#44546c" stroke-width="2"/>`},
@@ -359,14 +376,52 @@ function tgTip(){if(!G||G.state!='ask'||!G.tg)return;const T=G.tg;const polys=T.
 function tgShow(){if(!G||G.state!='ask'||!G.tg)return;const T=G.tg;G.missed=true;const usedI=new Set();T.slots.forEach(q=>{const c=T.pcs.find(x=>x.t==q.t&&!usedI.has(x.i));if(!c)return;usedI.add(c.i);const[a,f]=q.val[0];c.x=q.c[0];c.y=q.c[1];c.a=a;c.f=f;c.slot=q.k;T.filled[q.k]=c.i;tgPos(c.i)});T.done=true;G.state='x';const fb=$('#fb');fb.className='fbk no';fb.textContent='So sieht die Lösung aus. Das war: '+T.fig.n+'. Versuche es beim nächsten Mal selbst!';funBox(G.tgp.fun);resolve(false,{a:T.fig.n,g:'(Lösung angezeigt)'})}
 function tgClear(){if(!G||!G.tg||G.state!='ask')return;const p=G.tgp;G.tg=tgBuild(p.fig,p.free,p.extras);const w=document.querySelector('.tgw');w.innerHTML=tgSvg(G.tg);tgInit();$('#fb').textContent=''}
 /* Freies Legen */
-function tgSave(){if(!G||!G.tg)return;ovl(`<div class="card c" style="width:min(460px,100%)"><h1>💾 Figur speichern</h1><p>Wie heißt deine Figur?</p><input id="kn" maxlength="24" autocomplete="off" aria-label="Name der Figur" onkeydown="if(event.key=='Enter')tgSave2()"><p id="ke" role="alert" style="color:var(--no);min-height:1.4em"></p><p><button class="big" onclick="tgSave2()">Speichern</button> <button class="sec" onclick="closeOv()">Abbrechen</button></p></div>`);const k=$('#kn');k&&k.focus()}
-function tgSave2(){const v=nrm($('#kn').value)||'Meine Figur';if(isReal(v)){$('#ke').textContent='Das sieht nach einem echten Namen aus. Wähle einen anderen Namen.';return}const T=G.tg,ps=T.pcs.filter(p=>p.y<T.Hs-.3).map(p=>({t:p.t,x:+p.x.toFixed(2),y:+p.y.toFixed(2),a:p.a,f:p.f,c:p.col}));if(ps.length<2){$('#ke').textContent='Lege zuerst mindestens zwei Teile auf die Fläche.';return}U.k.push({n:v.slice(0,24),p:ps,W:T.Wv,H:T.Hs});if(U.k.length>12)U.k.shift();save();closeOv();const fb=$('#fb');fb.className='fbk ok';fb.textContent='✔ Gespeichert! Du findest deine Figur in „Meine Mappe“.'}
+const tgOn=p=>{const T=G.tg;return T.wide?p.x<T.Ws-.15:p.y<T.Hs-.3};
+function tgSave(){if(!G||!G.tg)return;ovl(`<div class="card c" style="width:min(460px,100%)"><h1>💾 Figur speichern</h1><p>Wie heißt deine Figur?</p><input id="kn" maxlength="24" autocomplete="off" value="${esc(G.tgGuess||'')}" aria-label="Name der Figur" onkeydown="if(event.key=='Enter')tgSave2()"><p id="ke" role="alert" style="color:var(--no);min-height:1.4em"></p><p><button class="big" onclick="tgSave2()">Speichern</button> <button class="sec" onclick="closeOv()">Abbrechen</button></p></div>`);const k=$('#kn');k&&k.focus()}
+function tgSave2(){const v=nrm($('#kn').value)||'Meine Figur';if(isReal(v)){$('#ke').textContent='Das sieht nach einem echten Namen aus. Wähle einen anderen Namen.';return}const T=G.tg,ps=T.pcs.filter(tgOn).map(p=>({t:p.t,x:+p.x.toFixed(2),y:+p.y.toFixed(2),a:p.a,f:p.f,c:p.col}));if(ps.length<2){$('#ke').textContent='Lege zuerst mindestens zwei Teile auf die Fläche.';return}U.k.push({n:v.slice(0,24),p:ps,W:T.Wv,H:T.Hs});if(U.k.length>12)U.k.shift();save();closeOv();const fb=$('#fb');fb.className='fbk ok';fb.textContent='✔ Gespeichert! Du findest deine Figur in „Meine Mappe“.'}
 function savedSVG(s,o){o=o||{};const xs=s.p.flatMap(p=>pcPoly(p.t,p.x,p.y,p.a,p.f).map(q=>q[0])),ys=s.p.flatMap(p=>pcPoly(p.t,p.x,p.y,p.a,p.f).map(q=>q[1])),x0=Math.min(...xs)-.3,y0=Math.min(...ys)-.3,w=Math.max(...xs)-x0+.3,h=Math.max(...ys)-y0+.3;return `<svg viewBox="${x0.toFixed(2)} ${y0.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}" role="img" aria-label="${esc(s.n)}" style="${o.st||''}">${s.p.map(p=>`<polygon points="${pt(pcPoly(p.t,p.x,p.y,p.a,p.f))}" fill="${p.c}" stroke="#fff" stroke-width=".07" stroke-linejoin="round"/>`).join('')}</svg>`}
 /* Figur als Bild (Mappe, Karten) */
 function figSVG(fig,o){o=o||{};const pad=.25;return `<svg viewBox="${-pad} ${-pad} ${fig.w+2*pad} ${fig.h+2*pad}" role="img" aria-label="${o.al||esc(fig.n)}" style="${o.st||''}">${fig.p.map((P,k)=>`<polygon points="${pt(P)}" fill="${o.sil?'#8fa2bd':FAC[k%7]}" stroke="${o.sil?'#8fa2bd':'#fff'}" stroke-width="${o.sil?'.04':'.07'}" stroke-linejoin="round"/>`).join('')}</svg>`}
 const figSil=(fig,st)=>`<svg viewBox="-.25 -.25 ${fig.w+.5} ${fig.h+.5}" role="img" aria-label="Umriss einer Figur" style="${st||''}">${fig.p.map(P=>`<polygon points="${pt(P)}" fill="#8fa2bd" stroke="#8fa2bd" stroke-width=".2" stroke-linejoin="round"/>`).join('')}${fig.p.map(P=>`<polygon points="${pt(P)}" fill="#dfe8f4" stroke="#dfe8f4" stroke-width=".03"/>`).join('')}</svg>`;
 
-function tgFin(){if(!G||G.state!='ask')return;G.state='x';funBox(G.tgp.fun);resolve(true)}
+function tgFin(){if(!G||G.state!='ask')return;G.state='x';if(G.tgp.free&&G.tg){const on=G.tg.pcs.filter(tgOn),g=roboGuess(on.map(p=>pcPoly(p.t,p.x,p.y,p.a,p.f)));G.tgGuess=roboSicher(g)?g.n:'';const fb=$('#fb');fb.className='fbk ok';fb.textContent=roboText(g,on.length)}funBox(G.tgp.fun);resolve(true)}
+
+/* ===== Formen-Roboter: rät beim Freien Legen, was gelegt wurde =====
+   Kein Internet, keine echte KI: Die Figur wird als Umriss mit allen Figuren der festen Liste ROBO verglichen
+   (gedreht, gespiegelt, verschoben). Es können NUR Wörter aus der Liste ROBO ausgegeben werden. */
+const ROBO={Dreieck:'ein Dreieck',Quadrat:'ein Quadrat',Rechteck:'ein Rechteck',Parallelogramm:'ein Parallelogramm',Trapez:'ein Trapez',
+ Segelboot:'ein Segelboot',Tannenbaum:'einen Tannenbaum',Roboter:'einen Roboter',Hase:'einen Hasen',Fisch:'einen Fisch',Fliege:'eine Fliege',Blume:'eine Blume',
+ Vogel:'einen Vogel',Schwan:'einen Schwan',Katze:'eine Katze',Hund:'einen Hund',Goldfisch:'einen Goldfisch',Flugzeug:'ein Flugzeug',Rakete:'eine Rakete',Hai:'einen Hai',Adler:'einen Adler'};
+const ROBO_SICHER=.86,ROBO_VIELLEICHT=.78,RBN=56,RBR=.22;
+function rbArea(P){let a=0;for(let i=0;i<P.length;i++){const j=(i+1)%P.length;a+=P[i][0]*P[j][1]-P[j][0]*P[i][1]}return a/2}
+function rbCen(polys){let A=0,x=0,y=0;for(const P of polys){const a=rbArea(P),c=cenP(P);/* Schwerpunkt der Ecken ist für Dreiecke exakt, sonst Näherung */let cx=0,cy=0;for(let i=0;i<P.length;i++){const j=(i+1)%P.length,f=P[i][0]*P[j][1]-P[j][0]*P[i][1];cx+=(P[i][0]+P[j][0])*f;cy+=(P[i][1]+P[j][1])*f}const aa=Math.abs(a);if(aa<1e-9)continue;A+=aa;x+=cx/(6*a)*aa;y+=cy/(6*a)*aa}return[x/A,y/A,A]}
+/* Umriss als Raster (Mitte = Schwerpunkt) */
+function rbRas(polys,cen,ang,flip,sc,dx,dy){const r=new Uint8Array(RBN*RBN),th=ang*Math.PI/180,co=Math.cos(th),si=Math.sin(th);
+ for(const P of polys){const Q=P.map(([px,py])=>{let x=(px-cen[0])*sc,y=(py-cen[1])*sc;if(flip)x=-x;return[(x*co-y*si)/RBR+RBN/2+(dx||0),(x*si+y*co)/RBR+RBN/2+(dy||0)]});
+  const b=bbox(Q),i0=Math.max(0,Math.floor(b[0])),i1=Math.min(RBN-1,Math.ceil(b[2])),j0=Math.max(0,Math.floor(b[1])),j1=Math.min(RBN-1,Math.ceil(b[3]));
+  for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++)if(pip(Q,i+.5,j+.5))r[j*RBN+i]=1}return r}
+function rbIoU(a,b){let i=0,u=0;for(let k=0;k<a.length;k++){const x=a[k],y=b[k];if(x&&y)i++;if(x||y)u++}return u?i/u:0}
+let RBT=null;
+function rbTpl(){if(RBT)return RBT;RBT=FIGS.filter(f=>ROBO[f.n]).map(f=>{const c=rbCen(f.p);return{n:f.n,id:f.id,form:f.c=='form',A:c[2],cen:c,polys:f.p,ras:rbRas(f.p,c,0,0,1)}});return RBT}
+/* polys: Polygone der gelegten Teile (Tangram-Einheiten). Ergebnis: {n:Name|null, s:Ähnlichkeit 0..1} */
+function roboGuess(polys){if(!polys||polys.length<2)return{n:null,s:0,few:true};const cen=rbCen(polys),A=cen[2],T=rbTpl();const cand=[];
+ for(let flip=0;flip<2;flip++)for(let ang=0;ang<360;ang+=10){
+  const rU=rbRas(polys,cen,ang,flip,1);
+  for(const t of T){let r=rU,sc=1;if(t.form){sc=Math.sqrt(t.A/A);if(sc<.45||sc>2.2)continue;r=rbRas(polys,cen,ang,flip,sc)}else if(Math.abs(t.A-A)>Math.max(2.2,t.A*.28))continue;
+   cand.push({t,ang,flip,sc,s:rbIoU(r,t.ras)})}}
+ cand.sort((a,b)=>b.s-a.s);const best={};
+ for(const c of cand.slice(0,40)){/* Feinsuche: Winkel ±8°, Verschiebung ±2 Rasterfelder */
+  let bs=c.s;for(let da=-8;da<=8;da+=4)for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){if(!da&&!dx&&!dy)continue;const r=rbRas(polys,cen,c.ang+da,c.flip,c.sc,dx,dy),s=rbIoU(r,c.t.ras);if(s>bs)bs=s}
+  if(!best[c.t.n]||bs>best[c.t.n])best[c.t.n]=bs}
+ let n=null,s=0;for(const k in best)if(best[k]>s){s=best[k];n=k}
+ let s2=0;for(const k in best)if(k!=n&&best[k]>s2)s2=best[k];return{n,s,m:s-s2,all:best}}
+const roboSicher=g=>!!(g.n&&g.s>=ROBO_SICHER&&g.m>=.06);
+/* Wörter und Sätze (alles feste, kindgerechte Texte) */
+const ROBO_LEER=['Das ist eine tolle Figur! Ich kenne sie noch nicht. Wie soll sie heißen?','Spannend! So eine Figur habe ich noch nie gesehen. Gib ihr einen Namen und speichere sie.','Hui, das ist neu für mich! Was ist es? Du darfst es speichern und benennen.'];
+function roboText(g,n){if(g.few)return'🤖 Lege zuerst mindestens zwei Teile auf die Fläche, dann rate ich.';
+ if(roboSicher(g))return'🤖 Ich glaube, du hast '+ROBO[g.n]+' gelegt! Toll!';
+ if(g.n&&g.s>=ROBO_VIELLEICHT&&g.m>=.05)return'🤖 Hmm, das sieht ein bisschen aus wie '+ROBO[g.n]+'. Habe ich recht?';
+ return'🤖 '+ROBO_LEER[n%ROBO_LEER.length]+' (Du hast '+n+' Teile benutzt.)'}
 
 /* ===== Geobrett-Labor ===== */
 const gbNorm=P=>{let Q=P.filter((p,i)=>!(p[0]==P[(i+1)%P.length][0]&&p[1]==P[(i+1)%P.length][1])),ch=true;while(ch&&Q.length>=3){ch=false;for(let i=0;i<Q.length;i++){const a=Q[(i+Q.length-1)%Q.length],b=Q[i],c=Q[(i+1)%Q.length];if((b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0])==0){Q.splice(i,1);ch=true;break}}}return Q};
@@ -387,17 +442,26 @@ function gbAxis(cols,rows,a){if(!a)return'';let l;if(a.t=='v')l=[a.v,-GP+.1,a.v,
 function gbBoard(cols,rows,o){o=o||{};let g='';const x0=-GP,y0=-GP,W=cols-1+2*GP,H=rows-1+2*GP;
  g+=`<rect x="${x0}" y="${y0}" width="${W}" height="${H}" rx=".3" fill="url(#gBoard)"/>`;
  if(o.grid){for(let i=0;i<cols;i++)g+=`<line x1="${i}" y1="0" x2="${i}" y2="${rows-1}" stroke="#aebdd2" stroke-width=".04"/>`;for(let j=0;j<rows;j++)g+=`<line x1="0" y1="${j}" x2="${cols-1}" y2="${j}" stroke="#aebdd2" stroke-width=".04"/>`}
- g+=gbAxis(cols,rows,o.axis);(o.polys||[]).forEach(p=>g+=gbPolyS(p));
- if(o.pegs!==false)for(let j=0;j<rows;j++)for(let i=0;i<cols;i++)g+=o.act?`<g class="peg" id="pg${i}_${j}" tabindex="0" role="button" aria-label="Nagel Spalte ${i+1}, Reihe ${j+1}" onclick="gbTap(${i},${j})" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();gbTap(${i},${j})}"><circle cx="${i}" cy="${j}" r=".5" fill="transparent"/><circle class="pr2" cx="${i}" cy="${j}" r=".13" fill="#8a99b0" stroke="#fff" stroke-width=".04"/></g>`:`<circle cx="${i}" cy="${j}" r=".1" fill="#8a99b0"/>`;
+ g+=gbAxis(cols,rows,o.axis);(o.polys||[]).forEach(p=>g+=gbPolyS(p));if(o.act)g+=`<g id="gbb" pointer-events="none"></g>`;
+ if(o.pegs!==false)for(let j=0;j<rows;j++)for(let i=0;i<cols;i++)g+=o.act?`<g class="peg" id="pg${i}_${j}" tabindex="0" role="button" aria-label="Nagel Spalte ${i+1}, Reihe ${j+1}" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();gbTap(${i},${j})}"><circle cx="${i}" cy="${j}" r=".5" fill="transparent"/><circle class="pr2" cx="${i}" cy="${j}" r=".13" fill="#8a99b0" stroke="#fff" stroke-width=".04"/></g>`:`<circle cx="${i}" cy="${j}" r=".1" fill="#8a99b0"/>`;
  if(o.act)g+=`<g id="gbl" pointer-events="none"></g>`;
- return `<svg class="gbs"${o.act?' id="gbsvg"':''} viewBox="${x0} ${y0} ${W} ${H}" role="${o.act?'group':'img'}" aria-label="${esc(o.al||'Ein Geobrett')}"${o.st?` style="${o.st}"`:''}>${g}</svg>`}
+ return `<svg class="gbs"${o.act?` id="gbsvg" data-c="${cols}" data-r="${rows}" onclick="gbClick(event)" onpointermove="gbMove(event)" onpointerleave="gbLeave()" style="touch-action:manipulation"`:''} viewBox="${x0} ${y0} ${W} ${H}" role="${o.act?'group':'img'}" aria-label="${esc(o.al||'Ein Geobrett')}"${o.st&&!o.act?` style="${o.st}"`:''}>${g}</svg>`}
 const gbStatic=(cols,rows,polys,o)=>gbBoard(cols,rows,Object.assign({polys:polys.map(P=>({P})),st:'max-width:340px'},o||{}));
 /* --- Spiel --- */
 function gbHtml(p){const g=G.gb={pts:[],closed:false,tries:0};const mir=p.mode=='mirror';
  const ref=p.mode=='copy'?`<div class="gbcol">${p.refTxt||'So soll es aussehen:'}${gbBoard(p.cols,p.rows,{polys:[{P:p.tgt,fill:'rgba(138,92,246,.22)',stroke:'#6d44d6'}],al:'Die Vorlage',grid:p.grid})}</div>`:'';
  const pol=mir?[{P:p.src,fill:'rgba(138,92,246,.22)',stroke:'#6d44d6'}]:[];
  return `<div class="q">${p.q}</div><p class="mini c">${p.hint||'Tippe nacheinander auf die Nägel. Tippe zuletzt wieder auf den ersten Nagel oder auf „Fertig“.'}</p><div class="gbrow">${ref}<div class="gbcol">${p.mode=='copy'?'Dein Geobrett:':''}${gbBoard(p.cols,p.rows,{polys:pol,axis:p.axis,act:1,grid:p.grid,al:'Dein Geobrett zum Spannen'})}</div></div><div class="tgb"><button onclick="gbUndo()" aria-label="Letzten Punkt zurücknehmen"><span aria-hidden="true">↶</span> zurück</button><button id="gbdone" onclick="gbClose()"><span aria-hidden="true">✔</span> Fertig</button><button onclick="gbReset()"><span aria-hidden="true">🗑</span> neu</button></div>`}
-function gbDraw(){const g=G.gb,L=$('#gbl');if(!L)return;let s='';const P=g.pts;if(P.length>=2)s+=g.closed?`<polygon points="${pt(P)}" fill="rgba(15,181,232,.3)" stroke="#0a8fc4" stroke-width=".11" stroke-linejoin="round"/>`:`<polyline points="${pt(P)}" fill="none" stroke="#0a8fc4" stroke-width=".11" stroke-linejoin="round" stroke-linecap="round"/>`;P.forEach((q,i)=>s+=`<circle cx="${q[0]}" cy="${q[1]}" r=".22" fill="${i==0?'#0a8fc4':'#7fd4f5'}" stroke="#fff" stroke-width=".05"/>`);L.innerHTML=s}
+function gbDraw(){const g=G.gb,L=$('#gbl'),B=$('#gbb');if(!L||!B)return;let b='',s='';const P=g.pts;
+ if(P.length>=2)b+=g.closed?`<polygon points="${pt(P)}" fill="rgba(15,181,232,.28)" stroke="#0a8fc4" stroke-width=".1" stroke-linejoin="round"/>`:`<polyline points="${pt(P)}" fill="none" stroke="#0a8fc4" stroke-width=".1" stroke-linejoin="round" stroke-linecap="round"/>`;
+ const h=g.hov;if(h&&!g.closed){if(P.length&&!P.some(q=>q[0]==h[0]&&q[1]==h[1])){const l=P[P.length-1];b+=`<line x1="${l[0]}" y1="${l[1]}" x2="${h[0]}" y2="${h[1]}" stroke="#0a8fc4" stroke-opacity=".55" stroke-width=".08" stroke-dasharray=".16 .14" stroke-linecap="round"/>`}
+  s+=`<circle cx="${h[0]}" cy="${h[1]}" r=".3" fill="rgba(15,181,232,.18)" stroke="#0fb5e8" stroke-width=".05"/>`}
+ P.forEach((q,i)=>s+=`<circle cx="${q[0]}" cy="${q[1]}" r=".19" fill="${i==0?'#0a8fc4':'#7fd4f5'}" stroke="#fff" stroke-width=".05"/>`);B.innerHTML=b;L.innerHTML=s}
+/* Nächster Nagel zu einer Klick-/Fingerposition (Einrasten) */
+function gbNear(ev){const svg=$('#gbsvg');if(!svg||!svg.getScreenCTM)return null;const m=svg.getScreenCTM();if(!m)return null;const p=svg.createSVGPoint();p.x=ev.clientX;p.y=ev.clientY;const q=p.matrixTransform(m.inverse()),c=+svg.dataset.c,r=+svg.dataset.r;const i=Math.max(0,Math.min(c-1,Math.round(q.x))),j=Math.max(0,Math.min(r-1,Math.round(q.y)));return Math.hypot(q.x-i,q.y-j)<=.75?[i,j]:null}
+function gbClick(ev){if(!G||!G.gb)return;const n=gbNear(ev);if(n)gbTap(n[0],n[1])}
+function gbMove(ev){if(!G||!G.gb||G.state!='ask'||ev.pointerType=='touch')return;const n=gbNear(ev),g=G.gb,o=g.hov;if((!n&&!o)||(n&&o&&n[0]==o[0]&&n[1]==o[1]))return;g.hov=n;gbDraw()}
+function gbLeave(){if(G&&G.gb&&G.gb.hov){G.gb.hov=null;gbDraw()}}
 function gbTap(i,j){if(!G||G.p.t!='gb'||G.state!='ask')return;const g=G.gb,fb=$('#fb');if(g.closed){g.closed=false}const P=g.pts;
  if(P.length&&P[P.length-1][0]==i&&P[P.length-1][1]==j){P.pop();gbDraw();return}
  if(P.length>=3&&P[0][0]==i&&P[0][1]==j){gbClose();return}
@@ -446,13 +510,82 @@ function hUniq(h,M){const D=h.length,W=h[0].length;M=M||Math.max(3,hMax(h));cons
 function cbRand(W,D,M,o){o=o||{};for(let t=0;t<2500;t++){const h=rep(D,()=>rep(W,()=>R(o.zero?0:1,M)));const s=hSum(h);if(s<(o.min||W*D)||s>(o.max||99))continue;if(o.uniq!==false&&!hUniq(h,M))continue;if(new Set(h.flat()).size<2)continue;return h}return rep(D,(_,b)=>rep(W,(_,a)=>Math.min(M,1+(a%2)+(b%2)>M?M:1+((a+b)%2))))}
 const cbMut=h=>{const g=h.map(r=>[...r]),W=g[0].length,D=g.length;const a=R(0,W-1),b=R(0,D-1);g[b][a]=Math.max(0,Math.min(Math.max(3,hMax(h)),g[b][a]+rnd([-1,1])));return g};
 const hKey=h=>h.map(r=>r.join('')).join('/');
+/* --- drehbare 3D-Ansicht (a = Drehwinkel in Grad, 0 = bekannte Standardansicht von vorne rechts) --- */
+const CVL=[211,222,239],CVR=[148,168,202],CVW=[255,205,140];
+const cvRGB=(t,w)=>{const c=CVL.map((l,i)=>l+(CVR[i]-l)*t);return 'rgb('+(w?c.map((v,i)=>Math.round(v*.35+CVW[i]*.65)):c.map(Math.round)).join(',')+')'};
+function cvSVG(h,o){o=o||{};const D=h.length,W=h[0].length,s=o.s||24,Mh=Math.max(3,hMax(h),o.M||0),cx=W/2,cy=D/2,ang=((o.a||0)+45)*Math.PI/180,ca=Math.cos(ang),sa=Math.sin(ang),EP=.001;
+ const P=(X,Y,Z)=>{const x=X-cx,y=Y-cy;return[(x*ca+y*sa)*1.2247*s,((x*sa-y*ca)*.7071-Z)*s]};
+ const pt=q=>{const r=P(q[0],q[1],q[2]);return r[0].toFixed(1)+','+r[1].toFixed(1)};
+ const poly=(pts,fill,ex)=>`<polygon points="${pts.map(pt).join(' ')}" fill="${fill}" ${ex}/>`;
+ const sw=Math.max(.8,s/22).toFixed(2),ST=`stroke="#44546c" stroke-width="${sw}" stroke-linejoin="round"`;
+ let g='';
+ g+=poly([[0,0,0],[W,0,0],[W,D,0],[0,D,0]],'#eef3fa','stroke="#9aaac2" stroke-width="1"');
+ for(let i=1;i<W;i++)g+=`<polyline points="${pt([i,0,0])} ${pt([i,D,0])}" fill="none" stroke="#c4cfdf" stroke-width=".8"/>`;
+ for(let j=1;j<D;j++)g+=`<polyline points="${pt([0,j,0])} ${pt([W,j,0])}" fill="none" stroke="#c4cfdf" stroke-width=".8"/>`;
+ const hl=o.hl;if(hl&&hl.a>=0&&hl.a<W&&hl.b>=0&&hl.b<D)g+=poly([[hl.a,hl.b,0],[hl.a+1,hl.b,0],[hl.a+1,hl.b+1,0],[hl.a,hl.b+1,0]],'rgba(255,159,28,.55)','stroke="#e07b00" stroke-width="2.5" stroke-linejoin="round"');
+ g+=`<polyline points="${pt([0,0,0])} ${pt([W,0,0])}" fill="none" stroke="#2f9e6b" stroke-width="${(s/6).toFixed(1)}" stroke-linecap="round"/>`;
+ const tx=(q,t,col,fs,ex)=>{const r=P(q[0],q[1],q[2]);return `<text x="${r[0].toFixed(1)}" y="${(r[1]+fs*.35).toFixed(1)}" text-anchor="middle" font-size="${fs.toFixed(1)}" font-weight="800" fill="${col}" ${ex||''}>${t}</text>`};
+ if(o.labels!==false){for(let a=0;a<W;a++)g+=tx([a+.5,-.5,0],String.fromCharCode(65+a),'#2f7d5b',s*.55,'paint-order="stroke" stroke="#fff" stroke-width="3"');
+  for(let b=0;b<D;b++)g+=tx([-.5,b+.5,0],b+1,'#5b6b80',s*.55,'paint-order="stroke" stroke="#fff" stroke-width="3"');
+}
+ const L=[];for(let b=0;b<D;b++)for(let a=0;a<W;a++)for(let z=0;z<h[b][a];z++)L.push([a,b,z,(a+.5-cx)*sa*.7071-(b+.5-cy)*ca*.7071+z+.5]);
+ L.sort((u,v)=>u[3]-v[3]);
+ const fl=o.flash,top=hl?(h[hl.b]&&h[hl.b][hl.a]||0)-1:-9;
+ for(const[a,b,z]of L){const warm=fl&&fl.a==a&&fl.b==b&&fl.z==z,x0=a,x1=a+1,y0=b,y1=b+1,z0=z,z1=z+1,id=((b*W+a)*Mh+z)*6+1;
+  const col=(f,c)=>o.dbg?`rgb(${id+f>>16&255},${id+f>>8&255},${id+f&255})`:c;
+  const F=[];
+  if(hAt(h,a,b-1)<=z&&ca>EP)F.push([[x0,y0,z0],[x1,y0,z0],[x1,y0,z1],[x0,y0,z1]],-sa,1);
+  if(hAt(h,a,b+1)<=z&&-ca>EP)F.push([[x0,y1,z0],[x1,y1,z0],[x1,y1,z1],[x0,y1,z1]],sa,2);
+  if(hAt(h,a+1,b)<=z&&sa>EP)F.push([[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[x1,y0,z1]],ca,3);
+  if(hAt(h,a-1,b)<=z&&-sa>EP)F.push([[x0,y0,z0],[x0,y1,z0],[x0,y1,z1],[x0,y0,z1]],-ca,4);
+  for(let i=0;i<F.length;i+=3)g+=poly(F[i],col(F[i+2],cvRGB((F[i+1]+1)/2,warm)),o.dbg?'stroke="none"':ST);
+  if(h[b][a]==z+1)g+=poly([[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]],col(0,warm?'#ffd9a0':(hl&&hl.a==a&&hl.b==b&&z==top?'#ffe3b8':'#ffffff')),o.dbg?'stroke="none"':ST)}
+ if(hl&&hl.a>=0&&hl.a<W&&hl.b>=0&&hl.b<D&&!o.noghost){const z=h[hl.b][hl.a];if(z<Mh&&(!o.cap||z<o.cap)){const a=hl.a,b=hl.b,x0=a,x1=a+1,y0=b,y1=b+1,z0=z,z1=z+1,GS='fill="rgba(255,159,28,.30)" stroke="#e07b00" stroke-width="2" stroke-dasharray="5 3" stroke-linejoin="round"';
+  const F=[[[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]]];
+  if(ca>EP)F.push([[x0,y0,z0],[x1,y0,z0],[x1,y0,z1],[x0,y0,z1]]);if(-ca>EP)F.push([[x0,y1,z0],[x1,y1,z0],[x1,y1,z1],[x0,y1,z1]]);
+  if(sa>EP)F.push([[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[x1,y0,z1]]);if(-sa>EP)F.push([[x0,y0,z0],[x0,y1,z0],[x0,y1,z1],[x0,y0,z1]]);
+  for(const f of F)g+=`<polygon points="${f.map(pt).join(' ')}" ${GS}/>`}}
+ let wm=0;
+ if(o.wall){wm=o.wall=='t'?1:2.2;const K=o.wall,e=.3;let q,E0,T0,tt;
+  if(K=='v'){q=[[0,-e,0],[W,-e,0],[W,-e,Mh],[0,-e,Mh]];E0=[W/2,-3.4,Mh/2];T0=[W/2,-e,Mh/2];tt='von vorne'}
+  else if(K=='r'){q=[[W+e,0,0],[W+e,D,0],[W+e,D,Mh],[W+e,0,Mh]];E0=[W+3.4,D/2,Mh/2];T0=[W+e,D/2,Mh/2];tt='von rechts'}
+  else{q=[[0,0,Mh+e],[W,0,Mh+e],[W,D,Mh+e],[0,D,Mh+e]];E0=[W/2,D/2,Mh+2.7];T0=[W/2,D/2,Mh+e];tt='von oben'}
+  g+=poly(q,'rgba(255,196,0,.20)','stroke="#d99a00" stroke-width="2" stroke-dasharray="6 4" stroke-linejoin="round"');
+  const e0=P(...E0),t0=P(...T0),dx=t0[0]-e0[0],dy=t0[1]-e0[1],dl=Math.hypot(dx,dy)||1,ux=dx/dl,uy=dy/dl,ax=t0[0]-ux*3,ay=t0[1]-uy*3,hs=s*.35;
+  g+=`<line x1="${(e0[0]+ux*s*.7).toFixed(1)}" y1="${(e0[1]+uy*s*.7).toFixed(1)}" x2="${ax.toFixed(1)}" y2="${ay.toFixed(1)}" stroke="#b27a00" stroke-width="${(s/8).toFixed(1)}" stroke-linecap="round"/><polygon points="${t0[0].toFixed(1)},${t0[1].toFixed(1)} ${(ax-uy*hs*.6).toFixed(1)},${(ay+ux*hs*.6).toFixed(1)} ${(ax+uy*hs*.6).toFixed(1)},${(ay-ux*hs*.6).toFixed(1)}" fill="#b27a00"/>`;
+  const sc=s/22;g+=`<g transform="translate(${e0[0].toFixed(1)} ${e0[1].toFixed(1)}) scale(${sc.toFixed(2)})"><path d="M-17 0Q0 -15 17 0Q0 15 -17 0Z" fill="#fff" stroke="#44546c" stroke-width="2"/><circle r="6.5" fill="#2b6cb0"/><circle r="2.8" fill="#17202e"/></g><text x="${e0[0].toFixed(1)}" y="${(e0[1]-s*.85).toFixed(1)}" text-anchor="middle" font-size="${(s*.55).toFixed(1)}" font-weight="800" fill="#7a5200" paint-order="stroke" stroke="#fff" stroke-width="3">${tt}</text>`}
+ const R=Math.hypot(W/2,D/2)+.8+wm,x1=R*1.2247*s,yt=(Mh+(o.wall=='t'?3.4:.4)+R*.7071)*s,yb=(R*.7071+.3)*s;
+ return `<svg ${o.dbg?'shape-rendering="crispEdges" ':''}viewBox="${(-x1).toFixed(1)} ${(-yt).toFixed(1)} ${(2*x1).toFixed(1)} ${(yt+yb).toFixed(1)}" role="img" aria-label="${esc(o.al||'Ein Würfelgebäude')}"${o.st?` style="${o.st}"`:''}>${g}</svg>`}
+/* Drehen per Maus/Finger/Tasten */
+const rvSt=id=>G.cb.rv[id];
+function rvHtml(id,al){return `<div class="rv" id="rv_${id}"><div class="rvs" id="rvs_${id}" tabindex="0" role="group" aria-label="${esc(al)}. Zum Drehen mit der Maus ziehen oder die Pfeiltasten benutzen. Taste R: Ansicht zurücksetzen."></div><div class="rvc"><button type="button" onclick="rvTurn('${id}',-45)" aria-label="Nach links drehen">◀</button><button type="button" class="rvr" onclick="rvReset('${id}')" aria-label="Ansicht zurücksetzen">↺ Ansicht zurücksetzen</button><button type="button" onclick="rvTurn('${id}',45)" aria-label="Nach rechts drehen">▶</button></div><small class="rvh">Ziehe das Bild, um das Gebäude zu drehen. Die grüne Linie ist vorne.</small></div>`}
+function rvRender(id){const el=$('#rvs_'+id);if(!el||!G||!G.cb)return;const st=rvSt(id);if(!st)return;const c=st.fn();el.innerHTML=cvSVG(c.h,Object.assign({a:st.a},c.o));
+ if(!el._b){el._b=1;let drag=null;
+  el.addEventListener('pointerdown',e=>{if(e.button>0)return;drag={x:e.clientX,a:rvSt(id).a,id:e.pointerId};rvStop(id);try{el.setPointerCapture(e.pointerId)}catch(_){}el.classList.add('grab')});
+  el.addEventListener('pointermove',e=>{if(!drag||e.pointerId!=drag.id)return;rvSt(id).a=drag.a+(e.clientX-drag.x)*.7;rvRender(id)});
+  const end=e=>{if(drag&&e.pointerId==drag.id){drag=null;el.classList.remove('grab')}};el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+  el.addEventListener('keydown',e=>{const k=e.key;if(k=='ArrowLeft'){rvTurn(id,-15,1);e.preventDefault()}else if(k=='ArrowRight'){rvTurn(id,15,1);e.preventDefault()}else if(k=='Home'||k=='r'||k=='R'){rvReset(id);e.preventDefault()}})}}
+function rvStop(id){const st=rvSt(id);if(st&&st.raf){cancelAnimationFrame(st.raf);st.raf=0}}
+function rvTo(id,target,quick){const st=rvSt(id);if(!st)return;rvStop(id);const from=st.a;let d=((target-from)%360+540)%360-180;if(d==-180)d=180;const red=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(quick||red||Math.abs(d)<1){st.a=from+d;rvRender(id);return}const t0=performance.now(),T=320;
+ const step=t=>{if(!$('#rvs_'+id))return;const k=Math.min(1,(t-t0)/T),e=1-Math.pow(1-k,3);st.a=from+d*e;rvRender(id);if(k<1)st.raf=requestAnimationFrame(step);else st.raf=0};st.raf=requestAnimationFrame(step)}
+const rvTurn=(id,d,q)=>{const st=rvSt(id);if(!st)return;st.tg=(st.raf?st.tg:st.a)+d;rvTo(id,st.tg,q)};
+const rvReset=id=>{const st=rvSt(id);if(st){st.tg=0;rvTo(id,0)}};
+
 /* --- interaktiver Würfel-Bauplatz --- */
-function cbHtml(p){const W=p.W,D=p.D;G.cb={h:rep(D,()=>rep(W,()=>0)),tries:0};
- let cells='';for(let b=D-1;b>=0;b--)for(let a=0;a<W;a++)cells+=`<div class="cbc" id="cbc${a}_${b}"><button onclick="cbSet(${a},${b},1)" aria-label="Spalte ${a+1}, Reihe ${D-b} von vorne: ein Würfel mehr">＋</button><output id="cbn${a}_${b}" aria-live="polite">0</output><button onclick="cbSet(${a},${b},-1)" aria-label="Spalte ${a+1}, Reihe ${D-b} von vorne: ein Würfel weniger">－</button></div>`;
- return `<div class="q">${p.q}</div>${p.show?`<div class="vis cbshow">${p.show}</div>`:''}<p class="mini c">${p.mini||'Stelle mit ＋ und － ein, wie viele Würfel in jeder Säule stehen.'}</p><div class="front" aria-hidden="true">hinten</div><div class="cbg" style="grid-template-columns:repeat(${W},62px)">${cells}</div><div class="front" aria-hidden="true">▲ vorne</div>${p.live?`<div class="vis" id="cbl"></div>`:''}<p class="c"><button class="big" onclick="cbCheck()">✔ Prüfen</button></p>`}
-function cbLive(){const l=$('#cbl');if(l)l.innerHTML=hSum(G.cb.h)?isoSVG(G.cb.h,{s:G.p.W>3?20:24,al:'Dein Würfelgebäude'}):'<p class="mini">Dein Gebäude ist noch leer.</p>'}
-function cbSet(a,b,d){if(!G||G.p.t!='cube'||G.state!='ask')return;const g=G.cb,M=G.p.M;g.h[b][a]=Math.max(0,Math.min(M,g.h[b][a]+d));$('#cbn'+a+'_'+b).textContent=g.h[b][a];document.querySelectorAll('.cbc.no').forEach(x=>x.classList.remove('no'));cbLive();$('#fb').textContent=''}
-function cbSetAll(h){h.forEach((r,b)=>r.forEach((v,a)=>{G.cb.h[b][a]=v;$('#cbn'+a+'_'+b).textContent=v}));cbLive()}
+const cbLab=(a,b)=>String.fromCharCode(65+a)+(b+1);
+function cbHtml(p){const W=p.W,D=p.D;G.cb={h:rep(D,()=>rep(W,()=>0)),tries:0,hl:null,flash:null,rv:{}};
+ const g=G.cb;
+ if(p.showH)g.rv.cbt={a:0,fn:()=>({h:G.p.showH,o:{s:W>2?19:24,al:'Das Gebäude zum Nachbauen'}})};
+ if(p.live)g.rv.cbl={a:0,fn:()=>({h:G.cb.h,o:{s:W>2?19:24,M:G.p.M,cap:G.p.M,hl:G.cb.hl,flash:G.cb.flash,al:'Dein Würfelgebäude. Orange markiert ist die Säule, an der du gerade baust.'}})};
+ let cells='';for(let b=D-1;b>=0;b--)for(let a=0;a<W;a++)cells+=`<div class="cbc" id="cbc${a}_${b}" role="group" aria-label="Feld ${cbLab(a,b)}" onpointerenter="cbHl(${a},${b})" onfocusin="cbHl(${a},${b})"><span class="cbn" aria-hidden="true">${cbLab(a,b)}</span><button onclick="cbSet(${a},${b},1)" aria-label="Feld ${cbLab(a,b)}: ein Würfel mehr">＋</button><output id="cbn${a}_${b}" aria-live="polite">0</output><button onclick="cbSet(${a},${b},-1)" aria-label="Feld ${cbLab(a,b)}: ein Würfel weniger">－</button></div>`;
+ const mini=(p.mini?p.mini+' ':'')+(p.live?'Tippe ＋ oder －. Das Feld wird orange. Im Gebäude leuchtet dann genau diese Säule orange. Der gestrichelte Würfel ist der nächste.':'Stelle mit ＋ und － ein, wie viele Würfel in jeder Säule stehen.');
+ return `<div class="q">${p.q}</div>${p.showH?`<div class="vis cbshow">${rvHtml('cbt','Das Gebäude zum Nachbauen')}</div>`:p.show?`<div class="vis cbshow">${p.show}</div>`:''}<div class="cbw"><div class="cbb"><p class="mini c">${mini}</p><div class="front back" aria-hidden="true">hinten</div><div class="cbg" style="grid-template-columns:repeat(${W},68px)">${cells}</div><div class="front fr" aria-hidden="true">▲ vorne</div></div>${p.live?`<div class="vis cbl">${rvHtml('cbl','Dein Würfelgebäude')}</div>`:''}</div><p class="c"><button class="big" onclick="cbCheck()">✔ Prüfen</button></p>`}
+function cbLive(){if(!G||!G.cb)return;for(const id in G.cb.rv)rvRender(id)}
+function cbHl(a,b){if(!G||!G.cb||G.p.t!='cube')return;const g=G.cb;if(g.hl&&g.hl.a==a&&g.hl.b==b)return;g.hl={a,b};document.querySelectorAll('.cbc.sel').forEach(x=>x.classList.remove('sel'));const c=$('#cbc'+a+'_'+b);c&&c.classList.add('sel');cbLive()}
+function cbSet(a,b,d){if(!G||G.p.t!='cube'||G.state!='ask')return;const g=G.cb,M=G.p.M,old=g.h[b][a];g.h[b][a]=Math.max(0,Math.min(M,old+d));$('#cbn'+a+'_'+b).textContent=g.h[b][a];document.querySelectorAll('.cbc.no').forEach(x=>x.classList.remove('no'));g.hl=null;cbHl(a,b);
+ clearTimeout(g.ft);g.flash=g.h[b][a]>old?{a,b,z:g.h[b][a]-1}:null;if(g.flash){g.ft=setTimeout(()=>{if(G&&G.cb===g){g.flash=null;cbLive()}},1300)}cbLive();$('#fb').textContent=''}
+function cbSetAll(h){h.forEach((r,b)=>r.forEach((v,a)=>{G.cb.h[b][a]=v;$('#cbn'+a+'_'+b).textContent=v}));G.cb.flash=null;cbLive()}
 function cbCheck(){if(!G||G.p.t!='cube'||G.state!='ask')return;const p=G.p,g=G.cb,fb=$('#fb');let ok,bad=[];
  if(p.mode=='views'){const V=h=>[viewCols(h,'v').join(),viewCols(h,'r').join(),h.map(r=>r.map(x=>x>0?1:0).join('')).join('/')];const a=V(g.h),b=V(p.tgt);ok=a.every((x,i)=>x==b[i]||(i==2&&!p.top));if(!ok)bad=[a[0]!=b[0]?'Vorderansicht':'',a[1]!=b[1]?'Seitenansicht':'',p.top&&a[2]!=b[2]?'Draufsicht':''].filter(Boolean)}
  else{p.tgt.forEach((r,b)=>r.forEach((v,a)=>{if(g.h[b][a]!=v)bad.push([a,b])}));ok=!bad.length}
@@ -477,10 +610,10 @@ function gCbView(W,D,M,kinds){const h=cbRand(W,D,M,{zero:true,min:4});const kind
  add(viewCols(h,kind=='v'?'r':'v'));let g=0;while(alts.length<2&&g++<60){const c=[...cv],i=R(0,c.length-1);c[i]=Math.max(0,Math.min(M,c[i]+rnd([-1,1])));if(c.some(x=>x>0))add(c)}
  if(alts.length<2||cv.join()==viewCols(h,kind=='v'?'r':'v').join())return gCbView(W,D,M,kinds);
  const opt=c=>[colsSVG(c,{s:16,st:'max-width:110px'}),'Ansicht '+c.join('-')];
- return mk('Du schaust '+nm[kind]+' auf das Gebäude. Was siehst du?',opt(cv),alts.map(opt),{vis:isoSVG(h,{s:24,al:'Ein Würfelgebäude'})+'<small>'+(kind=='v'?'Von vorne: Du schaust auf die linke große Fläche.':'Von rechts: Du schaust auf die rechte große Fläche.')+'</small>',fun:kind=='v'?'Von vorne siehst du von jeder Spalte die höchste Säule.':'Von der Seite siehst du die Säulen von vorne nach hinten nebeneinander, jeweils die höchste.',key:'vw'+hKey(h)+kind,cls:'c3'})}
+ return mk('Du schaust '+nm[kind]+' auf das Gebäude. Was siehst du?',opt(cv),alts.map(opt),{vis:cvSVG(h,{s:24,M,wall:kind,labels:false,al:'Ein Würfelgebäude. Die gelbe, durchsichtige Wand zeigt die Seite, von der du schaust.'})+'<small>'+(kind=='v'?'Von vorne: Du schaust durch die gelbe Wand auf die linke große Fläche.':'Von rechts: Du schaust durch die gelbe Wand auf die rechte große Fläche.')+'</small>',fun:kind=='v'?'Von vorne siehst du von jeder Spalte die höchste Säule.':'Von der Seite siehst du die Säulen von vorne nach hinten nebeneinander, jeweils die höchste.',key:'vw'+hKey(h)+kind,cls:'c3'})}
 function gCbTop(W,D,M){const h=cbRand(W,D,M,{zero:true,min:4});const occ=x=>x.map(r=>r.map(v=>v>0?1:0));const cv=occ(h),alts=[];let g=0;while(alts.length<2&&g++<80){const c=cv.map(r=>[...r]);const a=R(0,W-1),b=R(0,D-1);c[b][a]^=1;if(c.flat().some(x=>x)&&hKey(c)!=hKey(cv)&&!alts.some(x=>hKey(x)==hKey(c)))alts.push(c)}
  if(alts.length<2)return gCbTop(W,D,M);
- const opt=c=>[topSVG(c,{s:20,st:'max-width:100px'}),'Plan '+hKey(c)];return mk('Du schaust von oben auf das Gebäude. Was siehst du?',opt(cv),alts.map(opt),{vis:isoSVG(h,{s:24,al:'Ein Würfelgebäude'}),fun:'Von oben siehst du nur, wo Säulen stehen – nicht, wie hoch sie sind.',key:'top'+hKey(h),cls:'c3'})}
+ const opt=c=>[topSVG(c,{s:20,st:'max-width:100px'}),'Plan '+hKey(c)];return mk('Du schaust von oben auf das Gebäude. Was siehst du?',opt(cv),alts.map(opt),{vis:cvSVG(h,{s:24,M,wall:'t',labels:false,al:'Ein Würfelgebäude. Die gelbe, durchsichtige Fläche liegt oben auf dem Gebäude: Du schaust von oben darauf.'})+'<small>Von oben: Du schaust durch die gelbe Fläche auf das Dach.</small>',fun:'Von oben siehst du nur, wo Säulen stehen – nicht, wie hoch sie sind.',key:'top'+hKey(h),cls:'c3'})}
 const NETS=(()=>{const out=[],seen=new Set();for(let t=0;t<4000&&out.length<80;t++){const c=randHexomino(),k=c.map(x=>x.join()).sort().join(';');const xs=c.map(a=>a[0]),ys=c.map(a=>a[1]);const nrm=c.map(([x,y])=>[x-Math.min(...xs),y-Math.min(...ys)]);const key=nrm.map(x=>x.join()).sort().join(';');if(seen.has(key))continue;seen.add(key);out.push({c:nrm,ok:netOK(nrm)})}return out})();
 function gNet(){const good=rnd(NETS.filter(n=>n.ok)),bad=sh(NETS.filter(n=>!n.ok)).slice(0,2);const opt=n=>[netSVG(n.c,{s:20,st:'max-width:120px'}),'Netz '+n.c.join(';')];return mk('Welches Muster lässt sich zu einem Würfel falten?',opt(good),bad.map(opt),{fun:'Ein Würfel hat 6 Seitenflächen. Ein Würfelnetz besteht aus 6 Quadraten, die so liegen, dass man sie zu einem Würfel falten kann. Es gibt genau 11 verschiedene Würfelnetze.',tip:'Stelle dir vor, wie du ein Quadrat nach dem anderen hochklappst. Nie dürfen zwei Quadrate an dieselbe Stelle kommen.',key:'net'+good.c.join(';'),cls:'c3'})}
 
@@ -610,11 +743,30 @@ const gSymLine=pool=>{const k=rnd(pool),col=rnd(FAC),ok=R(0,1),good=AXES[k],tt=o
 const gSymCount=pool=>{const k=rnd(pool),n=ALLAX[k],col=rnd(FAC),all=['0','1','2','3','4','5','6','unendlich viele'],ans=String(n);const w=sh(all.filter(x=>x!=ans&&(x!='unendlich viele'||k=='kreis'||KL==4))).slice(0,3);const p=mk(`Wie viele Spiegelachsen hat ${SHP[k].d=='die'?'eine':'ein'} ${SHP[k].n}?`,ans,w,{vis:axSvg(k,[],col),rvl:axSvg(k,axLines(k),col),fun:'Das '+SHP[k].n+' hat '+(n==0?'keine':n)+' Spiegelachse'+(n==1?'':'n')+'. Beim Falten an der Achse liegen beide Hälften genau aufeinander.',key:'sc'+k,cls:'c3',tip:'Falte die Form in Gedanken an verschiedenen Linien.'});return p};
 /* Tangram: Wissen */
 const pieceSvg=(t,col,w)=>{const P=pcPoly(t,0,0,0,0),b=bbox(P);return `<svg viewBox="${(b[0]-.15).toFixed(2)} ${(b[1]-.15).toFixed(2)} ${(b[2]-b[0]+.3).toFixed(2)} ${(b[3]-b[1]+.3).toFixed(2)}" role="img" aria-label="${PN[t]}" style="width:${w||70}px"><polygon points="${pt(P)}" fill="${col}" stroke="#fff" stroke-width=".07" stroke-linejoin="round"/></svg>`};
-const tgIntro=()=>({t:'learn',key:'tgintro',say:'Die sieben Tangram-Teile: zwei große Dreiecke, ein mittleres Dreieck, zwei kleine Dreiecke, ein Quadrat und ein Parallelogramm.',html:`<div class="learn"><div class="q">Die 7 Tangram-Teile</div><div class="fgrid">${[['L',FAC[0],'2 große Dreiecke'],['M',FAC[2],'1 mittleres Dreieck'],['S',FAC[3],'2 kleine Dreiecke'],['Q',FAC[5],'1 Quadrat'],['P',FAC[6],'1 Parallelogramm']].map(([t,c,n])=>`<div>${pieceSvg(t,c,t=='L'?96:t=='M'?76:t=='S'?54:60)}${n}</div>`).join('')}</div><p>Zusammen ergeben die 7 Teile ein großes Quadrat. Mit ihnen kannst du Formen, Tiere und Dinge legen. Das Spiel kommt ursprünglich aus China.</p><p class="mini">Tippe auf ein Teil, dann dreht es sich. Ziehe es an die richtige Stelle.</p></div>`});
-const gTgName=()=>{const t=rnd(['L','M','S','Q','P']),nm={L:'Dreieck',M:'Dreieck',S:'Dreieck',Q:'Quadrat',P:'Parallelogramm'}[t],ws=['Dreieck','Quadrat','Parallelogramm','Rechteck','Kreis'].filter(x=>x!=nm);return mk('Wie heißt die Form dieses Tangram-Teils?',nm,sh(ws).slice(0,KL==1?2:3),{vis:pieceSvg(t,rnd(FAC),110),fun:t=='Q'?'Das Quadrat hat 4 gleich lange Seiten und 4 rechte Winkel.':t=='P'?'Beim Parallelogramm sind gegenüberliegende Seiten parallel und gleich lang.':'Alle drei Dreiecke sehen gleich aus, nur ihre Größe ist verschieden. Sie haben einen rechten Winkel.',key:'tn'+t})};
-const gTgArea=()=>{const t=rnd(['Q','M','P','L']),n={Q:2,M:2,P:2,L:4}[t],nm=PN[t];const w=[1,2,3,4,6,8].filter(x=>x!=n);return mk('Wie viele <b>kleine Dreiecke</b> brauchst du, um das '+nm+' genau zu legen?',String(n),sh(w).slice(0,3).map(String),{vis:`<div class="row">${pieceSvg(t,rnd(FAC),t=='L'?120:90)}<span style="font-size:1.6em">=</span>${pieceSvg('S','#4da3ff',50)}<span style="font-size:1.6em">?</span></div>`,fun:'Das kleine Dreieck ist die Einheit: Quadrat, mittleres Dreieck und Parallelogramm sind 2 kleine Dreiecke groß, das große Dreieck sogar 4. Alle 7 Teile zusammen sind 16 kleine Dreiecke groß.',key:'ta'+t,cls:'c3',tip:'Probiere es mit deinen Tangram-Teilen aus.'})};
-const gTgMiss=()=>{const fig=rnd(FIGS.filter(f=>f.k>=3&&f.k<=5)),k=R(0,fig.k-1),t=fig.t[k];const col=FAC;const svg=(rv)=>`<svg viewBox="-.25 -.25 ${fig.w+.5} ${fig.h+.5}" role="img" aria-label="Eine Figur, bei der ein Teil fehlt" style="width:min(260px,70vw)">${fig.p.map((P,i)=>i==k?`<polygon points="${pt(P)}" fill="${rv?FAC[i%7]:'#fff'}" stroke="${rv?'#fff':'#0a8fc4'}" stroke-width=".09" ${rv?'':'stroke-dasharray=".18 .12"'} stroke-linejoin="round"/>`:`<polygon points="${pt(P)}" fill="${FAC[i%7]}" stroke="#fff" stroke-width=".07" stroke-linejoin="round"/>`).join('')}</svg>`;
- const ts=['L','M','S','Q','P'].filter(x=>x!=t);const opt=x=>[pieceSvg(x,'#8fa2bd',58),PN[x]];return mk('Ein Teil fehlt. Welches Tangram-Teil passt in die weiße Lücke?',opt(t),sh(ts).slice(0,2).map(opt),{vis:svg(false),rvl:svg(true),fun:'Vergleiche die Lücke mit den Teilen: Wie viele Ecken hat sie? Wie groß ist sie?',key:'tm'+fig.id+k,cls:'c3'})};
+const tgIntro=()=>({t:'learn',key:'tgintro',say:'Die sieben Tangram-Teile: zwei große Dreiecke, ein mittleres Dreieck, zwei kleine Dreiecke, ein Quadrat und ein Parallelogramm.',html:`<div class="learn"><div class="q">Die 7 Tangram-Teile</div><div class="fgrid">${[['L',FAC[0],'2 große Dreiecke'],['M',FAC[2],'1 mittleres Dreieck'],['S',FAC[3],'2 kleine Dreiecke'],['Q',FAC[5],'1 Quadrat'],['P',FAC[6],'1 Parallelogramm']].map(([t,c,n])=>`<div>${pieceSvgU(t,c,32)}${n}</div>`).join('')}</div><p>Zusammen ergeben die 7 Teile ein großes Quadrat. Mit ihnen kannst du Formen, Tiere und Dinge legen. Das Spiel kommt ursprünglich aus China.</p><p class="mini">Tippe auf ein Teil, dann dreht es sich. Ziehe es an die richtige Stelle.</p></div>`});
+const gTgName=()=>{const t=rnd(['L','M','S','Q','P']),nm={L:'Dreieck',M:'Dreieck',S:'Dreieck',Q:'Quadrat',P:'Parallelogramm'}[t],ws=['Dreieck','Quadrat','Parallelogramm','Rechteck','Kreis'].filter(x=>x!=nm);return mk('Wie heißt die Form dieses Tangram-Teils?',nm,sh(ws).slice(0,KL==1?2:3),{vis:pieceSvgU(t,rnd(FAC),40),fun:t=='Q'?'Das Quadrat hat 4 gleich lange Seiten und 4 rechte Winkel.':t=='P'?'Beim Parallelogramm sind gegenüberliegende Seiten parallel und gleich lang.':'Alle drei Dreiecke sehen gleich aus, nur ihre Größe ist verschieden. Sie haben einen rechten Winkel.',key:'tn'+t})};
+/* maßstabsgetreue Teile: u = Pixel pro Tangram-Einheit */
+const pieceSvgU=(t,col,u)=>{const b=bbox(BP[t]);return pieceSvg(t,col,Math.round((b[2]-b[0]+.3)*u))};
+/* Zerlegung der Teile in kleine Dreiecke (Beweis): L=4, M=2, Q=2, P=2 */
+const SUBS={Q:[[[0,0],[S2,0],[S2,S2]],[[0,0],[S2,S2],[0,S2]]],P:[[[0,0],[2,0],[1,1]],[[2,0],[3,1],[1,1]]],M:[[[0,0],[2,0],[1,1]],[[0,0],[1,1],[0,2]]],
+ L:[[[0,0],[S2,0],[S2,S2]],[[S2,0],[2*S2,0],[S2,S2]],[[0,0],[S2,S2],[0,S2]],[[0,S2],[S2,S2],[0,2*S2]]]};
+function decompSvg(t,u){const b=bbox(BP[t]),pad=.2,w=b[2]-b[0]+2*pad,h=b[3]-b[1]+2*pad;const cols=['#4da3ff','#ff6b6b','#2ec4b6','#ffb347'];
+ return `<svg viewBox="${(b[0]-pad).toFixed(2)} ${(b[1]-pad).toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}" role="img" aria-label="Das ${PN[t]} besteht aus ${SUBS[t].length} kleinen Dreiecken" style="width:${Math.round(w*u)}px">${SUBS[t].map((P,k)=>{const c=cenP(P);return `<polygon points="${pt(P)}" fill="${cols[k%4]}" stroke="#fff" stroke-width=".09" stroke-linejoin="round"/><text x="${c[0].toFixed(2)}" y="${(c[1]+.17).toFixed(2)}" text-anchor="middle" font-size=".5" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">${k+1}</text>`}).join('')}</svg>`}
+const gTgArea=()=>{const t=rnd(['Q','M','P','L']),n={Q:2,M:2,P:2,L:4}[t],nm=PN[t],u=KL<=3?34:38;const w=[1,2,3,4,6,8].filter(x=>x!=n);
+ const art=t=='Q'?'das':t=='P'?'das':t=='L'?'das':'das';
+ return mk('Wie viele <b>kleine Dreiecke</b> brauchst du, um das '+nm+' genau zu legen?',String(n),sh(w).slice(0,3).map(String),{vis:`<div class="row" style="align-items:center">${pieceSvgU(t,rnd(FAC),u)}<span style="font-size:1.6em">=</span>${pieceSvgU('S','#4da3ff',u)}<span style="font-size:1.6em">?</span></div><small>Alle Teile sind hier im gleichen Maßstab gezeichnet.</small>`,rvl:`<div class="row" style="align-items:center">${decompSvg(t,u+6)}</div><small>So passen ${n} kleine Dreiecke genau in das ${nm}. Zähle nach!</small>`,fun:'Das kleine Dreieck ist die Einheit. Das '+nm+' lässt sich in '+n+' kleine Dreiecke zerlegen, ohne dass etwas übrig bleibt oder fehlt. Deshalb braucht man genau '+n+'. Quadrat, mittleres Dreieck und Parallelogramm sind 2 kleine Dreiecke groß, das große Dreieck 4. Alle 7 Teile zusammen sind 16 kleine Dreiecke groß.',key:'ta'+t,cls:'c3',tip:'Lege das Teil mit kleinen Dreiecken nach.'})};
+/* Beweis durch Legen: Ein Teil wird nur aus kleineren Teilen gelegt */
+function gTgFill(){const t=rnd(['Q','M','P','L']),subs=t=='L'?[[[0,0],[2*S2,0],[S2,S2]],[[0,0],[S2,S2],[0,S2]],[[0,S2],[S2,S2],[0,2*S2]]]:SUBS[t],ty=t=='L'?'MSS':'SS';
+ const b=bbox(BP[t]),p=subs.map(P=>P.map(([x,y])=>[+(x-b[0]).toFixed(3),+(y-b[1]).toFixed(3)]));
+ const fig={id:'fill'+t,n:PN[t],c:'form',k:subs.length,lv:1,w:+(b[2]-b[0]).toFixed(3),h:+(b[3]-b[1]).toFixed(3),t:ty,p};
+ const what=t=='L'?'ein mittleres Dreieck und zwei kleine Dreiecke':'zwei kleine Dreiecke';
+ return{t:'tang',fig,q:'Lege das <b>'+PN[t]+'</b> nur aus kleineren Teilen: '+what+'.',say:'Lege das '+PN[t]+' nur aus kleineren Teilen: '+what+'.',fun:'Geschafft! Das '+PN[t]+' ist genau so groß wie '+what+'. Das ist der Beweis zum Anfassen: Die Teile passen ohne Lücke und ohne Überlappung. '+(t=='L'?'Das mittlere Dreieck besteht selbst aus 2 kleinen Dreiecken, also braucht das große Dreieck 4 kleine.':'Es sind genau 2 kleine Dreiecke.'),key:'tf'+t}}
+const gTgMiss=()=>{const fig=rnd(FIGS.filter(f=>f.k>=3&&f.k<=5)),k=R(0,fig.k-1),t=fig.t[k];
+ const svg=(rv)=>`<svg viewBox="-.25 -.25 ${fig.w+.5} ${fig.h+.5}" role="img" aria-label="Eine Figur, bei der ein Teil fehlt" style="width:min(260px,70vw)">${fig.p.map((P,i)=>i==k?'':`<polygon points="${pt(P)}" fill="${FAC[i%7]}" stroke="#fff" stroke-width=".07" stroke-linejoin="round"/>`).join('')}${rv?`<polygon points="${pt(fig.p[k])}" fill="${FAC[k%7]}" stroke="#fff" stroke-width=".07" stroke-linejoin="round"/>`:`<polygon points="${pt(fig.p[k])}" fill="#fff" stroke="#0a8fc4" stroke-width="3" vector-effect="non-scaling-stroke" stroke-dasharray="8 5" stroke-linejoin="round"/>`}</svg>`;
+ const shp={L:'Dreieck',M:'Dreieck',S:'Dreieck',Q:'Quadrat',P:'Parallelogramm'},icon={Dreieck:pieceSvgU('S','#8fa2bd',34),Quadrat:pieceSvgU('Q','#8fa2bd',34),Parallelogramm:pieceSvgU('P','#8fa2bd',30)};
+ const cor=shp[t],opt=n=>[icon[n],n],others=Object.keys(icon).filter(x=>x!=cor);
+ const why={Dreieck:'Die Lücke hat 3 Ecken: Es ist ein Dreieck.',Quadrat:'Die Lücke hat 4 gleich lange Seiten und 4 rechte Winkel: Es ist ein Quadrat.',Parallelogramm:'Die Lücke hat 4 Ecken und schräge Seiten, gegenüberliegende Seiten sind parallel: Es ist ein Parallelogramm.'}[cor];
+ return mk('Ein Teil fehlt. <b>Welche Form</b> hat die weiße Lücke?',opt(cor),others.map(opt),{vis:svg(false),rvl:svg(true),fun:why+' (Es kommt nur auf die Form an, nicht auf die Größe.)',key:'tm'+fig.id+k,cls:'c3',tip:'Zähle die Ecken der Lücke.'})};
 /* Geobrett-Aufgaben */
 const gbRect=(w,h)=>[[0,0],[w,0],[w,h],[0,h]];
 const shiftP=(P,ox,oy)=>P.map(p=>[p[0]+ox,p[1]+oy]);
@@ -644,8 +796,8 @@ function gbOpen(kind,cols,rows){const o={t:'gb',mode:'open',cols,rows,key:'go'+k
 /* Spiegeln */
 function gbMirror(cols,rows,kind){let P,axis,tgt,src;
  const rndPoly=(x0,x1,y0,y1)=>{for(let t=0;t<200;t++){const n=rnd([3,4,4]);const pts=rep(n,()=>[R(x0,x1),R(y0,y1)]);const h=hull(pts);if(h.length>=3&&h.length>=n-1&&gbArea(h)>=1.5&&(kind!='v'||true)){return h}}return[[x0,y0],[x1,y0],[x0,y1]]};
- if(kind=='v'){const half=!R(0,1)&&cols%2==0,ax=half?(cols-1)/2:Math.floor((cols-1)/2),L=Math.floor(ax)-(half?0:1);src=rndPoly(0,half?(cols-2)/2:ax-1,0,rows-1);axis={t:'v',v:ax};tgt=src.map(([x,y])=>[2*ax-x,y])}
- else if(kind=='h'){const ax=Math.floor((rows-1)/2);src=rndPoly(0,cols-1,0,ax-1);axis={t:'h',v:ax};tgt=src.map(([x,y])=>[x,2*ax-y])}
+ if(kind=='v'){const ax=(cols-1)/2;/* Spiegellinie immer genau in der Mitte (cols ungerade -> Linie liegt auf Nägeln) */src=rndPoly(0,Math.ceil(ax)-1,0,rows-1);axis={t:'v',v:ax};tgt=src.map(([x,y])=>[2*ax-x,y])}
+ else if(kind=='h'){const ax=(rows-1)/2;src=rndPoly(0,cols-1,0,Math.ceil(ax)-1);axis={t:'h',v:ax};tgt=src.map(([x,y])=>[x,2*ax-y])}
  else{/* Diagonale y=x */axis={t:'d',c:0};src=rndPoly(0,cols-2,1,rows-1).map(([x,y])=>x<y?[x,y]:[y,x]);src=hull(src);if(src.length<3||gbArea(src)<1.5)return gbMirror(cols,rows,kind);tgt=src.map(([x,y])=>[y,x]);if(gbEq(src,tgt))return gbMirror(cols,rows,kind)}
  return{t:'gb',mode:'mirror',cols,rows,src,axis,tgt,q:'Spiegle die Figur an der <b>violetten Linie</b>. Spanne das Spiegelbild.',say:'Spiegle die Figur an der violetten Linie und spanne das Spiegelbild.',hint:'Jede Ecke hat auf der anderen Seite der Linie genau den gleichen Abstand.',fun:'Beim Spiegeln hat jeder Punkt auf der anderen Seite der Spiegellinie genau den gleichen Abstand zur Linie wie sein Bildpunkt.',key:'gm'+kind+src.join(';')+cols}}
 function hull(pts){const P=[...new Map(pts.map(p=>[p+'',p])).values()].sort((a,b)=>a[0]-b[0]||a[1]-b[1]);if(P.length<3)return P;const low=[],up=[];for(const p of P){while(low.length>=2&&cr(low[low.length-2],low[low.length-1],p)<=0)low.pop();low.push(p)}for(const p of [...P].reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p)}return low.slice(0,-1).concat(up.slice(0,-1))}
@@ -693,18 +845,18 @@ const LVALL=[
 /* Tangram */
 L_('t1','tang','🔺',K('Formen legen','Formen legen','Formen legen','Figuren legen'),K('Lege Dreiecke und Vierecke aus den Teilen.','Lege Vierecke und Trapeze.','Lege Rechtecke und Trapeze mit vielen Teilen.','Lege Gegenstände und Pflanzen.'),[1,2,3,4],()=>(KL==1?[tgIntro()]:[]).concat(tgPick(TGL[KL][0],KL==1?3:3))),
 L_('t2','tang','🐟',K('Kleine Figuren','Kleine Figuren','Figuren legen','Tangram-Tiere'),K('Lege Fisch, Fliege, Vogel und Boot.','Lege Boot, Roboter, Vogel und mehr.','Lege Baum, Hase, Roboter und mehr.','Lege Tiere aus allen 7 Teilen.'),[1,2,3,4],()=>KL==1?tgPick(TGL[1][1],3):tgPick(TGL[KL][1],KL==2?3:4)),
-L_('t3','tang','🦢',K('Fisch, Vogel & Boot','Teile-Wissen','Tiere aus 7 Teilen','Meisterstücke'),K('Lege Figuren mit mehr Teilen.','Wie groß sind die Teile? Welches Teil fehlt?','Lege Katze, Hund, Schwan und Goldfisch.','Lege Flugzeug, Rakete, Hai und Adler.'),[1,2,3,4],()=>KL==1?tgPick(TGL[1][2],3):KL==2?many([gTgName,gTgArea,gTgMiss,gTgArea,gTgMiss]):KL==3?tgPick(TGL[3][2],3):tgPick(TGL[4][2],3)),
-L_('t4','tang','🧮',K('Teile-Wissen','Freies Legen','Teile-Wissen','Teile-Wissen'),K('Wie heißen die Teile?','Baue deine eigene Figur.','Wie groß sind die Teile? Welches Teil fehlt?','Welches Teil passt? Wie groß ist es?'),[1,2,3,4],()=>KL==2?[tgFree()]:many(KL==1?[gTgName,gTgName,gTgName,gTgName]:[gTgArea,gTgMiss,gTgArea,gTgMiss,gTgName,gTgArea])),
+L_('t3','tang','🦢',K('Fisch, Vogel & Boot','Teile-Wissen','Tiere aus 7 Teilen','Meisterstücke'),K('Lege Figuren mit mehr Teilen.','Wie groß sind die Teile? Welches Teil fehlt?','Lege Katze, Hund, Schwan und Goldfisch.','Lege Flugzeug, Rakete, Hai und Adler.'),[1,2,3,4],()=>KL==1?tgPick(TGL[1][2],3):KL==2?many([gTgName,gTgArea,gTgFill,gTgMiss,gTgFill]):KL==3?tgPick(TGL[3][2],3):tgPick(TGL[4][2],3)),
+L_('t4','tang','🧮',K('Teile-Wissen','Freies Legen','Teile-Wissen','Teile-Wissen'),K('Wie heißen die Teile?','Baue deine eigene Figur.','Wie groß sind die Teile? Welches Teil fehlt?','Welches Teil passt? Wie groß ist es?'),[1,2,3,4],()=>KL==2?[tgFree()]:many(KL==1?[gTgName,gTgName,gTgName,gTgName]:[gTgArea,gTgFill,gTgMiss,gTgArea,gTgFill,gTgMiss])),
 L_('t5','tang','✨','Freies Legen','Baue deine eigene Figur und speichere sie.',[1,3,4],()=>[tgFree()]),
 /* Geobrett */
 L_('g1','geo','🔷','Nachspannen','Spanne die Figur auf deinem Geobrett nach.',[1,2,3,4],()=>many(rep(K(3,4,4,5),()=>()=>gbCopy(K(['dreieck','dreieck2','quadrat','rechteck','quadrat3'],['dreieck','dreieck2','quadrat','rechteck','trapez','para','haus','drachen'],Object.keys(GT).filter(k=>GT[k].lv<=3),Object.keys(GT).filter(k=>GT[k].lv>=2)),...K([5,5],[6,6],[7,7],[7,7])))) ),
 L_('g2','geo','🟦',K('Formen spannen','Formen spannen','Formen spannen','Formen spannen'),'Spanne Formen nach einer Beschreibung.',[1,2],()=>many((KL==1?['quadrat','rechteck','dreieck','rtri']:['rwh_4_2','qk_3','fuenf','viereck','sechs']).map(k=>()=>gbOpen(k,K(5,6,6,6),K(5,6,6,6))))),
-L_('g3','geo','🪞','Spiegeln','Spiegle Figuren an einer Linie.',[2,3,4],()=>many(rep(KL==2?3:4,(_,i)=>()=>KL==2?gbMirror(7,5,'v'):KL==3?gbMirror(7,6,i%2?'h':'v'):gbMirror(6,6,['v','h','d','d'][i])))),
+L_('g3','geo','🪞','Spiegeln','Spiegle Figuren an einer Linie.',[2,3,4],()=>many(rep(KL==2?3:4,(_,i)=>()=>KL==2?gbMirror(7,5,'v'):KL==3?gbMirror(7,7,i%2?'h':'v'):gbMirror(7,7,['v','h','d','d'][i])))),
 L_('g4','geo','📏','Fläche & Umfang','Wie groß sind Flächeninhalt und Umfang?',[3,4],()=>many(KL==3?[gGbArea,gGbPer,gGbArea,gGbPer,gGbCmp]:[gGbArea,gGbPer,gGbTri,gGbCmp,gGbSame,gGbTri])),
 L_('g5','geo','🎯','Umfang & Fläche spannen','Spanne Figuren mit vorgegebenem Umfang oder Flächeninhalt.',[3,4],()=>many((KL==3?['ru_10','qu_8','ra_6','qa_9','ru_12']:['rua_14_12','dr_4','pa_6','rua_16_15','rua_14_10']).map(k=>()=>gbOpen(k,7,7)))),
 /* Baupläne */
 L_('b1','bau','🔢','Würfel zählen',K('Wie viele Würfel sind es?','Wie viele Würfel sind es?','',''),[1,2],()=>KL==1?many([()=>gCbCount(2,1,2),()=>gCbCount(2,1,3),()=>gCbCount(2,2,2),()=>gCbCount(2,2,2)]):many([()=>gCbCount(3,2,3),()=>gCbCount(3,2,3),()=>gCbPlanNum(2,2,3),()=>gCbPlanNum(3,2,3),()=>gCbCount(3,2,4)])),
-L_('b2','bau','🧱','Gebäude nachbauen','Baue das Gebäude nach dem Bild nach.',[1,2,3],()=>{const[W,D,M]=K([2,2,2],[3,2,3],[3,3,3]);return many(rep(3,()=>()=>{const h=cbRand(W,D,M,{zero:KL>1,min:W*D>=6?5:3,max:K(5,9,13)});return{t:'cube',mode:'build',live:true,W,D,M,tgt:h,show:isoSVG(h,{s:W>2?24:28,al:'Das Gebäude zum Nachbauen'}),q:'Baue dieses Gebäude nach.',say:'Baue dieses Gebäude nach. Stelle in jeder Säule ein, wie viele Würfel dort stehen.',fun:'Zähle die Würfel Säule für Säule. Die Säule hinten kann von der vorderen verdeckt sein.',key:'cb'+hKey(h),mini:'Die Felder sind von oben gesehen. Unten ist vorne.'}}))}),
+L_('b2','bau','🧱','Gebäude nachbauen','Baue das Gebäude nach dem Bild nach.',[1,2,3],()=>{const[W,D,M]=K([2,2,2],[3,2,3],[3,3,3]);return many(rep(3,()=>()=>{const h=cbRand(W,D,M,{zero:KL>1,min:W*D>=6?5:3,max:K(5,9,13)});return{t:'cube',mode:'build',live:true,W,D,M,tgt:h,showH:h,q:'Baue dieses Gebäude nach.',say:'Baue dieses Gebäude nach. Stelle in jeder Säule ein, wie viele Würfel dort stehen.',fun:'Zähle die Würfel Säule für Säule. Die Säule hinten kann von der vorderen verdeckt sein.',key:'cb'+hKey(h)}}))}),
 L_('b3','bau','📐',K('Pläne lesen','Pläne lesen','Baupläne lesen','Baupläne lesen'),'Bauplan und Gebäude gehören zusammen.',[2,3,4],()=>KL==2?many([()=>gCbPic2Plan(2,2,3),()=>gCbPlan2Pic(2,2,3),()=>gCbPic2Plan(3,2,3),()=>gCbPlan2Pic(3,2,3),()=>{const h=cbRand(3,2,3,{zero:true,min:4});return{t:'cube',mode:'plan',live:true,W:3,D:2,M:3,tgt:h,show:planSVG(h,{s:38}),q:'Baue das Gebäude, das zu diesem Bauplan gehört.',say:'Baue das Gebäude nach dem Bauplan.',fun:'Im Bauplan steht in jedem Feld, wie viele Würfel dort übereinander stehen.',key:'cbp'+hKey(h)}}]):many(KL==3?[()=>gCbPic2Plan(3,2,4),()=>gCbPlan2Pic(3,3,3),()=>{const h=cbRand(3,2,3,{zero:true,min:4});return{t:'cube',mode:'pic2plan',live:false,W:3,D:2,M:3,tgt:h,show:isoSVG(h,{s:26,al:'Ein Würfelgebäude'}),q:'Trage in den Bauplan ein, wie viele Würfel in jeder Säule stehen.',say:'Trage in den Bauplan ein, wie viele Würfel in jeder Säule stehen.',fun:'Von vorne siehst du die untere Reihe des Plans, hinten die obere.',key:'cbq'+hKey(h),mini:'Unten ist vorne.'}},()=>gCbPlan2Pic(3,2,4)]:[()=>{const h=cbRand(3,3,3,{zero:true,min:5});return{t:'cube',mode:'pic2plan',live:false,W:3,D:3,M:3,tgt:h,show:isoSVG(h,{s:24,al:'Ein Würfelgebäude'}),q:'Trage in den Bauplan ein, wie viele Würfel in jeder Säule stehen.',say:'Trage in den Bauplan ein, wie viele Würfel in jeder Säule stehen.',fun:'Von vorne siehst du die untere Reihe des Plans, hinten die obere.',key:'cbq'+hKey(h),mini:'Unten ist vorne.'}},()=>gCbPlan2Pic(3,3,4),()=>gCbPic2Plan(3,3,3),()=>gCbPlan2Pic(3,3,3)])),
 L_('b4','bau','👀','Ansichten','Wie sieht das Gebäude von vorne, von rechts und von oben aus?',[3,4],()=>many(KL==3?[()=>gCbView(3,2,3,['v']),()=>gCbView(3,2,3,['r']),()=>gCbView(3,3,3,['v','r']),()=>gCbView(3,3,3,['v','r']),()=>gCbTop(3,2,3)]:[()=>gCbView(3,3,4,['v']),()=>gCbView(3,3,4,['r']),()=>gCbTop(3,3,3),()=>gCbView(4,3,3,['v','r']),()=>gCbTop(3,3,4),()=>gCbView(4,3,3,['v','r'])])),
 L_('b5','bau','🎲','Würfelnetze','Welche Muster lassen sich zu einem Würfel falten?',[3,4],()=>[{t:'learn',key:'netl',say:'Ein Würfelnetz besteht aus sechs Quadraten. Man kann es zu einem Würfel falten.',html:`<div class="learn"><div class="q">Ein Würfelnetz</div><div class="vis">${netSVG([[1,0],[0,1],[1,1],[2,1],[3,1],[1,2]],{s:34,al:'Ein Würfelnetz'})}</div><p>Ein Würfel hat 6 Seitenflächen. Ein Würfelnetz besteht aus 6 Quadraten, die so liegen, dass man sie zu einem Würfel falten kann. Es gibt genau <b>11</b> verschiedene Würfelnetze.</p></div>`}].concat(many(rep(KL==3?4:5,()=>gNet)))),
