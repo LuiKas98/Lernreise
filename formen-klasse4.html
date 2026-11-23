@@ -519,7 +519,9 @@ function gbHtml(p){const g=G.gb={pts:[],closed:false,tries:0};const mir=p.mode==
  return `<div class="q">${p.q}</div><p class="mini c">${p.hint||'Tippe nacheinander auf die Nägel. Tippe zuletzt wieder auf den ersten Nagel oder auf „Fertig“.'}</p><div class="gbrow">${ref}<div class="gbcol">${p.mode=='copy'?'Dein Geobrett:':''}${gbBoard(p.cols,p.rows,{polys:pol,axis:p.axis,act:1,grid:p.grid,al:'Dein Geobrett zum Spannen'})}</div></div><div class="tgb"><button onclick="gbUndo()" aria-label="Letzten Punkt zurücknehmen"><span aria-hidden="true">↶</span> zurück</button><button id="gbdone" onclick="gbClose()"><span aria-hidden="true">✔</span> Fertig</button><button onclick="gbReset()"><span aria-hidden="true">🗑</span> neu</button></div>`}
 function gbDraw(){const g=G.gb,L=$('#gbl'),B=$('#gbb');if(!L||!B)return;let b='',s='';const P=g.pts;
  if(P.length>=2)b+=g.closed?`<polygon points="${pt(P)}" fill="rgba(15,181,232,.28)"/>`+gbBand(P,true,.1,'#0a8fc4',1):gbBand(P,false,.1,'#0a8fc4',1);
- const h=g.hov;if(h&&!g.closed){if(P.length&&!P.some(q=>q[0]==h[0]&&q[1]==h[1])){const l=P[P.length-1];b+=gbBand([l,h],false,.1,'#0a8fc4',.4)}
+ const h=g.hov;const onFirst=!!(h&&P.length>=3&&h[0]==P[0][0]&&h[1]==P[0][1]);
+ if(!g.closed&&P.length>=3){/* schließende Linie als Vorschau: blass immer, kräftig mit Figurfläche beim Zeigen auf den ersten Nagel */b=(onFirst?`<polygon points="${pt(P)}" fill="rgba(15,181,232,.16)"/>`:'')+gbBand([P[P.length-1],P[0]],false,.1,'#0a8fc4',onFirst?.55:.22)+b}
+ if(h&&!g.closed){if(P.length&&!P.some(q=>q[0]==h[0]&&q[1]==h[1])){const l=P[P.length-1];b+=gbBand([l,h],false,.1,'#0a8fc4',.4)}
   s+=`<circle cx="${h[0]}" cy="${h[1]}" r=".3" fill="rgba(15,181,232,.18)" stroke="#0fb5e8" stroke-width=".05"/>`}
  P.forEach((q,i)=>s+=`<circle cx="${q[0]}" cy="${q[1]}" r=".19" fill="${i==0?'#0a8fc4':'#7fd4f5'}" stroke="#fff" stroke-width=".05"/>`);B.innerHTML=b;L.innerHTML=s}
 /* Nächster Nagel zu einer Klick-/Fingerposition (Einrasten) */
