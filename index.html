@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Herr Kastners Lernapps</title>
-<meta name="description" content="Lernspiele für Mathe, Deutsch, Heimat- und Sachunterricht, Kunst, Musik und Geometrie, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier, im Konzerthaus oder im Formenland.">
+<meta name="description" content="Lernspiele für Mathe, Deutsch, Heimat- und Sachunterricht, Kunst, Musik, Geometrie und Sport, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier, im Konzerthaus, im Formenland oder beim Sportfest.">
 <style>
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:#0a1040}
@@ -129,7 +129,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  <h1>Herr Kastners Lernapps</h1>
  <div class="hi">
   <p><b>Hallo, du kleiner Entdecker, hallo, du kleine Entdeckerin!</b> 👋</p>
-  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Sachunterricht, Kunst, Musik und Geometrie und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier, im Konzerthaus oder im Formenland) und tippe auf das Portal. Viel Spaß!</p>
+  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Sachunterricht, Kunst, Musik, Geometrie und Sport und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier, im Konzerthaus, im Formenland oder beim Sportfest) und tippe auf das Portal. Viel Spaß!</p>
  </div>
 
  <div class="who" id="who" hidden><span class="nm1"><span aria-hidden="true">👤</span><span id="who-nm"></span></span><button class="lb" id="lg-out" type="button">🔄 Name wechseln</button></div>
@@ -191,6 +191,12 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <div class="pt"><canvas data-scene="formen" aria-hidden="true"></canvas><span class="badge" id="b-formen" aria-hidden="true"><small>Klasse</small><b></b></span></div>
   <h3>🔷 Formenland</h3>
   <p class="sub" id="s-formen">Geometrie, Tangram und Würfelbauten · Klasse 1 bis 4</p>
+  <span class="go">Los geht’s!</span>
+ </a>
+ <a class="pcard" id="c-sport" href="#klasse" aria-label="Sportfest: Rechnen, Wissen und Bewegungspausen rund um den Sport. Wähle zuerst deine Klasse.">
+  <div class="pt"><canvas data-scene="sport" aria-hidden="true"></canvas><span class="badge" id="b-sport" aria-hidden="true"><small>Klasse</small><b></b></span></div>
+  <h3>🏅 Sportfest</h3>
+  <p class="sub" id="s-sport">Rechnen, Wissen und Bewegen · Klasse 1 bis 4</p>
   <span class="go">Los geht’s!</span>
  </a>
  </div>
@@ -458,6 +464,36 @@ function szeneFormen(g,c,R,t,hov,p){
 const rimFormen=['#7fd8ff','#4da3ff','#ffffff'];
 
 
+/* ---------- Szene: Sportfest (Himmel, Wiese, Laufbahn, Girlande, hüpfender Ball) ---------- */
+function szeneSport(g,c,R,t,hov,p){
+ const X=v=>c+R*v;
+ let q=g.createLinearGradient(0,c-R,0,c+R*1.1);q.addColorStop(0,'#8fd3ff');q.addColorStop(.55,'#d9f2ff');q.addColorStop(1,'#eafaff');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ /* Sonne mit Strahlen */
+ g.save();g.translate(X(.52),X(-.42));g.strokeStyle='#ffb300';g.lineWidth=Math.max(1.5,R*.025);g.lineCap='round';for(let i=0;i<12;i++){const a=i*TAU/12+t*.3;g.beginPath();g.moveTo(Math.cos(a)*R*.2,Math.sin(a)*R*.2);g.lineTo(Math.cos(a)*R*.28,Math.sin(a)*R*.28);g.stroke()}g.fillStyle='#ffd23f';g.beginPath();g.arc(0,0,R*.16,0,TAU);g.fill();g.restore();
+ /* Hügel */
+ g.fillStyle='#9bd68a';g.beginPath();g.moveTo(X(-1.3),X(.15));g.quadraticCurveTo(X(-.7),X(-.3),X(-.1),X(.1));g.quadraticCurveTo(X(.5),X(-.15),X(1.3),X(.12));g.lineTo(X(1.3),X(.2));g.lineTo(X(-1.3),X(.2));g.fill();
+ /* Wiese mit Mähstreifen */
+ q=g.createLinearGradient(0,X(.1),0,X(1.3));q.addColorStop(0,'#6fcf6a');q.addColorStop(1,'#2e9e4a');g.fillStyle=q;g.fillRect(c-R*1.3,X(.1),R*2.6,R*1.3);
+ for(let i=0;i<8;i++){const y0=.1+1.2*Math.pow(i/8,1.6),y1=.1+1.2*Math.pow((i+1)/8,1.6);if(i%2){g.fillStyle='rgba(255,255,255,.1)';g.fillRect(c-R*1.3,X(y0),R*2.6,X(y1)-X(y0))}}
+ /* Laufbahn mit Bahnen */
+ g.fillStyle='#d8532b';g.beginPath();g.moveTo(X(-.95),X(1.3));g.lineTo(X(.95),X(1.3));g.lineTo(X(.2),X(.1));g.lineTo(X(-.2),X(.1));g.closePath();g.fill();
+ g.strokeStyle='#fff';g.lineWidth=Math.max(1.5,R*.02);for(let i=1;i<3;i++){const f=i/3;g.beginPath();g.moveTo(X(-.95+1.9*f),X(1.3));g.lineTo(X(-.2+.4*f),X(.1));g.stroke()}
+ /* Ziellinie */
+ g.fillStyle='#fff';const zy=X(.32);g.fillRect(X(-.4),zy,X(.4)-X(-.4),R*.05);
+ /* Girlande */
+ const cols=['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7'];g.strokeStyle='#6b4f2a';g.lineWidth=Math.max(1,R*.012);g.beginPath();
+ const pts=[];for(let i=0;i<=8;i++){pts.push([X(-1.1+i*.275),X(-.88+.08*Math.sin(i*.9+.5))])}pts.forEach((a,i)=>i?g.lineTo(a[0],a[1]):g.moveTo(a[0],a[1]));g.stroke();
+ pts.forEach((a,i)=>{const w=R*.07,sw=Math.sin(t*2+i)*R*.012;g.fillStyle=cols[i%5];g.beginPath();g.moveTo(a[0]-w,a[1]);g.lineTo(a[0]+w,a[1]);g.lineTo(a[0]+sw,a[1]+R*.14);g.closePath();g.fill()});
+ /* hüpfender Ball */
+ const bx=X(Math.sin(t*.6)*.45),by=X(.62-Math.abs(Math.sin(t*2.4))*(.4+.25*hov)),br=R*.1;
+ g.fillStyle='rgba(0,0,0,.2)';g.beginPath();g.ellipse(bx,X(.68),br*(1-.3*(X(.62)-by)/R),br*.3,0,0,TAU);g.fill();
+ g.fillStyle='#fff';g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1,R*.015);g.beginPath();g.arc(bx,by,br,0,TAU);g.fill();g.stroke();
+ g.fillStyle='#2b3a52';g.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i*TAU/5+t*.8;const x=bx+Math.cos(a)*br*.45,y=by+Math.sin(a)*br*.45;i?g.lineTo(x,y):g.moveTo(x,y)}g.closePath();g.fill();
+ q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(20,60,30,0)');q.addColorStop(1,'rgba(20,60,30,.3)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+}
+const rimSport=['#7ee07a','#ffb347','#ffffff'];
+
+
 /* ---------- Portal-Motor: wabernder Rand, schneller und unregelmäßiger bei Hover ---------- */
 const portals=[];
 function kante(a,t,h){
@@ -494,6 +530,7 @@ neu($('canvas[data-scene=vulkan]'),szeneVulkan,rimVulkan);
 neu($('canvas[data-scene=atelier]'),szeneAtelier,rimAtelier);
 neu($('canvas[data-scene=konzert]'),szeneKonzert,rimKonzert);
 neu($('canvas[data-scene=formen]'),szeneFormen,rimFormen);
+neu($('canvas[data-scene=sport]'),szeneSport,rimSport);
 let last=performance.now();
 let fr=0;
 function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
@@ -506,7 +543,7 @@ function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
 if(RM){portals.forEach(p=>zeichne(p,0));addEventListener('resize',()=>portals.forEach(p=>zeichne(p,0)))}else requestAnimationFrame(frame);
 
 /* ---------- Warpantrieb ---------- */
-function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen';
+function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel'||modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen';
  const c=document.createElement('canvas');c.className='warp'+(gruen?' gr':strand?' st':vk?' vk':at?' at':ko?' ko':fo?' fo':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext('2d');g.scale(dpr,dpr);
  const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:fo?190+Math.random()*50:ko?(Math.random()<.6?38+Math.random()*14:350+Math.random()*10):at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:80+Math.random()*18}));
@@ -557,7 +594,7 @@ let K=0;const KEY='kastner-klasse';
 try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
 function zeigeK(){
  document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
- const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse']];
+ const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse']];
  for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id);
   if(K&&USER){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
    $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
@@ -615,7 +652,7 @@ function reise(id,idx,pre){
   if(RM){location.href=href;return}
   portals[idx].tg=1;const[cx,cy]=mitte('#c-'+id+' .pt');
   SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href},id)})})}
-reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');
+reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');
 addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
 
 </script>

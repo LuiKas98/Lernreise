@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sportfest · Klasse 3</title>
+<style>
+:root{--ink:#17202e;--mut:#5b6b80;--cy:#0fb5e8;--bl:#3a68ff;--vi:#8a5cf6;--ok:#0f9d63;--no:#d93a43;--line:#c9d3e0;--bg1:#ffffff;--bg2:#e9eff7;--ch:linear-gradient(180deg,#fff 0,#f1f4f9 46%,#d3dbe7 54%,#eef2f8 100%)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;color:var(--ink);font:600 18px/1.45 "Avenir Next","Segoe UI Variable Display","Segoe UI","Trebuchet MS",system-ui,sans-serif;background:radial-gradient(900px 520px at 12% -8%,#ffffff 0,transparent 62%),radial-gradient(800px 520px at 100% 0,#dff3ff 0,transparent 60%),linear-gradient(180deg,#f4f7fb,#e3eaf4 70%,#d8e1ee);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(58,104,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(58,104,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 85%);mask-image:linear-gradient(180deg,#000,transparent 85%)}
+#emb{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#app{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:12px 16px 56px}
+#app.wide{max-width:980px}
+h1,h2{font-weight:800;letter-spacing:.02em;color:var(--ink)}
+h1{font-size:1.5em;margin:.3em 0;line-height:1.15}h2{font-size:1.15em;margin:.3em 0}
+p{margin:.55em 0}
+.c{text-align:center}.mini,small{color:var(--mut);font-size:.85em;font-weight:600}small{display:block}
+.card{position:relative;background:linear-gradient(165deg,rgba(255,255,255,.96),rgba(240,245,251,.9));border:1px solid #fff;border-radius:26px;padding:16px 18px;margin:14px 0;box-shadow:0 0 0 1px var(--line),inset 0 2px 0 #fff,0 18px 40px rgba(40,70,120,.16)}
+button,.lnk{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:16px;min-height:48px;padding:.55em 1.1em;color:var(--ink);text-decoration:none;display:inline-block;background:var(--ch);box-shadow:inset 0 1px 0 #fff,0 0 0 1px #bcc8d8,0 4px 0 #aab8cb,0 10px 16px rgba(40,70,120,.15);transition:transform .12s,box-shadow .12s,filter .15s;-webkit-tap-highlight-color:transparent}
+button:hover:not(:disabled){filter:brightness(1.04)}
+button:active:not(:disabled){transform:translateY(3px);box-shadow:inset 0 1px 0 #fff,0 0 0 1px #bcc8d8,0 1px 0 #aab8cb,0 3px 8px rgba(40,70,120,.15)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,.lnk:focus-visible,input:focus-visible,summary:focus-visible,[role=button]:focus-visible{outline:4px solid var(--cy);outline-offset:3px}
+button[aria-pressed=true]{background:linear-gradient(180deg,#c9f0ff,#7fd4f5);box-shadow:inset 0 1px 0 #fff,0 0 0 2px var(--cy),0 4px 0 #3aa2cc}
+.big{background:linear-gradient(180deg,#5fd4ff,#1b8fe6 55%,#3a68ff);color:#fff;text-shadow:0 1px 0 rgba(0,0,40,.25);font-size:1.08em;padding:.7em 1.4em;box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #2a63c9,0 6px 0 #1f4aa6,0 14px 24px rgba(58,104,255,.28);margin:.2em}
+.big:active:not(:disabled){box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #2a63c9,0 2px 0 #1f4aa6,0 6px 12px rgba(58,104,255,.28)}
+.sm{min-height:44px;padding:.35em .85em;font-size:.9em}
+.sec{background:linear-gradient(180deg,#fff,#e6ecf5)}
+.back{background:linear-gradient(180deg,#fff,#e9eef6)}
+input[type=text],input:not([type]){font:inherit;font-weight:700;padding:.65em .9em;border-radius:16px;border:2px solid #b9c6d8;background:#fff;color:var(--ink);width:min(320px,100%);text-align:center;box-shadow:inset 0 2px 5px rgba(40,70,120,.12)}
+#ue{color:var(--no);min-height:1.4em}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0}.bar h1{margin:0;font-size:1.3em}
+/* Hub */
+.logo{text-align:center;margin:2px 0 0}
+.logo span{display:block;font:800 2.5em/1.05 "Avenir Next","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(180deg,#2b3a52 0,#8c9db5 48%,#1b2536 52%,#5a6d88 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 8px 10px rgba(40,70,120,.25))}
+.logo small{color:var(--mut);font-size:.95em;margin-top:2px;letter-spacing:.04em}
+.scene{display:block;width:100%;height:auto;max-width:540px;margin:8px auto;border-radius:30px;box-shadow:0 0 0 1px #fff,0 0 0 2px var(--line),0 24px 50px rgba(40,70,120,.28);background:#eaf1f9;touch-action:manipulation;overflow:hidden}
+.scene [role=button]{cursor:pointer;outline:none}
+.scene .px{transition:transform .25s ease-out;will-change:transform}
+.scene .hl{fill:rgba(15,181,232,0);stroke:rgba(15,181,232,0);stroke-width:3;transition:.25s}
+.scene [role=button]:hover .hl,.scene [role=button]:focus-visible .hl{fill:rgba(15,181,232,.07);stroke:rgba(15,181,232,.95)}
+.bd{transition:transform .25s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:50% 100%}
+.scene [role=button]:hover .bd,.scene [role=button]:focus-visible .bd{transform:translateY(-4px) scale(1.02)}
+.fl1{animation:fl 6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.fl2{animation:fl 8s ease-in-out -3s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(2deg)}}
+.spin{animation:sp 40s linear infinite;transform-box:fill-box;transform-origin:center}@keyframes sp{to{transform:rotate(360deg)}}
+.tw{animation:tw 3.4s ease-in-out infinite}@keyframes tw{0%,100%{opacity:1}50%{opacity:.55}}
+.drift{animation:dr 12s linear infinite;opacity:0}@keyframes dr{0%{transform:translateY(30px);opacity:0}15%{opacity:.8}85%{opacity:.6}100%{transform:translateY(-120px);opacity:0}}
+.pn{font:800 13.5px "Avenir Next","Segoe UI",system-ui,sans-serif;fill:#17202e;text-anchor:start;letter-spacing:.02em}
+.ps{font:700 10.5px "Avenir Next","Segoe UI",system-ui,sans-serif;fill:#5b6b80;text-anchor:start}
+.prog{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:8px 0}
+.prog span{background:linear-gradient(180deg,#fff,#e9eff7);border:1px solid #fff;box-shadow:0 0 0 1px var(--line);border-radius:20px;padding:.2em .9em;font-size:.95em;font-weight:800}
+.tools{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:8px 0}
+.tools>*{min-width:82px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.45em .6em;font-size:.82em;line-height:1.1}
+.tools>*>span{font-size:1.6em;line-height:1}
+/* Lernpfad: Module */
+.hdr{display:flex;align-items:center;gap:14px;margin:6px 0 10px}.hdr .ico{font-size:2.4em;filter:drop-shadow(0 6px 6px rgba(40,70,120,.3))}
+.tix{list-style:none;margin:8px 0 16px;padding:0;display:grid;gap:12px}
+.tk{margin:0}
+.tkb{width:100%;display:flex;align-items:center;gap:14px;text-align:left;padding:.6em .9em;border-radius:22px;min-height:76px}
+.tke{flex:none;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7em;background:radial-gradient(circle at 32% 26%,#fff 0,#dfe7f2 55%,#b9c6d8 100%);box-shadow:inset 0 -4px 8px rgba(40,70,120,.18),0 4px 8px rgba(40,70,120,.2)}
+.tkt{flex:1;min-width:0;display:flex;flex-direction:column}.tkt b{font-size:1.08em;font-weight:800}
+.tks{flex:none;letter-spacing:.05em;font-size:1em}
+.tk.lk .tkb{opacity:.6}
+.tk.dn .tke{background:radial-gradient(circle at 32% 26%,#fff 0,#bfeeff 55%,#6fcdf0 100%)}
+/* Aufgaben */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:8px;background:linear-gradient(180deg,#fff,#eaf0f8);border:1px solid #fff;box-shadow:0 0 0 1px var(--line);border-radius:22px;padding:6px 8px}
+.hud .ttl{flex:1;min-width:0;text-align:center;overflow-wrap:anywhere;line-height:1.15;font-weight:800}
+.pbar{display:flex;gap:5px;margin:10px 4px}.pbar i{flex:1;height:10px;border-radius:8px;background:#d3dce8;box-shadow:inset 0 2px 3px rgba(40,70,120,.25);transition:.3s}
+.pbar i.g{background:linear-gradient(180deg,#7ff0bb,#18b878);box-shadow:0 0 10px rgba(24,184,120,.45)}.pbar i.r{background:linear-gradient(180deg,#ffc7b8,#ff8a6b)}.pbar i.l{background:linear-gradient(180deg,#d9e4ff,#8fa9ff)}.pbar i.c{background:linear-gradient(180deg,#9fe6ff,#2bb6ee);animation:pulse 1.3s ease-in-out infinite}
+@keyframes pulse{50%{filter:brightness(1.2)}}
+.q{font-size:1.28em;font-weight:800;text-align:center;margin:.2em 0 .6em;line-height:1.28}
+.vis{text-align:center;margin:.3em 0 .7em}
+.vis svg{max-width:100%;height:auto;border-radius:18px;box-shadow:0 0 0 1px var(--line),0 8px 20px rgba(40,70,120,.15);background:#fff}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opts.c3{grid-template-columns:repeat(3,minmax(0,1fr))}.opts.c1{grid-template-columns:1fr}.opts.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.o{min-width:0;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto;min-height:70px;font-size:1.1em;font-weight:800;color:var(--ink);padding:.45em .55em;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;text-align:center;line-height:1.2;border-radius:20px}
+.o.ok{background:linear-gradient(180deg,#d6ffe9,#7fe6b4);color:#063b22;animation:pop .45s}.o.no{background:linear-gradient(180deg,#ffe0dc,#ffa59b);color:#5a1510;opacity:.85;animation:shake .4s}
+.o:disabled{opacity:1}.o.no:disabled{opacity:.7}
+@keyframes pop{40%{transform:scale(1.07)}}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.o svg{max-width:100%;height:auto;border-radius:10px}
+.fbk{min-height:2.6em;text-align:center;font-weight:800;margin:.6em 0}
+.fbk.ok{color:var(--ok)}.fbk.no{color:var(--no)}
+.fun{background:linear-gradient(180deg,#eefaff,#dff2fb);border-left:5px solid var(--cy);border-radius:12px;padding:.55em .9em;margin:.5em 0;text-align:left;font-weight:600}
+.say{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center}
+.learn{text-align:left}.learn .q{text-align:left}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+.fgrid>div{background:linear-gradient(180deg,#fff,#eef3f9);border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:8px;text-align:center;font-weight:800;font-size:.92em}
+.fgrid svg{width:100%;max-width:110px;height:auto;display:block;margin:0 auto 4px;background:none;box-shadow:none}
+/* Einsortieren, Reihenfolge, Paare */
+.bins{display:grid;grid-template-columns:repeat(var(--nb,2),minmax(0,1fr));gap:10px;margin:8px 0}
+.bin{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:110px;padding:.5em;gap:6px;font-size:.95em;border-radius:20px;background:linear-gradient(180deg,#f3f7fc,#dfe7f2);box-shadow:inset 0 3px 8px rgba(40,70,120,.18),0 0 0 1px #bcc8d8}
+.bin.hint{outline:4px solid #ffc83d}.bin.no{animation:shake .4s}
+.bin-in{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.plc{background:#fff;border-radius:12px;padding:3px 8px;box-shadow:0 0 0 1px var(--line);font-size:.95em}.plc svg{width:44px;height:auto;display:block;box-shadow:none;background:none}
+.pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:10px 0}
+.chw{display:inline-flex;gap:4px;align-items:center}
+.chp{min-height:52px;padding:.3em .8em;border-radius:16px;font-size:1em}.chp svg{width:46px;height:auto;display:block;background:none;box-shadow:none}
+.chp.sel{outline:4px solid var(--cy)}.chp.no{animation:shake .4s}.chp.hint{outline:4px solid #ffc83d}.chp.drag{opacity:.9;box-shadow:0 12px 24px rgba(40,70,120,.4)}.chp.ph{min-height:44px;padding:.2em .5em}
+.slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+.slot{min-width:64px;min-height:56px;padding:4px 8px;border-radius:14px;border:2px dashed #9fb0c6;display:flex;align-items:center;justify-content:center;gap:4px;position:relative;background:#f4f7fb}
+.slot i{position:absolute;left:5px;top:1px;font:800 .7em system-ui;color:var(--mut);font-style:normal}.slot.fil{border-style:solid;border-color:var(--ok);background:#e5fff2}.slot svg{width:44px;height:auto;display:block;background:none;box-shadow:none}
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}.pcol{display:flex;flex-direction:column;gap:10px}
+.pr{min-height:66px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;font-size:.98em;line-height:1.15;border-radius:18px}.pr svg{max-width:84px;height:auto;display:block;background:none;box-shadow:none}
+.pr.sel{outline:4px solid var(--cy)}.pr.ok{background:linear-gradient(180deg,#d6ffe9,#7fe6b4)}.pr.no{animation:shake .4s}.pr:disabled{opacity:1}
+/* Tangram */
+.tgw{margin:6px 0}
+.tgs{display:block;width:100%;height:auto;border-radius:20px;background:linear-gradient(180deg,#fbfdff,#e9f0f8);box-shadow:0 0 0 1px var(--line),inset 0 2px 0 #fff;touch-action:none;user-select:none;-webkit-user-select:none}
+.tgs .pc{cursor:grab}.tgs .pc.sel path.pp{stroke:#0a74c9;stroke-width:.07}
+.tgs .pc.hl path.pp{animation:pulse2 1s ease-in-out infinite}
+@keyframes pulse2{50%{filter:brightness(1.35) drop-shadow(0 0 .25px #0fb5e8)}}
+.tgs .slotpulse{animation:tw 1s ease-in-out infinite}
+.tgb{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+.tgb button{min-height:50px;min-width:50px;padding:.3em .7em;font-size:.95em}
+.tgb button span{font-size:1.25em}
+/* Geobrett */
+.gbs{display:block;width:100%;height:auto;max-width:460px;margin:4px auto;touch-action:manipulation;user-select:none;-webkit-user-select:none;border-radius:20px;background:linear-gradient(180deg,#fff,#e9f0f8);box-shadow:0 0 0 1px var(--line)}
+.gbs .peg{cursor:pointer}svg [role=button],svg [tabindex]{outline:none!important}.gbs .peg:focus-visible circle.pr2{fill:#0fb5e8;stroke:#0a74c9;stroke-width:.08}.gbs .peg:focus-visible circle.pr2{r:.22}.tgs .pc:focus-visible path.pp{stroke:#0a74c9;stroke-width:.14}
+.tool{margin:8px auto 2px;max-width:460px;text-align:center}.tool label{display:block;font-weight:700;color:var(--mut);font-size:.95em;margin-bottom:8px}.trow{display:flex;gap:12px;align-items:center;justify-content:center}.trow button{flex:none;white-space:nowrap;min-height:44px;padding:.4em .8em}.trow input[type=range]{flex:1 1 200px;min-width:0;height:36px;accent-color:#0fb5e8}.trow input[type=range]:focus-visible{outline:4px solid var(--cy);outline-offset:3px}#tsv svg{display:block;margin:0 auto}
+.gbrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.gbcol{flex:1 1 200px;min-width:0;text-align:center;font-size:.85em;color:var(--mut)}
+/* Würfelgebäude */
+.cbw{display:flex;flex-direction:column;gap:6px}
+.cbb{display:flex;flex-direction:column;align-items:center}
+.cbg{display:grid;gap:8px;justify-content:center;margin:6px auto}
+.cbc{position:relative;transition:box-shadow .15s,background .15s}
+.cbc .cbn{font:800 .72em system-ui;color:var(--mut);line-height:1;margin-top:1px}
+.cbc.sel{background:linear-gradient(180deg,#fff4df,#ffe2b0);box-shadow:0 0 0 3px #ff9f1c,0 4px 12px rgba(255,159,28,.35)}
+.cbc.sel .cbn{color:#a85a00}
+.front.fr{width:100%;max-width:var(--cbw,300px);background:#e3f5ec;color:#1f6b49;font-weight:800;border-radius:8px;padding:2px 0;box-shadow:inset 0 -3px 0 #2f9e6b}
+.cbl{margin-top:2px}
+.rv{display:flex;flex-direction:column;align-items:center;gap:4px}
+.rvs{display:block;width:100%;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;border-radius:18px}
+.rvs.grab{cursor:grabbing}
+.rvs:focus-visible{outline:3px solid #2b6cb0;outline-offset:2px}
+.rvs svg{pointer-events:none;display:block;margin:0 auto}
+.rvc{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:2px}
+.rvc button{min-height:44px;min-width:44px;padding:.3em .8em;font-size:.95em}
+.rvh{color:var(--mut);font-size:.8em}
+.cvhint{animation:cvfade 6s ease-in 0s 1 forwards}
+@keyframes cvfade{0%,40%{opacity:1}100%{opacity:0}}
+.cvb{display:block;margin:6px auto 0;min-height:44px;padding:.35em .9em;font-size:.9em}
+.cbw2{display:flex;flex-direction:column;gap:10px}
+.cbw2 .vis{margin:.2em 0}
+.cap{display:block;font-weight:800;font-size:.85em;color:var(--mut);margin:0 0 4px}
+.cbtool{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 0 6px}
+.cbtool button{min-height:44px;padding:.35em .9em;font-size:.95em}
+.cbtool button[aria-pressed=true]{background:linear-gradient(180deg,#ffe8bf,#ffc56e);box-shadow:inset 0 1px 0 #fff,0 0 0 2px #ff9f1c,0 4px 0 #d98200,0 8px 14px rgba(255,159,28,.3)}
+#cbm_rm[aria-pressed=true]{background:linear-gradient(180deg,#ffd9d6,#ff9d96);box-shadow:inset 0 1px 0 #fff,0 0 0 2px #d63031,0 4px 0 #a82424,0 8px 14px rgba(214,48,49,.3)}
+.cbed .rvs{cursor:pointer}
+details.kbd{margin:10px 0;text-align:center}details.kbd summary{cursor:pointer;font-weight:700;color:var(--mut);padding:8px;min-height:44px}
+@media(min-width:820px){.cbw2{flex-direction:row;align-items:flex-start}.cbw2>.vis{flex:1 1 0;min-width:0}}
+@media(min-width:820px){.cbw{flex-direction:row;align-items:flex-start;justify-content:center;gap:28px}.cbw .cbb{flex:0 1 440px}.cbw .cbl{flex:1 1 380px;min-width:340px;max-width:520px}}
+.cbc{display:flex;flex-direction:column;align-items:center;gap:2px;background:linear-gradient(180deg,#fff,#e9eff7);border-radius:14px;padding:4px;box-shadow:0 0 0 1px var(--line)}
+.cbc output{font:800 1.3em system-ui;min-width:1.6em;text-align:center;display:block}
+.cbc button{min-height:44px;min-width:44px;padding:0;font-size:1.3em;border-radius:12px}
+.nums{display:grid;gap:4px;justify-content:center;margin:6px auto}.nums b{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;background:#fff;box-shadow:0 0 0 1px var(--line);font-size:1.1em}
+.front{font-size:.8em;color:var(--mut);text-align:center;margin:2px 0}
+/* Misc */
+#ov{position:fixed;inset:0;background:rgba(220,230,244,.78);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto}
+#ov .card{max-height:94vh;overflow:auto}
+#ab{position:fixed;right:10px;bottom:10px;z-index:40}
+table{border-collapse:collapse;width:100%;font-size:.85em}th,td{border:1px solid var(--line);padding:4px 6px;text-align:left}
+.cert{background:#fff;border:6px double #8da2bf}.cert .nm{font-size:2em;font-weight:800;color:var(--bl)}
+.fl{padding-left:1.1em}.fl li{margin:.5em 0}
+details.card summary{cursor:pointer;font-weight:800}
+.res{text-align:center}.res .big2{font-size:2.8em;letter-spacing:.1em;filter:drop-shadow(0 6px 6px rgba(40,70,120,.25))}
+.res .star{display:inline-block;animation:spop .55s both}.res .star:nth-child(2){animation-delay:.25s}.res .star:nth-child(3){animation-delay:.5s}
+@keyframes spop{from{transform:scale(0) rotate(-120deg);opacity:0}to{transform:none;opacity:1}}
+.cf{position:fixed;top:-20px;width:10px;height:16px;border-radius:3px;z-index:60;pointer-events:none;animation:cfall var(--t,2.2s) cubic-bezier(.3,.6,.6,1) forwards}
+@keyframes cfall{to{transform:translate(var(--x),105vh) rotate(var(--r));opacity:.9}}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.acard{padding:7px;text-align:center;font-size:.9em;border-radius:18px}.acard svg{width:100%;height:auto;display:block}.acard.lock{filter:grayscale(1);opacity:.5}.acard b{display:block;margin-top:4px}
+@media(max-width:560px){.logo span{font-size:2em}.tools>*{min-width:70px}.tkb{gap:10px}}
+@media(max-width:420px){.opts{gap:8px}.opts.c3 .o{font-size:.95em;padding:.4em .2em}.hud .sm{padding:.35em .55em;font-size:.85em}.card{padding:14px 12px}.opts.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Raumorientierung */
+.emo{display:flex;gap:.3em;justify-content:center;font-size:3em;line-height:1.2}.emo.col{flex-direction:column;align-items:center;gap:0}.emo.g3{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;gap:.05em .5em}
+.cbshow small{display:block}
+@media print{body{background:#fff!important}#emb,.noprint,#ab,body::before{display:none!important}.cert{box-shadow:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Sportfest: Farben und neue Bausteine ===== */
+:root{--cy:#16a34a;--bl:#e8650a;--vi:#0e8a8a}
+body{background:radial-gradient(900px 520px at 12% -8%,#ffffff 0,transparent 62%),radial-gradient(800px 520px at 100% 0,#e3f8e4 0,transparent 60%),linear-gradient(180deg,#f6faf4,#e4eee2 70%,#d9e6d6);background-attachment:fixed}
+body::before{background-image:linear-gradient(rgba(22,163,74,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(22,163,74,.05) 1px,transparent 1px)}
+.logo span{background:linear-gradient(180deg,#ffb04d 0,#ee6a12 48%,#b53f06 52%,#e9852f 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 8px 10px rgba(120,60,10,.25))}
+.big{background:linear-gradient(180deg,#8fe38f,#27b35a 55%,#0f8a46);box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #0d7a3e,0 6px 0 #0a6232,0 14px 24px rgba(15,138,70,.28)}
+.big:active:not(:disabled){box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #0d7a3e,0 2px 0 #0a6232,0 6px 12px rgba(15,138,70,.28)}
+button[aria-pressed=true]{background:linear-gradient(180deg,#d4f5d8,#8fdc9b);box-shadow:inset 0 1px 0 #fff,0 0 0 2px var(--cy),0 4px 0 #2d9a50}
+.scene .hl{fill:rgba(22,163,74,0);stroke:rgba(22,163,74,0)}
+.scene [role=button]:hover .hl,.scene [role=button]:focus-visible .hl{fill:rgba(22,163,74,.07);stroke:rgba(22,163,74,.95)}
+/* Bewegungspause */
+.mv{text-align:center}.mv .mve{font-size:4.6em;line-height:1.1;margin:.1em 0}.mv .mvn{font-size:1.25em;margin:.1em 0}
+.mv .mvt{margin:.4em auto;width:150px;position:relative}.mv .mvt svg{width:150px;height:150px;display:block}.mv .mvt b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.1em}
+.mv .alt{background:#eef7ee;border-radius:14px;padding:.45em .8em;margin:.5em auto;max-width:34em;font-size:.95em}
+.mv .row button{min-width:140px}
+.chart{display:block;margin:.3em auto;max-width:100%;height:auto;background:#fff;border-radius:18px;box-shadow:0 0 0 1px var(--line)}
+.clk{display:block;margin:.3em auto;width:min(230px,70vw);height:auto}
+.stk{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}.stk div{text-align:center;padding:8px 4px;border-radius:16px;background:#fff;box-shadow:0 0 0 1px var(--line);font-size:.85em}.stk div span{display:block;font-size:2.2em}.stk div.lock{filter:grayscale(1);opacity:.4}
+
+/* Bild-Zähl-Reihen, Tabellen, Herzschlag */
+.pg{display:grid;gap:6px;max-width:440px;margin:.4em auto;text-align:left}.pg>div{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:4px 10px;box-shadow:0 0 0 1px var(--line)}.pg>div>span:first-child{flex:none;width:8em;font-weight:800;font-size:.95em}.pgs{font-size:1.15em;line-height:1.25;word-break:break-all}
+.tb{width:auto;max-width:100%;margin:.4em auto;background:#fff;border-radius:12px;overflow:hidden;font-size:1em}.tb th,.tb td{border:1px solid var(--line);padding:.35em .7em;text-align:center}.tb th{background:#eaf6e6}
+.emo.w{flex-wrap:wrap;font-size:2.2em}
+.hb{animation:hb 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes hb{0%,40%,100%{transform:scale(1)}12%{transform:scale(1.07)}26%{transform:scale(1.02)}}
+.be{font-size:2.2em;line-height:1.1}
+</style></head><body>
+<canvas id="emb" aria-hidden="true"></canvas>
+<main id="app"></main>
+<script>
+/*KSHARED*/
+/* Gemeinsame Hilfen: Ton-Freischaltung am Handy, robustes Vorlesen, gemeinsame Anmeldung (Index-Seite) */
+(function(){
+ if(window.__ks)return;window.__ks=1;
+ var SKEY='kastner-user',au=null,warned=0;
+ window.ksU=function(){try{return (localStorage.getItem(SKEY)||'').trim()}catch(e){return ''}};
+ window.wechseln=function(){try{localStorage.removeItem(SKEY)}catch(e){}try{if(typeof DB!='undefined'){DB.cur='';if(typeof save=='function')save()}}catch(e){}location.href='index.html'};
+ function silent(){var n=800,b=new Uint8Array(44+n),v=new DataView(b.buffer),w=function(o,s){for(var i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);for(var i=0;i<n;i++)b[44+i]=128;return URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}
+ function unlock(){
+  /* iPhone: Ton auch bei Stumm-Schalter erlauben (Web Audio und Vorlesen) */
+  try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch(e){}
+  try{if(!navigator.audioSession&&/iP(hone|ad|od)/.test(navigator.userAgent)&&!au){au=new Audio(silent());au.loop=true;au.play().catch(function(){au=null})}}catch(e){}
+  try{if(typeof ac=='function'){var a=ac();if(a&&!unlock.p&&a.state!=='closed'){unlock.p=1;var s=a.createBufferSource();s.buffer=a.createBuffer(1,1,22050);s.connect(a.destination);s.start(0)}}}catch(e){}
+  try{window.speechSynthesis&&speechSynthesis.getVoices()}catch(e){}
+ }
+ window.ksUnlock=unlock;
+ ['touchend','click','keydown'].forEach(function(ev){addEventListener(ev,unlock,{capture:true,passive:true})});
+ function note(msg){if(warned++>2)return;var d=document.createElement('div');d.setAttribute('role','status');d.style.cssText='position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;max-width:90vw;background:#fff;color:#1b1464;font:700 15px/1.3 system-ui,sans-serif;padding:12px 18px;border-radius:14px;border:3px solid #ffd23f;box-shadow:0 6px 0 #0004;text-align:center';d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove()},5200)}
+ window.ksNote=note;
+ var ss=window.speechSynthesis;
+ if(ss&&ss.speak){
+  var _sp=ss.speak.bind(ss),_ca=ss.cancel.bind(ss),lastC=0,vo=null;
+  function pick(){try{var vs=ss.getVoices().filter(function(v){return /^de/i.test(v.lang)});if(vs.length)vo=vs.filter(function(v){return v.localService&&/de[-_]DE/i.test(v.lang)})[0]||vs.filter(function(v){return /de[-_]DE/i.test(v.lang)})[0]||vs[0]}catch(e){}}
+  pick();if(ss.addEventListener)ss.addEventListener('voiceschanged',pick);
+  ss.cancel=function(){if(ss.speaking||ss.pending)lastC=Date.now();_ca()};
+  ss.speak=function(u){
+   unlock();if(!vo)pick();if(vo&&!u.voice){u.voice=vo;u.lang=vo.lang}
+   var oe=u.onerror;u.onerror=function(e){if(e&&e.error&&e.error!=='interrupted'&&e.error!=='canceled')note('🔇 Vorlesen klappt nicht. Bitte Lautstärke und Stumm-Schalter prüfen.');oe&&oe.call(u,e)};
+   var go=function(){try{if(ss.paused)ss.resume();_sp(u)}catch(e){}},d=Date.now()-lastC;
+   /* Chrome auf Android: direkt nach cancel() geht das nächste speak() manchmal verloren */
+   if(d<150)setTimeout(go,160-d);else go()}
+ }
+})();
+
+
+"use strict";
+/* ===== Sportfest: Grundlagen ===== */
+const $=s=>document.querySelector(s),R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a},rnd=a=>a[R(0,a.length-1)];
+const ADM='herr kastner',nrm=s=>s.trim().replace(/\s+/g,' '),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),plain=s=>String(s).replace(/<[^>]+>/g,'');
+const KL=3,DKEY='sport'+KL,K=(...a)=>a[KL-1];
+let DB={u:{},cur:''},CUR='',U=null;try{const d=JSON.parse(localStorage.getItem(DKEY));if(d&&d.u)DB=Object.assign(DB,d)}catch(e){}
+const save=()=>{try{localStorage.setItem(DKEY,JSON.stringify(DB))}catch(e){}};
+const mkU=()=>({s:{},q:{},c:{},i:{},b:{},f:[],k:[],m:0,n:0,r:0}),isAd=()=>CUR.toLowerCase()==ADM;
+const ac=()=>null,stopAll=()=>{};
+const FAC=['#ff6b6b','#ffb347','#2ec4b6','#4da3ff','#9b6dff','#8bd450','#ff7eb6'];
+/* Aufgabenbau: Multiple Choice */
+const mk=(q,cor,wr,x={})=>{const f=o=>typeof o=='string'?{h:o,l:plain(o)}:Array.isArray(o)?{h:o[0],l:o[1]}:o;const all=[f(cor),...wr.map(f)];const idx=sh(all.map((_,i)=>i));const opts=idx.map(i=>all[i]);const P=Object.assign({t:'mc',q,say:plain(q),opts,a:idx.indexOf(0),cls:opts.length==3?(!opts.some(o=>/<svg/.test(o.h))&&opts.some(o=>o.l.length>8)?'c1':'c3'):opts.length>=5?'c3':'',key:plain(q)+'|'+cor},x);if(P.cls=='c3'&&P.opts.length==4)P.cls='c4';return P};
+const many=(gens,keyf)=>{const used=new Set(),out=[];for(const g of gens){let p,t=0;do{p=g();t++}while(t<80&&used.has(keyf?keyf(p):p.key));used.add(keyf?keyf(p):p.key);out.push(p)}return out};
+const rep=(n,f)=>Array.from({length:n},f);
+
+const NF=s=>s.toLowerCase().replace(/ß/g,'ss').replace(/[äàá]/g,'a').replace(/[öòó]/g,'o').replace(/[üùú]/g,'u').replace(/[éè]/g,'e');
+const RN=new Set(NF("emma mia hannah hanna sophia sofia sophie emilia lina marie lea leonie lena anna clara klara johanna laura lara amelie mila ella nele charlotte maja maya luisa louisa paula pia lilly lilli lia julia sarah sara zoe nora greta frieda frida ida merle jana lisa katharina katja selina celina emily chiara elena eva jule finja fiona alina mara marlene tessa carla helena isabell isabella josefine leni matilda mathilda melina mira nina rosa ronja sina stella svenja theresa vanessa viktoria victoria yasmin zeynep ayla elif fatma aylin amira leyla alexandra anja andrea sabine petra monika claudia sandra nicole melanie christina kristina jessica jasmin anke birgit susanne katrin lotta emmi inga jette olivia sonja tina nadine miriam annika mareike noah ben leon elias paul finn fynn felix luis louis lukas luca luka jonas maximilian max henry henri emil anton theo oskar oscar moritz jakob jacob liam niklas nico nils tim tom jan jannik jannis david daniel julian samuel simon philipp tobias matteo mattis milan mohammed muhammad ali mustafa yusuf emir eren can ahmet mehmet alexander johannes fabian florian sebastian marcel dennis kevin patrick marvin lennard leonard linus levi mats malte marlon jonathan justus konstantin vincent karl carl hugo rafael raphael erik eric jannes jakub michael thomas stefan andreas christian peter markus frank jurgen klaus hans wolfgang uwe ralf dirk jens torsten bernd matthias martin sven kai lars timo dominik benjamin joshua jason ole juri tristan valentin ferdinand fritz otto ludwig bruno arthur adrian aaron leo leandro lenny luan noel nelson mika mikail enzo ismail ibrahim omar hamza murat kerem emre burak muller schmidt schneider fischer weber meyer wagner becker schulz hoffmann schafer koch bauer richter schroder neumann zimmermann kruger hofmann hartmann lange schmitt werner schmitz krause meier lehmann schmid schulze maier kohler herrmann konig walter mayer huber kaiser peters lang scholz moller schubert friedrich keller gunther berger winkler lorenz baumann franke albrecht schuster simon ludwig bohm kraus schumacher kramer vogt jager seidel heinrich brandt haas schreiber graf schulte dietrich ziegler kuhn pohl bergmann voigt sauer arnold pfeiffer yilmaz kaya demir sahin celik yildiz ozturk arslan dogan kilic aydin nowak kowalski wojcik kaminski lewandowski kastner").split(' '));
+const isReal=n=>n.replace(/([a-zäöüß])([A-ZÄÖÜ])/g,'$1 $2').split(/[^a-zA-ZäöüÄÖÜß]+/).map(NF).some(x=>x.length>1&&RN.has(x));
+const nameErr=v=>{if(v.toLowerCase()==ADM)return'';if(v.length<2)return'Bitte schreibe mindestens 2 Zeichen.';if(/\s/.test(v))return'Bitte nur ein Wort, ohne Leerzeichen. Beispiel: Sternenfuchs';if(/@|\d{4,}/.test(v))return'Bitte keine E-Mail-Adresse und keine Telefonnummer.';return isReal(v)?'Das sieht nach einem echten Namen aus. Denke dir einen Geheimnamen aus, zum Beispiel „Sternenfuchs“.':''};
+
+/* ===== Zeichnen: Uhr, Lineal, Balkendiagramm, Strichliste, Hallenplan ===== */
+const INKC='#2b3a52';
+const pt=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+const de=n=>String(n).replace('.',','),pad=n=>String(n).padStart(2,'0');
+const f1=v=>v.toFixed(1);
+/* Uhr */
+function clockSvg(h,m){
+ let s=`<svg class="clk" viewBox="0 0 200 200" role="img" aria-label="Eine Uhr mit zwei Zeigern"><circle cx="100" cy="100" r="95" fill="#fff" stroke="${INKC}" stroke-width="5"/>`;
+ for(let i=0;i<60;i++){const a=i*Math.PI/30,big=i%5==0,r1=big?77:83,r2=89;s+=`<line x1="${f1(100+r1*Math.sin(a))}" y1="${f1(100-r1*Math.cos(a))}" x2="${f1(100+r2*Math.sin(a))}" y2="${f1(100-r2*Math.cos(a))}" stroke="${INKC}" stroke-width="${big?3:1.2}" stroke-linecap="round"/>`}
+ for(let i=1;i<=12;i++){const a=i*Math.PI/6;s+=`<text x="${f1(100+62*Math.sin(a))}" y="${f1(100-62*Math.cos(a)+7)}" text-anchor="middle" font-size="20" font-weight="800" fill="${INKC}">${i}</text>`}
+ const ha=((h%12)+m/60)*Math.PI/6,ma=m*Math.PI/30;
+ s+=`<line x1="100" y1="100" x2="${f1(100+42*Math.sin(ha))}" y2="${f1(100-42*Math.cos(ha))}" stroke="${INKC}" stroke-width="9" stroke-linecap="round"/><line x1="100" y1="100" x2="${f1(100+68*Math.sin(ma))}" y2="${f1(100-68*Math.cos(ma))}" stroke="#e8650a" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="6" fill="${INKC}"/></svg>`;
+ return s}
+/* Zeit-Ring für Bewegungspausen */
+const ringSvg=f=>{const C=2*Math.PI*62;return `<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="62" fill="none" stroke="#dbe6d8" stroke-width="12"/><circle cx="75" cy="75" r="62" fill="none" stroke="#16a34a" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 75 75)"/></svg>`};
+/* Lineal mit Streifen (0 bis 15 cm) */
+function rulerSvg(len,col){
+ const x0=14,u=20,W=x0*2+u*15;
+ let s=`<svg viewBox="0 0 ${W} 112" class="chart" width="${W*1.2}" role="img" aria-label="Ein Lineal mit einem farbigen Streifen darüber"><rect x="4" y="52" width="${W-8}" height="54" rx="6" fill="#ffe08a" stroke="#b58a00" stroke-width="2"/>`;
+ for(let i=0;i<=150;i++){const x=x0+u*i/10,cm=i%10==0,half=i%5==0;s+=`<line x1="${f1(x)}" y1="52" x2="${f1(x)}" y2="${cm?68:half?62:57}" stroke="#6b5200" stroke-width="${cm?1.6:1}"/>`}
+ for(let i=0;i<=15;i++)s+=`<text x="${x0+u*i}" y="90" text-anchor="middle" font-size="13" font-weight="800" fill="#4a3a00">${i}</text>`;
+ s+=`<rect x="${x0}" y="12" width="${u*len}" height="26" rx="5" fill="${col||FAC[3]}" stroke="${INKC}" stroke-width="2"/><line x1="${x0+u*len}" y1="38" x2="${x0+u*len}" y2="64" stroke="#d62828" stroke-width="1.6" stroke-dasharray="3 3"/></svg>`;
+ return s}
+/* Säulendiagramm: d=[{n,e,v,c}], o={max,step,unit,val,h} */
+function barSvg(d,o){
+ const W=360,H=o.h||230,L=44,B=52,T=22,pw=W-L-10,ph=H-B-T,mx=o.max,n=d.length,bw=pw/n;
+ let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W*1.15}" role="img" aria-label="${o.al||'Säulendiagramm'}">`;
+ for(let v=0;v<=mx+1e-9;v+=o.step){const y=T+ph-ph*v/mx;s+=`<line x1="${L}" y1="${f1(y)}" x2="${W-10}" y2="${f1(y)}" stroke="${v?'#dbe3ea':INKC}" stroke-width="${v?1:2}"/><text x="${L-6}" y="${f1(y+4)}" text-anchor="end" font-size="12" font-weight="700" fill="#5b6b80">${v}</text>`}
+ d.forEach((e,i)=>{const x=L+bw*i+bw*.18,w=bw*.64,hh=ph*e.v/mx,cx=L+bw*i+bw/2;
+  s+=`<rect x="${f1(x)}" y="${f1(T+ph-hh)}" width="${f1(w)}" height="${f1(hh)}" rx="5" fill="${e.c||FAC[i%7]}" stroke="${INKC}" stroke-width="1.5"/>`+(o.val?`<text x="${f1(cx)}" y="${f1(T+ph-hh-5)}" text-anchor="middle" font-size="13" font-weight="800" fill="${INKC}">${e.v}</text>`:'')+`<text x="${f1(cx)}" y="${H-28}" text-anchor="middle" font-size="20">${e.e||''}</text><text x="${f1(cx)}" y="${H-8}" text-anchor="middle" font-size="12" font-weight="800" fill="${INKC}">${e.n}</text>`});
+ if(o.unit)s+=`<text x="4" y="13" font-size="12" font-weight="700" fill="#5b6b80">${o.unit}</text>`;
+ return s+'</svg>'}
+/* Strichliste */
+function tallySvg(n){
+ const g=Math.ceil(n/5),per=Math.min(g,4),rows=Math.ceil(g/4),gw=54,gh=46,W=per*gw+8,H=rows*gh+8;
+ let s=`<svg viewBox="0 0 ${W} ${H}" class="chart" width="${W*1.3}" role="img" aria-label="Eine Strichliste">`;
+ for(let j=0;j<g;j++){const ox=6+(j%4)*gw,oy=4+Math.floor(j/4)*gh,c=Math.min(5,n-5*j);
+  for(let i=0;i<Math.min(c,4);i++)s+=`<line x1="${ox+i*10+4}" y1="${oy+4}" x2="${ox+i*10+4}" y2="${oy+36}" stroke="${INKC}" stroke-width="3.4" stroke-linecap="round"/>`;
+  if(c==5)s+=`<line x1="${ox-2}" y1="${oy+31}" x2="${ox+44}" y2="${oy+9}" stroke="#e8650a" stroke-width="3.4" stroke-linecap="round"/>`}
+ return s+'</svg>'}
+/* Hallenplan mit Feldern A1 ... (Spalten A–E, Zeilen 1–4) */
+function gridSvg(it,o){
+ o=o||{};const C=5,Rw=4,s=58,x0=28,y0=28,W=x0+C*s+8,H=y0+Rw*s+8;
+ let g=`<svg viewBox="0 0 ${W} ${H}" class="chart" width="${W*1.2}" role="img" aria-label="Plan einer Turnhalle mit Feldern"><rect x="${x0}" y="${y0}" width="${C*s}" height="${Rw*s}" fill="#f6e7b9" stroke="${INKC}" stroke-width="2.4"/>`;
+ for(let i=1;i<C;i++)g+=`<line x1="${x0+i*s}" y1="${y0}" x2="${x0+i*s}" y2="${y0+Rw*s}" stroke="#c9b27a" stroke-width="1.4"/>`;
+ for(let j=1;j<Rw;j++)g+=`<line x1="${x0}" y1="${y0+j*s}" x2="${x0+C*s}" y2="${y0+j*s}" stroke="#c9b27a" stroke-width="1.4"/>`;
+ for(let i=0;i<C;i++)g+=`<text x="${x0+i*s+s/2}" y="20" text-anchor="middle" font-size="15" font-weight="800" fill="${INKC}">${'ABCDE'[i]}</text>`;
+ for(let j=0;j<Rw;j++)g+=`<text x="13" y="${y0+j*s+s/2+5}" text-anchor="middle" font-size="15" font-weight="800" fill="${INKC}">${j+1}</text>`;
+ it.forEach(e=>{g+=`<text x="${x0+e.c*s+s/2}" y="${y0+e.r*s+s/2+11}" text-anchor="middle" font-size="32">${e.e}</text>`});
+ return g+'</svg>'}
+const tbl=(head,rows)=>`<table class="tb"><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map((c,i)=>i?`<td>${c}</td>`:`<th>${c}</th>`).join('')}</tr>`).join('')}</table>`;
+const eRow=(e,n,cls)=>`<div class="emo w ${cls||''}" role="img" aria-label="Bilder zum Zählen">${Array.from({length:n},()=>`<span>${e}</span>`).join('')}</div>`;
+
+/* ===== Aufgaben-Bausteine Sportfest ===== */
+const NM=[['🐇','Hugo'],['🦔','Ida'],['🦊','Finn'],['🐿️','Emma'],['🐸','Frida'],['🐻','Ben']];
+const nm=n=>sh(NM).slice(0,n);
+const Nm=a=>a[1];
+/* Zahlen-Mehrfachwahl: nahe falsche Zahlen */
+const SING={Minuten:'Minute',Sekunden:'Sekunde',Runden:'Runde'};
+const NQ=(q,c,o={})=>{const fm=o.f||(v=>de(Math.round(v*1000)/1000)+(o.u?' '+(v==1?SING[o.u]||o.u:o.u):''));const st=o.st||[1,2,3,5,10];const w=new Set();let t=0;
+ while(w.size<3&&t++<400){const v=Math.round((c+rnd(st)*(R(0,1)?1:-1))*1000)/1000;if(v!==c&&v>=(o.min==null?1:o.min))w.add(v)}
+ return mk(q,fm(c),[...w].map(fm),o.x||{})};
+const pick1=a=>a[R(0,a.length-1)];
+const tm=e=>Math.floor(e/60)+':'+pad(e%60)+' Uhr';
+const h12=h=>((h-1)%12+12)%12+1,nx12=h=>h12(h+1);
+/* ---------- Uhr ---------- */
+const gClock=()=>{const h=R(1,12);let m,cor,w;
+ const dig=(H,M)=>`${H}:${pad(M)} Uhr`;
+ if(KL==1){m=rnd([0,0,30]);if(m==0){cor=`${h} Uhr`;w=[`halb ${h}`,`halb ${nx12(h)}`,`${nx12(h)} Uhr`]}else{cor=`halb ${nx12(h)}`;w=[`halb ${h}`,`${h} Uhr`,`${nx12(h)} Uhr`]}}
+ else if(KL==2){m=rnd([0,15,30,45]);
+  if(m==0){cor=`${h} Uhr`;w=[`Viertel nach ${h}`,`halb ${h}`,`Viertel vor ${h}`]}
+  else if(m==15){cor=`Viertel nach ${h}`;w=[`Viertel vor ${h}`,`Viertel nach ${nx12(h)}`,`halb ${nx12(h)}`]}
+  else if(m==30){cor=`halb ${nx12(h)}`;w=[`halb ${h}`,`Viertel nach ${h}`,`${h} Uhr`]}
+  else{cor=`Viertel vor ${nx12(h)}`;w=[`Viertel nach ${nx12(h)}`,`Viertel vor ${h}`,`halb ${nx12(h)}`]}}
+ else{m=KL==3?5*R(1,11):Math.max(1,Math.min(59,5*R(1,11)+rnd([0,0,0,1,2,-1,-2])));cor=dig(h,m);
+  const c=[[h,(m+5)%60],[h,(m+55)%60],[nx12(h),m],[h12(h-1),m],[h,(m+10)%60],[h,(m+50)%60]];if(KL==4){c.unshift([h,(m+1)%60],[h,(m+59)%60])}
+  if(m%5==0)c.unshift([h12(m/5),(h%12)*5]);
+  w=[];for(const [a,b] of c){const s=dig(a,b);if(s!=cor&&!w.includes(s))w.push(s);if(w.length==3)break}}
+ return mk('Wie spät ist es?',cor,w,{vis:clockSvg(h,m),say:'Wie spät ist es? Schau dir die Uhr an.',tip:'Der kurze Zeiger zeigt die Stunde, der lange Zeiger die Minuten.'})};
+/* Ende einer Sportstunde */
+const gEnd=()=>{let s,d;
+ if(KL==2){s=R(8,11)*60+rnd([0,30]);d=rnd([30,60])}else{s=R(8,13)*60+5*R(0,11);d=rnd([15,20,25,30,40,45,60,90])}
+ const e=s+d,dt=d==60?'1 Stunde':d==90?'1 Stunde 30 Minuten':d+' Minuten';
+ const w=[...new Set((KL==2?[e+30,e-30,e+60,e-60]:[e+15,e-15,e+10,e-10,e+5,e-5,e+60]).filter(x=>x!=e&&x>0))];
+ return mk(`Die Sportstunde beginnt um <b>${tm(s)}</b> und dauert <b>${dt}</b>. Wann ist sie zu Ende?`,tm(e),sh(w).slice(0,3).map(tm))};
+const gLen=()=>{const s=R(8,13)*60+(KL==3?5*R(0,11):R(0,59)),d=KL==3?5*R(4,15):R(20,95),e=s+d;
+ return NQ(`Das Training beginnt um <b>${tm(s)}</b> und endet um <b>${tm(e)}</b>. Wie viele Minuten dauert es?`,d,{u:'Minuten',st:KL==3?[5,10,15]:[1,5,10,15]})};
+/* Wer ist schneller? (Sekunden) */
+const gFast=()=>{
+ if(KL==1){const [A,B]=nm(2).map(Nm);let a=R(6,18),b=R(6,18);while(a==b)b=R(6,18);
+  return mk(`${A} braucht <b>${a} Sekunden</b>. ${B} braucht <b>${b} Sekunden</b>. Wer ist schneller?`,a<b?A:B,[a<b?B:A],{tip:'Wer weniger Sekunden braucht, ist schneller.'})}
+ const an=nm(4),vals=sh([8,9,10,11,12,13,14,15,16,17,18]).slice(0,4).map(v=>KL==2?v:v);
+ const d=an.map((a,i)=>({n:a[1],e:a[0],v:vals[i]}));const vis=barSvg(d,{max:20,step:4,unit:'Sekunden',val:true,al:'Säulendiagramm: Zeiten beim 50-Meter-Lauf'});
+ const mn=d.reduce((a,b)=>a.v<b.v?a:b),mx=d.reduce((a,b)=>a.v>b.v?a:b);
+ const t=R(0,KL==2?2:3);
+ if(t==0)return mk('Wer war am schnellsten?',mn.n,d.filter(x=>x!=mn).map(x=>x.n),{vis,visAfter:false,tip:'Am schnellsten ist, wer die wenigsten Sekunden braucht.'});
+ if(t==1)return mk('Wer hat am längsten gebraucht?',mx.n,d.filter(x=>x!=mx).map(x=>x.n),{vis});
+ const [a,b]=sh(d).slice(0,2),hi=a.v>b.v?a:b,lo=a.v>b.v?b:a;
+ if(t==2||KL==2)return NQ(`Wie viele Sekunden schneller war <b>${lo.n}</b> als <b>${hi.n}</b>?`,hi.v-lo.v,{u:'Sekunden',st:[1,2,3],x:{vis}});
+ return NQ(`Wie viele Sekunden brauchen <b>${a.n}</b> und <b>${b.n}</b> zusammen?`,a.v+b.v,{u:'Sekunden',st:[1,2,10],x:{vis}})};
+const gSecMin=()=>{const m=R(1,4),s=5*R(1,11);
+ if(R(0,1))return NQ(`<b>${m} ${m==1?'Minute':'Minuten'} ${s} Sekunden</b> sind wie viele Sekunden?`,m*60+s,{u:'Sekunden',st:[5,10,60,30]});
+ const t=m*60+s,f=v=>`${Math.floor(v/60)} min ${v%60} s`,w=[...new Set([t+60,t-60,t+10,t-10,t+30,t-30].filter(x=>x>0&&x!=t))];
+ return mk(`<b>${t} Sekunden</b> sind wie viel?`,f(t),sh(w).slice(0,3).map(f))};
+/* ---------- Runden und Strecken ---------- */
+const gLaps=()=>{const [A,B]=nm(2).map(Nm);
+ const L=K([
+  ()=>{const a=R(2,9),b=R(2,10);return NQ(`${A} läuft ${a} Runden. ${B} läuft ${b} Runden. Wie viele Runden sind das zusammen?`,a+b,{st:[1,2,3]})},
+  ()=>{const a=R(5,12),b=R(1,a-1);return NQ(`${A} will ${a} Runden laufen. ${b} Runden sind schon geschafft. Wie viele Runden fehlen noch?`,a-b,{st:[1,2,3]})},
+  ()=>{const a=R(2,6);return NQ(`${A} läuft ${a} Runden. ${B} läuft doppelt so viele. Wie viele Runden läuft ${B}?`,2*a,{st:[1,2,3]})},
+  ()=>{const a=R(2,5);return NQ(`${A} läuft ${2*a} Runden. ${B} läuft halb so viele. Wie viele Runden läuft ${B}?`,a,{st:[1,2,3]})}],
+ [()=>{const [m,r]=rnd([[10,R(2,9)],[20,R(2,5)],[25,R(2,4)],[50,2]]);return NQ(`Eine Runde auf dem Platz ist ${m} m lang. ${A} läuft ${r} Runden. Wie viele Meter sind das?`,m*r,{u:'m',st:[5,10,20]})},
+  ()=>{const a=5*R(4,14),b=5*R(2,Math.floor((100-a)/5));return NQ(`${A} läuft erst ${a} m und dann noch ${b} m. Wie weit ist ${A} gelaufen?`,a+b,{u:'m',st:[5,10,20]})},
+  ()=>{const a=5*R(10,20),b=5*R(2,a/5-2);return NQ(`Der Lauf ist ${a} m lang. ${B} hat schon ${b} m geschafft. Wie viele Meter fehlen noch?`,a-b,{u:'m',st:[5,10,20]})},
+  ()=>{const m=rnd([10,20,25]),r=R(2,Math.min(9,Math.floor(100/m)));return NQ(`Eine Runde ist ${m} m lang. ${A} will ${m*r} m laufen. Wie viele Runden sind das?`,r,{st:[1,2]})}],
+ [()=>{const r=R(2,6);return NQ(`Eine Runde auf der Laufbahn im Stadion ist 400 m lang. ${A} läuft ${r} Runden. Wie viele Meter sind das?`,400*r,{u:'m',st:[100,200,400]})},
+  ()=>{const m=rnd([200,250,500]),r=R(2,4);return NQ(`Eine Runde ist ${m} m lang. ${A} läuft ${r} Runden. Wie viele Meter sind das?`,m*r,{u:'m',st:[50,100,250]})},
+  ()=>{const a=50*R(3,17);return NQ(`${A} ist schon ${a} m gelaufen. Wie viele Meter fehlen bis zu 1 km (1000 m)?`,1000-a,{u:'m',st:[50,100,10]})},
+  ()=>{const m=rnd([200,250,500]);return NQ(`Wie viele Runden zu ${m} m ergeben zusammen 1 km (1000 m)?`,1000/m,{st:[1,2,3]})},
+  ()=>{const k=R(2,9);return NQ(`<b>${k} km</b> sind wie viele Meter?`,k*1000,{u:'m',st:[100,1000,10,500]})},
+  ()=>{const t=R(2,6);return NQ(`${A} schafft in jeder Minute 150 m. Wie weit kommt ${A} in ${t} Minuten?`,150*t,{u:'m',st:[50,100,150]})}],
+ [()=>{const x=rnd([0.5,1.5,2.5,3.2,1.2,4.5,2.8,0.7]);return NQ(`Die Laufstrecke ist <b>${de(x)} km</b> lang. Wie viele Meter sind das?`,x*1000,{u:'m',st:[100,500,1000,10]})},
+  ()=>{const m=rnd([3500,2400,1800,6200,2700,4300]);return NQ(`<b>${m} m</b> sind wie viele Kilometer?`,m/1000,{u:'km',st:[.1,.5,1,.05]})},
+  ()=>{const [m,r]=rnd([[500,3],[250,6],[400,5],[600,5],[750,4]]);return NQ(`Die Runde im Park ist ${m} m lang. ${A} läuft ${r} Runden. Wie viele Kilometer sind das?`,m*r/1000,{u:'km',st:[.5,1,.1,.25]})},
+  ()=>{const [t,m]=rnd([[2000,250],[1500,250],[2400,400],[3000,500],[1800,600],[2400,600]]);return NQ(`Der Ausdauerlauf ist ${t} m lang. Eine Runde ist ${m} m lang. Wie viele Runden sind das?`,t/m,{st:[1,2,3]})},
+  ()=>{const a=rnd([120,140,150,160,180]),t=rnd([4,5,6,8]);return NQ(`${A} schafft in einer Minute ${a} m. Wie weit kommt ${A} in ${t} Minuten?`,a*t,{u:'m',st:[100,200,a]})}]);
+ return rnd(L)()};
+/* ---------- Messen ---------- */
+const gRuler=()=>{const n=R(3,14);return NQ('Wie lang ist der Streifen? Lies am Lineal ab.',n,{u:'cm',st:[1,2],x:{vis:rulerSvg(n,rnd(FAC)),tip:'Der Streifen beginnt bei der Null. Schau, wo er endet.'}})};
+const gUnit=()=>{const L=[['Ein Bleistift ist 15 ___ lang.','cm'],['Ein Springseil ist 2 ___ lang.','m'],['Die Laufbahn ist 400 ___ lang.','m'],['Der Weg zur Schule ist 1 ___ lang.','km'],['Eine Turnmatte ist 2 ___ lang.','m'],['Ein Fingernagel ist 1 ___ breit.','cm'],['Ein Tischtennisball hat 4 ___ Durchmesser.','cm'],['Ein Wanderweg ist 5 ___ lang.','km'],['Ein Turnschuh ist 25 ___ lang.','cm']];
+ const [q,u]=rnd(L);return mk('Welche Einheit passt?<br><b>'+q+'</b>',u,['cm','m','km'].filter(x=>x!=u),{tip:'1 km sind 1000 m. 1 m sind 100 cm.'})};
+const gConv=()=>{
+ if(KL==2){const a=R(1,4),b=rnd([10,20,25,30,40,50,60,75,80,90]);return R(0,1)?NQ(`<b>${a} m</b> sind wie viele Zentimeter?`,a*100,{u:'cm',st:[10,100,50,1]}):NQ(`<b>${a} m ${b} cm</b> sind wie viele Zentimeter?`,a*100+b,{u:'cm',st:[10,100,5]})}
+ if(KL==3){const t=R(0,2);
+  if(t==0){const a=R(1,4),b=5*R(1,19);return NQ(`<b>${a} m ${b} cm</b> sind wie viele Zentimeter?`,a*100+b,{u:'cm',st:[10,100,5]})}
+  if(t==1){const x=rnd([1.25,2.4,0.75,3.1,1.8,2.05,0.5]);return NQ(`<b>${de(x.toFixed(2))} m</b> sind wie viele Zentimeter?`,Math.round(x*100),{u:'cm',st:[10,5,100,1]})}
+  const a=R(1,4),b=5*R(1,19),c=a*100+b,f=(A,B)=>`${A} m ${B} cm`;const w=[f(a,Math.min(99,b+10)),f(a+1,b),f(Math.floor(c/10),c%10),f(b>=10?Math.floor(b/10):a,a*10+b%10)].filter(x=>x!=f(a,b));
+  return mk(`<b>${c} cm</b> sind wie viel?`,f(a,b),[...new Set(w)].slice(0,3))}
+ const t=R(0,2);
+ if(t==0){const a=R(1,4),b=5*R(1,19),f=v=>v.toFixed(2).replace('.',',')+' m';return NQ(`<b>${a} m ${b} cm</b> sind wie viele Meter?`,a+b/100,{f,st:[.05,.1,.5,1]})}
+ if(t==1){const x=rnd([4.5,3.2,6.5,1.8,2.4,0.7,5.6]);return NQ(`<b>${de(x)} cm</b> sind wie viele Millimeter?`,Math.round(x*10),{u:'mm',st:[1,5,10,100]})}
+ const x=rnd([1.35,2.8,0.45,1.7,3.05,2.15]);return NQ(`<b>${de(x.toFixed(2))} m</b> sind wie viele Zentimeter?`,Math.round(x*100),{u:'cm',st:[10,5,100,1]})};
+const gBigLen=()=>{const small=R(0,1)&&KL==4,vals=sh([100,105,110,115,120,125,130,135,140,150,160,170,175,180,190,200,210,220,230,250,270,300]).slice(0,4);
+ const f=v=>{const t=R(0,2);return t==0?v+' cm':v%100==0?(v/100)+' m':`${Math.floor(v/100)} m ${v%100} cm`};
+ const fs=vals.map(v=>({v,s:f(v)}));const ex=small?vals.reduce((a,b)=>a<b?a:b):vals.reduce((a,b)=>a>b?a:b);
+ if(KL==4&&small)fs.forEach(o=>{if(R(0,1)&&o.v%10==0)o.s=(o.v*10)+' mm'});
+ const c=fs.find(o=>o.v==ex);return mk(`Welche Länge ist die <b>${small?'kleinste':'größte'}</b>?`,c.s,fs.filter(o=>o!=c).map(o=>o.s),{tip:'Rechne alle Längen in Zentimeter um.'})};
+/* ---------- Weiten im Diagramm ---------- */
+const gJumpChart=()=>{const an=nm(KL==1?3:4);
+ if(KL==1){const vs=sh([2,3,4,5,6,7,8,9]).slice(0,3),d=an.map((a,i)=>({n:a[1],e:a[0],v:vs[i]}));
+  const vis=`<div class="pg">${d.map(x=>`<div><span>${x.e} ${x.n}</span><span class="pgs" role="img" aria-label="Reihe aus grünen Feldern">${'🟩'.repeat(x.v)}</span></div>`).join('')}</div>`;
+  const t=R(0,2);const mx=d.reduce((a,b)=>a.v>b.v?a:b),mn=d.reduce((a,b)=>a.v<b.v?a:b);
+  if(t==0)return mk('Wer ist am häufigsten gesprungen?<br><small>Jedes grüne Feld ist ein Sprung.</small>',mx.n,d.filter(x=>x!=mx).map(x=>x.n),{vis,visAfter:true});
+  if(t==1)return mk('Wer ist am wenigsten gesprungen?<br><small>Jedes grüne Feld ist ein Sprung.</small>',mn.n,d.filter(x=>x!=mn).map(x=>x.n),{vis,visAfter:true});
+  const x=rnd(d);return NQ(`Wie oft ist ${x.n} gesprungen?<br><small>Jedes grüne Feld ist ein Sprung.</small>`,x.v,{st:[1,2],x:{vis,visAfter:true}})}
+ let vs,max,step,val=false;
+ if(KL==2){vs=sh([110,120,130,140,150,160,170,180,190,200]).slice(0,4);max=200;step=20;val=true}
+ else if(KL==3){vs=sh([100,120,140,160,180,200,220,240]).slice(0,4);max=240;step=20}
+ else{do{vs=sh([120,140,150,160,170,180,190,200,210,220,240]).slice(0,4)}while(vs.reduce((a,b)=>a+b,0)%4);max=240;step=20}
+ const d=an.map((a,i)=>({n:a[1],e:a[0],v:vs[i]})),vis=barSvg(d,{max,step,unit:'Weite in cm',val,h:KL==2?250:300,al:'Säulendiagramm: Weiten beim Weitsprung in Zentimeter'});
+ const mx=d.reduce((a,b)=>a.v>b.v?a:b),mn=d.reduce((a,b)=>a.v<b.v?a:b),[a,b]=sh(d).slice(0,2);
+ const L=[()=>mk('Wer ist am weitesten gesprungen?',mx.n,d.filter(x=>x!=mx).map(x=>x.n),{vis}),()=>mk('Wer ist am kürzesten gesprungen?',mn.n,d.filter(x=>x!=mn).map(x=>x.n),{vis}),
+  ()=>NQ(`Wie weit ist ${a.n} gesprungen?`,a.v,{u:'cm',st:[10,20,40],x:{vis}}),
+  ()=>NQ(`Wie viele Zentimeter weiter ist <b>${(a.v>b.v?a:b).n}</b> gesprungen als <b>${(a.v>b.v?b:a).n}</b>?`,Math.abs(a.v-b.v),{u:'cm',st:[10,20,30],x:{vis}})];
+ if(KL>=3)L.push(()=>NQ(`Wie viele Zentimeter springen <b>${a.n}</b> und <b>${b.n}</b> zusammen?`,a.v+b.v,{u:'cm',st:[10,20,100],x:{vis}}));
+ if(KL==4){L.push(()=>NQ('Wie viele Zentimeter sind alle vier Sprünge zusammen?',vs.reduce((x,y)=>x+y,0),{u:'cm',st:[10,20,40,100],x:{vis}}),()=>NQ('Was ist die <b>mittlere Weite</b> (der Durchschnitt) aller vier Sprünge?',vs.reduce((x,y)=>x+y,0)/4,{u:'cm',st:[5,10,20],x:{vis,tip:'Rechne alle Weiten zusammen und teile durch 4.'}}))}
+ return rnd(L)()};
+/* Rechengeschichten Sprung und Wurf */
+const gJumpWord=()=>{const [A,B]=nm(2).map(Nm);
+ const L=K([
+  ()=>{const a=R(3,10),b=R(2,10);return NQ(`Der Frosch hüpft erst ${a} Mal und dann noch ${b} Mal. Wie oft hüpft er insgesamt?`,a+b,{st:[1,2,3]})},
+  ()=>{const a=R(8,15),b=R(2,a-2);return NQ(`${A} springt ${a} Mal über das Seil. ${b} Sprünge waren schon vorher. Wie viele Sprünge sind neu?`,a-b,{st:[1,2,3]})},
+  ()=>{const a=R(2,6);return NQ(`${A} wirft ${a} Bälle. ${B} wirft doppelt so viele. Wie viele Bälle wirft ${B}?`,2*a,{st:[1,2,3]})}],
+ [()=>{const a=5*R(2,10),b=5*R(2,Math.floor((100-a)/5));return NQ(`${A} wirft den Ball ${a} m weit. ${B} wirft ${b} m weit. Wie viele Meter sind das zusammen?`,a+b,{u:'m',st:[5,10,20]})},
+  ()=>{const a=5*R(8,18),b=5*R(2,a/5-2);return NQ(`${A} wirft ${a} m weit und ${B} wirft ${b} m weit. Wie viele Meter weiter wirft ${A}?`,a-b,{u:'m',st:[5,10,20]})},
+  ()=>{const c=rnd([10,20,25]),n=R(2,Math.min(5,Math.floor(100/c)));return NQ(`Der Frosch macht ${n} gleich weite Sprünge. Jeder Sprung ist ${c} cm weit. Wie viele Zentimeter sind das?`,n*c,{u:'cm',st:[5,10,20]})}],
+ [()=>{const a=R(120,240),b=R(10,60);return NQ(`${A} springt ${a} cm weit. ${B} springt ${b} cm weiter. Wie weit springt ${B}?`,a+b,{u:'cm',st:[10,20,5]})},
+  ()=>{const n=R(3,9),c=rnd([20,30,40,50,25,35,45]);return NQ(`Der Frosch macht ${n} Sprünge. Jeder Sprung ist ${c} cm weit. Wie viele Zentimeter sind das?`,n*c,{u:'cm',st:[10,20,c]})},
+  ()=>{const a=R(14,30),b=R(14,30);return NQ(`${A} wirft ${a} m weit, ${B} wirft ${b} m weit. Wie viele Meter sind das zusammen?`,a+b,{u:'m',st:[1,2,10]})},
+  ()=>{const a=R(150,260),b=R(120,240);return NQ(`Beim ersten Versuch springt ${A} ${a} cm, beim zweiten ${b} cm. Wie viele Zentimeter sind das zusammen?`,a+b,{u:'cm',st:[10,100,20]})}],
+ [()=>{const a=R(112,225)/10,b=R(51,99)/10;return NQ(`${A} wirft ${de(a)} m weit, ${B} wirft ${de(b)} m weit. Wie viele Meter sind das zusammen?`,Math.round((a+b)*10)/10,{u:'m',st:[.1,1,.5,10]})},
+  ()=>{const a=R(142,248)/10,b=R(51,99)/10;return NQ(`${A} wirft ${de(a)} m weit, ${B} wirft ${de(b)} m weit. Wie viele Meter weiter wirft ${A}?`,Math.round((a-b)*10)/10,{u:'m',st:[.1,1,.5,10]})},
+  ()=>{const n=R(2,6),x=rnd([1.25,1.5,2.5,1.2,0.75,2.25]);return NQ(`Der Frosch macht ${n} Sprünge. Jeder Sprung ist ${de(x)} m weit. Wie viele Meter sind das?`,Math.round(n*x*100)/100,{u:'m',st:[.25,.5,1,.1]})},
+  ()=>{const n=rnd([2,3,4,5]),x=rnd([1.5,2,2.5,3,1.2,0.5]);return NQ(`Die Weitsprungbahn ist ${de(Math.round(n*x*100)/100)} m lang. Sie ist in ${n} gleich lange Stücke geteilt. Wie lang ist ein Stück?`,x,{u:'m',st:[.5,1,.1]})}]);
+ return rnd(L)()};
+/* ---------- Ballspiele ---------- */
+const gTally=()=>{
+ if(KL==1){const n=R(3,10);return R(0,1)?NQ('Wie viele Tore sind gefallen?<br><small>Jeder Strich ist ein Tor.</small>',n,{st:[1,2],x:{vis:tallySvg(n)}}):NQ('Zähle die Bälle. Wie viele sind es?',n,{st:[1,2],x:{vis:eRow('⚽',n)}})}
+ if(KL==2){const n=R(6,29);return NQ('Wie viele Tore sind gefallen?<br><small>Ein Bündel mit Querstrich sind 5 Tore.</small>',n,{st:[1,2,5],x:{vis:tallySvg(n)}})}
+ const nG=KL==3?4:5,vs=Array.from({length:nG},()=>R(1,9)),head=['Spiel',...vs.map((_,i)=>i+1)],vis=tbl(head,[['Tore',...vs]]);
+ const sm=vs.reduce((a,b)=>a+b,0),mx=Math.max(...vs),mn=Math.min(...vs);
+ const L=[()=>NQ('Wie viele Tore sind in allen Spielen zusammen gefallen?',sm,{st:[1,2,3],x:{vis}}),()=>NQ('Wie viele Tore sind im Spiel mit den <b>meisten</b> Toren gefallen?',mx,{st:[1,2],x:{vis}}),()=>NQ('Wie viele Tore mehr gab es im torreichsten Spiel als im torärmsten?',mx-mn,{st:[1,2,3],x:{vis}})];
+ if(KL==4){let v2;do{v2=Array.from({length:4},()=>R(1,9))}while(v2.reduce((a,b)=>a+b,0)%4);const vis2=tbl(['Spiel',1,2,3,4],[['Tore',...v2]]);L.push(()=>NQ('Wie viele Tore sind im Durchschnitt pro Spiel gefallen?',v2.reduce((a,b)=>a+b,0)/4,{st:[1,2],x:{vis:vis2,tip:'Alle Tore zusammenzählen und durch die Zahl der Spiele teilen.'}}))}
+ return rnd(L)()};
+const gTeams=()=>{const [A]=nm(1).map(Nm);
+ const L=K([
+  ()=>{const n=2*R(3,10);return NQ(`${n} Kinder bilden 2 gleich große Mannschaften. Wie viele Kinder sind in jeder Mannschaft?`,n/2,{st:[1,2,3]})},
+  ()=>{const a=R(10,20),b=R(2,a-2);return NQ(`In der Halle liegen ${a} Bälle. ${b} Bälle werden weggeräumt. Wie viele bleiben liegen?`,a-b,{st:[1,2,3]})},
+  ()=>{const a=R(3,10);return NQ(`Jede Mannschaft hat ${a} Kinder. Es gibt 2 Mannschaften. Wie viele Kinder spielen mit?`,2*a,{st:[1,2,3]})}],
+ [()=>{const t=R(2,5),k=rnd([2,3,4,5,6,10]);return NQ(`Es gibt ${t} Mannschaften mit je ${k} Kindern. Wie viele Kinder sind das?`,t*k,{st:[1,2,k,5]})},
+  ()=>{const t=R(2,6),k=rnd([2,3,4,5,6]);return NQ(`${t*k} Kinder bilden Mannschaften mit je ${k} Kindern. Wie viele Mannschaften sind das?`,t,{st:[1,2,3]})},
+  ()=>{const n=2*R(5,15);return NQ(`Die Klasse hat ${n} Kinder. Die Hälfte spielt Fußball. Wie viele Kinder spielen Fußball?`,n/2,{st:[1,2,5]})},
+  ()=>{const t=R(2,5),k=rnd([2,3,4,5]);return NQ(`Jede der ${t} Mannschaften bekommt ${k} Leibchen. Wie viele Leibchen sind das?`,t*k,{st:[1,2,k]})}],
+ [()=>{const k=R(4,7),t=R(2,5),r=R(1,k-1),n=t*k+r,f=(a,b)=>`${a} Mannschaften, ${b} ${b==1?'Kind':'Kinder'} übrig`;
+   const w=[f(r,t),f(t+1,Math.max(0,k-r)),f(t,r+1),f(t-1,r+k)].filter(x=>x!=f(t,r));
+   return mk(`${n} Kinder bilden Mannschaften mit je ${k} Kindern. Wie viele volle Mannschaften gibt es und wie viele Kinder bleiben übrig?`,f(t,r),[...new Set(w)].slice(0,3).map(x=>x.replace('1 Mannschaften','1 Mannschaft')),{tip:`Rechne ${n} : ${k} mit Rest.`})},
+  ()=>{const t=R(2,8);return NQ(`In einer Fußballmannschaft sind 11 Kinder. Wie viele Kinder sind in ${t} Mannschaften?`,11*t,{st:[1,10,11]})},
+  ()=>{const k=rnd([6,7,8,9]),t=R(3,9);return NQ(`${t} Mannschaften haben je ${k} Kinder. Wie viele Kinder sind das?`,t*k,{st:[1,k,2,10]})}],
+ [()=>{const [fr,d]=rnd([['die Hälfte',2],['ein Drittel',3],['ein Viertel',4],['ein Fünftel',5]]),n=d*R(3,Math.floor(30/d));return NQ(`Von ${n} Kindern spielt <b>${fr}</b> Fußball. Wie viele Kinder sind das?`,n/d,{st:[1,2,3]})},
+  ()=>{const n=4*R(2,8);return NQ(`Von ${n} Kindern spielt die Hälfte Fußball, ein Viertel Volleyball. Der Rest spielt Basketball. Wie viele Kinder spielen Basketball?`,n/4,{st:[1,2,3]})},
+  ()=>{const k=R(4,12);return NQ(`${3*k} Kinder bilden 3 gleich große Mannschaften. Wie viele Kinder sind in jeder Mannschaft?`,k,{st:[1,2,3]})},
+  ()=>{const [a,b]=rnd([[1,4],[3,4],[2,3],[1,3],[3,5]]),n=b*R(2,6);return NQ(`Von ${n} Kindern nehmen <b>${a} von ${b}</b> am Turnier teil. Wie viele Kinder sind das?`,n/b*a,{st:[1,2,3]})}]);
+ return rnd(L)()};
+/* Spielerzahlen */
+const gPlayers=()=>{const L=[['Wie viele Spieler einer Mannschaft stehen beim <b>Fußball</b> gleichzeitig auf dem Feld?',11,[10,9,12]],['Wie viele Spieler einer Mannschaft stehen beim <b>Basketball</b> gleichzeitig auf dem Feld?',5,[4,6,7]],['Wie viele Spieler einer Mannschaft stehen beim <b>Volleyball</b> gleichzeitig auf dem Feld?',6,[5,7,4]],['Wie viele Spieler einer Mannschaft stehen beim <b>Handball</b> gleichzeitig auf dem Feld (mit Torwart)?',7,[6,8,11]]];
+ if(KL==4)L.push(['Beim Volleyball spielen zwei Mannschaften gegeneinander. Wie viele Spieler stehen insgesamt auf dem Feld?',12,[11,10,13]],['Beim Basketball spielen zwei Mannschaften gegeneinander. Wie viele Spieler stehen insgesamt auf dem Feld?',10,[8,9,12]]);
+ const [q,c,w]=rnd(L);return mk(q,String(c),w.map(String))};
+/* ---------- Zirkeltraining und Schwimmen ---------- */
+const gCircuit=()=>{const L=K([],
+ [()=>{const t=R(2,5),m=rnd([2,3,5]);return NQ(`Im Zirkel gibt es ${t} Stationen. An jeder Station üben die Kinder ${m} Minuten. Wie viele Minuten sind das?`,t*m,{u:'Minuten',st:[1,2,5]})},
+  ()=>{const a=rnd([10,15,20]),b=rnd([20,25,30]);return NQ(`Aufwärmen dauert ${a} Minuten, der Zirkel ${b} Minuten. Wie lange dauert beides zusammen?`,a+b,{u:'Minuten',st:[5,10]})},
+  ()=>{const a=rnd([10,15,20]);return NQ(`Die Sportstunde dauert 45 Minuten. Das Aufwärmen dauert ${a} Minuten. Wie viele Minuten bleiben danach?`,45-a,{u:'Minuten',st:[5,10]})}],
+ [()=>{const t=R(4,8),m=rnd([2,3,4]);return NQ(`Im Zirkel gibt es ${t} Stationen. An jeder Station üben die Kinder ${m} Minuten. Wie viele Minuten sind das?`,t*m,{u:'Minuten',st:[1,2,4]})},
+  ()=>{const t=R(4,8);return NQ(`Es gibt ${t} Stationen. Zwischen den Stationen ist je 1 Minute Pause (nach der letzten nicht mehr). Wie viele Pausenminuten sind das?`,t-1,{u:'Minuten',st:[1,2]})},
+  ()=>{const a=rnd([10,15]),b=rnd([20,25]);return NQ(`Aufwärmen: ${a} Minuten. Zirkel: ${b} Minuten. Ausklang: 5 Minuten. Wie viele Minuten bleiben von 45 Minuten übrig?`,45-a-b-5,{u:'Minuten',st:[1,2,5]})},
+  ()=>{const s=R(8,11)*60+rnd([0,15,30,45]),d=rnd([20,25,35,40]),e=s+d;return mk(`Der Zirkel beginnt um ${tm(s)} und dauert ${d} Minuten. Wann ist er zu Ende?`,tm(e),sh([e+5,e-5,e+10,e-10,e+15]).slice(0,3).map(tm))}],
+ [()=>{const t=rnd([6,8,10]),s=rnd([30,45,60,90]);const v=t*s;return NQ(`Im Zirkel gibt es ${t} Stationen. An jeder Station üben die Kinder ${s} Sekunden. Wie viele Sekunden sind das insgesamt?`,v,{u:'Sekunden',st:[30,60,10]})},
+  ()=>{const t=rnd([8,10,12]),s=rnd([30,60,90]);const v=t*s/60;return NQ(`Im Zirkel gibt es ${t} Stationen. An jeder Station üben die Kinder ${s} Sekunden. Wie viele <b>Minuten</b> sind das insgesamt?`,v,{u:'Minuten',st:[.5,1,2]})},
+  ()=>{const [fr,d]=rnd([['Ein Drittel',3],['Ein Fünftel',5],['Ein Neuntel',9]]);return NQ(`${fr} der Sportstunde (45 Minuten) ist Aufwärmen. Wie viele Minuten sind das?`,45/d,{u:'Minuten',st:[1,2,5]})},
+  ()=>{const [a,b]=rnd([[10,25],[15,20],[10,20],[5,30]]);return NQ(`Von 45 Minuten Sportstunde sind ${a} Minuten Aufwärmen und ${b} Minuten Spiel. Der Rest ist Ausklang. Wie viele Minuten sind das?`,45-a-b,{u:'Minuten',st:[1,2,5]})}]);
+ return rnd(L)()};
+const gSwim=()=>{const [A,B]=nm(2).map(Nm);
+ const L=K([
+  ()=>{const a=R(2,9),b=R(2,9);return NQ(`${A} schwimmt ${a} Bahnen. ${B} schwimmt ${b} Bahnen. Wie viele Bahnen sind das zusammen?`,a+b,{st:[1,2,3]})},
+  ()=>{const a=R(6,14),b=R(2,a-2);return NQ(`${A} will ${a} Bahnen schwimmen. ${b} Bahnen sind geschafft. Wie viele Bahnen fehlen noch?`,a-b,{st:[1,2,3]})},
+  ()=>{const a=R(2,8);return NQ(`Im Becken sind ${a} Kinder. Es kommen noch ${a} Kinder dazu. Wie viele Kinder sind es dann?`,2*a,{st:[1,2,3]})}],
+ [()=>{const n=R(2,4);return NQ(`Das Becken ist 25 m lang. ${A} schwimmt ${n} Längen. Wie viele Meter sind das?`,25*n,{u:'m',st:[25,50,10]})},
+  ()=>{const n=rnd([1,2,3]);return NQ(`${A} will 100 m schwimmen. Eine Länge ist 25 m. ${A} hat schon ${n} ${n==1?'Länge':'Längen'} geschafft. Wie viele Meter fehlen noch?`,100-25*n,{u:'m',st:[25,50,10]})},
+  ()=>{const n=R(2,10);return NQ(`${n} Kinder bekommen jeweils 2 Schwimmnudeln. Wie viele Schwimmnudeln sind das?`,2*n,{st:[1,2,5]})},
+  ()=>{const a=rnd([25,50,75]),b=rnd([25,50]);return NQ(`${A} schwimmt erst ${a} m, dann noch ${b} m. Wie viele Meter sind das?`,a+b,{u:'m',st:[25,10,5]})}],
+ [()=>{const n=R(4,16);return NQ(`Das Becken ist 25 m lang. ${A} schwimmt ${n} Längen. Wie viele Meter sind das?`,25*n,{u:'m',st:[25,50,100]})},
+  ()=>{const n=rnd([200,300,500,600,1000]);return NQ(`Wie viele 25-m-Längen sind ${n} m?`,n/25,{st:[1,2,4,5]})},
+  ()=>{const t=rnd([30,40,50,45]),n=R(3,6);const v=t*n,f=s=>Math.floor(s/60)+' min '+(s%60)+' s';return mk(`${A} braucht für eine Länge ${t} Sekunden. Wie lange braucht ${A} für ${n} Längen?`,f(v),sh([v+10,v-10,v+30,v-30,v+60,v-60].filter(x=>x>0&&x!=v)).slice(0,3).map(f))},
+  ()=>{const a=rnd([10,12,15,20]),b=R(1,5)*5;return NQ(`Die Schwimmstunde dauert 45 Minuten. Das Umziehen dauert ${a} Minuten. Wie viele Minuten bleiben für das Schwimmen?`,45-a,{u:'Minuten',st:[5,10]})}],
+ [()=>{const n=rnd([2,3,4,5]),l=rnd([10,12,15,20]);return NQ(`Ein Becken ist 25 m lang und ${l} m breit. Wie groß ist die Fläche des Beckens?`,25*l,{u:'m²',st:[25,50,l,100],x:{tip:'Fläche = Länge mal Breite.'}})},
+  ()=>{const l=rnd([10,12,15,20]);return NQ(`Ein Becken ist 25 m lang und ${l} m breit. Wie lang ist der Umfang des Beckens?`,2*(25+l),{u:'m',st:[10,25,l,5]})},
+  ()=>{const [i,e]=rnd([[450,10],[300,10],[120,20],[600,20],[250,50]]);return NQ(`Ein Planschbecken fasst ${i} Liter. Ein Eimer fasst ${e} Liter. Wie viele Eimer braucht man zum Füllen?`,i/e,{st:[1,2,5,10]})},
+  ()=>{const m=rnd([500,750,1000]);return NQ(`Das Becken ist 25 m lang. Wie viele Längen sind ${m} m?`,m/25,{st:[1,2,5,10]})}]);
+ return rnd(L)()};
+/* ---------- Herz und Puls ---------- */
+const gPulse=()=>{const [A]=nm(1).map(Nm);
+ if(KL==3){const a=R(10,16);return NQ(`${A} zählt am Handgelenk <b>${a} Pulsschläge in 10 Sekunden</b>. Wie viele Schläge wären das in einer Minute?`,a*6,{st:[6,10,12,60],x:{tip:'Eine Minute hat 60 Sekunden, das sind 6 mal 10 Sekunden.'}})}
+ if(R(0,1)){const a=R(10,16),b=a+R(4,8);return NQ(`In Ruhe zählt ${A} ${a} Schläge in 10 Sekunden. Nach dem Laufen sind es ${b} Schläge in 10 Sekunden. Wie viele Schläge mehr sind das in einer Minute?`,(b-a)*6,{st:[6,12,10,30]})}
+ const a=R(18,26);return NQ(`${A} zählt <b>${a} Pulsschläge in 15 Sekunden</b>. Wie viele Schläge wären das in einer Minute?`,a*4,{st:[4,8,10,20],x:{tip:'Eine Minute hat vier mal 15 Sekunden.'}})};
+/* ---------- Daten der Klasse ---------- */
+const CAT=[['🏊','Schwimmen'],['⚽','Fußball'],['🤸','Turnen'],['🏃','Laufen'],['💃','Tanzen'],['🚲','Radfahren']];
+const gClassData=()=>{const cs=sh(CAT).slice(0,KL==1?3:4);
+ if(KL==1){const vs=sh([2,3,4,5,6,7,8,9]).slice(0,3),d=cs.map((c,i)=>({n:c[1],e:c[0],v:vs[i]}));
+  const vis=`<div class="pg">${d.map(x=>`<div><span>${x.e} ${x.n}</span><span class="pgs" role="img" aria-label="Reihe aus Kreuzen">${'✅'.repeat(x.v)}</span></div>`).join('')}</div>`;
+  const mx=d.reduce((a,b)=>a.v>b.v?a:b);return R(0,1)?mk('Was mögen die meisten Kinder der Klasse?<br><small>Jedes Häkchen ist ein Kind.</small>',mx.n,d.filter(x=>x!=mx).map(x=>x.n),{vis,visAfter:true}):(()=>{const x=rnd(d);return NQ(`Wie viele Kinder mögen ${x.n}?<br><small>Jedes Häkchen ist ein Kind.</small>`,x.v,{st:[1,2],x:{vis,visAfter:true}})})()}
+ let vs;
+ if(KL==2)do{vs=sh([2,4,6,8,10,12]).slice(0,4)}while(vs.reduce((a,b)=>a+b,0)>30);else if(KL==3)do{vs=sh([2,3,4,5,6,7,8,9,10]).slice(0,4)}while(vs.reduce((a,b)=>a+b,0)>30||vs.reduce((a,b)=>a+b,0)<18);else{do{vs=[R(1,10),R(1,10),R(1,10),R(1,10)]}while(![20,24,30].includes(vs.reduce((a,b)=>a+b,0)))}
+ const d=cs.map((c,i)=>({n:c[1],e:c[0],v:vs[i]})),max=KL==2?12:10,step=KL==2?2:KL==3?2:2;
+ const vis=barSvg(d,{max,step,unit:'Anzahl der Kinder',val:KL==2,al:'Säulendiagramm: Lieblingsbewegungen der Klasse'});
+ const sm=vs.reduce((a,b)=>a+b,0),mx=d.reduce((a,b)=>a.v>b.v?a:b),[a,b]=sh(d).slice(0,2);
+ const L=[()=>mk('Was mögen die meisten Kinder der Klasse?',mx.n,d.filter(x=>x!=mx).map(x=>x.n),{vis}),()=>NQ(`Wie viele Kinder mögen ${a.n}?`,a.v,{st:[1,2],x:{vis}}),()=>NQ('Wie viele Kinder hat die Klasse? Jedes Kind hat einmal abgestimmt.',sm,{st:[1,2,3],x:{vis}})];
+ if(KL>=3)L.push(()=>NQ(`Wie viele Kinder mehr mögen ${(a.v>b.v?a:b).n} als ${(a.v>b.v?b:a).n}?`,Math.abs(a.v-b.v),{st:[1,2,3],x:{vis}}));
+ if(KL==4)L.push(()=>{const fr=(x,n)=>{const g=(p,q)=>q?g(q,p%q):p,k=g(x,n);return k==n?(x/k==1?'1':x/k+'/1'):(x/k)+'/'+(n/k)};const c=rnd(d);const cor=fr(c.v,sm),w=[...new Set(d.filter(z=>z!=c).map(z=>fr(z.v,sm)).concat([fr(sm-c.v,sm),fr(c.v+1,sm)]))].filter(x=>x!=cor).slice(0,3);return w.length<3?gClassData():mk(`Welcher Bruchteil der Klasse mag ${c.n}? (Die Klasse hat ${sm} Kinder.)`,cor,w,{vis,tip:'Der Bruch heißt: Anzahl dieser Kinder / alle Kinder. Kürze, wenn es geht.'})});
+ return rnd(L)()};
+
+/* ===== Wissen, Sprache, Sortieren, Paare, Bewegungspausen ===== */
+const qb=(list,n)=>sh(list.filter(e=>!e[3]||e[3].includes(KL))).slice(0,n).map(e=>mk(e[0],e[1],e[2],{fun:e[4],tip:e[5]}));
+/* --- Laufen --- */
+const BK_LAUF=[
+ ['Was machen wir vor dem Laufen zuerst?','Wir wärmen uns auf.',['Wir legen uns hin.','Wir essen Eis.'],[1,2],'Beim Aufwärmen wird der Körper warm und bereit für Bewegung.'],
+ ['Wo hört ein Wettlauf auf?','Im Ziel',['Am Start','Im Bett'],[1]],
+ ['Auf die Plätze, fertig, …','los!',['Ziel!','Pause!'],[1,2]],
+ ['Womit stoppt man die Zeit beim Laufen?','Mit einer Stoppuhr',['Mit einem Lineal','Mit einer Waage'],[1,2,3]],
+ ['Was gibt man beim Staffellauf an den nächsten Läufer weiter?','Den Staffelstab',['Das Springseil','Den Reifen'],[2,3,4],'Bei der Staffel läuft jeder ein Stück und gibt dann den Stab weiter.'],
+ ['Was ist ein Sprint?','Ein ganz schneller, kurzer Lauf',['Ein langer, ruhiger Lauf','Ein Lauf rückwärts'],[2,3,4]],
+ ['Welche Schuhe passen zum Laufen?','Sportschuhe mit festem Halt',['Gummistiefel','Flip-Flops'],[1,2,3]],
+ ['Was trinkst du nach dem Laufen am besten?','Wasser',['Energydrink','Kaffee'],[2,3,4]],
+ ['Warum atmen wir beim Laufen schneller?','Der Körper braucht mehr Sauerstoff.',['Die Schuhe drücken.','Es wird dunkler.'],[3,4],'Beim Laufen arbeiten die Muskeln viel. Dafür brauchen sie mehr Sauerstoff aus der Luft.'],
+ ['Wie lang ist eine Runde auf einer Stadion-Laufbahn?','400 Meter',['100 Meter','1 Kilometer'],[3,4]],
+ ['Was ist ein Ausdauerlauf?','Ein langer Lauf in ruhigem Tempo',['Ein ganz kurzer Lauf','Ein Lauf mit Hindernissen'],[3,4]],
+ ['Wann ist es ein Fehlstart?','Wenn jemand vor dem Startsignal losläuft',['Wenn jemand stolpert','Wenn es regnet'],[4]],
+ ['Was machst du bei Seitenstechen?','Langsamer werden und ruhig weiteratmen',['Noch schneller laufen','Die Luft anhalten'],[3,4]],
+ ['Wozu gibt es Bahnen auf der Laufbahn?','Damit jeder seinen eigenen Platz zum Laufen hat',['Zum Verstecken','Damit es bunter aussieht'],[2,3,4]]];
+/* --- Sprung und Wurf --- */
+const BK_SPRUNG=[
+ ['Wohin landen Weitspringer?','In die Sandgrube',['Ins Wasser','Auf den Rasen'],[1,2],'Der Sand ist weich. So kann man sicher landen.'],
+ ['Von wo springt man beim Weitsprung ab?','Vom Absprungbalken',['Aus der Sandgrube','Vom Tor'],[2,3,4]],
+ ['Womit misst man die Weite beim Weitsprung?','Mit einem Maßband',['Mit einer Stoppuhr','Mit einer Waage'],[1,2,3]],
+ ['Was ist beim Werfen mit dem Schlagball wichtig?','Nur werfen, wenn vor mir alles frei ist',['Immer sofort werfen','Mit geschlossenen Augen werfen'],[1,2,3,4]],
+ ['Was braucht man beim Hochsprung?','Eine Latte und eine weiche Matte',['Ein Wasserbecken','Ein Springseil'],[2,3,4]],
+ ['Was passiert, wenn man beim Weitsprung über den Balken tritt?','Der Sprung zählt nicht.',['Der Sprung zählt doppelt.','Nichts.'],[4]],
+ ['Wie wirft man den Schlagball weit?','Mit Schwung aus dem ganzen Körper',['Nur mit den Fingern','Mit gebeugtem Kopf nach unten'],[3,4]],
+ ['Wozu läuft man beim Weitsprung vorher Anlauf?','Um Schwung zu holen',['Um sich auszuruhen','Um Zeit zu sparen'],[2,3,4]]];
+/* --- Ballspiele --- */
+const BK_BALL=[
+ ['Wohin muss beim Fußball der Ball?','Ins Tor',['In den Korb','Über das Netz'],[1]],
+ ['Wohin muss beim Basketball der Ball?','In den Korb',['Ins Tor','In ein Loch'],[1,2]],
+ ['Wer achtet beim Spiel auf die Regeln?','Der Schiedsrichter oder die Schiedsrichterin',['Der Torwart','Das Publikum'],[2,3,4]],
+ ['Wer darf beim Fußball im eigenen Strafraum den Ball mit den Händen halten?','Der Torwart',['Alle Spieler','Niemand'],[3,4]],
+ ['Was bedeutet „dribbeln“?','Den Ball laufend vor sich herführen',['Den Ball weit werfen','Den Ball halten und stehen bleiben'],[3,4]],
+ ['Was sind „Leibchen“?','Farbige Hemden, an denen man die Mannschaften erkennt',['Schuhe','Bälle'],[2,3,4]],
+ ['Was ist beim Volleyball wichtig?','Der Ball soll nicht auf den Boden fallen.',['Man muss den Ball tragen.','Man spielt mit dem Fuß.'],[3,4]]];
+const BK_FAIR=[
+ ['Dein Team hat verloren. Was ist fair?','Dem anderen Team gratulieren',['Dem Schiedsrichter die Schuld geben','Den Ball wegschießen'],[1,2,3,4]],
+ ['Ein Kind ist hingefallen. Was machst du?','Ich frage, ob alles in Ordnung ist.',['Ich spiele einfach weiter.','Ich lache.'],[1,2,3,4]],
+ ['Du hast den Ball zuletzt berührt, dann ging er ins Aus. Was ist fair?','Ehrlich sagen: „Das war ich.“',['Nichts sagen','Etwas anderes behaupten'],[2,3,4]],
+ ['Ein Kind kann noch nicht gut fangen. Was ist fair?','Ich spiele den Ball sanft zu und übe mit ihm.',['Wir lassen es nicht mitspielen.','Wir lachen darüber.'],[1,2,3,4]],
+ ['Wie nennt man ehrliches und freundliches Verhalten im Sport?','Fair Play',['Foul','Abseits'],[3,4]]];
+/* --- Turnen und Gymnastik --- */
+const BK_TURN=[
+ ['Wozu liegt eine Matte unter dem Gerät?','Damit man weich landet',['Damit das Gerät bunter ist','Zum Ausruhen'],[1,2,3,4]],
+ ['Du turnst an einem Gerät. Was ist wichtig?','Warten, bis das Gerät frei ist',['Andere wegdrängeln','Ohne Matte turnen'],[1,2]],
+ ['Was machst du vor dem Turnen mit Schmuck und Uhren?','Ablegen',['Anlassen','Tauschen'],[1,2,3,4]],
+ ['Was ist bei der Rolle vorwärts wichtig?','Das Kinn zur Brust nehmen und den Rücken rund machen',['Den Kopf in den Nacken legen','Mit steifem Rücken rollen'],[2,3,4]],
+ ['Warum dehnt man erst, wenn die Muskeln warm sind?','Warme Muskeln lassen sich besser dehnen.',['Kalte Muskeln sind schneller.','Dehnen macht die Schuhe warm.'],[3,4]],
+ ['Welches Handgerät hat ein langes, flatterndes Band?','Das Gymnastikband',['Der Reifen','Das Springseil'],[3,4]],
+ ['Wie heißt die Übung, bei der man auf den Händen steht?','Handstand',['Kopfstand','Rolle vorwärts'],[2,3,4]],
+ ['Welche Geräte gehören zur Gymnastik mit Handgeräten?','Ball, Reifen, Band und Seil',['Barren, Reck und Ringe','Kasten, Bock und Matte'],[3,4]]];
+/* --- Schwimmbad --- */
+const BK_BADE=[
+ ['Wer passt im Schwimmbad auf uns auf?','Der Bademeister oder die Bademeisterin',['Der Koch','Der Zuschauer'],[1,2]],
+ ['Was ziehst du im Schwimmbad an?','Badehose oder Badeanzug',['Winterjacke','Gummistiefel'],[1]],
+ ['Was solltest du am nassen Beckenrand nicht tun?','Rennen',['Gehen','Stehen'],[1,2]],
+ ['Was machst du bei Gewitter?','Sofort aus dem Wasser gehen',['Im Wasser bleiben','Noch schneller schwimmen'],[2,3,4]],
+ ['Wo dürfen Nichtschwimmer baden?','Im flachen Wasser',['Im tiefen Becken','Am Sprungturm'],[1,2,3,4]],
+ ['Warum duscht man vor dem Schwimmen?','Damit das Wasser sauber bleibt',['Damit man nass ist','Weil es warm ist'],[2,3,4]],
+ ['Darf man in unbekanntes Wasser springen?','Nein, dort kann es flach sein oder Hindernisse geben.',['Ja, immer','Ja, wenn man schnell ist'],[3,4]],
+ ['Jemand im Wasser braucht Hilfe. Was machst du?','Laut um Hilfe rufen und Erwachsene holen',['Selbst ins tiefe Wasser springen','Weglaufen und nichts sagen'],[2,3,4]],
+ ['Wie schützt du dich bei Sonne am Wasser?','Mit Sonnencreme, Hut und Schatten',['Mit einem dicken Pullover','Gar nicht'],[2,3,4]]];
+const BK_WASSER=[
+ ['Welcher Schwimmstil wird auf dem Rücken geschwommen?','Rückenschwimmen',['Brustschwimmen','Kraulen'],[1,2,3,4]],
+ ['Bei welchem Schwimmstil bewegt man die Beine wie ein Frosch?','Brustschwimmen',['Kraulen','Rückenschwimmen'],[2,3,4]],
+ ['Warum kann ein großes Schiff aus Metall schwimmen?','Es ist innen hohl, das Wasser trägt es.',['Es ist leicht wie eine Feder.','Das Wasser ist dort dicker.'],[3,4]],
+ ['Wie heißt die Kraft, die einen Körper im Wasser nach oben drückt?','Auftrieb',['Schwerkraft','Reibung'],[4]],
+ ['Warum ist Trinken auch beim Schwimmen wichtig?','Auch im Wasser kann man schwitzen und Durst bekommen.',['Im Wasser trinkt man nie.','Wasser ist immer salzig.'],[3,4]]];
+/* --- Herz, Aufwärmen --- */
+const BK_FIT=[
+ ['Wo spürst du dein Herz klopfen?','In der Brust',['Im Knie','Am Ohr'],[1,2]],
+ ['Wann klopft dein Herz am ruhigsten?','Wenn ich mich ausruhe',['Wenn ich schnell renne','Wenn ich hüpfe'],[1,2]],
+ ['Was macht dein Herz, wenn du schnell rennst?','Es schlägt schneller.',['Es hört auf.','Es schläft ein.'],[1,2]],
+ ['Was ist dein Herz?','Ein Muskel, der Blut durch den Körper pumpt',['Ein Knochen','Ein Stück Haut'],[2,3,4]],
+ ['Wo kannst du deinen Puls gut spüren?','Am Handgelenk',['Am Ohrläppchen','Am Knie'],[3,4]],
+ ['Was zeigt dir der Puls?','Wie schnell dein Herz schlägt',['Wie groß du bist','Wie spät es ist'],[3,4]],
+ ['Was bewegt unsere Knochen?','Die Muskeln',['Die Haare','Die Nägel'],[2,3,4]],
+ ['Wobei schlägt dein Herz am langsamsten?','Beim Schlafen',['Beim Seilspringen','Beim Treppenrennen'],[2,3]],
+ ['Etwa wie viele Knochen hat ein erwachsener Mensch?','206',['60','1000'],[4]]];
+const BK_WARM=[
+ ['Was machst du vor dem Sport?','Ich wärme mich auf.',['Ich lege mich ins Bett.','Ich esse Pizza.'],[1,2]],
+ ['Was ist gut nach dem Sport?','Wasser trinken',['Nichts trinken','Sofort wieder rennen'],[1]],
+ ['Was brauchst du zum Sport?','Bequeme Kleidung und Sportschuhe',['Eine dicke Jacke','Schuhe mit hohem Absatz'],[1,2]],
+ ['Warum wärmen wir uns vor dem Sport auf?','Der Körper bereitet sich auf die Bewegung vor.',['Damit wir müde werden','Damit uns kalt wird'],[2,3,4]],
+ ['Was kommt in der Sportstunde meistens zuerst?','Das Aufwärmen',['Der Ausklang','Das Duschen'],[2,3,4]],
+ ['Was kommt in der Sportstunde meistens am Ende?','Ausklang und Ruhe',['Das Aufwärmen','Der Start'],[2,3,4]],
+ ['Wann erholt sich dein Körper gut?','Wenn du genug schläfst',['Wenn du nie Pause machst','Wenn du dauernd rennst'],[3,4]]];
+/* --- Sprache --- */
+const SIL=[['Stoppuhr',2],['Ziellinie',3],['Staffelstab',3],['Sprint',1],['Laufbahn',2],['Sportfest',2],['Startschuss',2],['Weitsprung',2],['Turnhalle',3],['Schwimmbad',2],['Handball',2],['Volleyball',3],['Basketball',3],['Fußball',2],['Trampolin',3],['Schwebebalken',4],['Sprossenwand',3],['Springseil',2],['Reifen',2],['Ball',1],['Matte',2],['Medaille',3]];
+const gSilben=()=>{const [w,n]=rnd(SIL);return NQ(`Klatsche die Silben mit. Wie viele Silben hat das Wort <b>${w}</b>?`,n,{st:[1,2],min:1,x:{tip:'Sprich das Wort langsam und klatsche bei jedem Teil.'}})};
+const REIM=[['Ball','Stall',['Tor','Seil']],['Seil','Teil',['Ball','Ziel']],['Ziel','Spiel',['Lauf','Tor']],['Haus','Maus',['Ball','Bein']],['Lauf','Kauf',['Ball','Tor']],['Tor','Ohr',['Ball','Seil']]];
+const gReim=()=>{const [a,b,w]=rnd(REIM);return mk(`Was reimt sich auf <b>${a}</b>?`,b,w)};
+const ART=[['der','Ball'],['das','Seil'],['die','Matte'],['das','Tor'],['die','Bank'],['der','Reifen'],['das','Ziel'],['die','Fahne'],['das','Netz'],['der','Sand'],['der','Kasten'],['die','Pfeife'],['die','Uhr'],['der','Schuh'],['das','Bein'],['der','Arm'],['die','Hand'],['das','Spiel'],['der','Lauf'],['die','Mannschaft']];
+const gArtikel=()=>{const [a,n]=rnd(ART);return mk(`Welcher Artikel passt?<br><b>___ ${n}</b>`,a,['der','die','das'].filter(x=>x!=a),{tip:'Sprich es dir vor: „der Ball“, „die Matte“, „das Seil“ …'})};
+const SPELL=[['Schwimmbad','Schwimbad','Schwimmbat'],['Turnhalle','Turnhale','Turhalle'],['Fußball','Fusball','Fußbal'],['Ziellinie','Zielinie','Zihllinie'],['Mannschaft','Manschaft','Mannschaf'],['Stoppuhr','Stopuhr','Stoppur'],['Wettkampf','Wetkampf','Wettkamf'],['Staffellauf','Stafellauf','Staffelauf'],['Sprungbrett','Sprungbret','Sprunbrett'],['Weitsprung','Weitsprun','Weidsprung'],['Handball','Hantball','Handbal'],['Sportplatz','Sportplaz','Spordplatz'],['Schiedsrichter','Schiedsrichta','Schidsrichter'],['Medaille','Medalje','Medalie'],['Trampolin','Trampolien','Tramboling'],['Kopfstand','Kopfstant','Kopstand'],['Handstand','Handstant','Hanstand'],['Gymnastik','Gimnastik','Gymnastick'],['Schwimmen','Schwimen','Schwimmem'],['Wasser','Waser','Wasa'],['Wellen','Welen','Wälen'],['Brille','Brile','Prille'],['Schwimmflügel','Schwimflügel','Schwimmflügl'],['Handtuch','Hantuch','Handtuh'],['Badehose','Badehosse','Badehoze'],['Bademeister','Bademaister','Badmeister'],['Tauchen','Taugen','Tauchn'],['Turnschuhe','Turschuhe','Turnschue']];
+const gSpell=(pool)=>{const [r,a,b]=rnd(pool||SPELL);return mk('Welches Wort ist richtig geschrieben?',r,[a,b],{tip:'Sprich das Wort in Silben. Merke dir: Nach einem kurzen Selbstlaut steht oft ein doppelter Mitlaut.'})};
+const WSPELL=SPELL.filter(x=>['Schwimmen','Wasser','Wellen','Brille','Schwimmflügel','Handtuch','Badehose','Bademeister','Tauchen','Schwimmbad'].includes(x[0]));
+const COMP=[['Sand','Grube','Sandgrube','die'],['Spring','Seil','Springseil','das'],['Turn','Halle','Turnhalle','die'],['Schwimm','Bad','Schwimmbad','das'],['Lauf','Bahn','Laufbahn','die'],['Stopp','Uhr','Stoppuhr','die'],['Ball','Spiel','Ballspiel','das'],['Sport','Platz','Sportplatz','der'],['Fuß','Ball','Fußball','der'],['Hand','Ball','Handball','der'],['Hoch','Sprung','Hochsprung','der'],['Weit','Sprung','Weitsprung','der'],['Start','Schuss','Startschuss','der'],['Maß','Band','Maßband','das'],['Wasser','Ball','Wasserball','der']];
+const gCompound=()=>{const [a,b,c,ar]=rnd(COMP);
+ if(KL>=3&&R(0,1))return mk(`Welcher Artikel gehört zu <b>${c}</b>?`,ar,['der','die','das'].filter(x=>x!=ar),{tip:`Der Artikel richtet sich nach dem letzten Wort: ${ar} ${b}.`});
+ return mk(`Welches Wort entsteht aus <b>${a}</b> + <b>${b}</b>?`,c,[b+a.toLowerCase(),a+' '+b.toLowerCase()].filter(x=>x!=c),{tip:'Das erste Wort steht vorn. Das zweite Wort schreibt man klein dahinter.'})};
+const TENSE=[['Gestern ___ Hugo sehr weit. (springen)','sprang',['springte','sprungte']],['Gestern ___ wir im See. (schwimmen)','schwammen',['schwimmten','schwummen']],['Finn ___ den Ball ins Tor. (schießen)','schoss',['schießte','schiesste']],['Emma ___ den Ball sicher. (fangen)','fing',['fangte','fangt']],['Wir ___ um die Bahn. (laufen)','liefen',['laufte','lauften']],['Der Schiedsrichter ___ in die Pfeife. (blasen)','blies',['blaste','blasste']],['Ben ___ den Ball weit. (werfen)','warf',['werfte','wurf']],['Ida ___ das Wettrennen. (gewinnen)','gewann',['gewinnte','gewunn']]];
+const PERF=[['Hugo ist weit ___ . (springen)','gesprungen',['gesprang','gespringt']],['Ida hat den Ball ___ . (fangen)','gefangen',['gefangt','gefängt']],['Wir sind um die Bahn ___ . (laufen)','gelaufen',['gelauft','geloffen']],['Finn hat ein Tor ___ . (schießen)','geschossen',['geschoßt','geschießt']],['Frida ist im See ___ . (schwimmen)','geschwommen',['geschwimmt','geschwummen']]];
+const gTense=()=>{const [q,a,w]=rnd(KL==4&&R(0,1)?PERF:TENSE);return mk('Welches Wort passt in den Satz?<br><b>'+q+'</b>',a,w,{tip:'Sprich den Satz laut. Welche Form klingt richtig?'})};
+const GEG=[['nass','trocken'],['warm','kalt'],['groß','klein'],['laut','leise'],['schnell','langsam'],['tief','flach'],['hoch','niedrig'],['weit','nah'],['leicht','schwer'],['stark','schwach']];
+const gGegen=()=>{const [a,b]=rnd(GEG),w=sh(GEG.filter(x=>x[1]!=b)).slice(0,2).map(x=>x[1]);return mk(`Was ist das Gegenteil von <b>${a}</b>?`,b,w)};
+const pGegen=()=>{const ps=sh(GEG).slice(0,KL==2?3:4);return {t:'pairs',q:'Verbinde die Gegenteile.',say:'Verbinde die Wörter, die das Gegenteil bedeuten.',pairs:ps.map(([a,b])=>[a,b,a+', Wort']),fun:'Gegenteile helfen dir, Wörter besser zu verstehen.',key:'pg'+ps.join()}};
+const WB=[['⚽','Ball',['Bal','Pall']],['🥅','Tor',['Dor','Tohr']],['👟','Schuh',['Schu','Suh']],['🏆','Pokal',['Bokal','Pokahl']],['🚩','Fahne',['Fane','Vahne']],['⏱️','Uhr',['Ur','Uer']]];
+const gWortbild=()=>{const [e,w,x]=rnd(WB);return mk('Wie schreibt man das Wort zum Bild?',w,x,{vis:`<div class="emo" role="img" aria-label="Ein Bild">${e}</div>`,say:'Wie schreibt man das Wort zum Bild?'})};
+/* Wortarten sortieren */
+const WNOM=['Ball','Läufer','Tor','Mannschaft','Seil','Spiel','Matte','Ziel','Pokal','Reifen'],WVER=['laufen','werfen','fangen','springen','schießen','klettern','rollen','spielen','treffen','hüpfen'],WADJ=['schnell','stark','müde','mutig','fair','laut','leise','weit','hoch'];
+const sWortart=()=>{const three=KL>=3,nb=three?2:3,pool=[['n','Nomen',WNOM],['v','Verben',WVER]];if(three)pool.push(['a','Adjektive',WADJ]);
+ const its=sh(pool.flatMap(([id,,a])=>sh(a).slice(0,2).map(w=>({h:`<b>${w}</b>`,l:w,bin:id})))); 
+ return {t:'sort',q:three?'Sortiere die Wörter: Nomen, Verben oder Adjektive?':'Sortiere die Wörter: Nomen oder Verben?',say:three?'Sortiere die Wörter nach Nomen, Verben und Adjektiven.':'Sortiere die Wörter nach Nomen und Verben.',bins:pool.map(([id,n])=>({id,n:n=='Nomen'?'📦 Nomen':n=='Verben'?'🏃 Verben':'🎨 Adjektive',l:n})),items:its,fun:'Nomen sind Namen für Dinge, Verben sagen, was man tut, Adjektive sagen, wie etwas ist.',key:'wa'+its.map(x=>x.l).join()}};
+/* Sortieren */
+const sortP=(q,say,bins,items,fun,key)=>({t:'sort',q,say,bins,items:sh(items),fun,key});
+const sFoot=()=>{const A=[['⚽','Fußball','f'],['🏀','Basketball','h'],['🤾','Handball','h'],['🏐','Volleyball','h'],['🎾','Tennis','s'],['🏸','Badminton','s'],['🏓','Tischtennis','s'],['🏑','Hockey','s']];
+ const use=KL==1?[A[0],...sh(A.filter(x=>x[2]=='h')).slice(0,3)]:[...sh(A.filter(x=>x[2]=='f')),...sh(A.filter(x=>x[2]=='h')).slice(0,2),...sh(A.filter(x=>x[2]=='s')).slice(0,2)];
+ const its=use.map(([e,n,b])=>({h:`${e} ${n}`,l:n,bin:b})),bins=[{id:'f',n:'🦶 Mit dem Fuß',l:'mit dem Fuß'},{id:'h',n:'✋ Mit der Hand',l:'mit der Hand'}];if(KL>1)bins.push({id:'s',n:'🏸 Mit dem Schläger',l:'mit dem Schläger'});
+ return sortP('Womit wird der Ball gespielt?','Sortiere die Ballspiele: Womit wird der Ball gespielt?',bins,its,'Es gibt Ballspiele mit Fuß, Hand oder Schläger.','sfoot'+its.map(x=>x.l).join())};
+const sFair=()=>{const F=['Dem Gegner aufhelfen','Gut gespielt sagen','Regeln einhalten','Zusammen spielen','Ehrlich zugeben, wenn man den Ball berührt hat'],U=['Schubsen','Auslachen','Schummeln','Schimpfen','Den Ball wegschießen, wenn man verliert'];
+ const n=KL<=2?3:4,its=[...sh(F).slice(0,n).map(t=>({h:t,l:t,bin:'f'})),...sh(U).slice(0,n).map(t=>({h:t,l:t,bin:'u'}))];
+ return sortP('Was ist fair, was ist unfair?','Sortiere: Was ist fair und was ist unfair?',[{id:'f',n:'😊 Fair',l:'fair'},{id:'u',n:'😠 Unfair',l:'unfair'}],its,'Fair Play heißt: Alle spielen ehrlich und freundlich miteinander.','sfair'+its.map(x=>x.l).join())};
+const sBade=()=>{const E=['Vor dem Baden duschen','Auf den Bademeister hören','Langsam ins Wasser gehen','Mit Schwimmflügeln im flachen Wasser planschen','Pause machen, wenn man friert'],V=['Andere untertauchen','Am Beckenrand rennen','Allein ins tiefe Wasser gehen','Bei Gewitter im Wasser bleiben','Ins flache Wasser springen'];
+ const its=[...sh(E).slice(0,3).map(t=>({h:t,l:t,bin:'e'})),...sh(V).slice(0,3).map(t=>({h:t,l:t,bin:'v'}))];
+ return sortP('Was ist im Schwimmbad erlaubt, was ist verboten?','Sortiere: Was ist im Schwimmbad erlaubt und was ist verboten?',[{id:'e',n:'✅ Erlaubt',l:'erlaubt'},{id:'v',n:'⛔ Verboten',l:'verboten'}],its,'Baderegeln schützen uns und die anderen Kinder.','sbade'+its.map(x=>x.l).join())};
+const sFloat=()=>{const A=[['🪵','Holz','s'],['🦆','Gummiente','s'],['⚽','Ball','s'],['🍎','Apfel','s'],['🪨','Stein','u'],['🔑','Schlüssel','u'],['🪙','Münze','u'],['🔩','Schraube','u']];
+ const its=[...sh(A.filter(x=>x[2]=='s')).slice(0,3),...sh(A.filter(x=>x[2]=='u')).slice(0,3)].map(([e,n,b])=>({h:`${e} ${n}`,l:n,bin:b}));
+ return sortP('Was schwimmt, was geht unter?','Sortiere: Was schwimmt und was geht unter?',[{id:'s',n:'🌊 Schwimmt',l:'schwimmt'},{id:'u',n:'⬇️ Geht unter',l:'geht unter'}],its,'Dinge, die leichter als Wasser sind oder viel Luft enthalten, schwimmen.','sfl'+its.map(x=>x.l).join())};
+const sHeart=()=>{const S=[['🏃','Rennen'],['🤸','Hüpfen'],['🏊','Schwimmen'],['🚲','Radfahren schnell'],['🧗','Treppen hochrennen']],L=[['😴','Schlafen'],['📖','Lesen'],['🛋️','Ausruhen'],['🧘','Ruhig atmen'],['🎨','Malen']];
+ const its=[...sh(S).slice(0,3).map(([e,n])=>({h:`${e} ${n}`,l:n,bin:'s'})),...sh(L).slice(0,3).map(([e,n])=>({h:`${e} ${n}`,l:n,bin:'l'}))];
+ return sortP('Wann schlägt dein Herz schneller, wann langsamer?','Sortiere: Wann schlägt dein Herz schneller und wann langsamer?',[{id:'s',n:'💓 Schneller',l:'schneller'},{id:'l',n:'🐢 Langsamer',l:'langsamer'}],its,'Bei Bewegung braucht dein Körper mehr Sauerstoff. Darum schlägt das Herz schneller.','sheart'+its.map(x=>x.l).join())};
+const sWarm=()=>{const A=['Locker traben','Arme kreisen','Knie anheben','Auf der Stelle federn'],B=['Ruhig durchatmen','Arme und Beine ausschütteln','Langsam gehen','Etwas trinken'];
+ const its=[...sh(A).slice(0,3).map(t=>({h:t,l:t,bin:'a'})),...sh(B).slice(0,3).map(t=>({h:t,l:t,bin:'b'}))];
+ return sortP('Was gehört zum Aufwärmen, was zum Ausklang?','Sortiere: Aufwärmen oder Ausklang?',[{id:'a',n:'🔥 Aufwärmen',l:'Aufwärmen'},{id:'b',n:'🌙 Ausklang',l:'Ausklang'}],its,'Zum Aufwärmen wird der Körper warm. Beim Ausklang kommt er wieder zur Ruhe.','swarm'+its.map(x=>x.l).join())};
+/* Paare */
+const pairP=(q,say,ps,fun,key)=>({t:'pairs',q,say,pairs:ps.map(p=>[p[0],p[1],p[2]||p[0]]),fun,key});
+const pGear=()=>{const A=[['Weiche Unterlage zum Rollen und Landen','Matte'],['Daran klettert man an der Wand hoch','Sprossenwand'],['Ein schmaler Balken zum Balancieren','Schwebebalken'],['Ein hohes Sprunggerät aus Teilen','Kasten'],['Darüber springt man und dreht das Seil','Springseil'],['Ein langes Brett zum Sitzen und Balancieren','Turnbank'],['Ein großer Ring zum Kreisen und Rollen','Reifen']];
+ const ps=sh(A).slice(0,KL==1?3:4);return pairP('Was ist das? Verbinde die Beschreibung mit dem Gerät.','Verbinde die Beschreibung mit dem Turngerät.',ps,'In der Turnhalle gibt es viele Geräte. Jedes hat seine eigene Aufgabe.','pgear'+ps.map(x=>x[1]).join())};
+const pSprung=()=>{const A=[['Hier landest du nach dem Sprung','Sandgrube'],['Von hier springst du ab','Absprungbalken'],['Damit misst man die Weite','Maßband'],['Diesen Ball wirft man weit','Schlagball'],['Darüber springt man beim Hochsprung','Latte']];
+ const ps=sh(A).slice(0,KL==1?3:4);return pairP('Verbinde die Beschreibung mit dem Wort.','Verbinde die Beschreibung mit dem passenden Wort.',ps,'Beim Weitsprung und Werfen kommt es auf die Weite an.','psp'+ps.map(x=>x[1]).join())};
+const pBall=()=>{const A=[['Der Ball muss mit dem Fuß ins Tor.','Fußball'],['Der Ball muss in den Korb.','Basketball'],['Der Ball geht über das Netz und darf nicht auf den Boden fallen.','Volleyball'],['Der Ball wird mit der Hand ins Tor geworfen.','Handball'],['Der Ball wird mit einem Schläger über das Netz geschlagen.','Tennis']];
+ const ps=sh(A).slice(0,4);return pairP('Welches Ballspiel ist gemeint?','Verbinde die Beschreibung mit dem Ballspiel.',ps,'Jedes Ballspiel hat eigene Regeln.','pball'+ps.map(x=>x[1]).join())};
+const pStil=()=>{const A=[['Auf dem Rücken liegen','Rückenschwimmen'],['Beine wie ein Frosch','Brustschwimmen'],['Arme wechselnd, Beine auf und ab','Kraulen'],['Unter Wasser schwimmen','Tauchen']];
+ const ps=sh(A).slice(0,KL==2?3:4);return pairP('Verbinde die Bewegung mit dem passenden Wort.','Verbinde die Bewegung mit dem passenden Wort.',ps,'Es gibt verschiedene Schwimmarten. Alle brauchen ruhiges Atmen.','pstil'+ps.map(x=>x[1]).join())};
+/* Raum: links und rechts, Hallenplan */
+const BALLS=['⚽','🏀','🎾','🏐','🥎','🏈'];
+const be=e=>[`<span class="be">${e}</span>`,e];
+const gSide=()=>{const n=KL==1?4:5,it=sh(BALLS).slice(0,n),row=`<div class="emo" role="img" aria-label="Eine Reihe von Bällen">${it.map(x=>`<span>${x}</span>`).join('')}</div>`;
+ const t=KL==1?R(0,2):R(0,4);
+ if(t==0)return mk('Welcher Ball liegt <b>ganz links</b>?',be(it[0]),it.slice(1,4).map(be),{vis:row,visAfter:false});
+ if(t==1)return mk('Welcher Ball liegt <b>ganz rechts</b>?',be(it[n-1]),it.slice(0,3).map(be),{vis:row});
+ if(t==2){const i=R(1,n-2),L=R(0,1);const c=L?it[i-1]:it[i+1];return mk(`Welcher Ball liegt <b>${L?'links':'rechts'}</b> neben ${it[i]}?`,be(c),it.filter(x=>x!=c&&x!=it[i]).slice(0,3).map(be),{vis:row,say:`Welcher Ball liegt ${L?'links':'rechts'} neben dem Ball ${it[i]=='⚽'?'Fußball':'in der Mitte'}?`,tip:'Links ist die Seite deiner linken Hand.'})}
+ if(t==3){const i=R(1,n-2);return mk(`Welcher Ball liegt <b>zwischen</b> ${it[i-1]} und ${it[i+1]}?`,be(it[i]),it.filter((x,k)=>k!=i&&k!=i-1&&k!=i+1).concat([it[i-1]]).slice(0,3).map(be),{vis:row})}
+ const i=R(2,n-1);return mk(`Wie viele Bälle liegen <b>links</b> von ${it[i]}?`,String(i),[...new Set([i+1,i-1,i+2,i-2].filter(x=>x>=0&&x!=i))].slice(0,3).map(String),{vis:row})};
+const gHall=()=>{const cells=sh(Array.from({length:20},(_,i)=>i)).slice(0,4).map((c,i)=>({c:c%5,r:Math.floor(c/5),e:['⚽','🏀','🥅','🎽'][i]}));
+ const cn=o=>'ABCDE'[o.c]+(o.r+1);const vis=gridSvg(cells);const o=rnd(cells);
+ const t=KL==3?R(0,1):R(0,2);
+ if(t==0){const wr=new Set();let g=0;while(wr.size<3&&g++<100){const c=R(0,4),r=R(0,3),s=Math.random()<.4?'ABCDE'[r]+(c+1):'ABCDE'[Math.max(0,Math.min(4,o.c+R(-1,1)))]+(Math.max(0,Math.min(3,o.r+R(-1,1)))+1);if(s!=cn(o)&&/^[A-E][1-4]$/.test(s))wr.add(s)}
+  return mk(`Auf welchem Feld liegt ${o.e}?`,cn(o),[...wr],{vis,tip:'Erst den Buchstaben oben, dann die Zahl links.'})}
+ if(t==1){const f=cells.filter(c=>c!=o).slice(0,3);return mk(`Was liegt auf dem Feld <b>${cn(o)}</b>?`,be(o.e),f.map(c=>be(c.e)),{vis,tip:'Erst den Buchstaben oben, dann die Zahl links.'})}
+ const sx=R(0,2),sy=R(0,1),dx=R(1,2),dy=R(1,2),ex=sx+dx,ey=sy+dy,s='ABCDE'[sx]+(sy+1),ans='ABCDE'[ex]+(ey+1);
+ const w=new Set(['ABCDE'[sx+dy>4?4:sx+dy]+(sy+dx+1),'ABCDE'[ex]+(sy+1),'ABCDE'[sx]+(ey+1),'ABCDE'[Math.min(4,ex+1)]+(ey+1)].filter(x=>x!=ans&&/^[A-E][1-4]$/.test(x)));
+ return mk(`Du startest auf <b>${s}</b>. Gehe ${dx} ${dx==1?'Feld':'Felder'} nach <b>rechts</b> und ${dy} ${dy==1?'Feld':'Felder'} nach <b>unten</b>. Auf welchem Feld bist du dann?`,ans,[...w].slice(0,3),{vis:gridSvg([{c:sx,r:sy,e:'🚩'}]),tip:'Nach rechts geht es mit den Buchstaben weiter, nach unten mit den Zahlen.'})};
+/* ---------- Lernkarten ---------- */
+const lrn=(key,say,html)=>({t:'learn',key,say,html:`<div class="learn">${html}</div>`});
+const lrnClock=()=>KL<=2?lrn('lc12','So liest du die Uhr. Der kurze Zeiger zeigt die Stunde. Der lange Zeiger zeigt die Minuten. Wenn der lange Zeiger oben steht, ist es eine volle Stunde. Wenn er unten steht, ist es halb.',`<div class="q">So liest du die Uhr</div><div class="vis">${clockSvg(9,0)}</div><p>Der <b>kurze</b> Zeiger zeigt die <b>Stunde</b>. Der <b>lange orange</b> Zeiger zeigt die <b>Minuten</b>.</p><p>Steht der lange Zeiger ganz oben, ist es eine <b>volle Stunde</b>: Hier ist es <b>9 Uhr</b>.</p><div class="vis">${clockSvg(3,30)}</div><p>Steht der lange Zeiger ganz unten, ist es <b>halb</b>. Der kurze Zeiger steht fast bei der nächsten Zahl: Hier ist es <b>halb vier</b>.${KL==2?'</p><p>Ein Viertel einer Stunde sind 15 Minuten: <b>Viertel nach</b> (Zeiger rechts) und <b>Viertel vor</b> (Zeiger links).':''}</p>`)
+ :lrn('lc34','Auf der Uhr sind es zwölf Zahlen. Von einer Zahl zur nächsten sind es fünf Minuten. Der lange Zeiger zeigt die Minuten.',`<div class="q">Minuten auf der Uhr</div><div class="vis">${clockSvg(2,25)}</div><p>Von einer Zahl zur nächsten sind es <b>5 Minuten</b>. Der lange orange Zeiger steht auf der 5, das sind 25 Minuten. Der kurze Zeiger zeigt fast die 3. Es ist <b>2:25 Uhr</b>.</p><p>Tipp: Zähle in Fünferschritten: 5, 10, 15, 20, 25.</p>`);
+const lrnRuler=()=>lrn('lrul','Beim Messen legst du das Lineal so an, dass die Null am Anfang liegt. Dann liest du ab, wo das Ende ist.',`<div class="q">So misst du mit dem Lineal</div><div class="vis">${rulerSvg(6,FAC[2])}</div><p>Der Streifen beginnt bei der <b>0</b>. Er endet bei der <b>6</b>. Er ist <b>6 Zentimeter</b> lang (6 cm).</p>`);
+const lrnTally=()=>lrn('ltal','Eine Strichliste hilft beim Zählen. Fünf Striche werden zu einem Bündel zusammengefasst.',`<div class="q">Die Strichliste</div><div class="vis">${tallySvg(8)}</div><p>Jeder Strich ist <b>1</b>. Vier Striche und ein Querstrich sind ein <b>Fünferbündel</b>. Hier sind es 5 + 3 = <b>8</b>.</p>`);
+const lrnPulse=()=>lrn('lpul','Der Puls zeigt, wie schnell das Herz schlägt. Man spürt ihn am Handgelenk. In 10 Sekunden zählt man die Schläge und rechnet mal 6.',`<div class="q">Der Puls</div><p>Dein Herz ist ein Muskel. Es pumpt Blut durch deinen Körper. Am Handgelenk kannst du den <b>Puls</b> spüren: Das ist das Klopfen deines Herzens.</p><p>Man zählt die Schläge zum Beispiel <b>10 Sekunden</b> lang. Eine Minute hat 60 Sekunden, das sind <b>6 mal 10 Sekunden</b>. Darum rechnet man <b>mal 6</b>.</p><p class="mini">Es gibt keinen „richtigen“ oder „falschen“ Puls. Jeder Körper ist anders.</p>`);
+/* ---------- Bewegungspausen ---------- */
+const MV={
+ str:['🙆','Katzen-Strecken','Strecke dich wie eine Katze: Arme weit nach oben, tief einatmen, dann alles loslassen. Mach das dreimal.',25,'Das geht genauso im Sitzen: Arme nach oben strecken und wieder sinken lassen.'],
+ mar:['🚶','Marschieren','Marschiere auf der Stelle und hebe die Knie so hoch, wie es dir gut tut. Schwinge die Arme mit.',30,'Im Sitzen: Hebe abwechselnd die Knie und schwinge die Arme.'],
+ sch:['🔄','Schulterkreisen','Kreise die Schultern zehnmal nach hinten und zehnmal nach vorn. Ganz langsam und locker.',25,'Das geht genauso im Sitzen.'],
+ rhy:['👏','Klatsch-Rhythmus','Klatsche zweimal, dann klopfe einmal auf die Knie. Immer wieder, erst langsam, dann etwas schneller.',30,'Das machst du schon im Sitzen: Klatschen und Knie klopfen.'],
+ bau:['🌳','Baum im Wind','Du bist ein Baum. Die Füße stehen fest, die Arme sind die Äste und wiegen sich im Wind hin und her.',30,'Im Sitzen: Oberkörper und Arme wiegen sich hin und her.'],
+ zeh:['🦒','Giraffe','Stelle dich auf die Zehenspitzen und strecke dich nach oben wie eine Giraffe. Dann langsam wieder absetzen.',25,'Im Sitzen: Hebe abwechselnd die Fersen an und strecke die Arme hoch.'],
+ fl:['🦋','Schmetterling','Bewege die Arme wie Flügel auf und ab, erst ganz langsam, dann etwas schneller.',25,'Im Sitzen: Genauso mit den Armen flattern.'],
+ kre:['✖️','Kreuz-Klopfen','Tippe mit der rechten Hand auf das linke Knie und mit der linken Hand auf das rechte Knie. Wechsle ruhig ab.',30,'Das geht genauso im Sitzen.'],
+ nas:['👃','Nase und Ohr','Fasse mit der linken Hand die Nase und mit der rechten Hand das linke Ohr. Dann wechsle: rechte Hand Nase, linke Hand rechtes Ohr.',30,'Das geht genauso im Sitzen.'],
+ ach:['♾️','Liegende Acht','Male mit dem Finger eine große liegende Acht in die Luft und folge ihm mit den Augen. Erst mit der rechten, dann mit der linken Hand.',30,'Das geht genauso im Sitzen.'],
+ fin:['🎹','Klavier-Finger','Berühre mit dem Daumen nacheinander jeden Finger derselben Hand: Zeigefinger, Mittelfinger, Ringfinger, kleiner Finger – und zurück.',30,'Das geht genauso im Sitzen.'],
+ dop:['⭕','Doppelkreis','Male mit beiden Händen gleichzeitig Kreise in die Luft. Versuche es dann mit einem Kreis nach innen und einem nach außen.',30,'Das geht genauso im Sitzen.'],
+ lau:['👂','Lausch-Pause','Schließe die Augen und höre genau hin. Zähle leise, wie viele verschiedene Geräusche du hörst.',30,'Das geht genauso im Sitzen.'],
+ bal:['🎈','Ballon-Atmung','Lege eine Hand auf den Bauch. Atme durch die Nase ein: Der Bauch wird dick wie ein Ballon. Atme langsam durch den Mund aus. Fünfmal.',40,'Das geht ganz ruhig im Sitzen.'],
+ blu:['🌼','Blume und Kerze','Rieche an einer Blume: tief durch die Nase einatmen. Puste eine Kerze aus: langsam durch den Mund ausatmen. Fünfmal.',35,'Das geht ganz ruhig im Sitzen.'],
+ nac:['🙂','Sanfter Nacken','Neige den Kopf langsam zur rechten Schulter und atme dreimal ruhig. Dann zur linken Seite. Mach keine Kreise mit dem Kopf.',35,'Das geht genauso im Sitzen.'],
+ sha:['🤷','Schultern fallen lassen','Ziehe die Schultern ganz hoch zu den Ohren, halte kurz und lasse sie mit einem langen „Haaa“ fallen. Fünfmal.',30,'Das geht genauso im Sitzen.'],
+ san:['⏳','Schwerer Sand','Setze dich bequem hin und schließe die Augen. Stelle dir vor, deine Arme sind mit warmem Sand gefüllt. Lass sie ganz schwer und ruhig werden.',40,'Das geht genauso im Sitzen.'],
+ son:['☀️','Aufgehende Sonne','Hebe die Arme langsam wie eine aufgehende Sonne nach oben und atme ein. Senke sie langsam und atme aus. Fünfmal.',35,'Im Sitzen: Genauso mit den Armen.']};
+const mvP=id=>{const m=MV[id];return {t:'move',id,e:m[0],n:m[1],i:m[2],sec:m[3],alt:m[4],say:m[1]+'. '+m[2]+' '+m[4],key:'mv'+id}};
+const mvList=(ids,n)=>(n?sh(ids).slice(0,n):ids).map(mvP);
+const mvMath=()=>{const act=rnd(['Klatsche','Klopfe leise auf deine Knie','Tippe leise mit den Fingern auf den Tisch']);
+ const L=K(
+  [()=>{const a=R(1,5),b=R(1,5);return [`${a} + ${b}`,a+b]},()=>{const a=R(5,10),b=R(1,4);return [`${a} − ${b}`,a-b]}],
+  [()=>{const a=R(2,5),b=R(2,4);return [`${a} · ${b}`,a*b]},()=>{const a=R(10,20),b=R(3,9);return [`${a} − ${b}`,a-b]},()=>{const a=2*R(3,8);return [`die Hälfte von ${a}`,a/2]}],
+  [()=>{const a=R(3,6),b=R(3,6);return [`${a} · ${b}`,a*b]},()=>{const a=4*R(2,6);return [`${a} : 4`,a/4]},()=>{const a=R(3,6),b=R(2,4),c=R(1,5);return [`${a} · ${b} + ${c}`,a*b+c]}],
+  [()=>{const a=R(3,7),b=R(4,8);return [`${a} · ${b}`,a*b]},()=>{const a=4*R(3,9);return [`ein Viertel von ${a}`,a/4]},()=>{const a=R(2,5),b=R(3,6),c=R(2,9);return [`(${a} + ${b}) · 2 − ${c}`,(a+b)*2-c]}]);
+ const [t,n]=rnd(L)();const say=t.replace(/·/g,'mal').replace(/−/g,'minus').replace(/\+/g,'plus').replace(/:/g,'geteilt durch').replace('(','Klammer auf ').replace(')',' Klammer zu');
+ return {t:'move',id:'math',e:'🔢',n:'Rechnen in Bewegung',i:`${act} so oft, wie <b>${t}</b> ergibt. Rechne zuerst im Kopf.`,sec:0,alt:'Das geht genauso im Sitzen.',r:`Das Ergebnis ist ${n}. Also ${n} Mal.`,say:`${act} so oft, wie ${say} ergibt. Rechne zuerst im Kopf.`,key:'mvm'+t}};
+
+/* ===== Stationen und Level ===== */
+const PLACE={
+ lauf:{n:'Laufbahn',e:'🏃',d:'Uhr, Stoppuhr und Strecken: Rechnen und Wissen rund ums Laufen.'},
+ sprung:{n:'Weitsprung & Wurf',e:'🦘',d:'Messen, Diagramme und Rechnen mit Weiten.'},
+ ball:{n:'Ballfeld',e:'⚽',d:'Tore zählen, Mannschaften bilden, Regeln und Wörter.'},
+ turn:{n:'Turnhalle',e:'🤸',d:'Geräte, Orientierung in der Halle und Zirkeltraining.'},
+ wasser:{n:'Schwimmbad',e:'🏊',d:'Baderegeln, Rechnen im Wasser und Wissen rund ums Wasser.'},
+ fit:{n:'Fit-Labor',e:'💓',d:'Herz, Puls, Aufwärmen und Daten der Klasse.'},
+ pause:{n:'Bewegungspause',e:'🧘',d:'Kleine Übungen zum Mitmachen. Alles geht auch im Sitzen. Hier zählt nur das Mitmachen.'}};
+const PORDER=['lauf','sprung','ball','turn','wasser','fit','pause'];
+const L_=(id,pl,e,n,d,ks,plan)=>({id,pl,e,n,d,ks,plan});
+const M=(g,n)=>many(rep(n,()=>g));
+const cat=(...a)=>a.flat();
+const INTRO_PAUSE=()=>lrn('pint','Bewegungspause. Mach nur so viel mit, wie es dir gut tut. Bei jeder Übung steht, wie du sie im Sitzen machen kannst. Hier gibt es keine Punkte für Leistung. Es zählt nur, dass du mitmachst.',`<div class="q">Bewegungspause</div><p>Jetzt bewegst du dich ein bisschen. Mach nur so viel mit, wie es dir gut tut.</p><p>Bei jeder Übung steht, wie du sie <b>im Sitzen</b> machen kannst. Du darfst auch eine Übung überspringen.</p><p>Hier gibt es keine Punkte für Leistung. Es zählt nur, dass du mitmachst.</p>`);
+const LVALL=[
+/* Laufbahn */
+L_('la1','lauf','⏱️','Uhr & Zeit',K('Wie spät ist es? Wer ist schneller?','Uhrzeiten, Dauer und Sekunden','Uhrzeiten und Zeitspannen','Uhrzeit, Dauer und Zeiteinheiten'),[1,2,3,4],
+ ()=>K(()=>cat(lrnClock(),M(gClock,3),M(gFast,2)),()=>cat(lrnClock(),M(gClock,2),M(gEnd,1),M(gFast,3)),()=>cat(lrnClock(),M(gClock,2),M(gEnd,2),M(gLen,1),M(gFast,1)),()=>cat(M(gClock,2),M(gEnd,1),M(gLen,2),M(gSecMin,2)))()),
+L_('la2','lauf','🏁','Runden & Strecken','Rechne mit Runden, Metern und Kilometern.',[1,2,3,4],()=>M(gLaps,6)),
+L_('la3','lauf','📣','Lauf-Wissen & Wörter','Was man beim Laufen wissen sollte, und kluge Wörter dazu.',[1,2,3,4],
+ ()=>K(()=>cat(qb(BK_LAUF,3),M(gSilben,2),M(gReim,1)),()=>cat(qb(BK_LAUF,3),M(gSilben,1),M(gArtikel,2)),()=>cat(qb(BK_LAUF,3),M(gSpell,3)),()=>cat(qb(BK_LAUF,3),M(gSpell,3)))()),
+/* Weitsprung und Wurf */
+L_('sp1','sprung','📏','Messen',K('Messen mit dem Lineal','Meter und Zentimeter','Längen umrechnen und vergleichen','Längen umrechnen und vergleichen'),[1,2,3,4],
+ ()=>K(()=>cat(lrnRuler(),M(gRuler,5)),()=>cat(M(gConv,3),M(gUnit,2)),()=>cat(M(gConv,3),M(gBigLen,2),M(gUnit,1)),()=>cat(M(gConv,3),M(gBigLen,2),M(gUnit,1)))()),
+L_('sp2','sprung','📊','Weiten & Diagramme','Diagramme lesen und Rechengeschichten lösen.',[1,2,3,4],()=>cat(M(gJumpChart,3),M(gJumpWord,3))),
+L_('sp3','sprung','🎯','Sprung-Wissen & Wörter','Weitsprung, Hochsprung und Wurf: Wissen und Wörter.',[1,2,3,4],
+ ()=>cat(qb(BK_SPRUNG,3),pSprung(),K(()=>M(gArtikel,2),()=>M(gCompound,2),()=>M(gCompound,2),()=>M(gCompound,2))())),
+/* Ballfeld */
+L_('ba1','ball','📋','Zählen & Tabellen',K('Strichlisten und Zählen','Strichlisten und Tabellen','Tabellen lesen und rechnen','Tabellen und Durchschnitt'),[1,2,3,4],
+ ()=>K(()=>cat(lrnTally(),M(gTally,4)),()=>cat(lrnTally(),M(gTally,5)),()=>M(gTally,5),()=>M(gTally,5))()),
+L_('ba2','ball','👥','Mannschaften bilden','Teilen, verteilen und Bruchteile in der Mannschaft.',[1,2,3,4],()=>M(gTeams,6)),
+L_('ba3','ball','🤝','Ballspiele & Fair Play','Womit spielt man? Was ist fair?',[1,2,3,4],
+ ()=>K(()=>cat(sFoot(),qb(BK_BALL,2),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),pBall(),qb(BK_BALL,1),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),M(gPlayers,1),qb(BK_BALL,2),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),M(gPlayers,2),qb(BK_BALL,1),sFair(),qb(BK_FAIR,1)))()),
+L_('ba4','ball','🔤','Wörter rund um den Ball',K('Wörter, Bilder und Reime','Wortarten und Zusammensetzungen','Wortarten und Zeitformen','Wortarten, Zeitformen und Rechtschreibung'),[1,2,3,4],
+ ()=>K(()=>cat(M(gWortbild,3),M(gArtikel,2),M(gReim,1)),()=>cat(sWortart(),M(gArtikel,1),M(gCompound,2),M(gSpell,2)),()=>cat(sWortart(),M(gTense,3),M(gSpell,1),M(gCompound,1)),()=>cat(sWortart(),M(gTense,3),M(gSpell,2)))()),
+/* Turnhalle */
+L_('tu1','turn','🧗','Geräte & Sicherheit','Wie heißen die Geräte? Was ist beim Turnen wichtig?',[1,2,3,4],()=>cat(pGear(),qb(BK_TURN,K(3,4,4,4)))),
+L_('tu2','turn','🧭',K('Links und rechts','Links, rechts, zwischen','Der Hallenplan','Der Hallenplan'),K('Wo liegt was? Links, rechts und ganz außen.','Wo liegt was? Links, rechts und dazwischen.','Felder auf dem Hallenplan finden.','Felder finden und Wege beschreiben.'),[1,2,3,4],()=>K(()=>M(gSide,5),()=>M(gSide,5),()=>M(gHall,5),()=>M(gHall,5))()),
+L_('tu3','turn','🔁','Zirkeltraining','Zeit und Stationen im Zirkel berechnen.',[2,3,4],()=>M(gCircuit,5)),
+/* Schwimmbad */
+L_('wa1','wasser','🛟','Baderegeln','Was ist im Schwimmbad wichtig?',[1,2,3,4],()=>cat(sBade(),qb(BK_BADE,K(4,4,4,4)))),
+L_('wa2','wasser','🌊','Schwimmen & Rechnen','Bahnen, Längen, Zeit und Fläche.',[1,2,3,4],()=>M(gSwim,6)),
+L_('wa3','wasser','🐠','Wasser-Wissen & Wörter','Schwimmt es? Welcher Schwimmstil? Wörter am Wasser.',[1,2,3,4],
+ ()=>K(()=>cat(sFloat(),qb(BK_WASSER,1),M(gGegen,2),M(gWortbild,1)),()=>cat(sFloat(),pStil(),qb(BK_WASSER,1),M(()=>gSpell(WSPELL),2)),()=>cat(sFloat(),pStil(),qb(BK_WASSER,2),M(()=>gSpell(WSPELL),2)),()=>cat(pStil(),qb(BK_WASSER,3),M(()=>gSpell(WSPELL),2),M(gTense,1)))()),
+/* Fit-Labor */
+L_('fi1','fit','⌚','Herz & Puls','Was macht dein Herz bei Bewegung?',[1,2,3,4],
+ ()=>K(()=>cat(sHeart(),qb(BK_FIT,3)),()=>cat(sHeart(),qb(BK_FIT,3)),()=>cat(lrnPulse(),M(gPulse,2),qb(BK_FIT,3)),()=>cat(lrnPulse(),M(gPulse,3),qb(BK_FIT,2)))()),
+L_('fi2','fit','🔥','Aufwärmen & Trinken','Warum bereiten wir uns auf Sport vor?',[1,2,3,4],()=>K(()=>qb(BK_WARM,3),()=>cat(sWarm(),qb(BK_WARM,3)),()=>cat(sWarm(),qb(BK_WARM,4)),()=>cat(sWarm(),qb(BK_WARM,4)))()),
+L_('fi3','fit','📈','Daten der Klasse','Diagramme zur Lieblingsbewegung einer Klasse.',[1,2,3,4],()=>M(gClassData,5)),
+/* Bewegungspause */
+L_('pa1','pause','🙆','Aufwachen','Strecken, marschieren und klatschen.',[1,2,3,4],()=>cat(INTRO_PAUSE(),mvList(['str','mar','sch','rhy','bau','zeh','fl'],3))),
+L_('pa2','pause','🧠','Konzentration','Übungen für Kopf und Hände.',[1,2,3,4],()=>mvList(['kre','nas','ach','fin','dop','lau'],3)),
+L_('pa3','pause','🎈','Ruhe & Atem','Atmen, dehnen und zur Ruhe kommen.',[1,2,3,4],()=>mvList(['bal','blu','nac','sha','san','son'],3)),
+L_('pa4','pause','🔢','Rechnen in Bewegung','Rechne im Kopf und klatsche das Ergebnis.',[1,2,3,4],()=>M(mvMath,4))];
+const LV=LVALL.filter(l=>l.ks.includes(KL)),LVI=Object.fromEntries(LV.map(l=>[l.id,l]));
+const MAXS=LV.length*3;
+
+/* ===== Hub-Szene: Das Sportfest ===== */
+function stBadge(p){const L=LV.filter(l=>l.pl==p);return L.length&&L.every(l=>(U.s[l.id]||0)>0)}
+function hubScene(){
+ const ring=f=>{const C=62.8;return `<circle cx="0" cy="0" r="10" fill="none" stroke="#d3dce8" stroke-width="4"/><circle cx="0" cy="0" r="10" fill="none" stroke="#16a34a" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90)"/>`};
+ const lauf=()=>{let ck='';for(let i=0;i<8;i++)ck+=`<rect x="${64+i*7.25}" y="22" width="7.25" height="4.5" fill="${i%2?'#fff':'#2b3a52'}"/><rect x="${64+i*7.25}" y="26.5" width="7.25" height="4.5" fill="${i%2?'#2b3a52':'#fff'}"/>`;
+  return `<polygon points="10,124 176,124 122,31 64,31" fill="#d8532b" stroke="#a63a18" stroke-width="2" stroke-linejoin="round"/><polygon points="10,124 176,124 170,114 16,114" fill="#b9431f" opacity=".5"/>
+  <line x1="65.3" y1="124" x2="83.3" y2="31" stroke="#fff" stroke-width="2.6"/><line x1="120.7" y1="124" x2="102.7" y2="31" stroke="#fff" stroke-width="2.6"/>
+  <line x1="23.8" y1="100" x2="162.2" y2="100" stroke="#fff" stroke-width="4"/>${ck}<rect x="64" y="22" width="58" height="9" fill="none" stroke="#2b3a52" stroke-width="1.4"/>
+  <circle cx="32" cy="46" r="17" fill="#fff" stroke="#2b3a52" stroke-width="3"/><rect x="28" y="23" width="8" height="6" rx="2" fill="#2b3a52"/><line x1="32" y1="46" x2="32" y2="35" stroke="#e8650a" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="46" x2="40" y2="50" stroke="#2b3a52" stroke-width="3" stroke-linecap="round"/>`};
+ const sprung=()=>`<rect x="2" y="86" width="60" height="26" rx="4" fill="#d8532b" stroke="#a63a18" stroke-width="2"/><rect x="60" y="82" width="9" height="34" fill="#fff" stroke="#2b3a52" stroke-width="1.6"/><path d="M69 80 H174 Q182 80 182 88 V112 Q182 118 174 118 H69 Z" fill="#f2d38a" stroke="#c49b3d" stroke-width="2"/>
+  <ellipse cx="96" cy="98" rx="5" ry="2.6" fill="#d8b665"/><ellipse cx="112" cy="104" rx="5" ry="2.6" fill="#d8b665"/><ellipse cx="146" cy="96" rx="5" ry="2.6" fill="#d8b665"/>
+  <rect x="2" y="120" width="180" height="9" rx="3" fill="#ffd23f" stroke="#a37d00" stroke-width="1.4"/>${Array.from({length:19},(_,i)=>`<line x1="${6+i*9.5}" y1="120" x2="${6+i*9.5}" y2="${i%2?124:126}" stroke="#6b5200" stroke-width="1.2"/>`).join('')}
+  <path d="M30 78 Q80 -2 128 70" fill="none" stroke="#16a34a" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/><text x="80" y="42" text-anchor="middle" font-size="34">🦘</text>`;
+ const ball=()=>{let net='';for(let i=0;i<=12;i++)net+=`<line x1="${28+i*8.8}" y1="38" x2="${28+i*8.8}" y2="98" stroke="#9fb4a0" stroke-width="1"/>`;for(let j=0;j<=6;j++)net+=`<line x1="28" y1="${38+j*10}" x2="133.6" y2="${38+j*10}" stroke="#9fb4a0" stroke-width="1"/>`;
+  return `<rect x="28" y="38" width="105.6" height="60" fill="#f4faf4"/>${net}<polyline points="28,100 28,38 133.6,38 133.6,100" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><polyline points="28,100 28,38 133.6,38 133.6,100" fill="none" stroke="#2b3a52" stroke-width="1.4" stroke-linejoin="round" opacity=".5"/>
+  <circle cx="118" cy="106" r="17" fill="#fff" stroke="#2b3a52" stroke-width="2.4"/><polygon points="118,95 126,101 123,111 113,111 110,101" fill="#2b3a52"/><g stroke="#2b3a52" stroke-width="2" stroke-linecap="round"><line x1="118" y1="95" x2="118" y2="90"/><line x1="126" y1="101" x2="132" y2="99"/><line x1="123" y1="111" x2="127" y2="116"/><line x1="113" y1="111" x2="109" y2="116"/><line x1="110" y1="101" x2="104" y2="99"/></g>
+  <circle cx="40" cy="108" r="14" fill="#f08a24" stroke="#8a4a0a" stroke-width="2"/><path d="M26 108 H54 M40 94 V122 M30 98 Q40 108 30 118 M50 98 Q40 108 50 118" fill="none" stroke="#8a4a0a" stroke-width="1.6"/>`};
+ const turn=()=>`<polygon points="12,118 174,118 152,90 34,90" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2.4" stroke-linejoin="round"/><polygon points="12,118 174,118 172,124 14,124" fill="#1d4ed8"/>
+  <ellipse cx="62" cy="52" rx="28" ry="28" fill="none" stroke="#f59e0b" stroke-width="7"/><ellipse cx="62" cy="52" rx="28" ry="28" fill="none" stroke="#fff3c4" stroke-width="2" stroke-dasharray="14 20"/>
+  <line x1="150" y1="36" x2="140" y2="82" stroke="#6b4f2a" stroke-width="4" stroke-linecap="round"/><path d="M150 36 C 128 8, 112 56, 96 30 S 78 40 88 62" fill="none" stroke="#ec4899" stroke-width="5" stroke-linecap="round"/>`;
+ const wasser=()=>{let r='';[62,84,106].forEach((y,k)=>{r+=`<line x1="10" y1="${y}" x2="176" y2="${y}" stroke="#fff" stroke-width="2" opacity=".8"/>`;for(let i=0;i<11;i++)r+=`<circle cx="${18+i*15.6}" cy="${y}" r="3.4" fill="${i%2?'#fff':'#ef4444'}" stroke="#2b3a52" stroke-width=".6"/>`});
+  return `<rect x="6" y="52" width="174" height="72" rx="10" fill="url(#gWater)" stroke="#0b6fa8" stroke-width="2.4"/>${r}<path d="M14 74 q8 -6 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/><path d="M14 96 q8 -6 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/>
+  <circle cx="38" cy="30" r="15" fill="none" stroke="#ef4444" stroke-width="9"/><circle cx="38" cy="30" r="15" fill="none" stroke="#fff" stroke-width="9" stroke-dasharray="11.8 23.6" stroke-dashoffset="-5.9"/><circle cx="38" cy="30" r="20" fill="none" stroke="#2b3a52" stroke-width="1.2"/><circle cx="38" cy="30" r="10.5" fill="none" stroke="#2b3a52" stroke-width="1.2"/>`};
+ const fit=()=>`<g class="hb"><path d="M85 114 C 32 78, 32 30, 62 30 C 76 30, 85 40, 85 48 C 85 40, 94 30, 108 30 C 138 30, 138 78, 85 114 Z" fill="url(#gHeart)" stroke="#a31d2b" stroke-width="2.6" stroke-linejoin="round"/><ellipse cx="62" cy="48" rx="11" ry="7" fill="#fff" opacity=".35" transform="rotate(-30 62 48)"/></g>
+  <polyline points="36,72 62,72 72,54 86,94 98,62 106,72 134,72" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><polyline points="36,72 62,72 72,54 86,94 98,62 106,72 134,72" fill="none" stroke="#2b3a52" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" opacity=".5"/>
+  <path d="M150 74 C 144 86, 140 92, 150 100 C 160 92, 156 86, 150 74 Z" fill="#38bdf8" stroke="#0b6fa8" stroke-width="1.8" transform="translate(6 18)"/>`;
+ const pause=()=>{const c='#0e8a8a',st=`stroke="${c}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"`;
+  return `<g ${st}><line x1="96" y1="44" x2="96" y2="80"/><polyline points="72,24 96,52 120,24"/><polyline points="84,106 96,80 108,106"/></g><circle cx="96" cy="30" r="12" fill="${c}"/>
+  <rect x="172" y="76" width="64" height="8" rx="3" fill="#a07a4a"/><line x1="176" y1="84" x2="176" y2="106" stroke="#a07a4a" stroke-width="6" stroke-linecap="round"/><line x1="232" y1="84" x2="232" y2="106" stroke="#a07a4a" stroke-width="6" stroke-linecap="round"/><line x1="172" y1="52" x2="172" y2="80" stroke="#a07a4a" stroke-width="6" stroke-linecap="round"/>
+  <g ${st}><polyline points="196,56 198,76 226,76 226,104"/><polyline points="198,60 214,72"/></g><circle cx="196" cy="42" r="12" fill="${c}"/>
+  <g ${st}><line x1="292" y1="44" x2="292" y2="80"/><path d="M292 52 C 274 44 276 26 292 18"/><path d="M292 52 C 310 44 308 26 292 18"/><polyline points="280,106 292,80 304,106"/></g><circle cx="292" cy="30" r="12" fill="${c}"/>
+  <path d="M330 52 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/><path d="M330 68 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/><path d="M14 60 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/><path d="M14 76 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/>`};
+ const EMB={lauf,sprung,ball,turn,wasser,fit,pause};
+ const SN={lauf:'Laufbahn',sprung:'Weitsprung & Wurf',ball:'Ballfeld',turn:'Turnhalle',wasser:'Schwimmbad',fit:'Fit-Labor',pause:'Bewegungspause'};
+ const SUB={lauf:'Uhr, Zeit, Strecken',sprung:'Messen & Diagramme',ball:'Zählen & Fair Play',turn:'Geräte & Zirkel',wasser:'Regeln & Wasser',fit:'Herz & Daten',pause:'Mitmachen im Stehen oder Sitzen'};
+ const POS={lauf:[8,66,186,170],sprung:[206,66,186,170],ball:[8,246,186,170],turn:[206,246,186,170],wasser:[8,426,186,170],fit:[206,426,186,170],pause:[8,606,384,140]};
+ const H=p=>{const[x,y,w,h]=POS[p],P=PLACE[p],f=placeMax(p)?placeStars(p)/placeMax(p):0,wide=p=='pause',bd=stBadge(p);
+  return `<g role="button" tabindex="0" aria-label="${P.n}. ${placeStars(p)} von ${placeMax(p)} Sternen.${bd?' Abzeichen erreicht.':''}" onclick="place('${p}')" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();place('${p}')}">
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="24" fill="url(#gGlass)" stroke="#8cc79a" stroke-width="3"/>
+  <g transform="translate(${x+(w-(wide?384:186)*(wide?.84:.8))/2} ${y+(wide?4:8)}) scale(${wide?.84:.8})"><g class="bd">${EMB[p]()}</g></g>
+  <text class="pn" x="${x+16}" y="${y+h-34}">${SN[p].replace('&','&amp;')}</text><text class="ps" x="${x+16}" y="${y+h-17}">${SUB[p]} · ⭐ ${placeStars(p)}/${placeMax(p)}${bd?' · 🏅':''}</text>
+  <g transform="translate(${x+w-26} ${y+26})">${ring(f)}</g>
+  <rect class="hl" x="${x}" y="${y}" width="${w}" height="${h}" rx="24"/></g>`};
+ /* Himmel, Wiese, Girlande */
+ let stripes='';for(let k=0;k<12;k++)stripes+=`<rect y="${190+k*48}" width="400" height="48" fill="${k%2?'#e3f5d6':'#d4efc4'}"/>`;
+ let rays='';for(let i=0;i<12;i++){const a=i*Math.PI/6;rays+=`<line x1="${(332+34*Math.cos(a)).toFixed(1)}" y1="${(54+34*Math.sin(a)).toFixed(1)}" x2="${(332+46*Math.cos(a)).toFixed(1)}" y2="${(54+46*Math.sin(a)).toFixed(1)}" stroke="#ffb300" stroke-width="4" stroke-linecap="round"/>`}
+ const cloud=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity=".95"><ellipse cx="0" cy="0" rx="26" ry="12"/><ellipse cx="-14" cy="-8" rx="14" ry="11"/><ellipse cx="8" cy="-12" rx="16" ry="13"/></g>`;
+ const far=`<g class="px" data-d="1"><circle cx="332" cy="54" r="26" fill="#ffd23f" stroke="#ff9f1c" stroke-width="2"/><g class="spin" style="transform-origin:332px 54px">${rays}</g>${cloud(80,40,1.1)}${cloud(200,24,.8)}${cloud(250,86,.9)}<path d="M0 190 Q60 138 140 170 T290 160 T400 172 L400 192 L0 192 Z" fill="#9bd68a"/><path d="M0 192 Q80 160 170 182 T400 180 L400 194 L0 194 Z" fill="#82c870"/></g>`;
+ let flags='',pts=[];for(let i=0;i<=10;i++){const x=i*40,y=16+11*Math.sin(i*Math.PI/5+.6);pts.push([x,y])}
+ pts.forEach(([x,y],i)=>{flags+=`<polygon points="${(x-10).toFixed(1)},${y.toFixed(1)} ${(x+10).toFixed(1)},${y.toFixed(1)} ${x.toFixed(1)},${(y+20).toFixed(1)}" fill="${['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7'][i%5]}" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`});
+ const near=`<g class="px" data-d="2.4"><polyline points="${pts.map(p=>p[0]+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#6b4f2a" stroke-width="2.2" stroke-linejoin="round"/>${flags}<g opacity=".75">${Array.from({length:7},(_,i)=>`<circle class="drift" cx="${30+i*55}" cy="740" r="${2+i%3}" fill="${['#f59e0b','#22c55e','#ef4444'][i%3]}" style="animation-delay:-${i*1.7}s"/>`).join('')}</g></g>`;
+ return `<svg class="scene" viewBox="0 0 400 760" role="group" aria-label="Das Sportfest mit sieben Stationen">
+ <defs><linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6ff"/><stop offset="1" stop-color="#eef9ff"/></linearGradient>
+ <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".93"/><stop offset="1" stop-color="#f1f9ee" stop-opacity=".82"/></linearGradient>
+ <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5bd0ff"/><stop offset="1" stop-color="#0e93d8"/></linearGradient>
+ <linearGradient id="gHeart" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7b86"/><stop offset="1" stop-color="#d7263d"/></linearGradient></defs>
+ <rect width="400" height="760" fill="url(#gSky)"/>${far}<rect y="190" width="400" height="570" fill="#d4efc4"/>${stripes}
+ ${PORDER.map(H).join('')}${near}</svg>`}
+function parallax(){const sv=$('.scene');if(!sv)return;const L=[...sv.querySelectorAll('.px')];sv.onpointermove=e=>{const r=sv.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;L.forEach(g=>{const d=+g.dataset.d;g.style.transform=`translate(${(-dx*d*11).toFixed(1)}px,${(-dy*d*6).toFixed(1)}px)`})};sv.onpointerleave=()=>L.forEach(g=>g.style.transform='')}
+
+/* ===== Spiel-Motor Sportfest ===== */
+const A_=$('#app');
+const show=(h,w)=>{A_.classList.toggle('wide',!!w);A_.innerHTML=h;window.scrollTo(0,0)};
+function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o);return o}
+const closeOv=()=>{const x=$('#ov');x&&x.remove()};
+const REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function confetti(n){if(REDUCED)return;const cols=['#16a34a','#f59e0b','#ef4444','#3b82f6','#a855f7','#ffd23f'];for(let i=0;i<(n||46);i++){const d=document.createElement('i');d.className='cf';d.style.cssText=`left:${R(2,98)}%;background:${cols[i%6]};--x:${R(-120,120)}px;--r:${R(-720,720)}deg;--t:${(1.6+Math.random()*1.4).toFixed(2)}s;animation-delay:${(Math.random()*.4).toFixed(2)}s;width:${R(7,12)}px;height:${R(10,18)}px`;document.body.appendChild(d);setTimeout(()=>d.remove(),3400)}}
+function setU(){U=isAd()?mkU():(DB.u[CUR]=DB.u[CUR]||mkU());['s','q','c','i','b'].forEach(k=>U[k]=U[k]||{});U.k=U.k||[];U.f=U.f||[];U.m=U.m||0;DB.cur=isAd()?'':CUR;save()}
+const sumStars=()=>Object.values(U.s).reduce((a,b)=>a+b,0);
+const nSt=()=>isAd()?LV.length:LV.filter(l=>(U.s[l.id]||0)>0).length,nBd=()=>isAd()?PORDER.length:PORDER.filter(stBadge).length;
+const placeStars=p=>LV.filter(l=>l.pl==p).reduce((a,l)=>a+(U.s[l.id]||0),0),placeMax=p=>LV.filter(l=>l.pl==p).length*3;
+const starTxt=n=>n?'⭐'.repeat(n)+'☆'.repeat(3-n):'☆☆☆';
+const unlocked=l=>{if(isAd())return true;const L=LV.filter(x=>x.pl==l.pl),i=L.indexOf(l);return i==0||U.s[L[i-1].id]>0};
+let G=null,mvT=0;
+function stopG(){G=null;clearInterval(mvT);window.speechSynthesis&&speechSynthesis.cancel()}
+/* ---- Anmeldung / Hub ---- */
+function ask(){const N=Object.keys(DB.u);ovl(`<div class="card c" style="width:min(520px,100%)"><h1>🏅 Willkommen beim Sportfest!</h1><p>Denke dir einen <b>Geheimnamen</b> aus, zum Beispiel „Flitzefuchs“.</p><p><b>Schreibe nicht deinen echten Namen!</b></p><input id="un" maxlength="20" autocomplete="off" aria-label="Dein Geheimname" onkeydown="if(event.key=='Enter')okName()"><p><button class="big" onclick="okName()">🚀 Los geht’s</button></p><p id="ue" role="alert"></p>${N.length?'<p>Schon dabei? Tippe auf deinen Namen:</p><div class="row">'+N.map((n,k)=>`<button class="sec" onclick="login(Object.keys(DB.u)[${k}])">${esc(n)}</button>`).join(' ')+'</div>':''}</div>`);const u=$('#un');u&&u.focus()}
+function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if(!$('#ue').textContent)login(v)}
+function login(n){try{localStorage.setItem('kastner-user',String(n).trim().replace(/\s+/g,' '))}catch(e){}ac();CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();closeOv();const b=$('#ab');b&&b.remove();if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="results()">📊 Ergebnisse anzeigen</button>');hub()}
+function logout(){wechseln()}
+function resetMe(){if(confirm('Möchtest du wirklich alle deine Sterne und Sticker löschen?')){U=DB.u[CUR]=mkU();save();hub()}}
+function hub(){stopG();const nm=isAd()?'Herr Kastner':CUR;show(`<div class="logo"><span>Sportfest</span><small>${nm?'Hallo, '+esc(nm)+'! Tippe auf eine Station.':'Rechnen, lesen, wissen und bewegen'}</small></div>${hubScene()}<div class="prog" aria-label="Fortschritt"><span>⭐ ${sumStars()} / ${MAXS}</span><span>🎖️ ${nSt()} / ${LV.length}</span><span>🏅 ${nBd()} / ${PORDER.length}</span><span>🧘 ${U.m||0}</span></div><div class="tools"><button onclick="mappe()"><span aria-hidden="true">🎖️</span>Meine Sticker</button><button onclick="cert()"><span aria-hidden="true">📜</span>Urkunde</button><button onclick="logout()"><span aria-hidden="true">👤</span>Wechseln</button><button onclick="resetMe()"><span aria-hidden="true">🗑️</span>Neu beginnen</button><button onclick="location.href='index.html'"><span aria-hidden="true">🏠</span>Startseite</button></div>`);parallax()}
+function place(p){stopG();const P=PLACE[p];show(`<div class="bar"><button class="back" onclick="hub()">⬅ Sportfest</button></div><div class="hdr"><span class="ico" aria-hidden="true">${P.e}</span><div><h1>${P.n}</h1><small>${P.d}</small></div></div><ol class="tix">${LV.filter(l=>l.pl==p).map(l=>{const ok=unlocked(l),s=U.s[l.id]||0;return `<li class="tk${ok?'':' lk'}${s>0?' dn':''}"><button class="tkb" ${ok?`onclick="startLevel('${l.id}')"`:'disabled'} aria-label="${esc(l.n)}${ok?'':' (noch gesperrt)'}"><span class="tke" aria-hidden="true">${ok?l.e:'🔒'}</span><span class="tkt"><b>${l.n}</b><small>${ok?l.d:'Schaffe erst die Station davor.'}</small></span><span class="tks" aria-label="${s} von 3 Sternen">${starTxt(s)}</span></button></li>`}).join('')}</ol>`)}
+/* ---- Aufgaben ---- */
+function startLevel(id){const l=LVI[id];G={lv:l,list:l.plan(),i:0,miss:0,res:[],faults:[],mvn:0};nextPuz()}
+function nextPuz(){if(!G)return;if(G.i>=G.list.length)return finishLevel();const p=G.p=G.list[G.i];G.tries=0;G.missed=false;G.pos=0;G.wr=0;G.state=p.t=='learn'?'done':'ask';G.dis=[];if(p.t=='learn')G.res[G.i]=2;renderPuz()}
+const HUD=()=>`<div class="hud"><button class="back sm" onclick="quitLevel()">⬅ Zurück</button><span class="ttl">${G.lv.e} ${G.lv.n}</span><span class="mini" aria-label="Aufgabe ${G.i+1} von ${G.list.length}">${G.i+1} / ${G.list.length}</span></div><div class="pbar" aria-hidden="true">${G.list.map((_,i)=>`<i class="${G.res[i]===1?'g':G.res[i]===0?'r':G.res[i]===2?'l':i==G.i?'c':''}"></i>`).join('')}</div>`;
+function quitLevel(){const pl=G&&G.lv.pl;stopG();pl?place(pl):hub()}
+function renderPuz(){const p=G.p;let body;
+ if(p.t=='learn')body=p.html;
+ else if(p.t=='mc')body=`<div class="q">${p.q}</div>${p.vis&&!p.visAfter?`<div class="vis" id="vis">${p.vis}</div>`:''}<div class="opts ${p.cls}" role="group" aria-label="Antworten">${p.opts.map((o,i)=>`<button class="o" id="o${i}" onclick="pick(${i})" aria-label="${esc(o.l)}">${o.h}</button>`).join('')}</div>${p.vis&&p.visAfter?`<div class="vis" id="vis">${p.vis}</div>`:''}`;
+ else if(p.t=='sort')body=sortHtml(p);else if(p.t=='pairs')body=pairsHtml(p);else if(p.t=='move')body=mvHtml(p);
+ const wide=p.t=='pairs';
+ show(`${HUD()}<div class="card" id="pz">${body}<div class="fbk" id="fb" role="status" aria-live="polite"></div><div id="fx"></div><div class="say"><button class="sm" onclick="speak()">🔊 Vorlesen</button><button class="big" id="nx" onclick="proceed()" style="display:${p.t=='learn'?'':'none'}">Weiter ➜</button></div></div>`,wide)}
+function speak(){if(!G||!G.p)return;if(!('speechSynthesis' in window)){const f=$('#fb');f&&(f.textContent='Vorlesen geht in diesem Browser leider nicht.');return}speechSynthesis.cancel();const p=G.p;let t=p.say||plain(p.q||'');if(p.t=='mc')t+='. Antworten: '+p.opts.map(o=>o.l).join(', ');const u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=.9;speechSynthesis.speak(u)}
+function funBox(t){const f=$('#fx');f&&t&&(f.innerHTML=`<div class="fun">💡 ${esc(t)}</div>`)}
+function resolve(first,fault){G.state='done';G.res[G.i]=first?1:0;const mv=G.p.t=='move';if(!mv){U.n++;if(first)U.r++;}
+ if(!first){G.miss++;const p=G.p;U.f.push(Object.assign({q:plain(p.q||'').slice(0,120),a:'',g:'',l:G.lv.n},fault||(p.t=='mc'?{a:p.opts[p.a].l,g:G.lastGuess||'(Hilfe)'}:{})));if(U.f.length>60)U.f.shift();G.faults.push({q:plain(p.q||''),a:(fault&&fault.a)||(p.t=='mc'?p.opts[p.a].l:'')})}
+ const pb=document.querySelectorAll('.pbar i');pb[G.i]&&(pb[G.i].className=first?'g':'r');const nx=$('#nx');if(nx){nx.style.display='';nx.textContent=G.i+1>=G.list.length?'Fertig ✓':'Weiter ➜';nx.focus()}save()}
+function proceed(){if(!G||G.state!='done')return;window.speechSynthesis&&speechSynthesis.cancel();G.i++;nextPuz()}
+function pick(i){if(!G||G.state!='ask'||G.dis.includes(i))return;const p=G.p,fb=$('#fb'),b=$('#o'+i);
+ if(i==p.a){b.classList.add('ok');G.state='x';const first=!G.missed;fb.className='fbk ok';fb.textContent=first?'✔ Richtig!':'✔ Genau, das ist richtig!';lock();funBox(p.fun);resolve(first)}
+ else{b.classList.add('no');G.dis.push(i);G.missed=true;G.lastGuess=p.opts[i].l;G.tries++;const left=p.opts.map((_,k)=>k).filter(k=>!G.dis.includes(k));
+  if(left.length<=1||G.tries>=2){const c=$('#o'+p.a);c.classList.add('ok');G.state='x';fb.className='fbk no';fb.textContent='Das war: '+p.opts[p.a].l;lock();funBox(p.fun);resolve(false)}
+  else{fb.className='fbk no';fb.textContent='Fast! Versuch es noch einmal.'+(p.tip?' 💡 Tipp: '+p.tip:'');b.disabled=true}}}
+const lock=()=>{document.querySelectorAll('#pz .o').forEach(o=>o.disabled=true)};
+document.addEventListener('keydown',e=>{if(!G||!G.p||/INPUT|TEXTAREA/.test(document.activeElement.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;const p=G.p;
+ if(p.t=='mc'&&G.state=='ask'&&/^[1-4]$/.test(e.key)){const i=+e.key-1;if(i<p.opts.length)pick(i)}});
+/* ===== Bewegungspause: Übung mit Timer, immer mit Sitz-Variante ===== */
+function mvHtml(p){G.mv={left:p.sec,run:false};return `<div class="mv"><div class="mve" aria-hidden="true">${p.e}</div><div class="mvn"><b>${p.n}</b></div><p>${p.i}</p><div class="alt"><b>🪑 Im Sitzen:</b> ${p.alt}</div>${p.sec?`<div class="mvt" id="mvt">${ringSvg(1)}<b id="mvc" aria-hidden="true">${p.sec}</b></div><p class="mini" id="mvl" role="status" aria-live="polite">Tippe auf „Los“, wenn du bereit bist.</p>`:''}<div class="row">${p.sec?'<button class="big" id="mvs" onclick="mvStart()">▶ Los</button>':''}<button class="${p.sec?'sec':'big'}" id="mvd" onclick="mvDone(true)">${p.sec?'Fertig ✓':'Ich habe mitgemacht ✓'}</button><button class="sec sm" id="mvk" onclick="mvDone(false)">Überspringen</button></div></div>`}
+function mvStart(){if(!G||G.p.t!='move'||G.state!='ask'||G.mv.run)return;const p=G.p;G.mv.run=true;G.mv.left=p.sec;const b=$('#mvs');b&&(b.disabled=true);const l=$('#mvl');l&&(l.textContent='Los geht’s! Mach so viel mit, wie es dir gut tut.');
+ clearInterval(mvT);mvT=setInterval(()=>{if(!G||G.p!==p){clearInterval(mvT);return}G.mv.left--;const t=$('#mvt');t&&(t.innerHTML=ringSvg(G.mv.left/p.sec)+`<b id="mvc" aria-hidden="true">${Math.max(0,G.mv.left)}</b>`);if(G.mv.left<=0){clearInterval(mvT);mvDone(true)}},1000)}
+function mvDone(did){if(!G||G.p.t!='move'||G.state!='ask')return;clearInterval(mvT);G.state='x';const p=G.p,fb=$('#fb');if(did){U.m=(U.m||0)+1;G.mvn++}
+ fb.className='fbk ok';fb.textContent=p.r||(did?'✔ Gut gemacht! Danke fürs Mitmachen.':'In Ordnung. Du kannst die Übung später ausprobieren.');['mvs','mvd','mvk'].forEach(i=>{const b=$('#'+i);b&&(b.disabled=true)});if(did&&p.sec)confetti(10);resolve(true)}
+
+/* ===== Einsortieren und Paare ===== */
+const chipHtml=(it,i,fn)=>`<span class="chw">${it.snd?`<button class="chp ph" onclick="itHear(${i})" aria-label="${esc(it.l)} anhören">🔊</button>`:''}<button class="chp" id="ch${i}" data-i="${i}" ${fn} aria-label="${esc(plain(it.l))}">${it.h}</button></span>`;
+const itHear=i=>{const it=G&&G.its&&G.its[i];it&&it.snd&&it.snd()};
+function sortHtml(p){G.its=p.items.map(it=>it);G.sel=null;G.left=p.items.length;G.wr=0;return `<div class="q">${p.q}</div><div class="bins ${p.cls||(p.bins.length>=4?'b4':'')}" style="--nb:${p.bins.length}" role="group" aria-label="Plätze zum Einsortieren">${p.bins.map((b,bi)=>`<button class="bin" id="bn${bi}" data-bi="${bi}" onclick="sortBin(${bi})" aria-label="${esc(b.l)}"><b>${b.n}</b><span class="bin-in" id="bi${bi}"></span></button>`).join('')}</div><p class="mini c">Tippe zuerst auf ein Ding, dann auf den richtigen Platz – oder ziehe es dorthin.</p><div class="pool" id="pool">${G.its.map((it,i)=>chipHtml(it,i,`onclick="sortSel(${i})" onpointerdown="dragStart(event,${i})"`)).join('')}</div>`}
+function sortSel(i){if(!G||G.p.t!='sort'||G.state!='ask')return;const el=$('#ch'+i);if(!el)return;document.querySelectorAll('.chp.sel').forEach(x=>x.classList.remove('sel'));G.sel=i;el.classList.add('sel')}
+function sortBin(bi){if(!G||G.p.t!='sort'||G.state!='ask')return;const p=G.p,fb=$('#fb');if(G.sel==null){fb.className='fbk';fb.textContent='Tippe zuerst auf ein Ding unten.';return}const it=G.its[G.sel],b=p.bins[bi];
+ if(it.bin==b.id){const el=$('#ch'+G.sel),cl=document.createElement('span');cl.className='plc';cl.innerHTML=it.h;$('#bi'+bi).appendChild(cl);el.closest('.chw').remove();G.sel=null;G.left--;G.wr=0;document.querySelectorAll('.bin.hint').forEach(x=>x.classList.remove('hint'));fb.className='fbk ok';fb.textContent='✔ Richtig!';
+  if(G.left==0){G.state='x';funBox(p.fun);if(!G.missed)confetti(14);resolve(!G.missed,{a:p.bins.map(x=>x.l).join(' / '),g:'(falsch zugeordnet)'})}}
+ else{G.missed=true;G.wr++;const bn=$('#bn'+bi);bn.classList.add('no');setTimeout(()=>bn.classList.remove('no'),420);fb.className='fbk no';fb.textContent='Nicht ganz. Überlege noch einmal.';if(G.wr>=3){const k=p.bins.findIndex(x=>x.id==it.bin);$('#bn'+k).classList.add('hint');fb.textContent='Tipp: Der gelb markierte Platz passt.'}}}
+let DR=null;
+function dragStart(e,i){if((e.button&&e.button>0)||!G||G.state!='ask')return;const x0=e.clientX,y0=e.clientY,D=DR={i,g:null,moved:false};
+ const mv=ev=>{if(!D.moved&&Math.hypot(ev.clientX-x0,ev.clientY-y0)>9){D.moved=true;const el=$('#ch'+i);if(!el)return;sortSel(i);const g=el.cloneNode(true);g.id='';g.removeAttribute('onclick');g.removeAttribute('onpointerdown');g.classList.add('drag');g.style.cssText='position:fixed;left:0;top:0;pointer-events:none;z-index:70';document.body.appendChild(g);D.g=g}if(D.g){D.g.style.transform=`translate(${ev.clientX-34}px,${ev.clientY-30}px)`;ev.preventDefault()}};
+ const up=ev=>{document.removeEventListener('pointermove',mv);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);if(D.moved){D.g&&D.g.remove();const t=document.elementFromPoint(ev.clientX,ev.clientY),b=t&&t.closest('.bin');if(b)sortBin(+b.dataset.bi);else document.querySelectorAll('.chp.sel').forEach(x=>x.classList.remove('sel'))}DR=null};
+ document.addEventListener('pointermove',mv,{passive:false});document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up)}
+function pairsHtml(p){G.rp=sh(p.pairs.map((_,i)=>i));G.ps={sel:null,done:0};return `<div class="q">${p.q}</div><p class="mini c">Tippe links auf etwas und dann rechts auf das, was dazu passt.</p><div class="pairs"><div class="pcol">${p.pairs.map((a,i)=>`<button class="pr" id="pl${i}" onclick="pairClick('l',${i})" aria-label="${esc(plain(a[2]))}">${a[0]}</button>`).join('')}</div><div class="pcol">${G.rp.map((k,j)=>`<button class="pr pw" id="pr${j}" onclick="pairClick('r',${j})" aria-label="${esc(plain(p.pairs[k][1]))}">${p.pairs[k][1]}</button>`).join('')}</div></div>`}
+function pairClick(side,i){if(!G||G.p.t!='pairs'||G.state!='ask')return;const p=G.p,ps=G.ps,el=$('#p'+side+i),fb=$('#fb');if(!el||el.disabled)return;if(side=='l'&&p.pairs[i][3]&&p.pairs[i][3].snd)p.pairs[i][3].snd();
+ if(!ps.sel||ps.sel.side==side){if(ps.sel)$('#p'+ps.sel.side+ps.sel.i).classList.remove('sel');ps.sel={side,i};el.classList.add('sel');return}
+ const l=side=='l'?i:ps.sel.i,r=side=='r'?i:ps.sel.i,le=$('#pl'+l),re=$('#pr'+r);le.classList.remove('sel');re.classList.remove('sel');ps.sel=null;
+ if(G.rp[r]==l){le.classList.add('ok');re.classList.add('ok');le.disabled=re.disabled=true;ps.done++;fb.className='fbk ok';fb.textContent='✔ Das passt!';if(ps.done==p.pairs.length){G.state='x';funBox(p.fun);if(!G.missed)confetti(14);resolve(!G.missed,{a:'(alle Paare)',g:'(falsch verbunden)'})}}
+ else{G.missed=true;[le,re].forEach(x=>{x.classList.add('no');setTimeout(()=>x.classList.remove('no'),420)});fb.className='fbk no';fb.textContent='Das passt nicht zusammen. Versuche es noch einmal.'}}
+
+function finishLevel(){const g=G,l=g.lv,stars=g.miss==0?3:g.miss<=2?2:1,old=U.s[l.id]||0;if(stars>old)U.s[l.id]=stars;save();window.speechSynthesis&&speechSynthesis.cancel();clearInterval(mvT);
+ const msg=stars==3?'Fantastisch! Das war ganz stark!':stars==2?'Sehr gut! Fast alles gelungen.':'Geschafft! Beim nächsten Mal wird es noch besser.';
+ const L=LV.filter(x=>x.pl==l.pl),nextL=L[L.indexOf(l)+1],bd=stBadge(l.pl),first=old==0;
+ const nq=g.list.filter(x=>x.t!='learn'&&x.t!='move').length,nm=g.list.filter(x=>x.t=='move').length;
+ const info=nq?(nq-g.miss)+' von '+nq+' Aufgaben gleich richtig.':(nm?'Du hast '+g.mvn+' '+(g.mvn==1?'Bewegungspause':'Bewegungspausen')+' gemacht.':'');
+ show(`<div class="card res"><h1>${l.e} ${l.n}</h1><div class="big2" aria-label="${stars} von 3 Sternen">${[1,2,3].map(i=>i<=stars?`<span class="star">⭐</span>`:'<span style="opacity:.3">☆</span>').join('')}</div><p><b>${msg}</b></p><p class="mini">${info}</p>${first?`<p class="c"><span style="font-size:2.4em" aria-hidden="true">${l.e}</span><br>🎖️ Neuer Sticker: <b>${l.n}</b></p>`:''}${bd&&first&&L.every(x=>x==l||(U.s[x.id]||0)>0)?`<p>🏅 <b>Abzeichen für ${PLACE[l.pl].n}!</b> Du hast alle Aufgaben dieser Station geschafft.</p>`:''}<div class="row"><button class="big" onclick="startLevel('${l.id}')">🔁 Nochmal</button>${nextL?`<button class="big" onclick="startLevel('${nextL.id}')">Weiter ➜ ${nextL.n}</button>`:''}</div><p class="row"><button class="sec" onclick="place('${l.pl}')">Zur Übersicht</button><button class="sec" onclick="hub()">🏅 Zum Sportfest</button></p></div>${g.faults.length?`<details class="card"><summary>Das kannst du noch üben (${g.faults.length})</summary><ul class="fl">${g.faults.map(x=>`<li>${esc(x.q)}${x.a?`<br><b>Richtig: ${esc(x.a)}</b>`:''}</li>`).join('')}</ul></details>`:''}`);G=null;if(stars==3)confetti(60);else if(stars==2)confetti(24)}
+/* ---- Sticker, Urkunde, Ergebnisse ---- */
+function mappe(){stopG();show(`<div class="bar"><button class="back" onclick="hub()">⬅ Sportfest</button></div><div class="hdr"><span class="ico" aria-hidden="true">🎖️</span><div><h1>Meine Sticker</h1><small>Für jede geschaffte Aufgabe bekommst du einen Sticker. Hier zählt nur, was du selbst schaffst.</small></div></div>
+ <div class="card"><h2>🎖️ Sticker (${nSt()} / ${LV.length})</h2><div class="stk">${LV.map(l=>{const o=isAd()||(U.s[l.id]||0)>0;return `<div class="${o?'':'lock'}"><span aria-hidden="true">${o?l.e:'❔'}</span>${o?esc(l.n):'noch offen'}</div>`}).join('')}</div></div>
+ <div class="card"><h2>🏅 Abzeichen</h2>${PORDER.map(p=>{const full=placeStars(p)==placeMax(p),bd=isAd()||stBadge(p);return `<p style="margin:.35em 0">${PLACE[p].e} ${PLACE[p].n}: ${bd?'🏅 Abzeichen'+(full||isAd()?' · 🌟 alle Sterne':''):'<span class="mini">noch nicht erreicht</span>'}</p>`}).join('')}</div>
+ <div class="card"><h2>⭐ Sterne</h2>${PORDER.map(p=>`<p style="margin:.35em 0">${PLACE[p].e} ${PLACE[p].n}: <b>${placeStars(p)} / ${placeMax(p)}</b></p>`).join('')}</div>
+ <div class="card"><h2>🧘 Bewegungspausen</h2><p>Du hast bisher <b>${U.m||0}</b> ${U.m==1?'Bewegungspause':'Bewegungspausen'} gemacht.</p></div>`)}
+function cert(){stopG();show(`<button class="back noprint" onclick="hub()">⬅ Zurück</button><div class="card c cert"><h1>📜 Sportfest-Urkunde</h1><p>für</p><p class="nm" id="nm">Junge/r Sportfreund/in</p><p class="noprint"><label>Name (wird nicht gespeichert): <input id="ni" maxlength="30" oninput="$('#nm').textContent=this.value||'Junge/r Sportfreund/in'"></label></p><p>hat beim Sportfest <b>${sumStars()}</b> von ${MAXS} Sternen gesammelt,<br><b>${nSt()}</b> von ${LV.length} Stickern bekommen,<br><b>${nBd()}</b> von ${PORDER.length} Abzeichen erreicht<br>und <b>${U.m||0}</b> ${U.m==1?'Bewegungspause':'Bewegungspausen'} mitgemacht.</p><p>Bravo und herzlichen Glückwunsch!</p><p class="noprint"><button class="big" onclick="window.print()">🖨️ Drucken</button></p></div>`)}
+function results(){const sm=u=>Object.values(u.s||{}).reduce((a,b)=>a+b,0);ovl(`<div class="card" style="width:min(900px,100%)"><div class="bar"><h1>📊 Ergebnisse</h1><button onclick="closeOv()">✖ Schließen</button></div>${Object.keys(DB.u).length?'':'<p>Auf diesem Gerät hat noch kein Kind gespielt.</p>'}${Object.entries(DB.u).map(([n,u])=>`<details><summary><b>${esc(n)}</b> · ⭐ ${sm(u)} von ${MAXS} · 🎖️ ${LV.filter(l=>((u.s||{})[l.id]||0)>0).length} von ${LV.length} · 🧘 ${u.m||0} · ${u.r} von ${u.n} Aufgaben gleich richtig</summary><p>${LV.map(l=>`${PLACE[l.pl].n} – ${l.n}: ${'⭐'.repeat((u.s||{})[l.id]||0)||'–'}`).join('<br>')}</p>${(u.f||[]).length?`<div style="overflow-x:auto"><table><tr><th>Station</th><th>Aufgabe</th><th>Richtig wäre</th><th>Antwort des Kindes</th></tr>${u.f.map(f=>`<tr><td>${esc(f.l)}</td><td>${esc(f.q)}</td><td>${esc(f.a)}</td><td>${esc(f.g)}</td></tr>`).join('')}</table></div>`:'<p>Keine Fehler. 🎉</p>'}</details>`).join('')}<p><small>Die Daten liegen nur in diesem Browser auf diesem Gerät. Bewegungspausen werden nicht bewertet.</small></p><button class="sec" onclick="if(confirm('Alle Ergebnisse auf diesem Gerät löschen?')){DB.u={};save();results()}">🗑️ Alle Daten löschen</button></div>`)}
+
+/* ---- Hintergrund: ruhige schwebende Lichtpunkte ---- */
+(function(){const c=$('#emb'),x=c.getContext('2d');let W,H,P=[];const cols=['#bff0c4','#ffe9b0','#d7f3ff','#ffffff'];
+ const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(16,Math.round(W*H/60000))},()=>({x:Math.random()*W,y:Math.random()*H,r:40+Math.random()*80,c:cols[R(0,3)],vy:.04+Math.random()*.1,vx:(Math.random()-.5)*.08,ph:Math.random()*6}))};
+ addEventListener('resize',rs);rs();
+ function f(t){x.clearRect(0,0,W,H);for(const p of P){p.y-=p.vy;p.x+=p.vx;if(p.y<-120){p.y=H+120;p.x=Math.random()*W}const g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);g.addColorStop(0,p.c);g.addColorStop(1,'rgba(255,255,255,0)');x.globalAlpha=.35+.15*Math.sin(t/1600+p.ph);x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}x.globalAlpha=1;if(!REDUCED)requestAnimationFrame(f)}
+ requestAnimationFrame(f)})();
+ksU()&&nameErr(ksU())===''?login(ksU()):DB.cur&&DB.u[DB.cur]?login(DB.cur):(U=mkU(),hub(),ask());
+
+/* ===== TEMPORÄRER PASSWORTSCHUTZ (zum Entfernen: GATE_ON auf false setzen oder diesen ganzen Block löschen) ===== */
+const GATE_ON=false;
+(function(){if(!GATE_ON)return;
+ const PW=()=>String(new Date().getFullYear()-10);
+ let ok=false;try{ok=sessionStorage.getItem('sportGate')===PW()}catch(e){}
+ if(ok)return;
+ const g=document.createElement('div');g.id='gate';g.setAttribute('role','dialog');g.setAttribute('aria-modal','true');g.setAttribute('aria-labelledby','gt');
+ g.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(180deg,#ffffff,#dfe9f7 60%,#b9c8e2);overflow:auto';
+ g.innerHTML=`<div class="card c" style="width:min(480px,100%)"><h1 id="gt">🔒 Sportfest</h1><p>Diese Seite ist noch gesperrt. Bitte gib das <b>Passwort</b> ein.</p><p class="mut"><b>Tipp:</b> Aktuelles Kalenderjahr − 10</p><form id="gf" autocomplete="off" style="display:grid;gap:12px;justify-items:center"><label for="gp" style="font-weight:700">Passwort</label><input id="gp" type="password" inputmode="numeric" autocomplete="off" maxlength="12" style="width:220px;max-width:100%;text-align:center;font-size:1.4em;padding:.4em;border:2px solid #9fb0c8;border-radius:14px" aria-describedby="ge"><label style="font-size:.9em"><input type="checkbox" id="gs"> Passwort anzeigen</label><button class="big" type="submit">Weiter ➜</button></form><p id="ge" role="alert" style="min-height:1.5em;color:var(--no);font-weight:700"></p></div>`;
+ document.body.appendChild(g);
+ const lock=e=>{if(e!==g&&e.nodeType==1){e.setAttribute('inert','');e.setAttribute('aria-hidden','true')}};
+ [...document.body.children].forEach(lock);
+ const mo=new MutationObserver(l=>l.forEach(m=>m.addedNodes.forEach(lock)));mo.observe(document.body,{childList:true});
+ const inp=g.querySelector('#gp');inp.focus();
+ g.querySelector('#gs').onchange=e=>{inp.type=e.target.checked?'text':'password'};
+ g.querySelector('#gf').onsubmit=e=>{e.preventDefault();
+  if(inp.value.trim()===PW()){try{sessionStorage.setItem('sportGate',PW())}catch(x){}
+   mo.disconnect();g.remove();[...document.body.children].forEach(c=>{c.removeAttribute('inert');c.removeAttribute('aria-hidden')});
+   const u=document.querySelector('#un');u&&u.focus()}
+  else{g.querySelector('#ge').textContent='Das Passwort stimmt nicht. Versuche es noch einmal.';inp.select()}};
+})();
+
+</script></body></html>
