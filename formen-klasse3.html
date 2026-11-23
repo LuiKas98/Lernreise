@@ -494,11 +494,19 @@ function gbInfo(P0){const P=gbNorm(P0),n=P.length,sd=P.map((p,i)=>{const q=P[(i+
  I.w=Math.max(...P.map(p=>p[0]))-Math.min(...P.map(p=>p[0]));I.h=Math.max(...P.map(p=>p[1]))-Math.min(...P.map(p=>p[1]));return I}
 /* --- Zeichnen --- */
 const GP=.7;
-function gbPolyS(o){return `<polygon points="${pt(o.P)}" fill="${o.fill||'rgba(15,181,232,.28)'}" stroke="${o.stroke||'#0a8fc4'}" stroke-width="${o.w||.1}" stroke-linejoin="round"${o.dash?` stroke-dasharray="${o.dash}"`:''}/>`}
-function gbAxis(cols,rows,a){if(!a)return'';let l;if(a.t=='v')l=[a.v,-GP+.1,a.v,rows-1+GP-.1];else if(a.t=='h')l=[-GP+.1,a.v,cols-1+GP-.1,a.v];else l=[-GP+.1,-GP+.1+a.c,cols-1+GP-.1,cols-1+GP-.1+a.c];return `<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}" stroke="#8a5cf6" stroke-width=".11" stroke-dasharray=".28 .18" stroke-linecap="round"/>`}
+/* Linien als gefüllte Flächen statt als Strich (Safari zeichnet dünne Striche in kleinen Einheiten nach hinten schmaler) */
+const gbF=n=>(+n).toFixed(4);
+function gbSeg(a,b,w){const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,nx=-dy/L*w/2,ny=dx/L*w/2;return `<polygon points="${gbF(a[0]+nx)},${gbF(a[1]+ny)} ${gbF(b[0]+nx)},${gbF(b[1]+ny)} ${gbF(b[0]-nx)},${gbF(b[1]-ny)} ${gbF(a[0]-nx)},${gbF(a[1]-ny)}"/>`}
+const gbDot=(p,w)=>`<circle cx="${gbF(p[0])}" cy="${gbF(p[1])}" r="${gbF(w/2)}"/>`;
+function gbBand(P,closed,w,col,op,dash){let g='';const n=P.length,m=closed?n:n-1;for(let i=0;i<m;i++){const a=P[i],b=P[(i+1)%n];
+  if(dash){const L=Math.hypot(b[0]-a[0],b[1]-a[1]),ux=(b[0]-a[0])/L,uy=(b[1]-a[1])/L,per=dash[0]+dash[1];for(let t=0;t<L-.001;t+=per){const t1=Math.min(L,t+dash[0]);g+=gbSeg([a[0]+ux*t,a[1]+uy*t],[a[0]+ux*t1,a[1]+uy*t1],w)+gbDot([a[0]+ux*t,a[1]+uy*t],w)+gbDot([a[0]+ux*t1,a[1]+uy*t1],w)}}
+  else g+=gbSeg(a,b,w)}
+ if(!dash)P.forEach(p=>g+=gbDot(p,w));return `<g fill="${col}"${op!=null&&op<1?` opacity="${op}"`:''}>${g}</g>`}
+function gbPolyS(o){return `<polygon points="${pt(o.P)}" fill="${o.fill||'rgba(15,181,232,.28)'}"/>`+gbBand(o.P,true,o.w||.1,o.stroke||'#0a8fc4',1,o.dash?[.2,.14]:null)}
+function gbAxis(cols,rows,a){if(!a)return'';let l;if(a.t=='v')l=[a.v,-GP+.1,a.v,rows-1+GP-.1];else if(a.t=='h')l=[-GP+.1,a.v,cols-1+GP-.1,a.v];else l=[-GP+.1,-GP+.1+a.c,cols-1+GP-.1,cols-1+GP-.1+a.c];return gbBand([[l[0],l[1]],[l[2],l[3]]],false,.11,'#8a5cf6',1,[.15,.25])}
 function gbBoard(cols,rows,o){o=o||{};let g='';const x0=-GP,y0=-GP,W=cols-1+2*GP,H=rows-1+2*GP;
  g+=`<rect x="${x0}" y="${y0}" width="${W}" height="${H}" rx=".3" fill="url(#gBoard)"/>`;
- if(o.grid){for(let i=0;i<cols;i++)g+=`<line x1="${i}" y1="0" x2="${i}" y2="${rows-1}" stroke="#aebdd2" stroke-width=".04"/>`;for(let j=0;j<rows;j++)g+=`<line x1="0" y1="${j}" x2="${cols-1}" y2="${j}" stroke="#aebdd2" stroke-width=".04"/>`}
+ if(o.grid){g+=`<g fill="#aebdd2">`;for(let i=0;i<cols;i++)g+=gbSeg([i,0],[i,rows-1],.04);for(let j=0;j<rows;j++)g+=gbSeg([0,j],[cols-1,j],.04);g+='</g>'}
  g+=gbAxis(cols,rows,o.axis);(o.polys||[]).forEach(p=>g+=gbPolyS(p));if(o.act)g+=`<g id="gbb" pointer-events="none"></g>`;
  if(o.pegs!==false)for(let j=0;j<rows;j++)for(let i=0;i<cols;i++)g+=o.act?`<g class="peg" id="pg${i}_${j}" tabindex="0" role="button" aria-label="Nagel Spalte ${i+1}, Reihe ${j+1}" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();gbTap(${i},${j})}"><circle cx="${i}" cy="${j}" r=".5" fill="transparent"/><circle class="pr2" cx="${i}" cy="${j}" r=".13" fill="#8a99b0" stroke="#fff" stroke-width=".04"/></g>`:`<circle cx="${i}" cy="${j}" r=".1" fill="#8a99b0"/>`;
  if(o.act)g+=`<g id="gbl" pointer-events="none"></g>`;
@@ -510,8 +518,8 @@ function gbHtml(p){const g=G.gb={pts:[],closed:false,tries:0};const mir=p.mode==
  const pol=mir?[{P:p.src,fill:'rgba(138,92,246,.22)',stroke:'#6d44d6'}]:[];
  return `<div class="q">${p.q}</div><p class="mini c">${p.hint||'Tippe nacheinander auf die Nägel. Tippe zuletzt wieder auf den ersten Nagel oder auf „Fertig“.'}</p><div class="gbrow">${ref}<div class="gbcol">${p.mode=='copy'?'Dein Geobrett:':''}${gbBoard(p.cols,p.rows,{polys:pol,axis:p.axis,act:1,grid:p.grid,al:'Dein Geobrett zum Spannen'})}</div></div><div class="tgb"><button onclick="gbUndo()" aria-label="Letzten Punkt zurücknehmen"><span aria-hidden="true">↶</span> zurück</button><button id="gbdone" onclick="gbClose()"><span aria-hidden="true">✔</span> Fertig</button><button onclick="gbReset()"><span aria-hidden="true">🗑</span> neu</button></div>`}
 function gbDraw(){const g=G.gb,L=$('#gbl'),B=$('#gbb');if(!L||!B)return;let b='',s='';const P=g.pts;
- if(P.length>=2)b+=g.closed?`<polygon points="${pt(P)}" fill="rgba(15,181,232,.28)" stroke="#0a8fc4" stroke-width=".1" stroke-linejoin="round"/>`:`<polyline points="${pt(P)}" fill="none" stroke="#0a8fc4" stroke-width=".1" stroke-linejoin="round" stroke-linecap="round" shape-rendering="geometricPrecision"/>`;
- const h=g.hov;if(h&&!g.closed){if(P.length&&!P.some(q=>q[0]==h[0]&&q[1]==h[1])){const l=P[P.length-1];b+=`<line x1="${l[0]}" y1="${l[1]}" x2="${h[0]}" y2="${h[1]}" stroke="#0a8fc4" stroke-opacity=".4" stroke-width=".1" stroke-linecap="round" shape-rendering="geometricPrecision"/>`}
+ if(P.length>=2)b+=g.closed?`<polygon points="${pt(P)}" fill="rgba(15,181,232,.28)"/>`+gbBand(P,true,.1,'#0a8fc4',1):gbBand(P,false,.1,'#0a8fc4',1);
+ const h=g.hov;if(h&&!g.closed){if(P.length&&!P.some(q=>q[0]==h[0]&&q[1]==h[1])){const l=P[P.length-1];b+=gbBand([l,h],false,.1,'#0a8fc4',.4)}
   s+=`<circle cx="${h[0]}" cy="${h[1]}" r=".3" fill="rgba(15,181,232,.18)" stroke="#0fb5e8" stroke-width=".05"/>`}
  P.forEach((q,i)=>s+=`<circle cx="${q[0]}" cy="${q[1]}" r=".19" fill="${i==0?'#0a8fc4':'#7fd4f5'}" stroke="#fff" stroke-width=".05"/>`);B.innerHTML=b;L.innerHTML=s}
 /* Nächster Nagel zu einer Klick-/Fingerposition (Einrasten) */
@@ -531,7 +539,7 @@ function gbClose(){if(!G||G.p.t!='gb'||G.state!='ask')return;const g=G.gb,p=G.p,
  const ok=p.mode=='open'?p.chk(gbInfo(g.pts),g.pts):gbEq(g.pts,p.tgt);
  if(ok){G.state='x';fb.className='fbk ok';fb.textContent=G.missed?'✔ Jetzt stimmt es!':'✔ Richtig gespannt!';if(!G.missed)confetti(16);funBox(p.fun);resolve(!G.missed,{a:p.ans||'(passende Figur)',g:'(falsche Figur)'})}
  else{G.missed=true;g.tries++;fb.className='fbk no';
-  if(g.tries>=3){G.state='x';const sol=p.mode=='open'?p.sol:p.tgt;if(sol){const L=$('#gbl');L.innerHTML=`<polygon points="${pt(sol)}" fill="rgba(18,181,122,.28)" stroke="#12b57a" stroke-width=".12" stroke-linejoin="round"/>`}fb.textContent='So geht es zum Beispiel (grün). Probiere es beim nächsten Mal noch einmal!';funBox(p.fun);resolve(false,{a:p.ans||'(Beispiel gezeigt)',g:'(3 Versuche)'})}
+  if(g.tries>=3){G.state='x';const sol=p.mode=='open'?p.sol:p.tgt;if(sol){const L=$('#gbl');L.innerHTML=`<polygon points="${pt(sol)}" fill="rgba(18,181,122,.28)"/>`+gbBand(sol,true,.12,'#12b57a',1)}fb.textContent='So geht es zum Beispiel (grün). Probiere es beim nächsten Mal noch einmal!';funBox(p.fun);resolve(false,{a:p.ans||'(Beispiel gezeigt)',g:'(3 Versuche)'})}
   else fb.textContent=(p.mode=='open'&&p.why?p.why(gbInfo(g.pts)):'Das passt noch nicht ganz. Vergleiche Ecke für Ecke.')+' Tippe auf „zurück“ oder „neu“.'}}
 /* --- Figurenvorlagen auf dem Geobrett --- */
 const GT={
@@ -889,7 +897,7 @@ const gGbSame=()=>{const s=rnd([12,14,16,18]),opts=[];for(let w=1;w<=s/2-1;w++)o
 const gGbTri=()=>{const b=R(2,5),h=R(2,4),ap=R(0,1)&&b>=3,ox=R(0,5-b),oy=R(0,4-h),area=b*h/2;let T;
  if(ap){const x=R(1,b-1);T=[[0,h],[b,h],[x,0]]}else{T=rnd([[[0,h],[b,h],[0,0]],[[0,h],[b,h],[b,0]],[[0,0],[b,0],[0,h]],[[0,0],[b,0],[b,h]]])}
  T=T.map(p=>[p[0]+ox,p[1]+oy]);const RC=[[ox,oy],[ox+b,oy],[ox+b,oy+h],[ox,oy+h]];
- let ex='';if(ap){const a=T[2];ex=`<line x1="${a[0]}" y1="${a[1]}" x2="${a[0]}" y2="${oy+h}" stroke="#8a5cf6" stroke-width=".07" stroke-dasharray=".2 .15"/>`}
+ let ex='';if(ap){const a=T[2];ex=gbBand([[a[0],a[1]],[a[0],oy+h]],false,.07,'#8a5cf6',1,[.12,.23])}
  const vis=gbBoard(6,5,{grid:1,polys:[{P:RC,fill:'rgba(138,92,246,.07)',stroke:'#8a5cf6',dash:'.25 .15',w:.07},{P:T}],al:'Ein Dreieck in einem gestrichelten Rechteck',st:'max-width:340px'}).replace('</svg>',ex+'</svg>');
  return mk('Das <b>Dreieck</b> liegt in einem gestrichelten Rechteck. Wie groß ist der <b>Flächeninhalt des Dreiecks</b> (in Kästchen)?',String(area),[...new Set([String(b*h),...nearW(area)])].slice(0,3),{vis,fun:'Das Dreieck füllt genau die Hälfte des Rechtecks. Das Rechteck hat '+b+' mal '+h+' = '+b*h+' Kästchen. Die Hälfte davon sind '+area+' Kästchen.',key:'gt'+b+h+T.join(';'),cls:'c3',tip:'Zähle zuerst die Kästchen des ganzen Rechtecks. Das Dreieck ist die Hälfte davon.'})};
 
