@@ -83,6 +83,11 @@ input[type=text],input:not([type]){font:inherit;font-weight:700;padding:.65em .9
 .fbk.ok{color:var(--ok)}.fbk.no{color:var(--no)}
 .fun{background:linear-gradient(180deg,#eefaff,#dff2fb);border-left:5px solid var(--cy);border-radius:12px;padding:.55em .9em;margin:.5em 0;text-align:left;font-weight:600}
 .say{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center}
+.stkf{margin:.4em 0;display:grid;gap:8px}.stkf>div{display:grid;grid-template-columns:minmax(120px,30%) 1fr;gap:2px 12px;align-items:start;background:#eef8f4;border-radius:14px;padding:.5em .8em}
+.stkf dt{font-weight:800;color:#0f766e}.stkf dd{margin:0;font-weight:700}
+.stkh{margin:.9em 0 .2em;font-size:1em;color:#0f766e;text-align:left}.stkr{margin:0;padding-left:1.4em;text-align:left}.stkr li{margin:.3em 0}
+.stkemo{font-size:2.6rem;letter-spacing:.2em;text-align:center;padding:.15em 0}
+@media(max-width:520px){.stkf>div{grid-template-columns:1fr}}
 .learn{text-align:left}.learn .q{text-align:left}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
 .fgrid>div{background:linear-gradient(180deg,#fff,#eef3f9);border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:8px;text-align:center;font-weight:800;font-size:.92em}
@@ -584,7 +589,6 @@ const BK_BALL=[
  ['Wohin muss beim Fußball der Ball?','Ins Tor',['In den Korb','Über das Netz'],[1]],
  ['Wohin muss beim Basketball der Ball?','In den Korb',['Ins Tor','In ein Loch'],[1,2]],
  ['Wer achtet beim Spiel auf die Regeln?','Der Schiedsrichter oder die Schiedsrichterin',['Der Torwart','Das Publikum'],[2,3,4]],
- ['Wer darf beim Fußball im eigenen Strafraum den Ball mit den Händen halten?','Der Torwart',['Alle Spieler','Niemand'],[3,4]],
  ['Was bedeutet „dribbeln“?','Den Ball laufend vor sich herführen',['Den Ball weit werfen','Den Ball halten und stehen bleiben'],[3,4]],
  ['Was sind „Leibchen“?','Farbige Hemden, an denen man die Mannschaften erkennt',['Schuhe','Bälle'],[2,3,4]],
  ['Was ist beim Volleyball wichtig?','Der Ball soll nicht auf den Boden fallen.',['Man muss den Ball tragen.','Man spielt mit dem Fuß.'],[3,4]]];
@@ -756,6 +760,89 @@ const mvMath=()=>{const act=rnd(['Klatsche','Klopfe leise auf deine Knie','Tippe
  const [t,n]=rnd(L)();const say=t.replace(/·/g,'mal').replace(/−/g,'minus').replace(/\+/g,'plus').replace(/:/g,'geteilt durch').replace('(','Klammer auf ').replace(')',' Klammer zu');
  return {t:'move',id:'math',e:'🔢',n:'Rechnen in Bewegung',i:`${act} so oft, wie <b>${t}</b> ergibt. Rechne zuerst im Kopf.`,sec:0,alt:'Das geht genauso im Sitzen.',r:`Das Ergebnis ist ${n}. Also ${n} Mal.`,say:`${act} so oft, wie ${say} ergibt. Rechne zuerst im Kopf.`,key:'mvm'+t}};
 
+/* ===== Steckbriefe: Erst die Regeln lesen, dann die Fragen ===== */
+const SKV=(inner,al)=>`<svg viewBox="0 0 320 150" role="img" aria-label="${al}" style="width:100%;max-width:440px">${inner}</svg>`;
+const SK_ART={
+ fuss:()=>SKV(`<rect x="6" y="6" width="308" height="138" rx="10" fill="#2fae8a"/><g fill="none" stroke="#fff" stroke-width="2.4"><rect x="16" y="14" width="288" height="122"/><line x1="160" y1="14" x2="160" y2="136"/><circle cx="160" cy="75" r="22"/><rect x="16" y="38" width="46" height="74"/><rect x="258" y="38" width="46" height="74"/><rect x="16" y="56" width="18" height="38"/><rect x="286" y="56" width="18" height="38"/></g><g fill="#fff"><rect x="6" y="62" width="10" height="26" rx="2"/><rect x="304" y="62" width="10" height="26" rx="2"/><circle cx="160" cy="75" r="3"/></g><circle cx="196" cy="98" r="9" fill="#fff" stroke="#17202e" stroke-width="2"/><text x="160" y="146" text-anchor="middle" font-size="11" font-weight="800" fill="#17202e" font-family="system-ui,sans-serif"></text>`,'Ein Fußballfeld mit zwei Toren, Mittelkreis und Strafräumen'),
+ bade:()=>SKV(`<rect x="6" y="10" width="308" height="130" rx="10" fill="#9be3f2" stroke="#4aa9c0" stroke-width="3"/><rect x="6" y="10" width="110" height="130" rx="10" fill="#c9f1f8"/><g stroke="#fff" stroke-width="3" stroke-dasharray="8 6"><line x1="116" y1="14" x2="116" y2="136"/><line x1="170" y1="48" x2="310" y2="48"/><line x1="170" y1="92" x2="310" y2="92"/></g><g font-family="system-ui,sans-serif" font-weight="800" font-size="15" fill="#0b4f60" text-anchor="middle"><text x="61" y="70">flach</text><text x="61" y="90" font-size="12">Nichtschwimmer</text><text x="215" y="76">tief</text></g>`,'Ein Schwimmbecken von oben mit flachem und tiefem Bereich'),
+ lauf:()=>SKV(`<rect x="6" y="6" width="308" height="138" rx="10" fill="#b8e8d8"/><g fill="none" stroke-width="12"><rect x="40" y="26" width="240" height="98" rx="49" stroke="#e9785d"/><rect x="58" y="44" width="204" height="62" rx="31" stroke="#f08a70"/></g><g stroke="#fff" stroke-width="2"><rect x="34" y="20" width="252" height="110" rx="55" fill="none"/><rect x="52" y="38" width="216" height="74" rx="37" fill="none"/><rect x="64" y="50" width="192" height="50" rx="25" fill="none"/></g><rect x="64" y="50" width="192" height="50" rx="25" fill="#7bd4b4"/><line x1="160" y1="20" x2="160" y2="50" stroke="#17202e" stroke-width="4"/><text x="160" y="80" text-anchor="middle" font-size="14" font-weight="800" fill="#0b4d41" font-family="system-ui,sans-serif">1 Runde = 400 m</text>`,'Eine Laufbahn mit mehreren Bahnen'),
+ sprung:()=>SKV(`<rect x="6" y="6" width="308" height="138" rx="10" fill="#b8e8d8"/><rect x="14" y="58" width="150" height="34" fill="#e9785d"/><g stroke="#fff" stroke-width="2"><line x1="14" y1="75" x2="164" y2="75" stroke-dasharray="8 6"/></g><rect x="160" y="52" width="9" height="46" fill="#fff" stroke="#17202e" stroke-width="2"/><rect x="169" y="38" width="138" height="74" rx="8" fill="#f1d28a" stroke="#c9a04a" stroke-width="3"/><g font-family="system-ui,sans-serif" font-weight="800" font-size="12" fill="#17202e" text-anchor="middle"><text x="89" y="46">Anlauf</text><text x="110" y="122">Absprungbalken</text><path d="M135 112 L158 100" stroke="#17202e" stroke-width="1.6" fill="none"/><text x="238" y="30">Sandgrube</text></g><path d="M170 75 H260" stroke="#0d9488" stroke-width="3" marker-end="url(#ar)" fill="none"/><defs><marker id="ar" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0d9488"/></marker></defs><text x="236" y="64" text-anchor="middle" font-size="12" font-weight="800" fill="#0d9488" font-family="system-ui,sans-serif">Weite</text>`,'Anlauf, Absprungbalken und Sandgrube beim Weitsprung')};
+const SK_EMO=a=>`<div class="stkemo" aria-hidden="true">${a.join(' ')}</div>`;
+function stk(key,e,name,art,facts,rules){
+ const say='Steckbrief '+name+'. '+facts.map(f=>f[1]+': '+plain(f[2])).join('. ')+'. '+(rules.length?'Die wichtigsten Regeln. '+rules.map((r,i)=>(i+1)+'. '+plain(r)).join(' '):'');
+ return lrn('stk'+key,say,`<div class="q">${e} Steckbrief: ${name}</div><div class="vis">${art}</div><dl class="stkf">${facts.map(f=>`<div><dt><span aria-hidden="true">${f[0]}</span> ${f[1]}</dt><dd>${f[2]}</dd></div>`).join('')}</dl>${rules.length?`<h3 class="stkh">Die wichtigsten Regeln</h3><ol class="stkr">${rules.map(r=>`<li>${r}</li>`).join('')}</ol>`:''}<p class="mini c">Lies gut. Danach kommen Fragen zum Steckbrief.</p>`)}
+const stBall=()=>stk('ball','🏐','Ballspiele',SK_EMO(['⚽','🏀','🤾','🏐','🎾']),[
+ ['🦶','Mit dem Fuß','Fußball. Der Ball muss ins <b>Tor</b>.'],
+ ['✋','Mit der Hand','Basketball (der Ball muss in den <b>Korb</b>), Handball (ins Tor), Volleyball (über das Netz).'],
+ ['🏸','Mit dem Schläger','Tennis, Badminton, Tischtennis und Hockey.'],
+ ['🧑‍⚖️','Schiedsrichter','Er oder sie achtet auf die Regeln und pfeift.'],
+ ['🎽','Leibchen','Farbige Hemden. So erkennt man die Mannschaften.'],
+ ['👥','Spieler auf dem Feld','Fußball: 11 · Handball: 7 (mit Torwart) · Volleyball: 6 · Basketball: 5']].slice(0,K(3,5,6,6)),
+ ['Wir spielen <b>fair</b> und halten uns an die Regeln.','Beim <b>Basketball</b> läuft man nicht mit dem Ball. Man <b>dribbelt</b>: Man prellt den Ball auf den Boden.','Beim <b>Volleyball</b> darf der Ball nicht auf den Boden fallen. Eine Mannschaft darf ihn höchstens dreimal berühren.'].slice(0,K(1,1,3,3)));
+const BS_BALL=[
+ ['Womit spielt man Handball?','Mit der Hand',['Mit dem Fuß','Mit dem Schläger'],[1,2,3,4]],
+ ['Welches Spiel spielt man mit einem Schläger?','Badminton',['Fußball','Basketball'],[1,2,3,4]],
+ ['Woran erkennt man die Mannschaften beim Spiel?','An den Leibchen',['An den Schuhen','An den Bällen'],[2,3,4]],
+ ['Wie viele Spieler stehen beim Basketball auf dem Feld?','Fünf',['Elf','Sieben'],[3,4]],
+ ['Was machst du beim Basketball mit dem Ball, wenn du läufst?','Ich dribbele: Ich pralle ihn auf den Boden.',['Ich trage ihn unter dem Arm.','Ich schieße ihn mit dem Fuß.'],[3,4]]];
+const stFuss=()=>stk('fuss','⚽','Fußball',SK_ART.fuss(),[
+ ['🎯','Ziel','Den Ball ins <b>Tor</b> der anderen Mannschaft schießen. Wer mehr Tore schießt, gewinnt.'],
+ ['👥','Spieler','<b>11</b> in jeder Mannschaft, mit Torwart.'],
+ ['🦶','Gespielt wird mit','dem Fuß, dem Knie, der Brust und dem Kopf.'],
+ ['🧤','Torwart','Er darf im eigenen <b>Strafraum</b> den Ball mit den Händen halten.'],
+ ['🏟️','Spielfeld','Ein Rechteck mit zwei Toren, einer Mittellinie und zwei Strafräumen.'],
+ ['⏱️','Spielzeit','Profis spielen 2 mal 45 Minuten. In der Schule spielt man kürzer.']].slice(0,K(4,5,6,6)),
+ ['Alle anderen Spieler dürfen den Ball nicht mit der Hand oder dem Arm berühren. Das ist <b>Handspiel</b>.','Ein <b>Foul</b> ist unfaires Spiel: Man darf nicht schubsen, treten oder festhalten.','Ein Tor zählt, wenn der <b>ganze</b> Ball über die Torlinie rollt.','Geht der Ball über die Seitenlinie, gibt es einen <b>Einwurf</b>: Man wirft den Ball mit beiden Händen über dem Kopf ein.','Der Schiedsrichter pfeift bei Fouls. Seine Entscheidung gilt.'].slice(0,K(2,3,4,5)));
+const BS_FUSS=[
+ ['Wer darf im eigenen Strafraum den Ball mit den Händen halten?','Der Torwart',['Alle Spieler','Niemand'],[1,2,3,4]],
+ ['Wohin muss der Ball beim Fußball?','Ins Tor',['In den Korb','Über das Netz'],[1,2,3,4]],
+ ['Wie viele Spieler hat eine Fußballmannschaft auf dem Feld?','11',['9','15'],[1,2,3,4]],
+ ['Was ist Handspiel?','Ein Feldspieler berührt den Ball mit der Hand oder dem Arm.',['Der Torwart fängt den Ball.','Ein Spieler schießt mit dem Kopf.'],[2,3,4]],
+ ['Was ist ein Foul?','Unfaires Spiel, zum Beispiel Schubsen oder Festhalten',['Ein Tor','Eine kurze Pause'],[2,3,4]],
+ ['Wann zählt ein Tor?','Wenn der ganze Ball über die Torlinie rollt',['Wenn der Ball das Tor nur berührt','Wenn der Torwart den Ball loslässt'],[3,4]],
+ ['Was ist ein Einwurf?','Man wirft den Ball mit beiden Händen über dem Kopf ins Spiel.',['Man schießt den Ball vom Tor aus.','Man tritt den Ball ins Netz.'],[3,4]]];
+const stBade=()=>stk('bade','🛟','Schwimmbad und Baderegeln',SK_ART.bade(),[
+ ['🛟','Bademeister','Er oder sie passt im Schwimmbad auf uns auf. Wir hören auf ihn.'],
+ ['🩱','Kleidung','Badehose oder Badeanzug'],
+ ['🚿','Vor dem Baden','Erst <b>duschen</b>, dann ins Wasser. So bleibt das Wasser sauber.'],
+ ['🟦','Nichtschwimmer','Sie baden nur im <b>flachen</b> Wasser. Kleine Kinder planschen dort auch mit Schwimmflügeln.'],
+ ['⛈️','Gewitter','Sofort raus aus dem Wasser.'],
+ ['☀️','Sonne am Wasser','Sonnencreme, Hut und Schatten']].slice(0,K(4,6,6,6)),
+ ['Am nassen Beckenrand gehen wir. Wir <b>rennen</b> nicht.','Wir schubsen niemanden und tauchen niemanden unter.','In unbekanntes Wasser springt man nicht. Es kann flach sein oder Hindernisse haben.','Braucht jemand Hilfe, rufen wir laut und holen Erwachsene. Wir springen nicht selbst ins tiefe Wasser.','Wir gehen langsam ins Wasser. Wer friert, macht eine Pause.'].slice(0,K(1,5,5,5)));
+const stStile=()=>stk('stile','🏊','Schwimmstile',SK_EMO(['🐸','🏊','🛌','🐬']),[
+ ['🐸','Brustschwimmen','Arme und Beine bewegen sich gleichzeitig. Die Beine machen wie ein <b>Frosch</b> einen Schlag.'],
+ ['🏊','Kraulen','Die Arme drehen <b>abwechselnd</b>. Die Beine schlagen auf und ab.'],
+ ['🛌','Rückenschwimmen','Man liegt auf dem <b>Rücken</b>. Die Arme drehen abwechselnd nach hinten.'],
+ ['🤿','Tauchen','Man schwimmt <b>unter Wasser</b> und hält die Luft an.'],
+ ['🐬','Delfin','Beide Arme schwingen gleichzeitig über das Wasser. Die Beine bleiben zusammen.']].slice(0,K(3,4,4,5)),[]);
+const stLauf=()=>stk('lauf','🏃','Laufen und Sprint',SK_ART.lauf(),[
+ ['🏁','Start und Ziel','Alle starten gleichzeitig. Wer zuerst im <b>Ziel</b> ist, gewinnt.'],
+ ['📣','Startkommando','„Auf die Plätze, fertig, <b>los</b>!“ Erst bei „los“ läuft man.'],
+ ['⏱️','Zeit messen','Mit der <b>Stoppuhr</b>'],
+ ['🤝','Staffel','Jeder läuft ein Stück und gibt den <b>Staffelstab</b> an den nächsten Läufer weiter.'],
+ ['⚡','Sprint und Ausdauer','Sprint: kurz und ganz schnell. Ausdauerlauf: lang und in ruhigem Tempo.'],
+ ['🛤️','Bahnen','Jeder läuft auf seiner <b>eigenen Bahn</b>. So hat jeder Platz.'],
+ ['🔄','Eine Runde','Auf der Stadion-Laufbahn sind es <b>400 Meter</b>.']].slice(0,K(3,6,7,7)),
+ ['Wir wärmen uns vor dem Laufen <b>auf</b>.','Wir tragen Sportschuhe mit festem Halt.','Nach dem Laufen trinken wir <b>Wasser</b>.','Wir bleiben auf unserer Bahn und stoßen niemanden an.','Bei Seitenstechen werden wir langsamer und atmen ruhig weiter.','Wer vor dem Startsignal losläuft, macht einen <b>Fehlstart</b>.'].slice(0,K(3,4,5,6)));
+const stSprung=()=>stk('sprung','🦘','Weitsprung, Hochsprung und Wurf',SK_ART.sprung(),[
+ ['🏖️','Sandgrube','Hier landet man weich.'],
+ ['📏','Weite messen','Mit einem <b>Maßband</b>'],
+ ['🚧','Absprungbalken','Von hier springt man ab. Wer darüber tritt, hat einen <b>ungültigen</b> Sprung.'],
+ ['🏃','Anlauf','Man läuft an, um <b>Schwung</b> zu holen.'],
+ ['🏆','Hochsprung','Man springt über eine <b>Latte</b> und landet auf einer weichen Matte.'],
+ ['🥎','Schlagball','Man wirft ihn mit Schwung aus dem ganzen Körper möglichst weit.']].slice(0,K(2,5,6,6)),
+ ['Beim Werfen schauen wir: Ist vorne alles <b>frei</b>? Nur dann wird geworfen.','Nach dem Sprung gehen wir aus der Grube, bevor der Nächste springt.','Beim Weitsprung zählt der weiteste Sprung.'].slice(0,K(1,2,3,3)));
+const stTurn=()=>stk('turn','🤸','Turnhalle',SK_EMO(['🟦','🧗','🤸','🎀']),[
+ ['🟦','Matte','Sie liegt unter dem Gerät, damit man <b>weich landet</b>.'],
+ ['🕒','Warten','Wir warten, bis das Gerät <b>frei</b> ist.'],
+ ['💍','Schmuck und Uhren','Die legen wir vorher <b>ab</b>.'],
+ ['🧗','Geräte','<b>Matte</b>: weiche Unterlage zum Rollen und Landen · <b>Sprossenwand</b>: daran klettert man hoch · <b>Schwebebalken</b>: schmal zum Balancieren · <b>Kasten</b>: hohes Sprunggerät · <b>Turnbank</b>: zum Sitzen und Balancieren · <b>Reifen</b> und <b>Springseil</b>'],
+ ['🔄','Rolle vorwärts','Das Kinn zur Brust, der Rücken ist <b>rund</b>.'],
+ ['🤸','Handstand','Man steht auf den <b>Händen</b>.'],
+ ['🙆','Dehnen','Nur mit <b>warmen</b> Muskeln: Sie lassen sich dann besser dehnen.'],
+ ['🎀','Gymnastik','Handgeräte sind Ball, Reifen, <b>Band</b> und Seil.']].slice(0,K(4,6,8,8)),
+ ['Wir turnen nur, wenn die Lehrkraft dabei ist.','Wir drängeln nicht und helfen einander.'].slice(0,K(1,2,2,2)));
+
 /* ===== Stationen und Level ===== */
 const PLACE={
  lauf:{n:'Laufbahn',e:'🏃',d:'Uhr, Stoppuhr und Strecken: Rechnen und Wissen rund ums Laufen.'},
@@ -776,30 +863,31 @@ L_('la1','lauf','⏱️','Uhr & Zeit',K('Wie spät ist es? Wer ist schneller?','
  ()=>K(()=>cat(lrnClock(),M(gClock,3),M(gFast,2)),()=>cat(lrnClock(),M(gClock,2),M(gEnd,1),M(gFast,3)),()=>cat(lrnClock(),M(gClock,2),M(gEnd,2),M(gLen,1),M(gFast,1)),()=>cat(M(gClock,2),M(gEnd,1),M(gLen,2),M(gSecMin,2)))()),
 L_('la2','lauf','🏁','Runden & Strecken','Rechne mit Runden, Metern und Kilometern.',[1,2,3,4],()=>M(gLaps,6)),
 L_('la3','lauf','📣','Lauf-Wissen & Wörter','Was man beim Laufen wissen sollte, und kluge Wörter dazu.',[1,2,3,4],
- ()=>K(()=>cat(qb(BK_LAUF,3),M(gSilben,2),M(gReim,1)),()=>cat(qb(BK_LAUF,3),M(gSilben,1),M(gArtikel,2)),()=>cat(qb(BK_LAUF,3),M(gSpell,3)),()=>cat(qb(BK_LAUF,3),M(gSpell,3)))()),
+ ()=>cat(stLauf(),K(()=>cat(qb(BK_LAUF,3),M(gSilben,2),M(gReim,1)),()=>cat(qb(BK_LAUF,3),M(gSilben,1),M(gArtikel,2)),()=>cat(qb(BK_LAUF,3),M(gSpell,3)),()=>cat(qb(BK_LAUF,3),M(gSpell,3)))())),
 /* Weitsprung und Wurf */
 L_('sp1','sprung','📏','Messen',K('Messen mit dem Lineal','Meter und Zentimeter','Längen umrechnen und vergleichen','Längen umrechnen und vergleichen'),[1,2,3,4],
  ()=>K(()=>cat(lrnRuler(),M(gRuler,5)),()=>cat(M(gConv,3),M(gUnit,2)),()=>cat(M(gConv,3),M(gBigLen,2),M(gUnit,1)),()=>cat(M(gConv,3),M(gBigLen,2),M(gUnit,1)))()),
 L_('sp2','sprung','📊','Weiten & Diagramme','Diagramme lesen und Rechengeschichten lösen.',[1,2,3,4],()=>cat(M(gJumpChart,3),M(gJumpWord,3))),
 L_('sp3','sprung','🎯','Sprung-Wissen & Wörter','Weitsprung, Hochsprung und Wurf: Wissen und Wörter.',[1,2,3,4],
- ()=>cat(qb(BK_SPRUNG,3),pSprung(),K(()=>M(gArtikel,2),()=>M(gCompound,2),()=>M(gCompound,2),()=>M(gCompound,2))())),
+ ()=>cat(stSprung(),qb(BK_SPRUNG,3),pSprung(),K(()=>M(gArtikel,2),()=>M(gCompound,2),()=>M(gCompound,2),()=>M(gCompound,2))())),
 /* Ballfeld */
 L_('ba1','ball','📋','Zählen & Tabellen',K('Strichlisten und Zählen','Strichlisten und Tabellen','Tabellen lesen und rechnen','Tabellen und Durchschnitt'),[1,2,3,4],
  ()=>K(()=>cat(lrnTally(),M(gTally,4)),()=>cat(lrnTally(),M(gTally,5)),()=>M(gTally,5),()=>M(gTally,5))()),
 L_('ba2','ball','👥','Mannschaften bilden','Teilen, verteilen und Bruchteile in der Mannschaft.',[1,2,3,4],()=>M(gTeams,6)),
 L_('ba3','ball','🤝','Ballspiele & Fair Play','Womit spielt man? Was ist fair?',[1,2,3,4],
- ()=>K(()=>cat(sFoot(),qb(BK_BALL,2),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),pBall(),qb(BK_BALL,1),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),M(gPlayers,1),qb(BK_BALL,2),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),M(gPlayers,2),qb(BK_BALL,1),sFair(),qb(BK_FAIR,1)))()),
+ ()=>cat(stBall(),qb(BS_BALL,K(2,2,3,3)),K(()=>cat(sFoot(),qb(BK_BALL,2),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),pBall(),qb(BK_BALL,1),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),M(gPlayers,1),qb(BK_BALL,2),sFair(),qb(BK_FAIR,1)),()=>cat(sFoot(),M(gPlayers,2),qb(BK_BALL,1),sFair(),qb(BK_FAIR,1)))())),
+L_('ba5','ball','📜','Fußball-Steckbrief','Lies die Fußball-Regeln und beantworte Fragen.',[1,2,3,4],()=>cat(stFuss(),qb(BS_FUSS,K(3,4,5,5)))),
 L_('ba4','ball','🔤','Wörter rund um den Ball',K('Wörter, Bilder und Reime','Wortarten und Zusammensetzungen','Wortarten und Zeitformen','Wortarten, Zeitformen und Rechtschreibung'),[1,2,3,4],
  ()=>K(()=>cat(M(gWortbild,3),M(gArtikel,2),M(gReim,1)),()=>cat(sWortart(),M(gArtikel,1),M(gCompound,2),M(gSpell,2)),()=>cat(sWortart(),M(gTense,3),M(gSpell,1),M(gCompound,1)),()=>cat(sWortart(),M(gTense,3),M(gSpell,2)))()),
 /* Turnhalle */
-L_('tu1','turn','🧗','Geräte & Sicherheit','Wie heißen die Geräte? Was ist beim Turnen wichtig?',[1,2,3,4],()=>cat(pGear(),qb(BK_TURN,K(3,4,4,4)))),
+L_('tu1','turn','🧗','Geräte & Sicherheit','Wie heißen die Geräte? Was ist beim Turnen wichtig?',[1,2,3,4],()=>cat(stTurn(),pGear(),qb(BK_TURN,K(3,4,4,4)))),
 L_('tu2','turn','🧭',K('Links und rechts','Links, rechts, zwischen','Der Hallenplan','Der Hallenplan'),K('Wo liegt was? Links, rechts und ganz außen.','Wo liegt was? Links, rechts und dazwischen.','Felder auf dem Hallenplan finden.','Felder finden und Wege beschreiben.'),[1,2,3,4],()=>K(()=>M(gSide,5),()=>M(gSide,5),()=>M(gHall,5),()=>M(gHall,5))()),
 L_('tu3','turn','🔁','Zirkeltraining','Zeit und Stationen im Zirkel berechnen.',[2,3,4],()=>M(gCircuit,5)),
 /* Schwimmbad */
-L_('wa1','wasser','🛟','Baderegeln','Was ist im Schwimmbad wichtig?',[1,2,3,4],()=>cat(sBade(),qb(BK_BADE,K(4,4,4,4)))),
+L_('wa1','wasser','🛟','Baderegeln','Was ist im Schwimmbad wichtig?',[1,2,3,4],()=>cat(stBade(),sBade(),qb(BK_BADE,K(4,4,4,4)))),
 L_('wa2','wasser','🌊','Schwimmen & Rechnen','Bahnen, Längen, Zeit und Fläche.',[1,2,3,4],()=>M(gSwim,6)),
 L_('wa3','wasser','🐠','Wasser-Wissen & Wörter','Schwimmt es? Welcher Schwimmstil? Wörter am Wasser.',[1,2,3,4],
- ()=>K(()=>cat(sFloat(),qb(BK_WASSER,1),M(gGegen,2),M(gWortbild,1)),()=>cat(sFloat(),pStil(),qb(BK_WASSER,1),M(()=>gSpell(WSPELL),2)),()=>cat(sFloat(),pStil(),qb(BK_WASSER,2),M(()=>gSpell(WSPELL),2)),()=>cat(pStil(),qb(BK_WASSER,3),M(()=>gSpell(WSPELL),2),M(gTense,1)))()),
+ ()=>cat(stStile(),K(()=>cat(sFloat(),qb(BK_WASSER,1),M(gGegen,2),M(gWortbild,1)),()=>cat(sFloat(),pStil(),qb(BK_WASSER,1),M(()=>gSpell(WSPELL),2)),()=>cat(sFloat(),pStil(),qb(BK_WASSER,2),M(()=>gSpell(WSPELL),2)),()=>cat(pStil(),qb(BK_WASSER,3),M(()=>gSpell(WSPELL),2),M(gTense,1)))())),
 /* Fit-Labor */
 L_('fi1','fit','⌚','Herz & Puls','Was macht dein Herz bei Bewegung?',[1,2,3,4],
  ()=>K(()=>cat(sHeart(),qb(BK_FIT,3)),()=>cat(sHeart(),qb(BK_FIT,3)),()=>cat(lrnPulse(),M(gPulse,2),qb(BK_FIT,3)),()=>cat(lrnPulse(),M(gPulse,3),qb(BK_FIT,2)))()),
