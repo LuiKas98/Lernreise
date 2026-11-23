@@ -31,7 +31,8 @@ h1{margin:0 0 .55em;font:900 min(2.6em,9vw)/1.2 "Baloo 2","Fredoka","Arial Round
 h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#cfd8ff;opacity:.9}
 /* Portale */
 .portals{display:grid;grid-template-columns:1fr;justify-items:center;column-gap:20px}
-@media(min-width:880px){.portals{grid-template-columns:1fr 1fr}.pcard h3{font-size:1.45em}.pcard:last-child:nth-child(odd){grid-column:1/-1}}
+@media(min-width:880px){.portals{grid-template-columns:1fr 1fr}.pcard h3{font-size:1.45em}.pcard.lone{grid-column:1/-1}}
+.pcard[hidden]{display:none}
 .pcard{display:flex;flex-direction:column;align-items:center;color:inherit;text-decoration:none;margin:10px auto 34px;width:min(480px,100%);-webkit-tap-highlight-color:transparent}
 .pcard:focus-visible{outline:none}
 .pt{position:relative;width:min(380px,92vw);aspect-ratio:1;border-radius:50%}
@@ -44,6 +45,36 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .foot{margin-top:10px;font-size:.78em;opacity:.7}
 #toast{position:fixed;left:50%;width:max-content;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#fff;color:#1b1464;font-weight:800;padding:12px 22px;border-radius:18px;border:3px solid #ffd23f;box-shadow:0 8px 0 #0004;transition:opacity .3s,transform .3s;z-index:50;max-width:92vw}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* Filter, Suche, Zufall */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.flt{max-width:740px;margin:.4em auto 1.4em;text-align:center}
+.ftb{display:flex;gap:10px;align-items:stretch;justify-content:center;flex-wrap:wrap}
+.fbtn{font:inherit;font-weight:800;font-size:.95em;cursor:pointer;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 18px;border-radius:999px;background:#ffffff1f;color:#fff;border:2px solid #ffffff66;box-shadow:0 4px 0 #0006;-webkit-tap-highlight-color:transparent}
+.fbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #0006}
+.fbtn[aria-expanded=true]{background:#ffd23f;color:#1b1464;border-color:#1b1464;box-shadow:0 4px 0 #1b1464}
+.fbtn svg{width:22px;height:22px;flex:none}
+.fcnt[hidden]{display:none}
+.fcnt{min-width:24px;height:24px;border-radius:12px;background:#ff4d6d;color:#fff;font-size:.8em;display:inline-grid;place-items:center;padding:0 6px}
+.fsr{flex:1 1 200px;min-width:0;display:block}
+.fsr input{width:100%;min-height:48px;font:inherit;font-size:.95em;padding:8px 18px;border-radius:999px;border:2px solid #ffffff66;background:#ffffff14;color:#fff;box-shadow:0 4px 0 #0006}
+.fsr input::placeholder{color:#cfd8ffcc}
+.fsr input:focus{background:#ffffff26}
+.fbtn:focus-visible,.fsr input:focus-visible,.chip:focus-visible{outline:4px solid #ff4d6d;outline-offset:2px}
+.fpan{margin:14px auto 0;padding:14px 16px 16px;border-radius:22px;background:linear-gradient(135deg,#ffffff26,#ffffff0d);border:1px solid #ffffff40;box-shadow:0 8px 0 #0003;text-align:left;animation:fin .25s ease-out}
+.fpan[hidden]{display:none}
+@keyframes fin{from{opacity:0;transform:translateY(-8px)}}
+.fgrp+.fgrp{margin-top:14px}
+.fgrp h3{margin:.1em 0 .5em;font-size:.78em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#cfd8ff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-weight:700;font-size:.82em;cursor:pointer;min-height:44px;padding:6px 14px;border-radius:999px;background:#ffffff1a;color:#fff;border:2px solid #ffffff55;-webkit-tap-highlight-color:transparent}
+.chip[aria-pressed=true]{background:#ffd23f;color:#1b1464;border-color:#1b1464;box-shadow:0 3px 0 #1b1464}
+.frow{margin-top:16px;text-align:center}
+.fres{min-height:1.4em;margin:.9em 0 0;font-size:.82em;color:#cfd8ff;text-wrap:balance}
+.fm{margin:.1em 0 .6em;font-size:.82em;font-weight:700;color:#ffe566;max-width:380px;text-wrap:balance}
+.fm[hidden]{display:none}
+.pcard.pick1 .pt{animation:pulsr 1.1s ease-in-out 3}
+@keyframes pulsr{50%{box-shadow:0 0 0 14px #ffd23f88}}
 
 /* Anmeldung */
 .lg{max-width:560px;margin:1.4em auto 0;padding:16px 18px;border-radius:22px;background:linear-gradient(135deg,#ffffff26,#ffffff0d);border:1px solid #ffffff40;box-shadow:0 8px 0 #0003}
@@ -98,7 +129,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .warp.vk{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#a8260c,#1a0402 75%)!important}
 .warp{position:fixed;inset:0;width:100%;height:100%;z-index:100;opacity:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0b1260,#02030f 75%);animation:wi .5s forwards}
 @keyframes wi{to{opacity:1}}
-@media(prefers-reduced-motion:reduce){.owl{animation:none}.page{transition:none}.kb,.kb:hover{transition:none}.kl.nudge .row{animation:none}}
+@media(prefers-reduced-motion:reduce){.fpan,.pcard.pick1 .pt{animation:none}.owl{animation:none}.page{transition:none}.kb,.kb:hover{transition:none}.kl.nudge .row{animation:none}}
 </style>
 </head>
 <body>
@@ -147,6 +178,20 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  </section>
 
  <h2 class="pick">Wähle dein Abenteuer</h2>
+
+ <div class="flt" role="search" aria-label="Abenteuer filtern und suchen">
+  <div class="ftb">
+   <button class="fbtn" id="f-tog" type="button" aria-expanded="false" aria-controls="f-pan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 4.5h17l-6.6 8v6.2l-3.8 1.8v-8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Filter</span><span class="fcnt" id="f-cnt" hidden aria-hidden="true"></span></button>
+   <label class="fsr"><span class="sr">Suche, zum Beispiel Uhr, Tangram oder Brüche</span><input id="f-q" type="search" placeholder="Suche: Uhr, Tangram …" autocomplete="off" enterkeyhint="search" maxlength="40"></label>
+   <button class="fbtn" id="f-rnd" type="button" aria-label="Überrasch mich: zeige mir ein zufälliges Abenteuer"><span aria-hidden="true">🎲</span><span>Überrasch mich</span></button>
+  </div>
+  <div class="fpan" id="f-pan" role="group" aria-label="Filteroptionen" hidden>
+   <div class="fgrp" role="group" aria-labelledby="f-fh"><h3 id="f-fh">Fach</h3><div class="chips" id="f-fach"></div></div>
+   <div class="fgrp" id="f-bg" role="group" aria-labelledby="f-bh" hidden><h3 id="f-bh">Lernbereich</h3><div class="chips" id="f-ber"></div></div>
+   <div class="frow"><button class="lb s" id="f-reset" type="button">↺ Alles zurücksetzen</button></div>
+  </div>
+  <p class="fres" id="f-res" role="status" aria-live="polite"></p>
+ </div>
 
  <div class="portals">
  <a class="pcard" id="c-weltall" href="#klasse" aria-label="Lernreise im All: Mathe und Deutsch. Wähle zuerst deine Klasse.">
@@ -604,6 +649,122 @@ function zeigeK(){
 }
 document.querySelectorAll('.kb').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;try{localStorage.setItem(KEY,String(K))}catch(_){}zeigeK()}));
 zeigeL();zeigeK();
+
+/* ---------- Filter, Suche und Zufall (Filter wird nur in diesem Browser gemerkt) ---------- */
+const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest'};
+const FB={Mathe:['🔢','Rechnen & Zahlen','Zeit, Geld & Größen','Geometrie & Formen','Daten & Diagramme','Knobeln & Logik'],
+ Deutsch:['📖','Lesen & Verstehen','Rechtschreibung','Wörter & Grammatik'],
+ Sachunterricht:['🌍','Natur & Umwelt','Körper & Gesundheit','Zusammenleben','Zeit & Geschichte','Raum & Verkehr','Technik & Bauen'],
+ Kunst:['🎨','Farben & Mischen','Künstler & Bilder','Selbst gestalten'],
+ Musik:['🎵','Instrumente & Klang','Noten & Töne','Rhythmus & Tempo','Komponisten & Lieder','Selbst musizieren'],
+ Sport:['🏅','Leichtathletik','Ballspiele','Turnen & Gymnastik','Schwimmen & Wasser','Fitness & Bewegungspause']};
+/* Portal, Ort im Portal, Fach, Lernbereich, Suchwörter */
+const EN=[
+['weltall','Rechni','Mathe','Rechnen & Zahlen','plus minus addieren subtrahieren rechnen million'],
+['weltall','Zeitola','Mathe','Zeit, Geld & Größen','uhr zeit geld euro cent längen wochentage'],
+['weltall','Knobelix','Mathe','Rechnen & Zahlen','einmaleins malnehmen geteilt dividieren brüche zählen'],
+['weltall','Knobelix','Mathe','Geometrie & Formen','formen körper'],
+['weltall','Knobelix','Mathe','Daten & Diagramme','daten tabellen'],
+['weltall','Knobelix','Mathe','Knobeln & Logik','muster rätsel knobeln'],
+['weltall','Lesaro','Deutsch','Lesen & Verstehen','lesen texte verstehen'],
+['weltall','Schreibo','Deutsch','Rechtschreibung','schreiben buchstaben silben reime diktat'],
+['weltall','Wortus','Deutsch','Wörter & Grammatik','wortarten nomen verben adjektive zeitformen sätze satzglieder'],
+['dschungel','Affendorf','Sachunterricht','Zusammenleben','regeln familie feste einkaufen gemeinde wahlen medien konsum demokratie'],
+['dschungel','Papageien-Lichtung','Sachunterricht','Körper & Gesundheit','sinne gesundheit gefühle organe erste hilfe'],
+['dschungel','Orchideental','Sachunterricht','Natur & Umwelt','tiere pflanzen müll wetter wald wasser energie strom'],
+['dschungel','Tempel der Zeit','Sachunterricht','Zeit & Geschichte','wochentage jahreszeiten früher heute geschichte quellen zeitrechnung'],
+['dschungel','Fluss der Wege','Sachunterricht','Raum & Verkehr','orientierung verkehrszeichen schulweg karten länder verkehr'],
+['dschungel','Brücken-Werkstatt','Sachunterricht','Technik & Bauen','werkzeuge berufe bauwerke kräfte werkstoffe erfindungen'],
+['strand','Muschelbank','Mathe','Rechnen & Zahlen','zahlen zahlenraum million'],
+['strand','Sandburg-Werkstatt','Mathe','Rechnen & Zahlen','plus minus schriftlich rechnen rechenwege'],
+['strand','Strandkiosk','Mathe','Rechnen & Zahlen','rechengeschichten sachaufgaben brüche'],
+['strand','Strandkiosk','Mathe','Knobeln & Logik','kombinieren'],
+['strand','Baumeister-Bucht','Mathe','Geometrie & Formen','formen körper lage symmetrie koordinaten flächen'],
+['strand','Hafen','Mathe','Zeit, Geld & Größen','länge zeit geld gewicht maßstab'],
+['strand','Delfin-Riff','Mathe','Daten & Diagramme','strichlisten tabellen zufall diagramme wahrscheinlichkeit'],
+['vulkan','Lavahöhle','Mathe','Rechnen & Zahlen','zahlen plus minus einmaleins brüche rest'],
+['vulkan','Geysir-Tal','Mathe','Zeit, Geld & Größen','uhr zeit geld einheiten sachaufgaben umfang'],
+['vulkan','Geysir-Tal','Mathe','Geometrie & Formen','formen würfel umfang'],
+['vulkan','Glut-Gedächtnis','Mathe','Knobeln & Logik','zahlenfolgen logik merken muster gedächtnis'],
+['vulkan','Feuerberg-Zoo','Sachunterricht','Natur & Umwelt','tiere natur körper verkehr kalender himmelsrichtungen deutschland technik'],
+['vulkan','Funkenwerkstatt','Deutsch','Rechtschreibung','rechtschreibung das dass wörter bilder'],
+['vulkan','Funkenwerkstatt','Deutsch','Wörter & Grammatik','artikel zeitformen'],
+['vulkan','Reimfelsen','Deutsch','Wörter & Grammatik','reime silben abc steigern satzglieder wortfamilien'],
+['atelier','Farbmisch-Labor','Kunst','Farben & Mischen','farben mischen primärfarben komplementärfarben warm kalt'],
+['atelier','Galerie','Kunst','Künstler & Bilder','bilder betrachten wirkung stimmung'],
+['atelier','Künstler-Café','Kunst','Künstler & Bilder','künstler karten berühmte maler kunstgeschichte'],
+['atelier','Mal-Atelier','Kunst','Selbst gestalten','malen gestalten nachbauen bilder'],
+['konzert','Komponisten','Musik','Komponisten & Lieder','komponisten werke lieder'],
+['konzert','Regie-Loge','Musik','Noten & Töne','aufschreiben notieren'],
+['konzert','Regie-Loge','Musik','Rhythmus & Tempo','beats nachbauen rhythmus'],
+['konzert','Flügel','Musik','Noten & Töne','klavier töne hören noten lesen'],
+['konzert','Flügel','Musik','Selbst musizieren','klavier spielen'],
+['konzert','Schlagwerk','Musik','Rhythmus & Tempo','rhythmus klatschen takte schlagzeug trommel'],
+['konzert','Orchestergraben','Musik','Instrumente & Klang','instrumente klänge familien streicher bläser orchester'],
+['konzert','Dirigentenpult','Musik','Rhythmus & Tempo','laut leise schnell langsam notenwerte dynamik tempo'],
+['konzert','Musik-Studio','Musik','Selbst musizieren','frei musizieren melodie beat erfinden'],
+['formen','Tangram-Werkstatt','Mathe','Geometrie & Formen','tangram legen formen puzzle'],
+['formen','Tangram-Werkstatt','Mathe','Knobeln & Logik','legespiel knobeln'],
+['formen','Geobrett-Labor','Mathe','Geometrie & Formen','geobrett spannen spiegeln fläche umfang'],
+['formen','Baupläne & Würfelgebäude','Mathe','Geometrie & Formen','würfel gebäude ansichten würfelnetze bauen raum'],
+['formen','Formen- und Körper-Akademie','Mathe','Geometrie & Formen','formen ecken körper spiegelachsen quiz'],
+['formen','Illusionen-Labor','Mathe','Knobeln & Logik','optische täuschungen illusionen schätzen'],
+['sport','Laufbahn','Sport','Leichtathletik','laufen sprint staffel runden stoppuhr'],
+['sport','Laufbahn','Mathe','Zeit, Geld & Größen','uhr zeit strecken meter runden'],
+['sport','Laufbahn','Deutsch','Wörter & Grammatik','wörter silben'],
+['sport','Sprunggrube','Sport','Leichtathletik','weitsprung hochsprung springen'],
+['sport','Sprunggrube','Mathe','Zeit, Geld & Größen','messen lineal meter zentimeter weiten'],
+['sport','Sprunggrube','Mathe','Daten & Diagramme','diagramme weiten'],
+['sport','Sprunggrube','Deutsch','Wörter & Grammatik','wörter'],
+['sport','Ball & Wurf','Sport','Ballspiele','fußball ball wurf fair play mannschaft'],
+['sport','Ball & Wurf','Mathe','Rechnen & Zahlen','zählen tore mannschaften'],
+['sport','Ball & Wurf','Mathe','Daten & Diagramme','tabellen strichlisten'],
+['sport','Ball & Wurf','Deutsch','Wörter & Grammatik','wörter ball'],
+['sport','Turnhalle','Sport','Turnen & Gymnastik','turnen geräte sicherheit zirkeltraining'],
+['sport','Turnhalle','Mathe','Geometrie & Formen','links rechts hallenplan orientierung'],
+['sport','Schwimmbad','Sport','Schwimmen & Wasser','schwimmen baderegeln wasser'],
+['sport','Schwimmbad','Mathe','Rechnen & Zahlen','schwimmen rechnen'],
+['sport','Schwimmbad','Sachunterricht','Körper & Gesundheit','baderegeln sicherheit wasser'],
+['sport','Schwimmbad','Deutsch','Wörter & Grammatik','wörter'],
+['sport','Tribüne','Sport','Fitness & Bewegungspause','herz puls aufwärmen trinken fitness'],
+['sport','Tribüne','Sachunterricht','Körper & Gesundheit','herz puls aufwärmen trinken'],
+['sport','Tribüne','Mathe','Daten & Diagramme','daten der klasse diagramme tabellen'],
+['sport','Pausenwiese','Sport','Fitness & Bewegungspause','bewegungspause konzentration ruhe atem entspannung'],
+['sport','Pausenwiese','Mathe','Rechnen & Zahlen','rechnen in bewegung']
+].map(([p,s,f,b,k])=>({p,s,f,b,t:' '+NF([PT[p],s,f,b,k].join(' ')).replace(/[^a-z0-9]+/g,' ')+' '}));
+const STN={};EN.forEach(e=>(STN[e.p]||(STN[e.p]=new Set())).add(e.s));
+const FS={f:'',b:'',q:''},FKEY='kastner-filter';
+try{const v=JSON.parse(localStorage.getItem(FKEY)||'null');if(v&&FB[v.f]){FS.f=v.f;if(FB[v.f].includes(v.b))FS.b=v.b}}catch(_){}
+for(const id in PT){const p=document.createElement('p');p.className='fm';p.hidden=true;$('#s-'+id).after(p)}
+const chip=(t,on,attr)=>`<button class="chip" type="button" aria-pressed="${on}" ${attr}>${t}</button>`;
+function chips(){
+ $('#f-fach').innerHTML=chip('✨ Alle',!FS.f,'data-f=""')+Object.keys(FB).map(f=>chip(FB[f][0]+' '+f,FS.f==f,'data-f="'+f+'"')).join('');
+ $('#f-bg').hidden=!FS.f;
+ $('#f-ber').innerHTML=FS.f?chip('Alle Bereiche',!FS.b,'data-b=""')+FB[FS.f].slice(1).map(b=>chip(b.replace('&','&amp;'),FS.b==b,'data-b="'+b.replace('&','&amp;')+'"')).join(''):''}
+function filt(){
+ const toks=NF(FS.q).replace(/[^a-z0-9]+/g,' ').split(' ').filter(Boolean),hit={};
+ for(const e of EN){if(FS.f&&e.f!=FS.f)continue;if(FS.b&&e.b!=FS.b)continue;if(!toks.every(t=>e.t.includes(t)))continue;(hit[e.p]||(hit[e.p]=new Set())).add(e.s)}
+ const vis=[],act=!!(FS.f||FS.q.trim());
+ for(const id in PT){const a=$('#c-'+id),h=hit[id],fm=a.querySelector('.fm');a.hidden=!h;a.classList.remove('lone');
+  if(h){vis.push(a);const all=h.size==STN[id].size,L=[...h];
+   fm.textContent=!act||(all&&!FS.f&&!FS.b)?'':all?'Alles hier passt zu deinem Filter.':'Passt zu: '+L.slice(0,3).join(', ')+(L.length>3?' und '+(L.length-3)+' weitere':'');
+   fm.hidden=!fm.textContent}else fm.hidden=true}
+ if(vis.length%2)vis[vis.length-1].classList.add('lone');
+ const n=(FS.f?1:0)+(FS.b?1:0);$('#f-cnt').hidden=!n;$('#f-cnt').textContent=n;
+ $('#f-res').textContent=!act?'':vis.length?vis.length+' von '+Object.keys(PT).length+' Abenteuern passen: '+vis.map(a=>PT[a.id.slice(2)]).join(', ')+'.':'Dazu gibt es noch kein Abenteuer. Probiere einen anderen Filter oder setze alles zurück.'}
+function saveF(){try{FS.f?localStorage.setItem(FKEY,JSON.stringify({f:FS.f,b:FS.b})):localStorage.removeItem(FKEY)}catch(_){}}
+function panel(open){$('#f-pan').hidden=!open;$('#f-tog').setAttribute('aria-expanded',String(open))}
+$('#f-tog').addEventListener('click',()=>panel($('#f-pan').hidden));
+$('#f-pan').addEventListener('keydown',e=>{if(e.key=='Escape'){panel(false);$('#f-tog').focus()}});
+$('#f-fach').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;FS.f=b.dataset.f;FS.b='';saveF();chips();filt();$('#f-fach').querySelector('[aria-pressed=true]').focus()});
+$('#f-ber').addEventListener('click',e=>{const b=e.target.closest('[data-b]');if(!b)return;FS.b=b.dataset.b.replace(/&amp;/g,'&');saveF();chips();filt();$('#f-ber').querySelector('[aria-pressed=true]').focus()});
+$('#f-q').addEventListener('input',e=>{FS.q=e.target.value;filt()});
+$('#f-q').addEventListener('keydown',e=>{if(e.key=='Enter'){e.target.blur();const a=document.querySelector('.pcard:not([hidden])');a&&a.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'})}});
+$('#f-reset').addEventListener('click',()=>{FS.f=FS.b=FS.q='';$('#f-q').value='';saveF();chips();filt();sag('Alle Abenteuer sind wieder da.')});
+$('#f-rnd').addEventListener('click',()=>{const V=[...document.querySelectorAll('.pcard:not([hidden])')];if(!V.length){sag('Hier ist gerade nichts zu finden. Setze den Filter zurück.');return}
+ document.querySelectorAll('.pcard.pick1').forEach(x=>x.classList.remove('pick1'));const a=V[Math.floor(Math.random()*V.length)];
+ a.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});a.classList.add('pick1');setTimeout(()=>a.classList.remove('pick1'),3600);a.focus({preventScroll:true});sag('Wie wäre es mit: '+PT[a.id.slice(2)]+'?')});
+chips();filt();
 
 /* ---------- Toast ---------- */
 let tt=0;

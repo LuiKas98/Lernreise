@@ -204,6 +204,22 @@ button[aria-pressed=true]{background:linear-gradient(180deg,#d4f5d8,#8fdc9b);box
 .emo.w{flex-wrap:wrap;font-size:2.2em}
 .hb{animation:hb 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes hb{0%,40%,100%{transform:scale(1)}12%{transform:scale(1.07)}26%{transform:scale(1.02)}}
 .be{font-size:2.2em;line-height:1.1}
+/* Stadion-Szene */
+.scene .px{pointer-events:none}
+.scene .cap{font:800 10.5px "Avenir Next","Segoe UI",system-ui,sans-serif;fill:#1f2d44;paint-order:stroke;stroke:#fff;stroke-width:3.2px;stroke-linejoin:round;pointer-events:none}
+.scene .pn,.scene .ps{pointer-events:none}
+.sgn{transition:transform .2s ease-out;transform-box:fill-box}
+.scene [role=button]:hover .sgn,.scene [role=button]:focus-visible .sgn{transform:translateY(-3px)}
+.bob{animation:bob 1.3s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-2.4px)}}
+.wave{animation:wv 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}.wave.w2{transform-origin:right center;animation-delay:-.7s}@keyframes wv{50%{transform:scaleX(.8) skewY(6deg)}}
+.blink{animation:bl 1.4s steps(2) infinite}.blink.b2{animation-delay:-.7s}@keyframes bl{50%{opacity:.15}}
+.kick{animation:kk 4s ease-in-out infinite alternate}@keyframes kk{from{transform:translateX(0)}to{transform:translateX(-50px)}}
+.bnc{animation:bn .55s ease-in infinite alternate}@keyframes bn{from{transform:translateY(0)}to{transform:translateY(-9px)}}
+.jmp{animation:jm 1.4s linear infinite}@keyframes jm{to{stroke-dashoffset:-18}}
+.swim{animation:sw 5s ease-in-out infinite alternate}@keyframes sw{to{transform:translateX(96px)}}
+.sway{animation:sy 5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}@keyframes sy{50%{transform:rotate(1.8deg)}}
+.breathe{animation:br 5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}@keyframes br{50%{transform:scale(1.2)}}
+.rib{animation:rb 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 0}@keyframes rb{50%{transform:skewX(14deg)}}
 </style></head><body>
 <canvas id="emb" aria-hidden="true"></canvas>
 <main id="app"></main>
@@ -741,12 +757,12 @@ const mvMath=()=>{const act=rnd(['Klatsche','Klopfe leise auf deine Knie','Tippe
 /* ===== Stationen und Level ===== */
 const PLACE={
  lauf:{n:'Laufbahn',e:'🏃',d:'Uhr, Stoppuhr und Strecken: Rechnen und Wissen rund ums Laufen.'},
- sprung:{n:'Weitsprung & Wurf',e:'🦘',d:'Messen, Diagramme und Rechnen mit Weiten.'},
- ball:{n:'Ballfeld',e:'⚽',d:'Tore zählen, Mannschaften bilden, Regeln und Wörter.'},
+ sprung:{n:'Sprunggrube',e:'🦘',d:'Weitsprung und Hochsprung: Messen, Diagramme und Rechnen mit Weiten.'},
+ ball:{n:'Ball & Wurf',e:'⚽',d:'Fußballfeld und Wurfzone: Tore zählen, Mannschaften bilden, Regeln und Wörter.'},
  turn:{n:'Turnhalle',e:'🤸',d:'Geräte, Orientierung in der Halle und Zirkeltraining.'},
  wasser:{n:'Schwimmbad',e:'🏊',d:'Baderegeln, Rechnen im Wasser und Wissen rund ums Wasser.'},
- fit:{n:'Fit-Labor',e:'💓',d:'Herz, Puls, Aufwärmen und Daten der Klasse.'},
- pause:{n:'Bewegungspause',e:'🧘',d:'Kleine Übungen zum Mitmachen. Alles geht auch im Sitzen. Hier zählt nur das Mitmachen.'}};
+ fit:{n:'Tribüne',e:'💓',d:'Herz, Puls, Aufwärmen und die Daten der Klasse. Die Anzeigetafel zeigt Zahlen.'},
+ pause:{n:'Pausenwiese',e:'🧘',d:'Kleine Übungen zum Mitmachen. Alles geht auch im Sitzen. Hier zählt nur das Mitmachen.'}};
 const PORDER=['lauf','sprung','ball','turn','wasser','fit','pause'];
 const L_=(id,pl,e,n,d,ks,plan)=>({id,pl,e,n,d,ks,plan});
 const M=(g,n)=>many(rep(n,()=>g));
@@ -795,64 +811,105 @@ L_('pa4','pause','🔢','Rechnen in Bewegung','Rechne im Kopf und klatsche das E
 const LV=LVALL.filter(l=>l.ks.includes(KL)),LVI=Object.fromEntries(LV.map(l=>[l.id,l]));
 const MAXS=LV.length*3;
 
-/* ===== Hub-Szene: Das Sportfest ===== */
+/* ===== Hub-Szene: Das Sportfest-Gelände (Stadion mit anklickbaren Orten) ===== */
 function stBadge(p){const L=LV.filter(l=>l.pl==p);return L.length&&L.every(l=>(U.s[l.id]||0)>0)}
 function hubScene(){
- const ring=f=>{const C=62.8;return `<circle cx="0" cy="0" r="10" fill="none" stroke="#d3dce8" stroke-width="4"/><circle cx="0" cy="0" r="10" fill="none" stroke="#16a34a" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90)"/>`};
- const lauf=()=>{let ck='';for(let i=0;i<8;i++)ck+=`<rect x="${64+i*7.25}" y="22" width="7.25" height="4.5" fill="${i%2?'#fff':'#2b3a52'}"/><rect x="${64+i*7.25}" y="26.5" width="7.25" height="4.5" fill="${i%2?'#2b3a52':'#fff'}"/>`;
-  return `<polygon points="10,124 176,124 122,31 64,31" fill="#d8532b" stroke="#a63a18" stroke-width="2" stroke-linejoin="round"/><polygon points="10,124 176,124 170,114 16,114" fill="#b9431f" opacity=".5"/>
-  <line x1="65.3" y1="124" x2="83.3" y2="31" stroke="#fff" stroke-width="2.6"/><line x1="120.7" y1="124" x2="102.7" y2="31" stroke="#fff" stroke-width="2.6"/>
-  <line x1="23.8" y1="100" x2="162.2" y2="100" stroke="#fff" stroke-width="4"/>${ck}<rect x="64" y="22" width="58" height="9" fill="none" stroke="#2b3a52" stroke-width="1.4"/>
-  <circle cx="32" cy="46" r="17" fill="#fff" stroke="#2b3a52" stroke-width="3"/><rect x="28" y="23" width="8" height="6" rx="2" fill="#2b3a52"/><line x1="32" y1="46" x2="32" y2="35" stroke="#e8650a" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="46" x2="40" y2="50" stroke="#2b3a52" stroke-width="3" stroke-linecap="round"/>`};
- const sprung=()=>`<rect x="2" y="86" width="60" height="26" rx="4" fill="#d8532b" stroke="#a63a18" stroke-width="2"/><rect x="60" y="82" width="9" height="34" fill="#fff" stroke="#2b3a52" stroke-width="1.6"/><path d="M69 80 H174 Q182 80 182 88 V112 Q182 118 174 118 H69 Z" fill="#f2d38a" stroke="#c49b3d" stroke-width="2"/>
-  <ellipse cx="96" cy="98" rx="5" ry="2.6" fill="#d8b665"/><ellipse cx="112" cy="104" rx="5" ry="2.6" fill="#d8b665"/><ellipse cx="146" cy="96" rx="5" ry="2.6" fill="#d8b665"/>
-  <rect x="2" y="120" width="180" height="9" rx="3" fill="#ffd23f" stroke="#a37d00" stroke-width="1.4"/>${Array.from({length:19},(_,i)=>`<line x1="${6+i*9.5}" y1="120" x2="${6+i*9.5}" y2="${i%2?124:126}" stroke="#6b5200" stroke-width="1.2"/>`).join('')}
-  <path d="M30 78 Q80 -2 128 70" fill="none" stroke="#16a34a" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/><text x="80" y="42" text-anchor="middle" font-size="34">🦘</text>`;
- const ball=()=>{let net='';for(let i=0;i<=12;i++)net+=`<line x1="${28+i*8.8}" y1="38" x2="${28+i*8.8}" y2="98" stroke="#9fb4a0" stroke-width="1"/>`;for(let j=0;j<=6;j++)net+=`<line x1="28" y1="${38+j*10}" x2="133.6" y2="${38+j*10}" stroke="#9fb4a0" stroke-width="1"/>`;
-  return `<rect x="28" y="38" width="105.6" height="60" fill="#f4faf4"/>${net}<polyline points="28,100 28,38 133.6,38 133.6,100" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><polyline points="28,100 28,38 133.6,38 133.6,100" fill="none" stroke="#2b3a52" stroke-width="1.4" stroke-linejoin="round" opacity=".5"/>
-  <circle cx="118" cy="106" r="17" fill="#fff" stroke="#2b3a52" stroke-width="2.4"/><polygon points="118,95 126,101 123,111 113,111 110,101" fill="#2b3a52"/><g stroke="#2b3a52" stroke-width="2" stroke-linecap="round"><line x1="118" y1="95" x2="118" y2="90"/><line x1="126" y1="101" x2="132" y2="99"/><line x1="123" y1="111" x2="127" y2="116"/><line x1="113" y1="111" x2="109" y2="116"/><line x1="110" y1="101" x2="104" y2="99"/></g>
-  <circle cx="40" cy="108" r="14" fill="#f08a24" stroke="#8a4a0a" stroke-width="2"/><path d="M26 108 H54 M40 94 V122 M30 98 Q40 108 30 118 M50 98 Q40 108 50 118" fill="none" stroke="#8a4a0a" stroke-width="1.6"/>`};
- const turn=()=>`<polygon points="12,118 174,118 152,90 34,90" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2.4" stroke-linejoin="round"/><polygon points="12,118 174,118 172,124 14,124" fill="#1d4ed8"/>
-  <ellipse cx="62" cy="52" rx="28" ry="28" fill="none" stroke="#f59e0b" stroke-width="7"/><ellipse cx="62" cy="52" rx="28" ry="28" fill="none" stroke="#fff3c4" stroke-width="2" stroke-dasharray="14 20"/>
-  <line x1="150" y1="36" x2="140" y2="82" stroke="#6b4f2a" stroke-width="4" stroke-linecap="round"/><path d="M150 36 C 128 8, 112 56, 96 30 S 78 40 88 62" fill="none" stroke="#ec4899" stroke-width="5" stroke-linecap="round"/>`;
- const wasser=()=>{let r='';[62,84,106].forEach((y,k)=>{r+=`<line x1="10" y1="${y}" x2="176" y2="${y}" stroke="#fff" stroke-width="2" opacity=".8"/>`;for(let i=0;i<11;i++)r+=`<circle cx="${18+i*15.6}" cy="${y}" r="3.4" fill="${i%2?'#fff':'#ef4444'}" stroke="#2b3a52" stroke-width=".6"/>`});
-  return `<rect x="6" y="52" width="174" height="72" rx="10" fill="url(#gWater)" stroke="#0b6fa8" stroke-width="2.4"/>${r}<path d="M14 74 q8 -6 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/><path d="M14 96 q8 -6 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/>
-  <circle cx="38" cy="30" r="15" fill="none" stroke="#ef4444" stroke-width="9"/><circle cx="38" cy="30" r="15" fill="none" stroke="#fff" stroke-width="9" stroke-dasharray="11.8 23.6" stroke-dashoffset="-5.9"/><circle cx="38" cy="30" r="20" fill="none" stroke="#2b3a52" stroke-width="1.2"/><circle cx="38" cy="30" r="10.5" fill="none" stroke="#2b3a52" stroke-width="1.2"/>`};
- const fit=()=>`<g class="hb"><path d="M85 114 C 32 78, 32 30, 62 30 C 76 30, 85 40, 85 48 C 85 40, 94 30, 108 30 C 138 30, 138 78, 85 114 Z" fill="url(#gHeart)" stroke="#a31d2b" stroke-width="2.6" stroke-linejoin="round"/><ellipse cx="62" cy="48" rx="11" ry="7" fill="#fff" opacity=".35" transform="rotate(-30 62 48)"/></g>
-  <polyline points="36,72 62,72 72,54 86,94 98,62 106,72 134,72" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><polyline points="36,72 62,72 72,54 86,94 98,62 106,72 134,72" fill="none" stroke="#2b3a52" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" opacity=".5"/>
-  <path d="M150 74 C 144 86, 140 92, 150 100 C 160 92, 156 86, 150 74 Z" fill="#38bdf8" stroke="#0b6fa8" stroke-width="1.8" transform="translate(6 18)"/>`;
- const pause=()=>{const c='#0e8a8a',st=`stroke="${c}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"`;
-  return `<g ${st}><line x1="96" y1="44" x2="96" y2="80"/><polyline points="72,24 96,52 120,24"/><polyline points="84,106 96,80 108,106"/></g><circle cx="96" cy="30" r="12" fill="${c}"/>
-  <rect x="172" y="76" width="64" height="8" rx="3" fill="#a07a4a"/><line x1="176" y1="84" x2="176" y2="106" stroke="#a07a4a" stroke-width="6" stroke-linecap="round"/><line x1="232" y1="84" x2="232" y2="106" stroke="#a07a4a" stroke-width="6" stroke-linecap="round"/><line x1="172" y1="52" x2="172" y2="80" stroke="#a07a4a" stroke-width="6" stroke-linecap="round"/>
-  <g ${st}><polyline points="196,56 198,76 226,76 226,104"/><polyline points="198,60 214,72"/></g><circle cx="196" cy="42" r="12" fill="${c}"/>
-  <g ${st}><line x1="292" y1="44" x2="292" y2="80"/><path d="M292 52 C 274 44 276 26 292 18"/><path d="M292 52 C 310 44 308 26 292 18"/><polyline points="280,106 292,80 304,106"/></g><circle cx="292" cy="30" r="12" fill="${c}"/>
-  <path d="M330 52 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/><path d="M330 68 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/><path d="M14 60 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/><path d="M14 76 q10 -8 20 0 t20 0" fill="none" stroke="#7cc0e8" stroke-width="3" stroke-linecap="round"/>`};
- const EMB={lauf,sprung,ball,turn,wasser,fit,pause};
- const SN={lauf:'Laufbahn',sprung:'Weitsprung & Wurf',ball:'Ballfeld',turn:'Turnhalle',wasser:'Schwimmbad',fit:'Fit-Labor',pause:'Bewegungspause'};
- const SUB={lauf:'Uhr, Zeit, Strecken',sprung:'Messen & Diagramme',ball:'Zählen & Fair Play',turn:'Geräte & Zirkel',wasser:'Regeln & Wasser',fit:'Herz & Daten',pause:'Mitmachen im Stehen oder Sitzen'};
- const POS={lauf:[8,66,186,170],sprung:[206,66,186,170],ball:[8,246,186,170],turn:[206,246,186,170],wasser:[8,426,186,170],fit:[206,426,186,170],pause:[8,606,384,140]};
- const H=p=>{const[x,y,w,h]=POS[p],P=PLACE[p],f=placeMax(p)?placeStars(p)/placeMax(p):0,wide=p=='pause',bd=stBadge(p);
-  return `<g role="button" tabindex="0" aria-label="${P.n}. ${placeStars(p)} von ${placeMax(p)} Sternen.${bd?' Abzeichen erreicht.':''}" onclick="place('${p}')" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();place('${p}')}">
-  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="24" fill="url(#gGlass)" stroke="#8cc79a" stroke-width="3"/>
-  <g transform="translate(${x+(w-(wide?384:186)*(wide?.84:.8))/2} ${y+(wide?4:8)}) scale(${wide?.84:.8})"><g class="bd">${EMB[p]()}</g></g>
-  <text class="pn" x="${x+16}" y="${y+h-34}">${SN[p].replace('&','&amp;')}</text><text class="ps" x="${x+16}" y="${y+h-17}">${SUB[p]} · ⭐ ${placeStars(p)}/${placeMax(p)}${bd?' · 🏅':''}</text>
-  <g transform="translate(${x+w-26} ${y+26})">${ring(f)}</g>
-  <rect class="hl" x="${x}" y="${y}" width="${w}" height="${h}" rx="24"/></g>`};
- /* Himmel, Wiese, Girlande */
- let stripes='';for(let k=0;k<12;k++)stripes+=`<rect y="${190+k*48}" width="400" height="48" fill="${k%2?'#e3f5d6':'#d4efc4'}"/>`;
- let rays='';for(let i=0;i<12;i++){const a=i*Math.PI/6;rays+=`<line x1="${(332+34*Math.cos(a)).toFixed(1)}" y1="${(54+34*Math.sin(a)).toFixed(1)}" x2="${(332+46*Math.cos(a)).toFixed(1)}" y2="${(54+46*Math.sin(a)).toFixed(1)}" stroke="#ffb300" stroke-width="4" stroke-linecap="round"/>`}
+ const cy=345,c1=150,c2=250;
+ /* Stadion-Form (Laufbahn): zwei Halbkreise mit Geraden dazwischen */
+ const sp=r=>`M${c1} ${cy-r}H${c2}A${r} ${r} 0 0 1 ${c2} ${cy+r}H${c1}A${r} ${r} 0 0 1 ${c1} ${cy-r}Z`;
+ let sd=11;const rnd=()=>(sd=(sd*9301+49297)%233280)/233280;
+ const calm=typeof matchMedia=='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const ring=f=>{const C=81.7;return `<circle r="13" fill="#fff" stroke="#d3dce8" stroke-width="3.5"/><circle r="13" fill="none" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C}" transform="rotate(-90)"/>`};
+ const NAME=p=>PLACE[p].n.replace('&','&amp;');
+ const sign=(p,x,y,w)=>{const st=placeStars(p),mx=placeMax(p),bd=stBadge(p);
+  return `<g class="sgn"><rect x="${x}" y="${y+3}" width="${w}" height="34" rx="17" fill="#000" opacity=".16"/><rect x="${x}" y="${y}" width="${w}" height="34" rx="17" fill="#fff" stroke="#16a34a" stroke-width="2.4"/><g transform="translate(${x+19} ${y+17})">${ring(mx?st/mx:0)}<text y="5" text-anchor="middle" font-size="14">${PLACE[p].e}</text></g><text class="pn" x="${x+38}" y="${y+15}">${NAME(p)}</text><text class="ps" x="${x+38}" y="${y+28}">⭐ ${st}/${mx}${bd?' · 🏅':''}</text></g>`};
+ const grp=(p,inner)=>{const st=placeStars(p),mx=placeMax(p),bd=stBadge(p);
+  return `<g role="button" tabindex="0" aria-label="${NAME(p)}. ${st} von ${mx} Sternen.${bd?' Abzeichen erreicht.':''}" onclick="place('${p}')" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();place('${p}')}">${inner}</g>`};
+ const plate=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20" fill="#f4ecd6" stroke="#d6c697" stroke-width="2.4"/>`;
+ const hl=(x,y,w,h,r)=>`<rect class="hl" x="${x}" y="${y}" width="${w}" height="${h}" rx="${r||14}"/>`;
+
+ /* ---- Tribüne mit Anzeigetafel (Fit) ---- */
+ const SPC=['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7','#ec4899','#14b8a6','#ffffff'],SKIN=['#f3c9a0','#e0a979','#b9825b','#8a5a3a'];
+ const tribuene=()=>{let t=`<rect x="14" y="100" width="372" height="94" rx="6" fill="#8a9bb5"/>`;
+  for(let k=0;k<4;k++){const y=104+k*20;t+=`<rect x="20" y="${y}" width="360" height="19" fill="${k%2?'#b6c3d6':'#c6d2e2'}" stroke="#8a9bb5" stroke-width="1"/>`;
+   for(let i=0;i<24;i++){if(rnd()<.1)continue;const x=32+i*14.2,hy=y+7,c=SPC[Math.floor(rnd()*SPC.length)],sk=SKIN[Math.floor(rnd()*4)],bob=rnd()<.22;
+    t+=`<g${bob?` class="bob" style="animation-delay:-${(rnd()*1.2).toFixed(2)}s"`:''}><rect x="${(x-4.6).toFixed(1)}" y="${hy+3}" width="9.2" height="9" rx="4" fill="${c}"/><circle cx="${x.toFixed(1)}" cy="${hy}" r="3.9" fill="${sk}"/></g>`}}
+  t+=`<rect x="14" y="184" width="372" height="10" rx="3" fill="#5b6b80"/><rect x="20" y="101" width="5" height="84" fill="#64748b"/><rect x="375" y="101" width="5" height="84" fill="#64748b"/>
+  <polygon points="8,101 392,101 382,83 18,83" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/><rect x="8" y="95" width="384" height="6" rx="2" fill="#e8650a"/>
+  <line x1="44" y1="83" x2="44" y2="50" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/><polygon class="wave" points="44,50 68,57 44,64" fill="#ef4444"/><line x1="356" y1="83" x2="356" y2="50" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/><polygon class="wave w2" points="356,50 332,57 356,64" fill="#3b82f6"/>
+  <rect x="110" y="34" width="180" height="50" rx="7" fill="#1f2d44" stroke="#0f1a2b" stroke-width="3"/><rect x="117" y="40" width="166" height="38" rx="4" fill="#0b1220"/>
+  <text x="200" y="53" text-anchor="middle" font-size="10" font-weight="800" fill="#ffd23f" letter-spacing="2.5" font-family="system-ui,sans-serif">SPORTFEST</text><text x="200" y="72" text-anchor="middle" font-size="16" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">⭐ ${sumStars()} / ${MAXS}</text>
+  <circle class="blink" cx="124" cy="46" r="2.4" fill="#22c55e"/><circle class="blink b2" cx="276" cy="46" r="2.4" fill="#ef4444"/>`;
+  return t+hl(8,30,384,166,12)+sign('fit',130,166,140)};
+
+ /* ---- Laufbahn (Lauf) ---- */
+ const lauf=()=>{let ck='';for(let i=0;i<8;i++)ck+=`<rect x="228" y="${199+i*5}" width="5" height="5" fill="${i%2?'#fff':'#2b3a52'}"/><rect x="233" y="${199+i*5}" width="5" height="5" fill="${i%2?'#2b3a52':'#fff'}"/>`;
+  let run='';if(!calm)[[111,'#ef4444',0],[121,'#3b82f6',-.5],[131,'#f59e0b',-1]].forEach(([r,c,b])=>{run+=`<g><circle r="4.6" fill="${c}" stroke="#fff" stroke-width="1.3"/><animateMotion dur="12s" begin="${b}s" repeatCount="indefinite" path="${sp(r)}"/></g>`});
+  else run=`<circle cx="246" cy="262" r="4.6" fill="#ef4444" stroke="#fff" stroke-width="1.3"/><circle cx="246" cy="272" r="4.6" fill="#3b82f6" stroke="#fff" stroke-width="1.3"/>`;
+  return `<path d="${sp(146)}${sp(106)}" fill="#d8532b" fill-rule="evenodd" stroke="#a63a18" stroke-width="2"/>${[116,126,136].map(r=>`<path d="${sp(r)}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>`).join('')}<path d="${sp(106)}" fill="none" stroke="#fff" stroke-width="3.5"/>${ck}${run}<path class="hl" d="${sp(146)}${sp(106)}" fill-rule="evenodd"/>`+sign('lauf',130,455,140)};
+
+ /* ---- Innenraum: Fußballfeld + Wurfzone (Ball) ---- */
+ const ball=()=>{let st='';for(let i=0;i<6;i++)st+=`<rect x="${125+i*25}" y="297" width="25" height="96" fill="${i%2?'#3fa84a':'#48b454'}"/>`;
+  const net=(x)=>`<rect x="${x}" y="336" width="8" height="18" fill="#f4faf4" stroke="#2b3a52" stroke-width="1.1"/><path d="M${x} 342H${x+8}M${x} 348H${x+8}M${x+4} 336V354" stroke="#9fb4a0" stroke-width=".7"/>`;
+  return `${st}<g fill="none" stroke="#fff" stroke-width="1.8"><rect x="125" y="297" width="150" height="96"/><line x1="200" y1="297" x2="200" y2="393"/><circle cx="200" cy="345" r="12"/><rect x="125" y="323" width="23" height="44"/><rect x="252" y="323" width="23" height="44"/></g>${net(117)}${net(275)}
+  <g class="kick"><g class="bnc"><circle cx="238" cy="358" r="5.6" fill="#fff" stroke="#2b3a52" stroke-width="1.3"/><polygon points="238,355 241,357.5 240,361 236,361 235,357.5" fill="#2b3a52"/></g></g>
+  <path d="M310 345L350 322Q356 345 350 368Z" fill="#e8d9a6" opacity=".85" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="332" cy="338" r="2.3" fill="#c9b36d"/><circle cx="340" cy="352" r="2.3" fill="#c9b36d"/><circle cx="310" cy="345" r="9" fill="#cbd2dc" stroke="#2b3a52" stroke-width="1.7"/><circle cx="310" cy="345" r="4" fill="#475569"/>
+  <text class="cap" x="320" y="314" text-anchor="middle">Wurfzone</text>${hl(112,290,174,110,12)}${hl(296,314,62,62,12)}`+sign('ball',130,398,140)};
+
+ /* ---- untere Felder: kompaktes 2x2-Raster, Inhalte werden verkleinert eingesetzt ---- */
+ const put=(inner,ox,oy,sc,tx,ty)=>`<g transform="translate(${(tx-ox*sc).toFixed(2)} ${(ty-oy*sc).toFixed(2)}) scale(${sc})">${inner}</g>`;
+ const PW=190,PH=108,PX=[6,204],PY=[515,633];
+ const cell=(col,row,inner,p)=>plate(PX[col],PY[row],PW,PH)+inner+hl(PX[col],PY[row],PW,PH,20)+sign(p,PX[col]+25,PY[row]+72,140);
+
+ /* Sprunggrube (Weitsprung) + Hochsprung im Innenraum */
+ const sprung=()=>{let tape='';for(let i=0;i<=19;i++)tape+=`<line x1="${24+i*10}" y1="565" x2="${24+i*10}" y2="${i%5?568:571}" stroke="#6b5200" stroke-width="1"/>`;
+  const w=`<rect x="24" y="524" width="128" height="30" rx="3" fill="#d8532b" stroke="#a63a18" stroke-width="1.5"/><line x1="26" y1="539" x2="150" y2="539" stroke="#fff" stroke-width="1.6" stroke-dasharray="7 5"/><rect x="150" y="521" width="8" height="36" fill="#fff" stroke="#2b3a52" stroke-width="1.2"/>
+  <rect x="158" y="516" width="56" height="44" rx="4" fill="#a07a4a"/><rect x="162" y="520" width="48" height="36" rx="3" fill="#f2d38a"/><g stroke="#e0bd6a" stroke-width="1.4" opacity=".8"><line x1="172" y1="522" x2="172" y2="554"/><line x1="184" y1="522" x2="184" y2="554"/><line x1="196" y1="522" x2="196" y2="554"/></g><ellipse cx="180" cy="538" rx="3.2" ry="1.8" fill="#d8b665"/><ellipse cx="188" cy="541" rx="3.2" ry="1.8" fill="#d8b665"/>
+  <path class="jmp" d="M150 520Q168 486 190 520" fill="none" stroke="#16a34a" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/><rect x="24" y="562" width="190" height="8" rx="2" fill="#ffe08a" stroke="#b58a00" stroke-width="1"/>${tape}`;
+  const hoch=`<rect x="56" y="321" width="28" height="52" rx="5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/><rect x="60" y="325" width="20" height="44" rx="3" fill="#60a5fa"/><rect x="88" y="317" width="6" height="7" rx="1.5" fill="#64748b"/><rect x="88" y="367" width="6" height="7" rx="1.5" fill="#64748b"/><line x1="91" y1="322" x2="91" y2="369" stroke="#ef4444" stroke-width="3"/><line x1="91" y1="322" x2="91" y2="369" stroke="#fff" stroke-width="3" stroke-dasharray="6 6"/>
+  <path d="M118 405Q96 396 98 350" fill="none" stroke="#fff" stroke-width="1.8" stroke-dasharray="3 4" stroke-linecap="round"/><text class="cap" x="86" y="309" text-anchor="middle">Hochsprung</text>${hl(46,300,76,118,12)}`;
+  return cell(0,0,put(w,24,486,.77,PX[0]+(PW-147)/2,PY[0]+7),'sprung')+hoch};
+
+ /* Schwimmbad */
+ const wasser=()=>{let r='';[520,537,554].forEach(y=>{r+=`<line x1="259" y1="${y}" x2="371" y2="${y}" stroke="#fff" stroke-width="1.6" opacity=".85"/>`;for(let i=0;i<13;i++)r+=`<circle cx="${261+i*9.2}" cy="${y}" r="2.7" fill="${i%2?'#fff':'#ef4444'}" stroke="#2b3a52" stroke-width=".5"/>`});
+  const w=`<rect x="252" y="498" width="126" height="78" rx="10" fill="#fff" stroke="#9fc3d4" stroke-width="2"/><rect x="257" y="503" width="116" height="68" rx="6" fill="url(#gWater)"/>${r}<path d="M262 545q6-4 12 0t12 0t12 0t12 0t12 0t12 0t12 0t12 0" fill="none" stroke="#fff" stroke-width="1.6" opacity=".6"/>
+  <g class="swim"><circle cx="266" cy="528.5" r="4.2" fill="#f59e0b" stroke="#fff" stroke-width="1"/><path d="M262 524l-5-2M262 533l-5 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></g><path d="M357 507V494M365 507V494M357 499H365M357 503H365" stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round"/>`;
+  return cell(1,0,put(w,252,494,.82,PX[1]+(PW-103)/2,PY[0]+7),'wasser')};
+
+ /* Turnhalle */
+ const turn=()=>{const w=`<polygon points="12,28 64,5 116,28" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2.4" stroke-linejoin="round"/><rect x="18" y="28" width="92" height="34" fill="#fff7e0" stroke="#c9b27a" stroke-width="1.8"/><circle cx="64" cy="19" r="4" fill="#fff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <rect x="24" y="35" width="20" height="15" rx="2" fill="#bfe6ff" stroke="#2b3a52" stroke-width="1.4"/><path d="M34 35V50M24 42.5H44" stroke="#2b3a52" stroke-width="1"/><rect x="84" y="35" width="20" height="15" rx="2" fill="#bfe6ff" stroke="#2b3a52" stroke-width="1.4"/><path d="M94 35V50M84 42.5H104" stroke="#2b3a52" stroke-width="1"/>
+  <rect x="52" y="38" width="24" height="24" rx="2" fill="#a0693a" stroke="#6b4421" stroke-width="1.6"/><line x1="64" y1="38" x2="64" y2="62" stroke="#6b4421" stroke-width="1.6"/><circle cx="61" cy="51" r="1.4" fill="#ffd23f"/><circle cx="67" cy="51" r="1.4" fill="#ffd23f"/>
+  <path d="M132 63V30M170 63V30M127 30H175" stroke="#94a3b8" stroke-width="3.2" stroke-linecap="round"/><path class="rib" d="M151 30q-9 8 0 15t0 15" fill="none" stroke="#ec4899" stroke-width="2.8" stroke-linecap="round"/><polygon points="116,62 176,62 184,70 108,70" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.6" stroke-linejoin="round"/>`;
+  return cell(0,1,put(w,12,5,1,PX[0]+(PW-172)/2+0,PY[1]+4),'turn')};
+
+ /* Pausenwiese: Baum, Bank, Matte mit Kind, Trinkbrunnen, Blumen */
+ const pause=()=>{const w=`<ellipse cx="88" cy="63" rx="84" ry="5" fill="#8fd17f" opacity=".6"/>
+  <g class="sway"><rect x="17" y="30" width="7" height="33" rx="3" fill="#8b5a2b"/><circle cx="20" cy="22" r="16" fill="#3fae4f" stroke="#2b8a3e" stroke-width="1.6"/><circle cx="9" cy="31" r="10" fill="#48b958" stroke="#2b8a3e" stroke-width="1.6"/><circle cx="32" cy="31" r="11" fill="#48b958" stroke="#2b8a3e" stroke-width="1.6"/><circle cx="20" cy="22" r="14" fill="#3fae4f"/><circle cx="15" cy="17" r="4" fill="#fff" opacity=".25"/></g>
+  <rect x="38" y="38" width="32" height="4.5" rx="2" fill="#a0693a" stroke="#6b4421" stroke-width="1"/><rect x="38" y="47" width="32" height="5" rx="2" fill="#c08450" stroke="#6b4421" stroke-width="1"/><path d="M41 42V63M67 42V63" stroke="#6b4421" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="112" cy="59" rx="30" ry="6.5" fill="#0e8a8a" stroke="#0a6a6a" stroke-width="1.6"/><ellipse cx="112" cy="59" rx="22" ry="4" fill="none" stroke="#fff" stroke-width="1" opacity=".5"/>
+  <g transform="translate(112 57)"><ellipse cx="0" cy="-3" rx="12" ry="5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.2"/><circle cx="-8" cy="-1" r="2.6" fill="#f3c9a0"/><circle cx="8" cy="-1" r="2.6" fill="#f3c9a0"/><g class="breathe"><rect x="-5.5" y="-21" width="11" height="17" rx="4.5" fill="#f59e0b" stroke="#b36b00" stroke-width="1"/></g><path d="M-5 -17L-13 -33M5 -17L13 -33" stroke="#f3c9a0" stroke-width="3.6" stroke-linecap="round"/><circle cx="-13" cy="-34" r="2.4" fill="#f3c9a0"/><circle cx="13" cy="-34" r="2.4" fill="#f3c9a0"/><circle cx="0" cy="-28" r="6.4" fill="#f3c9a0"/><path d="M-6.4 -29a6.4 6.4 0 0 1 12.8 0q-6.4 -3.4 -12.8 0z" fill="#5b3a1e"/></g>
+  <rect x="158" y="40" width="11" height="23" rx="3" fill="#94a3b8" stroke="#64748b" stroke-width="1.2"/><ellipse cx="163.5" cy="40" rx="11" ry="4" fill="#cbd5e1" stroke="#64748b" stroke-width="1.2"/><path class="jmp" d="M163.5 38q5-15 14-3" fill="none" stroke="#38bdf8" stroke-width="2.6" stroke-dasharray="2 5" stroke-linecap="round"/>
+  <g stroke="#2b8a3e" stroke-width="1.4"><path d="M146 62V54M151 62V51M178 62V53"/></g><circle cx="146" cy="53" r="3" fill="#f472b6"/><circle cx="151" cy="50" r="3" fill="#fde047"/><circle cx="178" cy="52" r="3" fill="#f472b6"/>`;
+  return cell(1,1,put(w,0,0,1,PX[1]+(PW-176)/2,PY[1]+4),'pause')};
+
+ /* ---- Himmel, Wiese, Girlande ---- */
+ let rays='';for(let i=0;i<12;i++){const a=i*Math.PI/6;rays+=`<line x1="${(342+22*Math.cos(a)).toFixed(1)}" y1="${(30+22*Math.sin(a)).toFixed(1)}" x2="${(342+31*Math.cos(a)).toFixed(1)}" y2="${(30+31*Math.sin(a)).toFixed(1)}" stroke="#ffb300" stroke-width="3.4" stroke-linecap="round"/>`}
  const cloud=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity=".95"><ellipse cx="0" cy="0" rx="26" ry="12"/><ellipse cx="-14" cy="-8" rx="14" ry="11"/><ellipse cx="8" cy="-12" rx="16" ry="13"/></g>`;
- const far=`<g class="px" data-d="1"><circle cx="332" cy="54" r="26" fill="#ffd23f" stroke="#ff9f1c" stroke-width="2"/><g class="spin" style="transform-origin:332px 54px">${rays}</g>${cloud(80,40,1.1)}${cloud(200,24,.8)}${cloud(250,86,.9)}<path d="M0 190 Q60 138 140 170 T290 160 T400 172 L400 192 L0 192 Z" fill="#9bd68a"/><path d="M0 192 Q80 160 170 182 T400 180 L400 194 L0 194 Z" fill="#82c870"/></g>`;
- let flags='',pts=[];for(let i=0;i<=10;i++){const x=i*40,y=16+11*Math.sin(i*Math.PI/5+.6);pts.push([x,y])}
- pts.forEach(([x,y],i)=>{flags+=`<polygon points="${(x-10).toFixed(1)},${y.toFixed(1)} ${(x+10).toFixed(1)},${y.toFixed(1)} ${x.toFixed(1)},${(y+20).toFixed(1)}" fill="${['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7'][i%5]}" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`});
- const near=`<g class="px" data-d="2.4"><polyline points="${pts.map(p=>p[0]+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#6b4f2a" stroke-width="2.2" stroke-linejoin="round"/>${flags}<g opacity=".75">${Array.from({length:7},(_,i)=>`<circle class="drift" cx="${30+i*55}" cy="740" r="${2+i%3}" fill="${['#f59e0b','#22c55e','#ef4444'][i%3]}" style="animation-delay:-${i*1.7}s"/>`).join('')}</g></g>`;
- return `<svg class="scene" viewBox="0 0 400 760" role="group" aria-label="Das Sportfest mit sieben Stationen">
- <defs><linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6ff"/><stop offset="1" stop-color="#eef9ff"/></linearGradient>
- <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".93"/><stop offset="1" stop-color="#f1f9ee" stop-opacity=".82"/></linearGradient>
- <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5bd0ff"/><stop offset="1" stop-color="#0e93d8"/></linearGradient>
- <linearGradient id="gHeart" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7b86"/><stop offset="1" stop-color="#d7263d"/></linearGradient></defs>
- <rect width="400" height="760" fill="url(#gSky)"/>${far}<rect y="190" width="400" height="570" fill="#d4efc4"/>${stripes}
- ${PORDER.map(H).join('')}${near}</svg>`}
+ const mast=x=>`<rect x="${x-2}" y="34" width="4" height="90" fill="#94a3b8"/><rect x="${x-14}" y="16" width="28" height="18" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.6"/>${[0,1,2].map(i=>[0,1].map(j=>`<circle cx="${x-8+i*8}" cy="${22+j*8}" r="2.4" fill="#ffe27a"/>`).join('')).join('')}`;
+ const far=`<g class="px" data-d="1"><circle cx="342" cy="30" r="17" fill="#ffd23f" stroke="#ff9f1c" stroke-width="2"/><g class="spin" style="transform-origin:342px 30px">${rays}</g>${cloud(70,44,1.1)}${cloud(190,20,.7)}${cloud(300,66,.75)}${mast(12)}${mast(388)}</g>`;
+ let stripes='';for(let k=0;k<15;k++)stripes+=`<rect y="${190+k*40}" width="400" height="40" fill="${k%2?'#9ad98a':'#8fd17f'}"/>`;
+ let hedge='';for(let i=0;i<16;i++)hedge+=`<circle cx="${8+i*25.5}" cy="${762+(i%2)*2}" r="13" fill="${i%3?'#3fae4f':'#48b958'}" stroke="#2b8a3e" stroke-width="1.6"/>`;
+ let fl='';[[14,508],[120,506],[224,508],[300,506],[386,508],[200,627],[200,745],[2,627],[398,627]].forEach(([x,y],i)=>fl+=`<circle cx="${x}" cy="${y}" r="3" fill="${['#f472b6','#fff','#fde047'][i%3]}"/>`);
+ let flags='',pts=[];for(let i=0;i<=10;i++)pts.push([i*40,7+4*Math.sin(i*Math.PI/5+.6)]);
+ pts.forEach(([x,y],i)=>{flags+=`<polygon points="${(x-9).toFixed(1)},${y.toFixed(1)} ${(x+9).toFixed(1)},${y.toFixed(1)} ${x.toFixed(1)},${(y+15).toFixed(1)}" fill="${['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7'][i%5]}" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`});
+ const near=`<g class="px" data-d="2.4"><polyline points="${pts.map(p=>p[0]+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#6b4f2a" stroke-width="2" stroke-linejoin="round"/>${flags}<g opacity=".7">${Array.from({length:7},(_,i)=>`<circle class="drift" cx="${30+i*55}" cy="750" r="${2+i%3}" fill="${['#f59e0b','#22c55e','#ef4444'][i%3]}" style="animation-delay:-${i*1.7}s"/>`).join('')}</g></g>`;
+ const inField=`<clipPath id="cpIn"><path d="${sp(106)}"/></clipPath><path d="${sp(106)}" fill="#6cc563"/><g clip-path="url(#cpIn)">${Array.from({length:15},(_,i)=>i%2?`<rect x="${44+i*20}" y="236" width="20" height="220" fill="#fff" opacity=".08"/>`:'').join('')}</g><path d="${sp(150)}" fill="none" stroke="#fff" stroke-width="2.4" opacity=".9"/>`;
+ return `<svg class="scene" viewBox="0 0 400 780" role="group" aria-label="Das Sportfest-Gelände: Tribüne, Laufbahn, Ballfeld, Sprunggrube, Schwimmbad, Turnhalle und Pausenwiese">
+ <defs><linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset="1" stop-color="#e3f5ff"/></linearGradient>
+ <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5bd0ff"/><stop offset="1" stop-color="#0e93d8"/></linearGradient></defs>
+ <rect width="400" height="780" fill="url(#gSky)"/>${far}<rect y="190" width="400" height="600" fill="#8fd17f"/>${stripes}${fl}${hedge}${inField}
+ ${grp('fit',tribuene())}${grp('lauf',lauf())}${grp('ball',ball())}${grp('sprung',sprung())}${grp('wasser',wasser())}${grp('turn',turn())}${grp('pause',pause())}${near}</svg>`}
 function parallax(){const sv=$('.scene');if(!sv)return;const L=[...sv.querySelectorAll('.px')];sv.onpointermove=e=>{const r=sv.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;L.forEach(g=>{const d=+g.dataset.d;g.style.transform=`translate(${(-dx*d*11).toFixed(1)}px,${(-dy*d*6).toFixed(1)}px)`})};sv.onpointerleave=()=>L.forEach(g=>g.style.transform='')}
 
 /* ===== Spiel-Motor Sportfest ===== */
@@ -876,7 +933,7 @@ function okName(){const v=nrm($('#un').value);$('#ue').textContent=nameErr(v);if
 function login(n){try{localStorage.setItem('kastner-user',String(n).trim().replace(/\s+/g,' '))}catch(e){}ac();CUR=nrm(n);const k=Object.keys(DB.u).find(x=>x.toLowerCase()==CUR.toLowerCase());if(k)CUR=k;setU();closeOv();const b=$('#ab');b&&b.remove();if(isAd())document.body.insertAdjacentHTML('beforeend','<button id="ab" class="noprint" onclick="results()">📊 Ergebnisse anzeigen</button>');hub()}
 function logout(){wechseln()}
 function resetMe(){if(confirm('Möchtest du wirklich alle deine Sterne und Sticker löschen?')){U=DB.u[CUR]=mkU();save();hub()}}
-function hub(){stopG();const nm=isAd()?'Herr Kastner':CUR;show(`<div class="logo"><span>Sportfest</span><small>${nm?'Hallo, '+esc(nm)+'! Tippe auf eine Station.':'Rechnen, lesen, wissen und bewegen'}</small></div>${hubScene()}<div class="prog" aria-label="Fortschritt"><span>⭐ ${sumStars()} / ${MAXS}</span><span>🎖️ ${nSt()} / ${LV.length}</span><span>🏅 ${nBd()} / ${PORDER.length}</span><span>🧘 ${U.m||0}</span></div><div class="tools"><button onclick="mappe()"><span aria-hidden="true">🎖️</span>Meine Sticker</button><button onclick="cert()"><span aria-hidden="true">📜</span>Urkunde</button><button onclick="logout()"><span aria-hidden="true">👤</span>Wechseln</button><button onclick="resetMe()"><span aria-hidden="true">🗑️</span>Neu beginnen</button><button onclick="location.href='index.html'"><span aria-hidden="true">🏠</span>Startseite</button></div>`);parallax()}
+function hub(){stopG();const nm=isAd()?'Herr Kastner':CUR;show(`<div class="logo"><span>Sportfest</span><small>${nm?'Hallo, '+esc(nm)+'! Tippe auf einen Ort.':'Rechnen, lesen, wissen und bewegen'}</small></div>${hubScene()}<div class="prog" aria-label="Fortschritt"><span>⭐ ${sumStars()} / ${MAXS}</span><span>🎖️ ${nSt()} / ${LV.length}</span><span>🏅 ${nBd()} / ${PORDER.length}</span><span>🧘 ${U.m||0}</span></div><div class="tools"><button onclick="mappe()"><span aria-hidden="true">🎖️</span>Meine Sticker</button><button onclick="cert()"><span aria-hidden="true">📜</span>Urkunde</button><button onclick="logout()"><span aria-hidden="true">👤</span>Wechseln</button><button onclick="resetMe()"><span aria-hidden="true">🗑️</span>Neu beginnen</button><button onclick="location.href='index.html'"><span aria-hidden="true">🏠</span>Startseite</button></div>`);parallax()}
 function place(p){stopG();const P=PLACE[p];show(`<div class="bar"><button class="back" onclick="hub()">⬅ Sportfest</button></div><div class="hdr"><span class="ico" aria-hidden="true">${P.e}</span><div><h1>${P.n}</h1><small>${P.d}</small></div></div><ol class="tix">${LV.filter(l=>l.pl==p).map(l=>{const ok=unlocked(l),s=U.s[l.id]||0;return `<li class="tk${ok?'':' lk'}${s>0?' dn':''}"><button class="tkb" ${ok?`onclick="startLevel('${l.id}')"`:'disabled'} aria-label="${esc(l.n)}${ok?'':' (noch gesperrt)'}"><span class="tke" aria-hidden="true">${ok?l.e:'🔒'}</span><span class="tkt"><b>${l.n}</b><small>${ok?l.d:'Schaffe erst die Station davor.'}</small></span><span class="tks" aria-label="${s} von 3 Sternen">${starTxt(s)}</span></button></li>`}).join('')}</ol>`)}
 /* ---- Aufgaben ---- */
 function startLevel(id){const l=LVI[id];G={lv:l,list:l.plan(),i:0,miss:0,res:[],faults:[],mvn:0};nextPuz()}
