@@ -180,19 +180,21 @@ details.card summary{cursor:pointer;font-weight:800}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* ===== Sportfest: Farben und neue Bausteine ===== */
-:root{--cy:#16a34a;--bl:#e8650a;--vi:#0e8a8a}
-body{background:radial-gradient(900px 520px at 12% -8%,#ffffff 0,transparent 62%),radial-gradient(800px 520px at 100% 0,#e3f8e4 0,transparent 60%),linear-gradient(180deg,#f6faf4,#e4eee2 70%,#d9e6d6);background-attachment:fixed}
-body::before{background-image:linear-gradient(rgba(22,163,74,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(22,163,74,.05) 1px,transparent 1px)}
-.logo span{background:linear-gradient(180deg,#ffb04d 0,#ee6a12 48%,#b53f06 52%,#e9852f 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 8px 10px rgba(120,60,10,.25))}
-.big{background:linear-gradient(180deg,#8fe38f,#27b35a 55%,#0f8a46);box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #0d7a3e,0 6px 0 #0a6232,0 14px 24px rgba(15,138,70,.28)}
-.big:active:not(:disabled){box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #0d7a3e,0 2px 0 #0a6232,0 6px 12px rgba(15,138,70,.28)}
-button[aria-pressed=true]{background:linear-gradient(180deg,#d4f5d8,#8fdc9b);box-shadow:inset 0 1px 0 #fff,0 0 0 2px var(--cy),0 4px 0 #2d9a50}
-.scene .hl{fill:rgba(22,163,74,0);stroke:rgba(22,163,74,0)}
-.scene [role=button]:hover .hl,.scene [role=button]:focus-visible .hl{fill:rgba(22,163,74,.07);stroke:rgba(22,163,74,.95)}
+:root{--cy:#0d9488;--bl:#0f766e;--vi:#14b8a6}
+body{background:radial-gradient(900px 520px at 12% -8%,#ffffff 0,transparent 62%),radial-gradient(800px 520px at 100% 0,#d7faf1 0,transparent 60%),linear-gradient(180deg,#f4fffc,#d9f5ee 70%,#bfe8de);background-attachment:fixed}
+body::before{background-image:linear-gradient(rgba(13,148,136,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(13,148,136,.07) 1px,transparent 1px)}
+.logo span{background:linear-gradient(180deg,#7df2de 0,#14b8a6 48%,#0b5f58 52%,#2dd4bf 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 8px 10px rgba(10,80,70,.28))}
+.big{background:linear-gradient(180deg,#3fd2bd,#0d9488 55%,#0a6b62);box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #0a6b62,0 6px 0 #07514b,0 14px 24px rgba(10,107,98,.28)}
+.big:active:not(:disabled){box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1px #0a6b62,0 2px 0 #07514b,0 6px 12px rgba(10,107,98,.28)}
+button[aria-pressed=true]{background:linear-gradient(180deg,#d5faf3,#8ee9d9);box-shadow:inset 0 1px 0 #fff,0 0 0 2px var(--cy),0 4px 0 #0a8176}
+.scene .hl{fill:rgba(13,148,136,0);stroke:rgba(13,148,136,0)}
+.scene [role=button]:hover .hl,.scene [role=button]:focus-visible .hl{fill:rgba(13,148,136,.08);stroke:rgba(13,148,136,.95)}
+.pbar i.l{background:linear-gradient(180deg,#d3f5ee,#7ddccc)}.pbar i.c{background:linear-gradient(180deg,#7ef0dc,#0d9488);animation:pulse 1.3s ease-in-out infinite}
+.tk.dn .tke{background:radial-gradient(circle at 32% 26%,#fff 0,#c9f7ee 55%,#2dd4bf 100%)}
 /* Bewegungspause */
 .mv{text-align:center}.mv .mve{font-size:4.6em;line-height:1.1;margin:.1em 0}.mv .mvn{font-size:1.25em;margin:.1em 0}
 .mv .mvt{margin:.4em auto;width:150px;position:relative}.mv .mvt svg{width:150px;height:150px;display:block}.mv .mvt b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.1em}
-.mv .alt{background:#eef7ee;border-radius:14px;padding:.45em .8em;margin:.5em auto;max-width:34em;font-size:.95em}
+.mv .alt{background:#e6faf5;border-radius:14px;padding:.45em .8em;margin:.5em auto;max-width:34em;font-size:.95em}
 .mv .row button{min-width:140px}
 .chart{display:block;margin:.3em auto;max-width:100%;height:auto;background:#fff;border-radius:18px;box-shadow:0 0 0 1px var(--line)}
 .clk{display:block;margin:.3em auto;width:min(230px,70vw);height:auto}
@@ -290,10 +292,10 @@ function clockSvg(h,m){
  for(let i=0;i<60;i++){const a=i*Math.PI/30,big=i%5==0,r1=big?77:83,r2=89;s+=`<line x1="${f1(100+r1*Math.sin(a))}" y1="${f1(100-r1*Math.cos(a))}" x2="${f1(100+r2*Math.sin(a))}" y2="${f1(100-r2*Math.cos(a))}" stroke="${INKC}" stroke-width="${big?3:1.2}" stroke-linecap="round"/>`}
  for(let i=1;i<=12;i++){const a=i*Math.PI/6;s+=`<text x="${f1(100+62*Math.sin(a))}" y="${f1(100-62*Math.cos(a)+7)}" text-anchor="middle" font-size="20" font-weight="800" fill="${INKC}">${i}</text>`}
  const ha=((h%12)+m/60)*Math.PI/6,ma=m*Math.PI/30;
- s+=`<line x1="100" y1="100" x2="${f1(100+42*Math.sin(ha))}" y2="${f1(100-42*Math.cos(ha))}" stroke="${INKC}" stroke-width="9" stroke-linecap="round"/><line x1="100" y1="100" x2="${f1(100+68*Math.sin(ma))}" y2="${f1(100-68*Math.cos(ma))}" stroke="#e8650a" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="6" fill="${INKC}"/></svg>`;
+ s+=`<line x1="100" y1="100" x2="${f1(100+42*Math.sin(ha))}" y2="${f1(100-42*Math.cos(ha))}" stroke="${INKC}" stroke-width="9" stroke-linecap="round"/><line x1="100" y1="100" x2="${f1(100+68*Math.sin(ma))}" y2="${f1(100-68*Math.cos(ma))}" stroke="#0d9488" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="6" fill="${INKC}"/></svg>`;
  return s}
 /* Zeit-Ring für Bewegungspausen */
-const ringSvg=f=>{const C=2*Math.PI*62;return `<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="62" fill="none" stroke="#dbe6d8" stroke-width="12"/><circle cx="75" cy="75" r="62" fill="none" stroke="#16a34a" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 75 75)"/></svg>`};
+const ringSvg=f=>{const C=2*Math.PI*62;return `<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="62" fill="none" stroke="#d5ebe6" stroke-width="12"/><circle cx="75" cy="75" r="62" fill="none" stroke="#0d9488" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 75 75)"/></svg>`};
 /* Lineal mit Streifen (0 bis 15 cm) */
 function rulerSvg(len,col){
  const x0=14,u=20,W=x0*2+u*15;
@@ -317,7 +319,7 @@ function tallySvg(n){
  let s=`<svg viewBox="0 0 ${W} ${H}" class="chart" width="${W*1.3}" role="img" aria-label="Eine Strichliste">`;
  for(let j=0;j<g;j++){const ox=6+(j%4)*gw,oy=4+Math.floor(j/4)*gh,c=Math.min(5,n-5*j);
   for(let i=0;i<Math.min(c,4);i++)s+=`<line x1="${ox+i*10+4}" y1="${oy+4}" x2="${ox+i*10+4}" y2="${oy+36}" stroke="${INKC}" stroke-width="3.4" stroke-linecap="round"/>`;
-  if(c==5)s+=`<line x1="${ox-2}" y1="${oy+31}" x2="${ox+44}" y2="${oy+9}" stroke="#e8650a" stroke-width="3.4" stroke-linecap="round"/>`}
+  if(c==5)s+=`<line x1="${ox-2}" y1="${oy+31}" x2="${ox+44}" y2="${oy+9}" stroke="#0d9488" stroke-width="3.4" stroke-linecap="round"/>`}
  return s+'</svg>'}
 /* Hallenplan mit Feldern A1 ... (Spalten A–E, Zeilen 1–4) */
 function gridSvg(it,o){
@@ -819,13 +821,13 @@ function hubScene(){
  const sp=r=>`M${c1} ${cy-r}H${c2}A${r} ${r} 0 0 1 ${c2} ${cy+r}H${c1}A${r} ${r} 0 0 1 ${c1} ${cy-r}Z`;
  let sd=11;const rnd=()=>(sd=(sd*9301+49297)%233280)/233280;
  const calm=typeof matchMedia=='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
- const ring=f=>{const C=81.7;return `<circle r="13" fill="#fff" stroke="#d3dce8" stroke-width="3.5"/><circle r="13" fill="none" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C}" transform="rotate(-90)"/>`};
+ const ring=f=>{const C=81.7;return `<circle r="13" fill="#fff" stroke="#d3dce8" stroke-width="3.5"/><circle r="13" fill="none" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="${(C*Math.max(0,Math.min(1,f))).toFixed(1)} ${C}" transform="rotate(-90)"/>`};
  const NAME=p=>PLACE[p].n.replace('&','&amp;');
  const sign=(p,x,y,w)=>{const st=placeStars(p),mx=placeMax(p),bd=stBadge(p);
-  return `<g class="sgn"><rect x="${x}" y="${y+3}" width="${w}" height="34" rx="17" fill="#000" opacity=".16"/><rect x="${x}" y="${y}" width="${w}" height="34" rx="17" fill="#fff" stroke="#16a34a" stroke-width="2.4"/><g transform="translate(${x+19} ${y+17})">${ring(mx?st/mx:0)}<text y="5" text-anchor="middle" font-size="14">${PLACE[p].e}</text></g><text class="pn" x="${x+38}" y="${y+15}">${NAME(p)}</text><text class="ps" x="${x+38}" y="${y+28}">⭐ ${st}/${mx}${bd?' · 🏅':''}</text></g>`};
+  return `<g class="sgn"><rect x="${x}" y="${y+3}" width="${w}" height="34" rx="17" fill="#000" opacity=".16"/><rect x="${x}" y="${y}" width="${w}" height="34" rx="17" fill="#fff" stroke="#14b8a6" stroke-width="2.4"/><g transform="translate(${x+19} ${y+17})">${ring(mx?st/mx:0)}<text y="5" text-anchor="middle" font-size="14">${PLACE[p].e}</text></g><text class="pn" x="${x+38}" y="${y+15}">${NAME(p)}</text><text class="ps" x="${x+38}" y="${y+28}">⭐ ${st}/${mx}${bd?' · 🏅':''}</text></g>`};
  const grp=(p,inner)=>{const st=placeStars(p),mx=placeMax(p),bd=stBadge(p);
   return `<g role="button" tabindex="0" aria-label="${NAME(p)}. ${st} von ${mx} Sternen.${bd?' Abzeichen erreicht.':''}" onclick="place('${p}')" onkeydown="if(event.key=='Enter'||event.key==' '){event.preventDefault();place('${p}')}">${inner}</g>`};
- const plate=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20" fill="#f4ecd6" stroke="#d6c697" stroke-width="2.4"/>`;
+ const plate=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20" fill="#eef8f4" stroke="#b7d8cd" stroke-width="2.4"/>`;
  const hl=(x,y,w,h,r)=>`<rect class="hl" x="${x}" y="${y}" width="${w}" height="${h}" rx="${r||14}"/>`;
 
  /* ---- Tribüne mit Anzeigetafel (Fit) ---- */
@@ -835,7 +837,7 @@ function hubScene(){
    for(let i=0;i<24;i++){if(rnd()<.1)continue;const x=32+i*14.2,hy=y+7,c=SPC[Math.floor(rnd()*SPC.length)],sk=SKIN[Math.floor(rnd()*4)],bob=rnd()<.22;
     t+=`<g${bob?` class="bob" style="animation-delay:-${(rnd()*1.2).toFixed(2)}s"`:''}><rect x="${(x-4.6).toFixed(1)}" y="${hy+3}" width="9.2" height="9" rx="4" fill="${c}"/><circle cx="${x.toFixed(1)}" cy="${hy}" r="3.9" fill="${sk}"/></g>`}}
   t+=`<rect x="14" y="184" width="372" height="10" rx="3" fill="#5b6b80"/><rect x="20" y="101" width="5" height="84" fill="#64748b"/><rect x="375" y="101" width="5" height="84" fill="#64748b"/>
-  <polygon points="8,101 392,101 382,83 18,83" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/><rect x="8" y="95" width="384" height="6" rx="2" fill="#e8650a"/>
+  <polygon points="8,101 392,101 382,83 18,83" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/><rect x="8" y="95" width="384" height="6" rx="2" fill="#14b8a6"/>
   <line x1="44" y1="83" x2="44" y2="50" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/><polygon class="wave" points="44,50 68,57 44,64" fill="#ef4444"/><line x1="356" y1="83" x2="356" y2="50" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/><polygon class="wave w2" points="356,50 332,57 356,64" fill="#3b82f6"/>
   <rect x="110" y="34" width="180" height="50" rx="7" fill="#1f2d44" stroke="#0f1a2b" stroke-width="3"/><rect x="117" y="40" width="166" height="38" rx="4" fill="#0b1220"/>
   <text x="200" y="53" text-anchor="middle" font-size="10" font-weight="800" fill="#ffd23f" letter-spacing="2.5" font-family="system-ui,sans-serif">SPORTFEST</text><text x="200" y="72" text-anchor="middle" font-size="16" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">⭐ ${sumStars()} / ${MAXS}</text>
@@ -849,10 +851,10 @@ function hubScene(){
   return `<path d="${sp(146)}${sp(106)}" fill="#d8532b" fill-rule="evenodd" stroke="#a63a18" stroke-width="2"/>${[116,126,136].map(r=>`<path d="${sp(r)}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>`).join('')}<path d="${sp(106)}" fill="none" stroke="#fff" stroke-width="3.5"/>${ck}${run}<path class="hl" d="${sp(146)}${sp(106)}" fill-rule="evenodd"/>`+sign('lauf',130,455,140)};
 
  /* ---- Innenraum: Fußballfeld + Wurfzone (Ball) ---- */
- const ball=()=>{let st='';for(let i=0;i<6;i++)st+=`<rect x="${125+i*25}" y="297" width="25" height="96" fill="${i%2?'#3fa84a':'#48b454'}"/>`;
+ const ball=()=>{let st='';for(let i=0;i<6;i++)st+=`<rect x="${125+i*25}" y="297" width="25" height="96" fill="${i%2?'#2fae8a':'#38bb96'}"/>`;
   const net=(x)=>`<rect x="${x}" y="336" width="8" height="18" fill="#f4faf4" stroke="#2b3a52" stroke-width="1.1"/><path d="M${x} 342H${x+8}M${x} 348H${x+8}M${x+4} 336V354" stroke="#9fb4a0" stroke-width=".7"/>`;
   return `${st}<g fill="none" stroke="#fff" stroke-width="1.8"><rect x="125" y="297" width="150" height="96"/><line x1="200" y1="297" x2="200" y2="393"/><circle cx="200" cy="345" r="12"/><rect x="125" y="323" width="23" height="44"/><rect x="252" y="323" width="23" height="44"/></g>${net(117)}${net(275)}
-  <g class="kick"><g class="bnc"><circle cx="238" cy="358" r="5.6" fill="#fff" stroke="#2b3a52" stroke-width="1.3"/><polygon points="238,355 241,357.5 240,361 236,361 235,357.5" fill="#2b3a52"/></g></g>
+  <g class="kick"><g class="bnc"><use href="#fbl" transform="translate(238 357) scale(.86)"/></g></g>
   <path d="M310 345L350 322Q356 345 350 368Z" fill="#e8d9a6" opacity=".85" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="332" cy="338" r="2.3" fill="#c9b36d"/><circle cx="340" cy="352" r="2.3" fill="#c9b36d"/><circle cx="310" cy="345" r="9" fill="#cbd2dc" stroke="#2b3a52" stroke-width="1.7"/><circle cx="310" cy="345" r="4" fill="#475569"/>
   <text class="cap" x="320" y="314" text-anchor="middle">Wurfzone</text>${hl(112,290,174,110,12)}${hl(296,314,62,62,12)}`+sign('ball',130,398,140)};
 
@@ -865,7 +867,7 @@ function hubScene(){
  const sprung=()=>{let tape='';for(let i=0;i<=19;i++)tape+=`<line x1="${24+i*10}" y1="565" x2="${24+i*10}" y2="${i%5?568:571}" stroke="#6b5200" stroke-width="1"/>`;
   const w=`<rect x="24" y="524" width="128" height="30" rx="3" fill="#d8532b" stroke="#a63a18" stroke-width="1.5"/><line x1="26" y1="539" x2="150" y2="539" stroke="#fff" stroke-width="1.6" stroke-dasharray="7 5"/><rect x="150" y="521" width="8" height="36" fill="#fff" stroke="#2b3a52" stroke-width="1.2"/>
   <rect x="158" y="516" width="56" height="44" rx="4" fill="#a07a4a"/><rect x="162" y="520" width="48" height="36" rx="3" fill="#f2d38a"/><g stroke="#e0bd6a" stroke-width="1.4" opacity=".8"><line x1="172" y1="522" x2="172" y2="554"/><line x1="184" y1="522" x2="184" y2="554"/><line x1="196" y1="522" x2="196" y2="554"/></g><ellipse cx="180" cy="538" rx="3.2" ry="1.8" fill="#d8b665"/><ellipse cx="188" cy="541" rx="3.2" ry="1.8" fill="#d8b665"/>
-  <path class="jmp" d="M150 520Q168 486 190 520" fill="none" stroke="#16a34a" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/><rect x="24" y="562" width="190" height="8" rx="2" fill="#ffe08a" stroke="#b58a00" stroke-width="1"/>${tape}`;
+  <path class="jmp" d="M150 520Q168 486 190 520" fill="none" stroke="#0d9488" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/><rect x="24" y="562" width="190" height="8" rx="2" fill="#ffe08a" stroke="#b58a00" stroke-width="1"/>${tape}`;
   const hoch=`<rect x="56" y="321" width="28" height="52" rx="5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/><rect x="60" y="325" width="20" height="44" rx="3" fill="#60a5fa"/><rect x="88" y="317" width="6" height="7" rx="1.5" fill="#64748b"/><rect x="88" y="367" width="6" height="7" rx="1.5" fill="#64748b"/><line x1="91" y1="322" x2="91" y2="369" stroke="#ef4444" stroke-width="3"/><line x1="91" y1="322" x2="91" y2="369" stroke="#fff" stroke-width="3" stroke-dasharray="6 6"/>
   <path d="M118 405Q96 396 98 350" fill="none" stroke="#fff" stroke-width="1.8" stroke-dasharray="3 4" stroke-linecap="round"/><text class="cap" x="86" y="309" text-anchor="middle">Hochsprung</text>${hl(46,300,76,118,12)}`;
   return cell(0,0,put(w,24,486,.77,PX[0]+(PW-147)/2,PY[0]+7),'sprung')+hoch};
@@ -885,12 +887,12 @@ function hubScene(){
 
  /* Pausenwiese: Baum, Bank, Matte mit Kind, Trinkbrunnen, Blumen */
  const pause=()=>{const w=`<ellipse cx="88" cy="63" rx="84" ry="5" fill="#8fd17f" opacity=".6"/>
-  <g class="sway"><rect x="17" y="30" width="7" height="33" rx="3" fill="#8b5a2b"/><circle cx="20" cy="22" r="16" fill="#3fae4f" stroke="#2b8a3e" stroke-width="1.6"/><circle cx="9" cy="31" r="10" fill="#48b958" stroke="#2b8a3e" stroke-width="1.6"/><circle cx="32" cy="31" r="11" fill="#48b958" stroke="#2b8a3e" stroke-width="1.6"/><circle cx="20" cy="22" r="14" fill="#3fae4f"/><circle cx="15" cy="17" r="4" fill="#fff" opacity=".25"/></g>
+  <g class="sway"><rect x="17" y="30" width="7" height="33" rx="3" fill="#8b5a2b"/><circle cx="20" cy="22" r="16" fill="#2fae8a" stroke="#1f7a62" stroke-width="1.6"/><circle cx="9" cy="31" r="10" fill="#38bb96" stroke="#1f7a62" stroke-width="1.6"/><circle cx="32" cy="31" r="11" fill="#38bb96" stroke="#1f7a62" stroke-width="1.6"/><circle cx="20" cy="22" r="14" fill="#2fae8a"/><circle cx="15" cy="17" r="4" fill="#fff" opacity=".25"/></g>
   <rect x="38" y="38" width="32" height="4.5" rx="2" fill="#a0693a" stroke="#6b4421" stroke-width="1"/><rect x="38" y="47" width="32" height="5" rx="2" fill="#c08450" stroke="#6b4421" stroke-width="1"/><path d="M41 42V63M67 42V63" stroke="#6b4421" stroke-width="2.4" stroke-linecap="round"/>
-  <ellipse cx="112" cy="59" rx="30" ry="6.5" fill="#0e8a8a" stroke="#0a6a6a" stroke-width="1.6"/><ellipse cx="112" cy="59" rx="22" ry="4" fill="none" stroke="#fff" stroke-width="1" opacity=".5"/>
+  <ellipse cx="112" cy="59" rx="30" ry="6.5" fill="#0d9488" stroke="#0a6a6a" stroke-width="1.6"/><ellipse cx="112" cy="59" rx="22" ry="4" fill="none" stroke="#fff" stroke-width="1" opacity=".5"/>
   <g transform="translate(112 57)"><ellipse cx="0" cy="-3" rx="12" ry="5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.2"/><circle cx="-8" cy="-1" r="2.6" fill="#f3c9a0"/><circle cx="8" cy="-1" r="2.6" fill="#f3c9a0"/><g class="breathe"><rect x="-5.5" y="-21" width="11" height="17" rx="4.5" fill="#f59e0b" stroke="#b36b00" stroke-width="1"/></g><path d="M-5 -17L-13 -33M5 -17L13 -33" stroke="#f3c9a0" stroke-width="3.6" stroke-linecap="round"/><circle cx="-13" cy="-34" r="2.4" fill="#f3c9a0"/><circle cx="13" cy="-34" r="2.4" fill="#f3c9a0"/><circle cx="0" cy="-28" r="6.4" fill="#f3c9a0"/><path d="M-6.4 -29a6.4 6.4 0 0 1 12.8 0q-6.4 -3.4 -12.8 0z" fill="#5b3a1e"/></g>
   <rect x="158" y="40" width="11" height="23" rx="3" fill="#94a3b8" stroke="#64748b" stroke-width="1.2"/><ellipse cx="163.5" cy="40" rx="11" ry="4" fill="#cbd5e1" stroke="#64748b" stroke-width="1.2"/><path class="jmp" d="M163.5 38q5-15 14-3" fill="none" stroke="#38bdf8" stroke-width="2.6" stroke-dasharray="2 5" stroke-linecap="round"/>
-  <g stroke="#2b8a3e" stroke-width="1.4"><path d="M146 62V54M151 62V51M178 62V53"/></g><circle cx="146" cy="53" r="3" fill="#f472b6"/><circle cx="151" cy="50" r="3" fill="#fde047"/><circle cx="178" cy="52" r="3" fill="#f472b6"/>`;
+  <g stroke="#1f7a62" stroke-width="1.4"><path d="M146 62V54M151 62V51M178 62V53"/></g><circle cx="146" cy="53" r="3" fill="#f472b6"/><circle cx="151" cy="50" r="3" fill="#fde047"/><circle cx="178" cy="52" r="3" fill="#f472b6"/>`;
   return cell(1,1,put(w,0,0,1,PX[1]+(PW-176)/2,PY[1]+4),'pause')};
 
  /* ---- Himmel, Wiese, Girlande ---- */
@@ -898,17 +900,17 @@ function hubScene(){
  const cloud=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity=".95"><ellipse cx="0" cy="0" rx="26" ry="12"/><ellipse cx="-14" cy="-8" rx="14" ry="11"/><ellipse cx="8" cy="-12" rx="16" ry="13"/></g>`;
  const mast=x=>`<rect x="${x-2}" y="34" width="4" height="90" fill="#94a3b8"/><rect x="${x-14}" y="16" width="28" height="18" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.6"/>${[0,1,2].map(i=>[0,1].map(j=>`<circle cx="${x-8+i*8}" cy="${22+j*8}" r="2.4" fill="#ffe27a"/>`).join('')).join('')}`;
  const far=`<g class="px" data-d="1"><circle cx="342" cy="30" r="17" fill="#ffd23f" stroke="#ff9f1c" stroke-width="2"/><g class="spin" style="transform-origin:342px 30px">${rays}</g>${cloud(70,44,1.1)}${cloud(190,20,.7)}${cloud(300,66,.75)}${mast(12)}${mast(388)}</g>`;
- let stripes='';for(let k=0;k<15;k++)stripes+=`<rect y="${190+k*40}" width="400" height="40" fill="${k%2?'#9ad98a':'#8fd17f'}"/>`;
- let hedge='';for(let i=0;i<16;i++)hedge+=`<circle cx="${8+i*25.5}" cy="${762+(i%2)*2}" r="13" fill="${i%3?'#3fae4f':'#48b958'}" stroke="#2b8a3e" stroke-width="1.6"/>`;
+ let stripes='';for(let k=0;k<15;k++)stripes+=`<rect y="${190+k*40}" width="400" height="40" fill="${k%2?'#97e6cf':'#8be0c8'}"/>`;
+ let hedge='';for(let i=0;i<16;i++)hedge+=`<circle cx="${8+i*25.5}" cy="${762+(i%2)*2}" r="13" fill="${i%3?'#2fae8a':'#38bb96'}" stroke="#1f7a62" stroke-width="1.6"/>`;
  let fl='';[[14,508],[120,506],[224,508],[300,506],[386,508],[200,627],[200,745],[2,627],[398,627]].forEach(([x,y],i)=>fl+=`<circle cx="${x}" cy="${y}" r="3" fill="${['#f472b6','#fff','#fde047'][i%3]}"/>`);
  let flags='',pts=[];for(let i=0;i<=10;i++)pts.push([i*40,7+4*Math.sin(i*Math.PI/5+.6)]);
  pts.forEach(([x,y],i)=>{flags+=`<polygon points="${(x-9).toFixed(1)},${y.toFixed(1)} ${(x+9).toFixed(1)},${y.toFixed(1)} ${x.toFixed(1)},${(y+15).toFixed(1)}" fill="${['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7'][i%5]}" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`});
  const near=`<g class="px" data-d="2.4"><polyline points="${pts.map(p=>p[0]+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#6b4f2a" stroke-width="2" stroke-linejoin="round"/>${flags}<g opacity=".7">${Array.from({length:7},(_,i)=>`<circle class="drift" cx="${30+i*55}" cy="750" r="${2+i%3}" fill="${['#f59e0b','#22c55e','#ef4444'][i%3]}" style="animation-delay:-${i*1.7}s"/>`).join('')}</g></g>`;
- const inField=`<clipPath id="cpIn"><path d="${sp(106)}"/></clipPath><path d="${sp(106)}" fill="#6cc563"/><g clip-path="url(#cpIn)">${Array.from({length:15},(_,i)=>i%2?`<rect x="${44+i*20}" y="236" width="20" height="220" fill="#fff" opacity=".08"/>`:'').join('')}</g><path d="${sp(150)}" fill="none" stroke="#fff" stroke-width="2.4" opacity=".9"/>`;
+ const inField=`<clipPath id="cpIn"><path d="${sp(106)}"/></clipPath><path d="${sp(106)}" fill="#62cfae"/><g clip-path="url(#cpIn)">${Array.from({length:15},(_,i)=>i%2?`<rect x="${44+i*20}" y="236" width="20" height="220" fill="#fff" opacity=".08"/>`:'').join('')}</g><path d="${sp(150)}" fill="none" stroke="#fff" stroke-width="2.4" opacity=".9"/>`;
  return `<svg class="scene" viewBox="0 0 400 780" role="group" aria-label="Das Sportfest-Gelände: Tribüne, Laufbahn, Ballfeld, Sprunggrube, Schwimmbad, Turnhalle und Pausenwiese">
- <defs><linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset="1" stop-color="#e3f5ff"/></linearGradient>
+ <defs><g id="fbl"><clipPath id="fbc"><circle r="10"/></clipPath><circle r="10" fill="#fff"/><g clip-path="url(#fbc)" fill="#2b3a52" stroke="#2b3a52" stroke-width=".6" stroke-linejoin="round" stroke-linecap="round">${(()=>{const P=(cx,cy,R,a0)=>Array.from({length:5},(_,k)=>{const a=(a0+72*k)*Math.PI/180;return (cx+R*Math.cos(a)).toFixed(2)+','+(cy+R*Math.sin(a)).toFixed(2)}).join(' ');let o=`<polygon points="${P(0,0,3.5,-90)}"/>`;for(let k=0;k<5;k++){const t=(-90+72*k)*Math.PI/180,c=Math.cos(t),s=Math.sin(t);o+=`<line x1="${(3.5*c).toFixed(2)}" y1="${(3.5*s).toFixed(2)}" x2="${(6.6*c).toFixed(2)}" y2="${(6.6*s).toFixed(2)}" fill="none"/><polygon points="${P(10*c,10*s,3.6,-90+72*k+180)}"/>`}return o})()}</g><circle r="9.8" fill="none" stroke="#2b3a52" stroke-width=".8"/></g><linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset="1" stop-color="#e3f5ff"/></linearGradient>
  <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5bd0ff"/><stop offset="1" stop-color="#0e93d8"/></linearGradient></defs>
- <rect width="400" height="780" fill="url(#gSky)"/>${far}<rect y="190" width="400" height="600" fill="#8fd17f"/>${stripes}${fl}${hedge}${inField}
+ <rect width="400" height="780" fill="url(#gSky)"/>${far}<rect y="190" width="400" height="600" fill="#8be0c8"/>${stripes}${fl}${hedge}${inField}
  ${grp('fit',tribuene())}${grp('lauf',lauf())}${grp('ball',ball())}${grp('sprung',sprung())}${grp('wasser',wasser())}${grp('turn',turn())}${grp('pause',pause())}${near}</svg>`}
 function parallax(){const sv=$('.scene');if(!sv)return;const L=[...sv.querySelectorAll('.px')];sv.onpointermove=e=>{const r=sv.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;L.forEach(g=>{const d=+g.dataset.d;g.style.transform=`translate(${(-dx*d*11).toFixed(1)}px,${(-dy*d*6).toFixed(1)}px)`})};sv.onpointerleave=()=>L.forEach(g=>g.style.transform='')}
 
@@ -918,7 +920,7 @@ const show=(h,w)=>{A_.classList.toggle('wide',!!w);A_.innerHTML=h;window.scrollT
 function ovl(h){const x=$('#ov');x&&x.remove();const o=document.createElement('div');o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=h;document.body.appendChild(o);return o}
 const closeOv=()=>{const x=$('#ov');x&&x.remove()};
 const REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
-function confetti(n){if(REDUCED)return;const cols=['#16a34a','#f59e0b','#ef4444','#3b82f6','#a855f7','#ffd23f'];for(let i=0;i<(n||46);i++){const d=document.createElement('i');d.className='cf';d.style.cssText=`left:${R(2,98)}%;background:${cols[i%6]};--x:${R(-120,120)}px;--r:${R(-720,720)}deg;--t:${(1.6+Math.random()*1.4).toFixed(2)}s;animation-delay:${(Math.random()*.4).toFixed(2)}s;width:${R(7,12)}px;height:${R(10,18)}px`;document.body.appendChild(d);setTimeout(()=>d.remove(),3400)}}
+function confetti(n){if(REDUCED)return;const cols=['#0d9488','#f59e0b','#ef4444','#3b82f6','#a855f7','#ffd23f'];for(let i=0;i<(n||46);i++){const d=document.createElement('i');d.className='cf';d.style.cssText=`left:${R(2,98)}%;background:${cols[i%6]};--x:${R(-120,120)}px;--r:${R(-720,720)}deg;--t:${(1.6+Math.random()*1.4).toFixed(2)}s;animation-delay:${(Math.random()*.4).toFixed(2)}s;width:${R(7,12)}px;height:${R(10,18)}px`;document.body.appendChild(d);setTimeout(()=>d.remove(),3400)}}
 function setU(){U=isAd()?mkU():(DB.u[CUR]=DB.u[CUR]||mkU());['s','q','c','i','b'].forEach(k=>U[k]=U[k]||{});U.k=U.k||[];U.f=U.f||[];U.m=U.m||0;DB.cur=isAd()?'':CUR;save()}
 const sumStars=()=>Object.values(U.s).reduce((a,b)=>a+b,0);
 const nSt=()=>isAd()?LV.length:LV.filter(l=>(U.s[l.id]||0)>0).length,nBd=()=>isAd()?PORDER.length:PORDER.filter(stBadge).length;

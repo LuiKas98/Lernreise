@@ -512,13 +512,13 @@ const rimFormen=['#7fd8ff','#4da3ff','#ffffff'];
 /* ---------- Szene: Sportfest (Himmel, Wiese, Laufbahn, Girlande, hüpfender Ball) ---------- */
 function szeneSport(g,c,R,t,hov,p){
  const X=v=>c+R*v;
- let q=g.createLinearGradient(0,c-R,0,c+R*1.1);q.addColorStop(0,'#8fd3ff');q.addColorStop(.55,'#d9f2ff');q.addColorStop(1,'#eafaff');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ let q=g.createLinearGradient(0,c-R,0,c+R*1.1);q.addColorStop(0,'#9be8dc');q.addColorStop(.55,'#d2f7f0');q.addColorStop(1,'#effdfa');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
  /* Sonne mit Strahlen */
- g.save();g.translate(X(.52),X(-.42));g.strokeStyle='#ffb300';g.lineWidth=Math.max(1.5,R*.025);g.lineCap='round';for(let i=0;i<12;i++){const a=i*TAU/12+t*.3;g.beginPath();g.moveTo(Math.cos(a)*R*.2,Math.sin(a)*R*.2);g.lineTo(Math.cos(a)*R*.28,Math.sin(a)*R*.28);g.stroke()}g.fillStyle='#ffd23f';g.beginPath();g.arc(0,0,R*.16,0,TAU);g.fill();g.restore();
+ g.save();g.translate(X(.52),X(-.42));g.strokeStyle='#ffb300';g.lineWidth=Math.max(1.5,R*.025);g.lineCap='round';for(let i=0;i<12;i++){const a=i*TAU/12+t*.3;g.beginPath();g.moveTo(Math.cos(a)*R*.2,Math.sin(a)*R*.2);g.lineTo(Math.cos(a)*R*.28,Math.sin(a)*R*.28);g.stroke()}g.fillStyle='#ffe27a';g.beginPath();g.arc(0,0,R*.16,0,TAU);g.fill();g.strokeStyle='#ffb300';g.lineWidth=Math.max(1.5,R*.02);g.stroke();g.restore();
  /* Hügel */
- g.fillStyle='#9bd68a';g.beginPath();g.moveTo(X(-1.3),X(.15));g.quadraticCurveTo(X(-.7),X(-.3),X(-.1),X(.1));g.quadraticCurveTo(X(.5),X(-.15),X(1.3),X(.12));g.lineTo(X(1.3),X(.2));g.lineTo(X(-1.3),X(.2));g.fill();
+ g.fillStyle='#a5ead3';g.beginPath();g.moveTo(X(-1.3),X(.15));g.quadraticCurveTo(X(-.7),X(-.3),X(-.1),X(.1));g.quadraticCurveTo(X(.5),X(-.15),X(1.3),X(.12));g.lineTo(X(1.3),X(.2));g.lineTo(X(-1.3),X(.2));g.fill();
  /* Wiese mit Mähstreifen */
- q=g.createLinearGradient(0,X(.1),0,X(1.3));q.addColorStop(0,'#6fcf6a');q.addColorStop(1,'#2e9e4a');g.fillStyle=q;g.fillRect(c-R*1.3,X(.1),R*2.6,R*1.3);
+ q=g.createLinearGradient(0,X(.1),0,X(1.3));q.addColorStop(0,'#86e3c8');q.addColorStop(1,'#2fae8a');g.fillStyle=q;g.fillRect(c-R*1.3,X(.1),R*2.6,R*1.3);
  for(let i=0;i<8;i++){const y0=.1+1.2*Math.pow(i/8,1.6),y1=.1+1.2*Math.pow((i+1)/8,1.6);if(i%2){g.fillStyle='rgba(255,255,255,.1)';g.fillRect(c-R*1.3,X(y0),R*2.6,X(y1)-X(y0))}}
  /* Laufbahn mit Bahnen */
  g.fillStyle='#d8532b';g.beginPath();g.moveTo(X(-.95),X(1.3));g.lineTo(X(.95),X(1.3));g.lineTo(X(.2),X(.1));g.lineTo(X(-.2),X(.1));g.closePath();g.fill();
@@ -532,11 +532,15 @@ function szeneSport(g,c,R,t,hov,p){
  /* hüpfender Ball */
  const bx=X(Math.sin(t*.6)*.45),by=X(.62-Math.abs(Math.sin(t*2.4))*(.4+.25*hov)),br=R*.1;
  g.fillStyle='rgba(0,0,0,.2)';g.beginPath();g.ellipse(bx,X(.68),br*(1-.3*(X(.62)-by)/R),br*.3,0,0,TAU);g.fill();
- g.fillStyle='#fff';g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1,R*.015);g.beginPath();g.arc(bx,by,br,0,TAU);g.fill();g.stroke();
- g.fillStyle='#2b3a52';g.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i*TAU/5+t*.8;const x=bx+Math.cos(a)*br*.45,y=by+Math.sin(a)*br*.45;i?g.lineTo(x,y):g.moveTo(x,y)}g.closePath();g.fill();
- q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(20,60,30,0)');q.addColorStop(1,'rgba(20,60,30,.3)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ g.fillStyle='#fff';g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1,R*.015);g.beginPath();g.arc(bx,by,br,0,TAU);g.fill();
+ g.save();g.beginPath();g.arc(bx,by,br,0,TAU);g.clip();g.fillStyle='#2b3a52';g.strokeStyle='#2b3a52';g.lineWidth=Math.max(.8,br*.07);g.lineJoin='round';
+ const pent=(cx,cy,rr,a0)=>{g.beginPath();for(let i=0;i<5;i++){const a=a0+i*TAU/5;i?g.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr):g.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr)}g.closePath();g.fill()};
+ const rot=t*.8;pent(bx,by,br*.35,rot-Math.PI/2);
+ for(let k=0;k<5;k++){const a=rot-Math.PI/2+k*TAU/5,ca=Math.cos(a),sa=Math.sin(a);g.beginPath();g.moveTo(bx+ca*br*.35,by+sa*br*.35);g.lineTo(bx+ca*br*.66,by+sa*br*.66);g.stroke();pent(bx+ca*br,by+sa*br,br*.36,a+Math.PI)}
+ g.restore();g.beginPath();g.arc(bx,by,br,0,TAU);g.stroke();
+ q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(5,70,60,0)');q.addColorStop(1,'rgba(5,70,60,.32)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
 }
-const rimSport=['#7ee07a','#ffb347','#ffffff'];
+const rimSport=['#2dd4bf','#a7f3d0','#ffffff'];
 
 
 /* ---------- Portal-Motor: wabernder Rand, schneller und unregelmäßiger bei Hover ---------- */
