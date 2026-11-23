@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Herr Kastners Lernapps</title>
-<meta name="description" content="Lernspiele für Mathe, Deutsch, Heimat- und Sachunterricht, Kunst, Musik, Geometrie und Sport, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier, im Konzerthaus, im Formenland oder beim Sportfest.">
+<meta name="description" content="Lernspiele für Mathe, Deutsch, Englisch, Heimat- und Sachunterricht, Kunst, Musik, Geometrie und Sport, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier, im Konzerthaus, im Formenland, beim Sportfest oder auf der London-Bus-Tour.">
 <style>
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:#0a1040}
@@ -125,6 +125,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .warp.sp{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0f8f7e,#022b27 75%)!important}
 .warp.st{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0b7f8a,#032a31 75%)!important}
 .warp.at{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#b8307a,#1d0b45 75%)!important}
+.warp.lo{background:linear-gradient(90deg,transparent 43%,rgba(200,16,46,.2) 47%,rgba(255,255,255,.1) 50%,rgba(200,16,46,.2) 53%,transparent 57%),linear-gradient(0deg,transparent 40%,rgba(200,16,46,.18) 46%,rgba(255,255,255,.09) 50%,rgba(200,16,46,.18) 54%,transparent 60%),linear-gradient(34deg,transparent 45%,rgba(255,255,255,.09) 49%,rgba(255,255,255,.09) 51%,transparent 55%),linear-gradient(-34deg,transparent 45%,rgba(255,255,255,.09) 49%,rgba(255,255,255,.09) 51%,transparent 55%),radial-gradient(circle at var(--x,50%) var(--y,50%),#17368a,#020a28 80%)!important}
 .warp.fo{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#dfe9f7,#5a6a88 75%)!important}
 .warp.ko{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#7a1228,#1a0308 75%)!important}
 .warp.vk{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#a8260c,#1a0402 75%)!important}
@@ -161,7 +162,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  <h1>Herr Kastners Lernapps</h1>
  <div class="hi">
   <p><b>Hallo, du kleiner Entdecker, hallo, du kleine Entdeckerin!</b> 👋</p>
-  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Sachunterricht, Kunst, Musik, Geometrie und Sport und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier, im Konzerthaus, im Formenland oder beim Sportfest) und tippe auf das Portal. Viel Spaß!</p>
+  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Englisch, Sachunterricht, Kunst, Musik, Geometrie und Sport und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier, im Konzerthaus, im Formenland, beim Sportfest oder in London) und tippe auf das Portal. Viel Spaß!</p>
  </div>
 
  <div class="who" id="who" hidden><span class="nm1"><span aria-hidden="true">👤</span><span id="who-nm"></span></span><button class="lb" id="lg-out" type="button">🔄 Name wechseln</button></div>
@@ -243,6 +244,12 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <div class="pt"><canvas data-scene="sport" aria-hidden="true"></canvas><span class="badge" id="b-sport" aria-hidden="true"><small>Klasse</small><b></b></span></div>
   <h3>🏅 Sportfest</h3>
   <p class="sub" id="s-sport">Rechnen, Wissen und Bewegen · Klasse 1 bis 4</p>
+  <span class="go">Los geht’s!</span>
+ </a>
+ <a class="pcard" id="c-london" href="#klasse" aria-label="London-Tour: Englisch lernen auf einer Bus-Tour. Ab Klasse 3. Wähle zuerst deine Klasse.">
+  <div class="pt"><canvas data-scene="london" aria-hidden="true"></canvas><span class="badge" id="b-london" aria-hidden="true"><small>Klasse</small><b></b></span></div>
+  <h3>🇬🇧 London-Tour</h3>
+  <p class="sub" id="s-london">Englisch auf der Bus-Tour · Klasse 3 und 4</p>
   <span class="go">Los geht’s!</span>
  </a>
  </div>
@@ -543,6 +550,37 @@ function szeneSport(g,c,R,t,hov,p){
 }
 const rimSport=['#2dd4bf','#a7f3d0','#ffffff'];
 
+/* ---------- Szene: London (Regenhimmel, Big Ben, Themse, roter Bus) ---------- */
+function szeneLondon(g,c,R,t,hov,p){
+ const X=v=>c+R*v;
+ let q=g.createLinearGradient(0,c-R,0,c+R*1.1);q.addColorStop(0,'#b9c7da');q.addColorStop(.6,'#dde6f1');q.addColorStop(1,'#f1f5fa');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ /* Wolken */
+ g.fillStyle='rgba(255,255,255,.85)';for(let i=0;i<4;i++){const cx=X(-1+((i*.62+t*.03)%2.4)),cy=X(-.7+.12*(i%2));g.beginPath();g.ellipse(cx,cy,R*.26,R*.07,0,0,TAU);g.ellipse(cx+R*.12,cy-R*.05,R*.16,R*.07,0,0,TAU);g.fill()}
+ /* Skyline links und rechts */
+ g.fillStyle='#8fa3bb';g.fillRect(X(-1.3),X(.05),R*.55,R*1);g.fillRect(X(-.7),X(.18),R*.3,R*1);g.fillRect(X(.62),X(.0),R*.35,R*1);g.fillRect(X(.95),X(.15),R*.4,R*1);
+ /* Themse */
+ q=g.createLinearGradient(0,X(.42),0,X(1.3));q.addColorStop(0,'#7fb4dc');q.addColorStop(1,'#4d86b8');g.fillStyle=q;g.fillRect(c-R*1.3,X(.42),R*2.6,R*1);
+ g.strokeStyle='rgba(255,255,255,.5)';g.lineWidth=Math.max(1,R*.012);for(let i=0;i<5;i++){const y=X(.52+i*.13),o=Math.sin(t*1.2+i)*R*.05;g.beginPath();g.moveTo(X(-1.2)+o,y);g.quadraticCurveTo(X(-.9)+o,y-R*.03,X(-.6)+o,y);g.moveTo(X(.1)-o,y);g.quadraticCurveTo(X(.4)-o,y-R*.03,X(.7)-o,y);g.stroke()}
+ /* Big Ben */
+ const bx=X(.0),bw=R*.24;g.fillStyle='#d6bf8b';g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1.5,R*.02);
+ g.beginPath();g.rect(bx-bw/2,X(-.5),bw,R*.95);g.fill();g.stroke();
+ g.beginPath();g.rect(bx-bw*.62,X(-.62),bw*1.24,R*.16);g.fill();g.stroke();
+ g.fillStyle='#5b6f86';g.beginPath();g.moveTo(bx-bw*.62,X(-.62));g.lineTo(bx,X(-1.0));g.lineTo(bx+bw*.62,X(-.62));g.closePath();g.fill();g.stroke();
+ g.fillStyle='#fff';g.beginPath();g.arc(bx,X(-.38),bw*.4,0,TAU);g.fill();g.stroke();
+ const a1=t*.6,a2=a1*12;g.lineCap='round';g.beginPath();g.moveTo(bx,X(-.38));g.lineTo(bx+Math.sin(a1)*bw*.22,X(-.38)-Math.cos(a1)*bw*.22);g.moveTo(bx,X(-.38));g.lineTo(bx+Math.sin(a2)*bw*.34,X(-.38)-Math.cos(a2)*bw*.34);g.stroke();
+ g.fillStyle='#e6d4a5';g.fillRect(bx-bw*2.6,X(-.05),bw*2.0,R*.5);g.strokeRect(bx-bw*2.6,X(-.05),bw*2.0,R*.5);
+ /* Straße und Bus */
+ g.fillStyle='#6b7689';g.fillRect(c-R*1.3,X(.36),R*2.6,R*.1);
+ const bxx=X(-1.5+((t*.22+hov*.0)%3)),bw2=R*.36,bh=R*.2,by=X(.36)-bh*.82;
+ g.fillStyle='#d7263d';g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1,R*.015);g.beginPath();g.rect(bxx,by,bw2,bh);g.fill();g.stroke();
+ g.fillStyle='#bfe6f7';for(let i=0;i<4;i++){g.fillRect(bxx+R*.03+i*bw2*.23,by+bh*.12,bw2*.16,bh*.28);g.fillRect(bxx+R*.03+i*bw2*.23,by+bh*.56,bw2*.16,bh*.28)}
+ g.fillStyle='#2b3a52';g.beginPath();g.arc(bxx+bw2*.2,by+bh,R*.035,0,TAU);g.arc(bxx+bw2*.8,by+bh,R*.035,0,TAU);g.fill();
+ /* Regen */
+ g.strokeStyle='rgba(70,100,150,.45)';g.lineWidth=Math.max(1,R*.01);g.beginPath();for(let i=0;i<26;i++){const x=X(-1.2+((i*.093+0)%2.4)),y=X(-1.2+((i*.37+t*(.9+hov*.5)+i*.11)%2.5));g.moveTo(x,y);g.lineTo(x-R*.02,y+R*.07)}g.stroke();
+ q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(1,33,105,0)');q.addColorStop(1,'rgba(1,33,105,.32)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+}
+const rimLondon=['#e0475c','#a9c0f5','#ffffff'];
+
 
 /* ---------- Portal-Motor: wabernder Rand, schneller und unregelmäßiger bei Hover ---------- */
 const portals=[];
@@ -581,6 +619,7 @@ neu($('canvas[data-scene=atelier]'),szeneAtelier,rimAtelier);
 neu($('canvas[data-scene=konzert]'),szeneKonzert,rimKonzert);
 neu($('canvas[data-scene=formen]'),szeneFormen,rimFormen);
 neu($('canvas[data-scene=sport]'),szeneSport,rimSport);
+neu($('canvas[data-scene=london]'),szeneLondon,rimLondon);
 let last=performance.now();
 let fr=0;
 function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
@@ -593,22 +632,22 @@ function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
 if(RM){portals.forEach(p=>zeichne(p,0));addEventListener('resize',()=>portals.forEach(p=>zeichne(p,0)))}else requestAnimationFrame(frame);
 
 /* ---------- Warpantrieb ---------- */
-function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',sp=modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen';
- const c=document.createElement('canvas');c.className='warp'+(gruen?' gr':sp?' sp':strand?' st':vk?' vk':at?' at':ko?' ko':fo?' fo':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
+function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',sp=modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen',lo=modus=='london';
+ const c=document.createElement('canvas');c.className='warp'+(lo?' lo':gruen?' gr':sp?' sp':strand?' st':vk?' vk':at?' at':ko?' ko':fo?' fo':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext('2d');g.scale(dpr,dpr);
- const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:sp?158+Math.random()*28:fo?190+Math.random()*50:ko?(Math.random()<.6?38+Math.random()*14:350+Math.random()*10):at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:80+Math.random()*18}));
+ const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:lo?(Math.random()<.5?222+Math.random()*14:352+Math.random()*10):sp?158+Math.random()*28:fo?190+Math.random()*50:ko?(Math.random()<.6?38+Math.random()*14:350+Math.random()*10):at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:lo?(Math.random()<.4?93:70+Math.random()*14):80+Math.random()*18}));
  const DUR=1700,t0=performance.now();
  (function f(now){const tau=Math.min(1,(now-t0)/DUR),sp=1+90*tau*tau*tau,dt=1/60;
   g.clearRect(0,0,W,H);g.lineCap='round';
   /* Tunnel-Ringe */
-  for(let i=0;i<6;i++){const u=((tau*2.6+i/6)%1),r=u*u*diag*.8;g.strokeStyle=`rgba(${gruen?'140,255,170':sp?'120,245,210':strand?'140,240,235':vk?'255,150,80':at?'255,150,210':ko?'255,215,130':fo?'150,215,255':'140,170,255'},${(1-u)*.28*(.3+tau)})`;g.lineWidth=2+u*10;g.beginPath();g.arc(cx,cy,r,0,TAU);g.stroke()}
+  for(let i=0;i<6;i++){const u=((tau*2.6+i/6)%1),r=u*u*diag*.8;g.strokeStyle=`rgba(${lo?'255,255,255':gruen?'140,255,170':sp?'120,245,210':strand?'140,240,235':vk?'255,150,80':at?'255,150,210':ko?'255,215,130':fo?'150,215,255':'140,170,255'},${(1-u)*.28*(.3+tau)})`;g.lineWidth=2+u*10;g.beginPath();g.arc(cx,cy,r,0,TAU);g.stroke()}
   /* Sterne werden zu Streifen */
   for(const s of S){const r0=s.r;s.r+=(s.r+24)*s.v*.8*sp*dt*.9;if(s.r>diag){s.r=Math.random()*40;s.a=Math.random()*TAU}
    const tail=s.r/(1+.06*sp*s.v),ca=Math.cos(s.a),sa=Math.sin(s.a);
    g.strokeStyle=`hsla(${s.h},100%,${s.l}%,${Math.min(1,.35+s.r/diag+tau)})`;g.lineWidth=1+s.r/260*(1+tau*2);
    g.beginPath();g.moveTo(cx+ca*Math.min(tail,r0),cy+sa*Math.min(tail,r0));g.lineTo(cx+ca*s.r,cy+sa*s.r);g.stroke()}
   /* Lichtblitz am Ende */
-  if(tau>.7){const k=Math.pow((tau-.7)/.3,1.6),q=g.createRadialGradient(cx,cy,0,cx,cy,diag*(.15+1.1*k));q.addColorStop(0,`rgba(255,255,255,${Math.min(1,k*1.4)})`);q.addColorStop(.6,`rgba(${sp?'200,255,240':gruen?'190,255,200':strand?'255,240,200':vk?'255,225,170':at?'255,205,235':ko?'255,235,180':fo?'225,240,255':'190,215,255'},${k*.85})`);q.addColorStop(1,sp?'rgba(120,245,210,0)':gruen?'rgba(150,255,170,0)':strand?'rgba(160,240,235,0)':vk?'rgba(255,170,90,0)':at?'rgba(255,150,210,0)':ko?'rgba(255,215,130,0)':fo?'rgba(150,215,255,0)':'rgba(150,180,255,0)');g.fillStyle=q;g.fillRect(0,0,W,H);if(tau>.97){g.fillStyle='#fff';g.fillRect(0,0,W,H)}}
+  if(tau>.7){const k=Math.pow((tau-.7)/.3,1.6),q=g.createRadialGradient(cx,cy,0,cx,cy,diag*(.15+1.1*k));q.addColorStop(0,`rgba(255,255,255,${Math.min(1,k*1.4)})`);q.addColorStop(.6,`rgba(${lo?'255,240,240':sp?'200,255,240':gruen?'190,255,200':strand?'255,240,200':vk?'255,225,170':at?'255,205,235':ko?'255,235,180':fo?'225,240,255':'190,215,255'},${k*.85})`);q.addColorStop(1,lo?'rgba(200,16,46,0)':sp?'rgba(120,245,210,0)':gruen?'rgba(150,255,170,0)':strand?'rgba(160,240,235,0)':vk?'rgba(255,170,90,0)':at?'rgba(255,150,210,0)':ko?'rgba(255,215,130,0)':fo?'rgba(150,215,255,0)':'rgba(150,180,255,0)');g.fillStyle=q;g.fillRect(0,0,W,H);if(tau>.97){g.fillStyle='#fff';g.fillRect(0,0,W,H)}}
   tau<1?requestAnimationFrame(f):fertig()})(t0)}
 
 /* ---------- Anmeldung (gilt für alle Portale; wird nur in diesem Browser gemerkt) ---------- */
@@ -644,25 +683,27 @@ let K=0;const KEY='kastner-klasse';
 try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
 function zeigeK(){
  document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
- const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse']];
- for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id);
-  if(K&&USER){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
+ const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse'],['london','London-Tour','Englisch auf der Bus-Tour','london-klasse']];
+ for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id),low=id=='london'&&K&&K<3;
+  if(low&&USER){a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': Englisch gibt es ab Klasse 3.');$('#s-'+id).textContent=fach+' · ab Klasse 3';bd.classList.remove('on')}
+  else if(K&&USER){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
    $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
   else{a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': '+fach+(USER?'. Wähle zuerst deine Klasse.':'. Melde dich zuerst an.'));
-   $('#s-'+id).textContent=fach+' · Klasse 1 bis 4';bd.classList.remove('on')}}
+   $('#s-'+id).textContent=fach+(id=='london'?' · Klasse 3 und 4':' · Klasse 1 bis 4');bd.classList.remove('on')}}
  $('#kl-hint').textContent=K?'Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.':'Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'
 }
 document.querySelectorAll('.kb').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;try{localStorage.setItem(KEY,String(K))}catch(_){}zeigeK()}));
 zeigeL();zeigeK();
 
 /* ---------- Filter, Suche und Zufall (Filter wird nur in diesem Browser gemerkt) ---------- */
-const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest'};
+const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest',london:'London-Tour'};
 const FB={Mathe:['🔢','Rechnen & Zahlen','Zeit, Geld & Größen','Geometrie & Formen','Daten & Diagramme','Knobeln & Logik'],
  Deutsch:['📖','Lesen & Verstehen','Rechtschreibung','Wörter & Grammatik'],
  Sachunterricht:['🌍','Natur & Umwelt','Körper & Gesundheit','Zusammenleben','Zeit & Geschichte','Raum & Verkehr','Technik & Bauen'],
  Kunst:['🎨','Farben & Mischen','Künstler & Bilder','Selbst gestalten'],
  Musik:['🎵','Instrumente & Klang','Noten & Töne','Rhythmus & Tempo','Komponisten & Lieder','Selbst musizieren'],
- Sport:['🏅','Leichtathletik','Ballspiele','Turnen & Gymnastik','Schwimmen & Wasser','Fitness & Bewegungspause']};
+ Sport:['🏅','Leichtathletik','Ballspiele','Turnen & Gymnastik','Schwimmen & Wasser','Fitness & Bewegungspause'],
+ Englisch:['🇬🇧','Wortschatz & Hören','Dialoge & Sprechen','Landeskunde','Essen & Trinken']};
 /* Portal, Ort im Portal, Fach, Lernbereich, Suchwörter */
 const EN=[
 ['weltall','Rechni','Mathe','Rechnen & Zahlen','plus minus addieren subtrahieren rechnen million'],
@@ -714,6 +755,36 @@ const EN=[
 ['formen','Baupläne & Würfelgebäude','Mathe','Geometrie & Formen','würfel gebäude ansichten würfelnetze bauen raum'],
 ['formen','Formen- und Körper-Akademie','Mathe','Geometrie & Formen','formen ecken körper spiegelachsen quiz'],
 ['formen','Illusionen-Labor','Mathe','Knobeln & Logik','optische täuschungen illusionen schätzen'],
+['london','Bus & Tube','Englisch','Wortschatz & Hören','bus taxi tube ticket street map wörter vokabeln englisch'],
+['london','Bus & Tube','Englisch','Landeskunde','linksverkehr doppeldecker black cab london verkehr'],
+['london','Bus & Tube','Englisch','Dialoge & Sprechen','im bus sprechen dialog fahrkarte'],
+['london','Big Ben','Englisch','Wortschatz & Hören','uhr glocke fluss wetter regen wörter'],
+['london','Big Ben','Englisch','Landeskunde','big ben parlament themse elizabeth tower'],
+['london','Big Ben','Englisch','Dialoge & Sprechen','uhrzeit what time is it dialog'],
+['london','Big Ben','Mathe','Zeit, Geld & Größen','uhrzeit englisch o clock half past'],
+['london','Buckingham Palace','Englisch','Wortschatz & Hören','king queen crown guard palace wörter'],
+['london','Buckingham Palace','Englisch','Landeskunde','royals könig königin wachwechsel palast'],
+['london','Buckingham Palace','Englisch','Dialoge & Sprechen','postkarte kaufen laden dialog'],
+['london','Tower Bridge & Tower','Englisch','Wortschatz & Hören','bridge raven jewel key wörter'],
+['london','Tower Bridge & Tower','Englisch','Landeskunde','tower bridge tower of london raben kronjuwelen beefeater'],
+['london','Tower Bridge & Tower','Englisch','Dialoge & Sprechen','tickets kaufen dialog'],
+['london','London Eye','Englisch','Wortschatz & Hören','stadt kamera himmel wörter'],
+['london','London Eye','Englisch','Landeskunde','london eye riesenrad kapseln'],
+['london','London Eye','Englisch','Dialoge & Sprechen','foto machen dialog'],
+['london','London Eye','Mathe','Rechnen & Zahlen','zahlen englisch numbers zählen'],
+['london','Trafalgar Square','Englisch','Wortschatz & Hören','löwe brunnen links rechts geradeaus wörter'],
+['london','Trafalgar Square','Englisch','Landeskunde','nelson säule löwen weihnachtsbaum norwegen'],
+['london','Trafalgar Square','Englisch','Dialoge & Sprechen','weg beschreiben richtungen dialog'],
+['london','British Museum','Englisch','Wortschatz & Hören','museum vase maske stein wörter'],
+['london','British Museum','Englisch','Landeskunde','british museum mumien rosetta stone'],
+['london','British Museum','Englisch','Dialoge & Sprechen','toilette fragen dialog'],
+['london','Tea & Chips','Englisch','Wortschatz & Hören','tea milk cake fish chips egg bacon essen trinken wörter'],
+['london','Tea & Chips','Englisch','Essen & Trinken','afternoon tea fish and chips full english breakfast scones'],
+['london','Tea & Chips','Englisch','Dialoge & Sprechen','bestellen café dialog'],
+['london','Typically British','Englisch','Landeskunde','queue schlange höflichkeit briefkasten telefonzelle gepflogenheiten bräuche'],
+['london','Typically British','Englisch','Wortschatz & Hören','please thank you sorry wörter'],
+['london','Typically British','Englisch','Dialoge & Sprechen','höflich dialog'],
+['london','Goodbye London','Englisch','Landeskunde','quiz rallye abschluss'],
 ['sport','Laufbahn','Sport','Leichtathletik','laufen sprint staffel runden stoppuhr'],
 ['sport','Laufbahn','Mathe','Zeit, Geld & Größen','uhr zeit strecken meter runden'],
 ['sport','Laufbahn','Deutsch','Wörter & Grammatik','wörter silben'],
@@ -814,11 +885,12 @@ function reise(id,idx,pre){
   if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(going||SH.busy)return;
   if(!USER){nudgeLogin();return}
   if(!K){nudge();return}
+  if(id=='london'&&K<3){sag('🇬🇧 Die London-Tour gibt es ab Klasse 3. Tippe auf 3 oder 4.');const k=$('#klasse');k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});return}
   going=true;const href=pre+K+'.html';try{sessionStorage.setItem('warp','1')}catch(_){}
   if(RM){location.href=href;return}
   portals[idx].tg=1;const[cx,cy]=mitte('#c-'+id+' .pt');
   SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href},id)})})}
-reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');
+reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');reise('london',8,'london-klasse');
 addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
 
 </script>
