@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Herr Kastners Lernapps</title>
-<meta name="description" content="Lernspiele für Mathe, Deutsch, Englisch, Heimat- und Sachunterricht, Kunst, Musik, Geometrie und Sport, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier, im Konzerthaus, im Formenland, beim Sportfest oder auf der London-Bus-Tour.">
+<meta name="description" content="Lernspiele für Mathe, Deutsch, Englisch, Heimat- und Sachunterricht, Kunst, Musik, Geometrie und Sport, Klasse 1 bis 4: Wähle deine Klasse und dein Abenteuer im All, im Dschungel, am Strand, im Vulkan, im Pariser Künstleratelier, im Konzerthaus, im Formenland, beim Sportfest oder in den Englisch-Welten.">
 <style>
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:#0a1040}
@@ -126,7 +126,6 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .warp.st{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#0b7f8a,#032a31 75%)!important}
 .warp.at{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#b8307a,#1d0b45 75%)!important}
 .warp.lo{background:linear-gradient(90deg,transparent 43%,rgba(200,16,46,.2) 47%,rgba(255,255,255,.1) 50%,rgba(200,16,46,.2) 53%,transparent 57%),linear-gradient(0deg,transparent 40%,rgba(200,16,46,.18) 46%,rgba(255,255,255,.09) 50%,rgba(200,16,46,.18) 54%,transparent 60%),linear-gradient(34deg,transparent 45%,rgba(255,255,255,.09) 49%,rgba(255,255,255,.09) 51%,transparent 55%),linear-gradient(-34deg,transparent 45%,rgba(255,255,255,.09) 49%,rgba(255,255,255,.09) 51%,transparent 55%),radial-gradient(circle at var(--x,50%) var(--y,50%),#17368a,#020a28 80%)!important}
-.warp.en{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#3fae5a,#0b3a2a 75%)!important}
 .warp.fo{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#dfe9f7,#5a6a88 75%)!important}
 .warp.ko{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#7a1228,#1a0308 75%)!important}
 .warp.vk{background:radial-gradient(circle at var(--x,50%) var(--y,50%),#a8260c,#1a0402 75%)!important}
@@ -163,7 +162,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
  <h1>Herr Kastners Lernapps</h1>
  <div class="hi">
   <p><b>Hallo, du kleiner Entdecker, hallo, du kleine Entdeckerin!</b> 👋</p>
-  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Englisch, Sachunterricht, Kunst, Musik, Geometrie und Sport und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier, im Konzerthaus, im Formenland, beim Sportfest oder in London) und tippe auf das Portal. Viel Spaß!</p>
+  <p>Hier warten spannende Lernabenteuer auf dich. Du übst Mathe, Deutsch, Englisch, Sachunterricht, Kunst, Musik, Geometrie und Sport und sammelst dabei Sterne. Such dir eine Reise aus (im All, im Dschungel, am Strand, im Vulkan, im Künstleratelier, im Konzerthaus, im Formenland, beim Sportfest oder in den Englisch-Welten) und tippe auf das Portal. Viel Spaß!</p>
  </div>
 
  <div class="who" id="who" hidden><span class="nm1"><span aria-hidden="true">👤</span><span id="who-nm"></span></span><button class="lb" id="lg-out" type="button">🔄 Name wechseln</button></div>
@@ -247,16 +246,10 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <p class="sub" id="s-sport">Rechnen, Wissen und Bewegen · Klasse 1 bis 4</p>
   <span class="go">Los geht’s!</span>
  </a>
- <a class="pcard" id="c-london" href="#klasse" aria-label="London-Tour: Englisch lernen auf einer Bus-Tour. Ab Klasse 3. Wähle zuerst deine Klasse.">
-  <div class="pt"><canvas data-scene="london" aria-hidden="true"></canvas><span class="badge" id="b-london" aria-hidden="true"><small>Klasse</small><b></b></span></div>
-  <h3>🇬🇧 London-Tour</h3>
-  <p class="sub" id="s-london">Englisch auf der Bus-Tour · Klasse 3 und 4</p>
-  <span class="go">Los geht’s!</span>
- </a>
- <a class="pcard" id="c-englisch" href="#klasse" aria-label="Englisch-Welten: Bauernhof, Obstmarkt und Halloween mit Wörtern, Dialogen und Sprechen. Ab Klasse 3. Wähle zuerst deine Klasse.">
+ <a class="pcard" id="c-englisch" href="#klasse" aria-label="Englisch-Welten: Eine Karte der Britischen Inseln mit Bauernhof, Obstmarkt, Eisdiele, Schulsachen, London-Tour und Festen, dazu ein Flug nach New York mit amerikanischem Diner. Wörter, Dialoge, Suchbilder, Sortieren und Sprechen. Ab Klasse 3. Wähle zuerst deine Klasse.">
   <div class="pt"><canvas data-scene="englisch" aria-hidden="true"></canvas><span class="badge" id="b-englisch" aria-hidden="true"><small>Klasse</small><b></b></span></div>
-  <h3>🌍 Englisch-Welten</h3>
-  <p class="sub" id="s-englisch">Wörter, Dialoge, Sprechen · Klasse 3 und 4</p>
+  <h3>🇬🇧 Englisch-Welten</h3>
+  <p class="sub" id="s-englisch">Karte, Wörter, Dialoge · Klasse 3 und 4</p>
   <span class="go">Los geht’s!</span>
  </a>
  </div>
@@ -557,151 +550,55 @@ function szeneSport(g,c,R,t,hov,p){
 }
 const rimSport=['#2dd4bf','#a7f3d0','#ffffff'];
 
-/* ---------- Szene: London (Regenhimmel, Big Ben, Themse, roter Bus) ---------- */
-function szeneLondon(g,c,R,t,hov,p){
- const X=v=>c+R*v,ink='#2b3a52',LW=Math.max(1,R*.007),gy=X(.44);let LS=1;
- const arch=(x,y,w,h)=>{g.beginPath();g.moveTo(x-w/2,y);g.lineTo(x-w/2,y-h*.62);g.quadraticCurveTo(x-w/2,y-h*.92,x,y-h);g.quadraticCurveTo(x+w/2,y-h*.92,x+w/2,y-h*.62);g.lineTo(x+w/2,y);g.closePath()};
- const spike=(x,y,w,h)=>{g.beginPath();g.moveTo(x-w/2,y);g.lineTo(x,y-h);g.lineTo(x+w/2,y);g.closePath()};
- const stone=(x0,x1)=>{const q=g.createLinearGradient(x0,0,x1,0);q.addColorStop(0,'#e6d2a0');q.addColorStop(.55,'#d6bf8b');q.addColorStop(1,'#b59d6b');return q};
- const lit=i=>((i*7+3)%5==0||(i*11+1)%7==0);
- const fenster=(x,y,w,h,i)=>{arch(x,y,w,h);if(lit(i)){g.fillStyle='#ffd978';g.fill();g.save();g.globalAlpha=.25;g.fillStyle='#ffe9a8';g.beginPath();g.arc(x,y-h*.5,w*1.1,0,TAU);g.fill();g.restore()}else{g.fillStyle='#3e4e68';g.fill()}
-  g.strokeStyle='rgba(43,58,82,.8)';g.lineWidth=LW*.7*LS;g.beginPath();g.moveTo(x,y);g.lineTo(x,y-h*.85);g.stroke()};
- /* Himmel */
- let q=g.createLinearGradient(0,c-R,0,c+R*1.1);q.addColorStop(0,'#a3b3c8');q.addColorStop(.55,'#d3deea');q.addColorStop(1,'#eef3f8');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
- /* Regenwolken */
- for(let i=0;i<5;i++){const cx=X(-1.2+((i*.6+t*.025)%2.8)),cy=X(-.78+.1*(i%3));g.fillStyle=i%2?'rgba(150,165,185,.75)':'rgba(180,192,208,.8)';g.beginPath();g.ellipse(cx,cy,R*.3,R*.075,0,0,TAU);g.ellipse(cx+R*.14,cy-R*.05,R*.18,R*.07,0,0,TAU);g.ellipse(cx-R*.15,cy-R*.02,R*.16,R*.06,0,0,TAU);g.fill()}
- /* London Eye im Dunst */
- g.save();g.globalAlpha=.5;g.strokeStyle='#8497b1';g.lineWidth=Math.max(1,R*.008);const ex=X(-.8),ey=X(.02),er=R*.34;g.beginPath();g.arc(ex,ey,er,0,TAU);g.stroke();g.beginPath();g.arc(ex,ey,er*.93,0,TAU);g.stroke();
- for(let i=0;i<16;i++){const a=i/16*TAU+t*.04;g.beginPath();g.moveTo(ex,ey);g.lineTo(ex+Math.cos(a)*er,ey+Math.sin(a)*er);g.stroke();g.fillStyle='#a8b8cf';g.beginPath();g.arc(ex+Math.cos(a)*er,ey+Math.sin(a)*er,R*.012,0,TAU);g.fill()}
- g.beginPath();g.moveTo(ex-R*.08,ey+er+R*.1);g.lineTo(ex,ey);g.lineTo(ex+R*.08,ey+er+R*.1);g.stroke();g.restore();
- /* ferne Häuser */
- g.fillStyle='#9fb0c6';[[-1.3,.18,.4],[-.95,.26,.22],[-.55,.14,.3],[1.05,.2,.3]].forEach(a=>g.fillRect(X(a[0]),X(a[1]),R*a[2],R*1.2));
- /* Parlament: lange Fassade rechts vom Turm */
- const fass=(x0,x1,top,seed)=>{g.fillStyle='#5b6f86';g.fillRect(x0,top-R*.045,x1-x0,R*.05);
-  g.fillStyle=stone(x0,x1);g.fillRect(x0,top,x1-x0,gy-top);g.strokeStyle=ink;g.lineWidth=LW;g.strokeRect(x0,top,x1-x0,gy-top);
-  g.fillStyle='#e8d9ae';for(let x=x0;x<x1-R*.02;x+=R*.034)g.fillRect(x,top-R*.062,R*.018,R*.02);
-  g.strokeStyle='rgba(43,58,82,.45)';g.beginPath();g.moveTo(x0,top+R*.06);g.lineTo(x1,top+R*.06);g.moveTo(x0,gy-R*.075);g.lineTo(x1,gy-R*.075);g.stroke();
-  let k=0;for(let x=x0+R*.055;x<x1-R*.03;x+=R*.075,k++){if(k%4==3){g.fillStyle='#bfa874';g.fillRect(x-R*.014,top-R*.01,R*.028,gy-top);g.strokeStyle=ink;g.strokeRect(x-R*.014,top-R*.01,R*.028,gy-top);g.fillStyle='#d6bf8b';spike(x,top-R*.01,R*.032,R*.09);g.fill();g.stroke();g.fillStyle='#d9a931';g.beginPath();g.arc(x,top-R*.105,R*.007,0,TAU);g.fill();continue}
-   fenster(x,top+R*.15,R*.032,R*.075,k+seed);fenster(x,gy-R*.01,R*.036,R*.085,k+seed+9)}};
- fass(X(-.55),X(-.17),X(.17),3);
- fass(X(.02),X(1.35),X(.12),0);
- /* Victoria Tower */
- {const vx=X(.82),vw=R*.22,top=X(-.34);g.fillStyle=stone(vx-vw/2,vx+vw/2);g.fillRect(vx-vw/2,top,vw,gy-top);g.strokeStyle=ink;g.lineWidth=LW;g.strokeRect(vx-vw/2,top,vw,gy-top);
-  g.fillStyle='#5b6f86';g.fillRect(vx-vw*.6,top-R*.03,vw*1.2,R*.045);g.strokeRect(vx-vw*.6,top-R*.03,vw*1.2,R*.045);
-  g.fillStyle='#e8d9ae';for(let i=0;i<7;i++)g.fillRect(vx-vw*.6+i*vw*.2,top-R*.05,vw*.1,R*.02);
-  [-1,1].forEach(s=>{g.fillStyle='#c8b17c';g.fillRect(vx+s*vw*.55-R*.015,top-R*.02,R*.03,gy-top);g.strokeRect(vx+s*vw*.55-R*.015,top-R*.02,R*.03,gy-top);g.fillStyle='#5b6f86';spike(vx+s*vw*.55,top-R*.02,R*.045,R*.11);g.fill();g.stroke()});
-  g.fillStyle='#3e4e68';arch(vx,top+R*.34,vw*.5,R*.26);g.fill();g.stroke();g.fillStyle='#ffd978';arch(vx,top+R*.19,vw*.22,R*.1);g.fill();
-  for(let r=0;r<3;r++)for(let s=-1;s<=1;s+=2){fenster(vx+s*vw*.3,top+R*.12+r*R*.17,R*.03,R*.07,r*3+s+20)}
-  g.strokeStyle='#8497b1';g.lineWidth=LW;g.beginPath();g.moveTo(vx,top-R*.03);g.lineTo(vx,top-R*.2);g.stroke();
-  g.fillStyle='#d7263d';const w=Math.sin(t*3)*R*.01;g.beginPath();g.moveTo(vx,top-R*.2);g.lineTo(vx+R*.09,top-R*.185+w);g.lineTo(vx,top-R*.16);g.fill()}
- /* ELIZABETH TOWER (Big Ben) – lokale Koordinaten, Einheit R, Boden = 0 */
- g.save();g.translate(X(-.08),gy);g.scale(R*.84,R*.84);
- const U=1/(R*.84);LS=U;g.lineWidth=LW*U;g.strokeStyle=ink;g.lineJoin='round';
- const S=(x,y,w,h)=>{g.fillRect(x,y,w,h);g.strokeRect(x,y,w,h)};
- /* Schaft */
- g.fillStyle=stone(-.125,.125);S(-.125,-.76,.25,.76);
- g.strokeStyle='rgba(43,58,82,.5)';for(const y of [-.12,-.3,-.48,-.64]){g.beginPath();g.moveTo(-.125,y);g.lineTo(.125,y);g.stroke()}
- g.strokeStyle=ink;
- /* Eck-Strebepfeiler */
- [-1,1].forEach(s=>{g.fillStyle='#bba372';S(s*.125-.018,-.78,.036,.78);g.fillStyle='#d6bf8b';spike(s*.125,-.78,.05,.075);g.fill();g.stroke()});
- /* Fenster im Schaft */
- let wi=40;for(const y of [-.54,-.36,-.18]){g.lineWidth=LW*U;fenster(-.048,y,.04,.11,wi++);fenster(.048,y,.04,.11,wi++)}
- g.fillStyle='#3e4e68';arch(0,0,.1,.17);g.fill();g.stroke();g.strokeStyle='rgba(255,217,120,.6)';g.beginPath();g.moveTo(0,0);g.lineTo(0,-.14);g.stroke();g.strokeStyle=ink;
- /* Uhrgeschoss */
- g.fillStyle=stone(-.17,.17);S(-.17,-1.06,.34,.3);
- g.fillStyle='#d9a931';S(-.185,-.775,.37,.03);S(-.185,-1.075,.37,.03);
- [-1,1].forEach(s=>{g.fillStyle='#bba372';S(s*.17-.024,-1.08,.048,.34);g.fillStyle='#d6bf8b';spike(s*.17,-1.08,.06,.1);g.fill();g.stroke();g.fillStyle='#d9a931';g.beginPath();g.arc(s*.17,-1.19,.01,0,TAU);g.fill()});
- /* Giebel über dem Zifferblatt */
- g.fillStyle='#e0cb98';g.beginPath();g.moveTo(-.12,-1.06);g.lineTo(0,-1.145);g.lineTo(.12,-1.06);g.closePath();g.fill();g.stroke();g.fillStyle='#d9a931';g.beginPath();g.arc(0,-1.1,.014,0,TAU);g.fill();
- /* Zifferblatt */
- const cy=-.905;g.fillStyle='#d9a931';g.beginPath();g.arc(0,cy,.125,0,TAU);g.fill();g.stroke();
- g.fillStyle='#1d2a43';g.beginPath();g.arc(0,cy,.108,0,TAU);g.fill();
- g.fillStyle='#fff7df';g.beginPath();g.arc(0,cy,.088,0,TAU);g.fill();
- for(let i=0;i<12;i++){const a=i/6*Math.PI,r1=i%3?.07:.058,r2=.084;g.strokeStyle='#1d2a43';g.lineWidth=(i%3?.5:1.1)*LW*U;g.beginPath();g.moveTo(Math.sin(a)*r1,cy-Math.cos(a)*r1);g.lineTo(Math.sin(a)*r2,cy-Math.cos(a)*r2);g.stroke()}
- g.strokeStyle='#d9a931';g.lineWidth=.7*LW*U;for(let i=0;i<12;i++){const a=i/6*Math.PI;g.beginPath();g.arc(Math.sin(a)*.099,cy-Math.cos(a)*.099,.005,0,TAU);g.stroke()}
- const a1=t*(.12+hov*.1),a2=a1*12;g.lineCap='round';g.strokeStyle='#1d2a43';
- g.lineWidth=2.2*LW*U;g.beginPath();g.moveTo(0,cy);g.lineTo(Math.sin(a1)*.048,cy-Math.cos(a1)*.048);g.stroke();
- g.lineWidth=1.4*LW*U;g.beginPath();g.moveTo(0,cy);g.lineTo(Math.sin(a2)*.074,cy-Math.cos(a2)*.074);g.stroke();
- g.fillStyle='#d9a931';g.beginPath();g.arc(0,cy,.01,0,TAU);g.fill();g.lineCap='butt';
- /* Glockenstube */
- g.strokeStyle=ink;g.lineWidth=LW*U;g.fillStyle=stone(-.14,.14);S(-.14,-1.24,.28,.19);
- for(let i=-1;i<=1;i++){arch(i*.075,-1.07,.05,.15);g.fillStyle='#2f3d57';g.fill();g.stroke();g.strokeStyle='rgba(200,214,235,.5)';g.lineWidth=LW*U*.6;for(let y=-1.1;y>-1.2;y-=.022){g.beginPath();g.moveTo(i*.075-.022,y);g.lineTo(i*.075+.022,y);g.stroke()}g.strokeStyle=ink;g.lineWidth=LW*U}
- g.fillStyle='#d9a931';S(-.16,-1.265,.32,.03);
- [-1,1].forEach(s=>{g.fillStyle='#d6bf8b';spike(s*.14,-1.235,.05,.11);g.fill();g.stroke()});
- /* Turmhelm */
- g.fillStyle='#4f6a88';g.beginPath();g.moveTo(-.15,-1.265);g.quadraticCurveTo(-.06,-1.34,-.014,-1.62);g.lineTo(.014,-1.62);g.quadraticCurveTo(.06,-1.34,.15,-1.265);g.closePath();g.fill();g.stroke();
- g.fillStyle='rgba(255,255,255,.18)';g.beginPath();g.moveTo(-.03,-1.30);g.quadraticCurveTo(-.02,-1.45,-.006,-1.61);g.lineTo(.002,-1.61);g.quadraticCurveTo(0,-1.45,.0,-1.30);g.fill();
- g.strokeStyle='rgba(20,36,60,.45)';g.lineWidth=.6*LW*U;for(let i=0;i<5;i++){const y=-1.29-i*.065,w=.13*(1-(i*.065)/.33)*.8;g.beginPath();g.moveTo(-w,y);g.lineTo(w,y);g.stroke()}
- g.strokeStyle=ink;g.lineWidth=LW*U;[-1,1].forEach(s=>{g.fillStyle='#e0cb98';g.beginPath();g.moveTo(s*.07,-1.30);g.lineTo(s*.07,-1.34);g.lineTo(s*.045,-1.375);g.lineTo(s*.02,-1.34);g.lineTo(s*.02,-1.32);g.closePath();g.fill();g.stroke()});
- g.fillStyle='#d9a931';g.beginPath();g.arc(0,-1.64,.016,0,TAU);g.fill();g.stroke();g.strokeStyle='#d9a931';g.lineWidth=1.4*LW*U;g.beginPath();g.moveTo(0,-1.655);g.lineTo(0,-1.72);g.moveTo(-.022,-1.69);g.lineTo(.022,-1.69);g.stroke();
- /* Dunst am Fuß */
- q=g.createLinearGradient(0,-.3,0,.02);q.addColorStop(0,'rgba(235,242,250,0)');q.addColorStop(1,'rgba(235,242,250,.55)');g.fillStyle=q;g.fillRect(-.3,-.3,.6,.32);
- g.restore();LS=1;
- /* Brücke/Straße mit Geländer */
- g.fillStyle='#5d6779';g.fillRect(c-R*1.3,gy,R*2.6,R*.12);g.fillStyle='#7b869a';g.fillRect(c-R*1.3,gy,R*2.6,R*.015);
- g.strokeStyle='#4f8a67';g.lineWidth=Math.max(1.4,R*.012);g.beginPath();g.moveTo(c-R*1.3,gy-R*.004);g.lineTo(c+R*1.3,gy-R*.004);g.stroke();
- g.lineWidth=Math.max(1,R*.008);g.beginPath();for(let x=-1.3;x<1.3;x+=.05){g.moveTo(X(x),gy-R*.004);g.lineTo(X(x),gy+R*.02)}g.stroke();
- g.fillStyle='rgba(255,255,255,.55)';for(let i=0;i<10;i++)g.fillRect(X(-1.25+i*.28-(t*.1%.28)),gy+R*.075,R*.1,R*.012);
- /* Laternen */
- [-.62,.5].forEach(lx=>{g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1.2,R*.012);g.beginPath();g.moveTo(X(lx),gy+R*.02);g.lineTo(X(lx),gy-R*.28);g.stroke();g.save();g.globalAlpha=.3;g.fillStyle='#ffe08a';g.beginPath();g.arc(X(lx),gy-R*.3,R*.09,0,TAU);g.fill();g.restore();g.fillStyle='#ffe9a8';g.beginPath();g.arc(X(lx),gy-R*.3,R*.025,0,TAU);g.fill()});
- /* Bus (Doppeldecker) */
- const bw2=R*.46,bh=R*.24,bxx=X(-1.6+((t*.22)%3.2)),by=gy+R*.105-bh-R*.025;
- g.save();g.lineJoin='round';g.fillStyle='#d7263d';g.strokeStyle=ink;g.lineWidth=Math.max(1,R*.013);
- g.beginPath();g.moveTo(bxx,by+bh);g.lineTo(bxx,by+R*.02);g.quadraticCurveTo(bxx,by,bxx+R*.02,by);g.lineTo(bxx+bw2-R*.02,by);g.quadraticCurveTo(bxx+bw2,by,bxx+bw2,by+R*.03);g.lineTo(bxx+bw2,by+bh);g.closePath();g.fill();g.stroke();
- g.fillStyle='#a31a2d';g.fillRect(bxx+R*.005,by+bh*.47,bw2-R*.01,bh*.07);
- g.fillStyle='#bfe6f7';for(let i=0;i<5;i++){g.fillRect(bxx+R*.03+i*bw2*.18,by+bh*.1,bw2*.13,bh*.28);if(i<4)g.fillRect(bxx+R*.03+i*bw2*.18,by+bh*.6,bw2*.13,bh*.24)}
- g.fillRect(bxx+bw2-R*.06,by+bh*.6,R*.04,bh*.24);
- g.fillStyle='#ffe9a8';g.fillRect(bxx+bw2-R*.012,by+bh*.78,R*.016,R*.03);
- g.fillStyle='#fff';g.fillRect(bxx+bw2*.5,by+bh*.55-R*.0,0,0);
- g.fillStyle='#2b3a52';[.2,.76].forEach(f=>{g.beginPath();g.arc(bxx+bw2*f,by+bh,R*.04,0,TAU);g.fill();g.fillStyle='#9aa7bb';g.beginPath();g.arc(bxx+bw2*f,by+bh,R*.016,0,TAU);g.fill();g.fillStyle='#2b3a52'});
- g.restore();
- /* Themse */
- q=g.createLinearGradient(0,gy+R*.12,0,X(1.3));q.addColorStop(0,'#86b6d8');q.addColorStop(1,'#4d86b8');g.fillStyle=q;g.fillRect(c-R*1.3,gy+R*.12,R*2.6,R*1);
- g.strokeStyle='rgba(255,255,255,.45)';g.lineWidth=Math.max(1,R*.012);for(let i=0;i<5;i++){const y=X(.64+i*.11),o=Math.sin(t*1.2+i)*R*.05;g.beginPath();g.moveTo(X(-1.2)+o,y);g.quadraticCurveTo(X(-.9)+o,y-R*.03,X(-.6)+o,y);g.moveTo(X(.1)-o,y);g.quadraticCurveTo(X(.4)-o,y-R*.03,X(.7)-o,y);g.stroke()}
- g.strokeStyle='rgba(255,224,138,.45)';g.lineWidth=Math.max(1.5,R*.02);[-.62,.5].forEach((lx,i)=>{g.beginPath();g.moveTo(X(lx)+Math.sin(t*2+i)*R*.01,gy+R*.16);g.lineTo(X(lx)+Math.sin(t*2+i+1)*R*.01,gy+R*.34);g.stroke()});
- /* Regen: fällt von oben nach unten */
- g.strokeStyle='rgba(60,90,145,.62)';g.lineWidth=Math.max(1,R*.011);g.beginPath();for(let i=0;i<34;i++){const x=X(-1.25+((i*.0731)%2.5)),y=X(-1.25+((i*.37+t*(1.1+hov*.5)+i*.11)%2.6));g.moveTo(x,y);g.lineTo(x-R*.025,y+R*.08)}g.stroke();
- g.strokeStyle='rgba(255,255,255,.5)';g.lineWidth=Math.max(1,R*.006);for(let i=0;i<8;i++){const ph=(t*1.4+i*.37)%1,x=X(-1+i*.27),y=gy+R*.05+(i%3)*R*.035;g.beginPath();g.ellipse(x,y,R*.02*ph+R*.004,R*.007*ph+R*.002,0,0,TAU);g.globalAlpha=1-ph;g.stroke();g.globalAlpha=1}
- q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(1,33,105,0)');q.addColorStop(1,'rgba(1,33,105,.32)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
-}
+/* ---------- Szene: Englisch-Welten (Britische Inseln von oben) ---------- */
+const EMAP={"W":408,"H":540,"GB":"M167.8 494.9Q163.1 498.4 170.9 501.4Q178.7 504.4 181.1 499.2Q183.4 494.1 189.7 489.2Q196.0 484.4 203.8 483.8Q211.7 483.3 219.5 486.8Q227.3 490.3 231.3 480.1Q235.2 469.8 243.0 467.1Q250.9 464.4 257.9 469.3Q265.0 474.1 272.8 469.3Q280.7 464.4 289.3 461.7Q297.9 459.0 303.4 459.5Q308.9 460.1 312.8 461.7Q316.7 463.3 326.9 460.6Q337.1 457.9 343.4 460.3Q349.6 462.8 355.1 459.5Q360.6 456.3 366.4 454.4Q372.2 452.5 378.2 446.8Q384.1 441.2 384.9 434.4Q385.7 427.7 377.9 427.1Q370.0 426.6 365.3 423.9Q360.6 421.2 363.8 418.5Q366.9 415.8 370.0 410.4Q373.2 405.0 377.9 400.9Q382.6 396.9 389.6 383.4Q396.7 369.9 396.7 364.5Q396.7 359.1 389.6 351.0Q382.6 342.9 370.0 342.4Q357.5 341.8 355.1 346.4Q352.8 351.0 352.0 345.6Q351.2 340.2 352.0 336.1Q352.8 332.1 350.4 325.3Q348.1 318.6 346.5 313.7Q344.9 308.9 340.2 305.6Q335.5 302.4 335.5 292.1Q335.5 281.9 337.4 280.8Q339.3 279.7 334.3 275.4Q329.3 271.1 326.1 265.4Q323.0 259.7 314.4 255.4Q305.7 251.1 302.6 244.3Q299.5 237.6 297.1 233.5Q294.8 229.5 293.2 220.0Q291.6 210.6 285.4 200.6Q279.1 190.6 271.2 184.4Q263.4 178.2 255.6 178.2Q247.7 178.2 241.5 177.4Q235.2 176.6 241.5 170.6Q247.7 164.7 254.0 163.3Q260.3 162.0 257.1 159.3Q254.0 156.6 249.3 155.2Q244.6 153.9 252.4 149.8Q260.3 145.8 262.6 141.7Q265.0 137.7 271.2 126.9Q277.5 116.1 281.4 106.6Q285.4 97.2 282.2 91.8Q279.1 86.4 271.2 87.2Q263.4 88.0 249.3 87.2Q235.2 86.4 227.3 91.8Q219.5 97.2 214.8 95.8Q210.1 94.5 211.7 89.1Q213.2 83.7 216.4 79.6Q219.5 75.6 225.8 68.8Q232.0 62.1 238.3 54.0Q244.6 45.9 246.2 41.0Q247.7 36.2 241.5 35.1Q235.2 34.0 230.5 36.4Q225.8 38.9 214.8 39.7Q203.8 40.5 194.4 38.6Q185.0 36.7 181.9 45.4Q178.7 54.0 179.5 64.8Q180.3 75.6 171.7 79.6Q163.1 83.7 163.1 95.8Q163.1 108.0 161.5 116.1Q159.9 124.2 153.7 129.6Q147.4 135.0 153.7 140.4Q159.9 145.8 163.1 151.2Q166.2 156.6 167.0 167.4Q167.8 178.2 165.4 186.3Q163.1 194.4 162.3 205.2Q161.5 216.0 164.6 213.3Q167.8 210.6 171.7 202.5Q175.6 194.4 180.3 187.6Q185.0 180.9 189.7 180.9Q194.4 180.9 192.1 186.3Q189.7 191.7 192.1 198.4Q194.4 205.2 190.5 213.3Q186.6 221.4 184.2 229.5Q181.9 237.6 185.8 244.3Q189.7 251.1 197.6 247.0Q205.4 243.0 214.8 240.3Q224.2 237.6 232.0 235.2Q239.9 232.7 237.5 238.4Q235.2 244.1 232.8 251.6Q230.5 259.2 232.8 267.3Q235.2 275.4 238.3 278.1Q241.5 280.8 246.9 279.4Q252.4 278.1 249.3 287.5Q246.2 297.0 247.7 303.8Q249.3 310.5 247.7 314.5Q246.2 318.6 243.8 321.3Q241.5 324.0 239.1 322.6Q236.8 321.3 229.7 322.6Q222.6 324.0 214.8 322.6Q207.0 321.3 203.0 322.6Q199.1 324.0 197.6 324.0Q196.0 324.0 199.9 330.8Q203.8 337.5 199.1 344.2Q194.4 351.0 202.3 348.3Q210.1 345.6 211.7 355.0Q213.2 364.5 213.2 373.9Q213.2 383.4 203.8 384.7Q194.4 386.1 185.0 392.8Q175.6 399.6 179.5 405.0Q183.4 410.4 193.6 411.7Q203.8 413.1 210.9 414.4Q217.9 415.8 230.0 419.8Q242.1 423.9 249.6 422.5Q257.1 421.2 257.1 423.9Q257.1 426.6 252.4 432.0Q247.7 437.4 239.9 437.4Q232.0 437.4 221.1 437.4Q210.1 437.4 205.4 442.8Q200.7 448.2 199.1 453.6Q197.6 459.0 192.1 465.8Q186.6 472.5 179.5 481.9Q172.5 491.4 167.8 494.9Z","IE":"M108.2 214.1Q109.8 212.2 116.0 216.8Q122.3 221.4 127.8 220.9Q133.3 220.3 141.1 219.5Q149.0 218.7 152.9 225.4Q156.8 232.2 159.1 240.3Q161.5 248.4 165.4 255.1Q169.3 261.9 168.5 265.9Q167.8 270.0 161.5 275.4Q155.2 280.8 151.3 286.2Q147.4 291.6 149.0 302.4Q150.5 313.2 151.3 318.6Q152.1 324.0 151.3 334.8Q150.5 345.6 147.4 356.4Q144.2 367.2 142.7 375.3Q141.1 383.4 132.5 384.7Q123.9 386.1 113.7 387.4Q103.5 388.8 92.5 396.9Q81.5 405.0 70.6 409.0Q59.6 413.1 47.0 418.5Q34.5 423.9 29.8 419.8Q25.1 415.8 28.2 409.0Q31.4 402.3 23.5 395.5Q15.7 388.8 23.5 387.4Q31.4 386.1 31.4 378.0Q31.4 369.9 39.2 365.8Q47.0 361.8 41.5 359.1Q36.1 356.4 42.3 348.3Q48.6 340.2 54.1 334.8Q59.6 329.4 50.2 325.3Q40.8 321.3 32.9 317.2Q25.1 313.2 28.2 307.8Q31.4 302.4 28.2 295.6Q25.1 288.9 28.2 282.1Q31.4 275.4 42.3 274.0Q53.3 272.7 62.7 270.0Q72.1 267.3 73.7 261.9Q75.3 256.5 80.0 255.1Q84.7 253.8 76.8 251.1Q69.0 248.4 73.7 241.6Q78.4 234.9 80.0 230.8Q81.5 226.8 87.8 224.1Q94.1 221.4 98.0 221.4Q101.9 221.4 104.3 218.7Q106.6 216.0 108.2 214.1Z","IOM":"M205.0 273.5Q204.5 276.4 202.3 279.2Q200.1 282.0 198.0 281.5Q195.9 281.0 195.3 278.3Q194.7 275.6 196.6 272.1Q198.5 268.6 200.9 268.1Q203.3 267.7 204.4 269.2Q205.5 270.6 205.0 273.5Z","SKYE":"M153.3 109.8Q152.1 113.3 148.8 115.5Q145.6 117.7 142.2 117.1Q138.7 116.4 137.1 113.2Q135.5 110.0 137.4 106.2Q139.2 102.5 142.7 100.0Q146.1 97.6 148.5 99.8Q150.9 101.9 152.7 104.1Q154.4 106.3 153.3 109.8Z","LEWIS":"M135.9 63.4Q132.7 67.3 128.1 69.7Q123.5 72.1 121.1 71.0Q118.6 70.0 119.3 67.1Q119.9 64.2 122.8 61.3Q125.7 58.4 129.5 55.5Q133.3 52.7 135.9 53.5Q138.4 54.3 138.8 56.9Q139.2 59.5 135.9 63.4Z","UIST":"M116.4 99.3Q115.4 103.4 114.0 107.2Q112.5 111.1 111.4 110.2Q110.2 109.4 109.6 107.6Q108.9 105.7 110.3 102.3Q111.7 98.9 113.2 97.0Q114.6 95.1 116.0 95.2Q117.4 95.3 116.4 99.3Z","MULL":"M157.2 152.3Q158.2 153.9 157.2 155.5Q156.3 157.2 154.4 158.1Q152.5 159.0 151.3 157.3Q150.0 155.7 149.6 153.7Q149.2 151.7 150.9 150.6Q152.6 149.4 154.4 150.1Q156.2 150.8 157.2 152.3Z","ISLAY":"M150.7 186.8Q151.2 189.0 150.5 190.8Q149.7 192.6 148.2 192.9Q146.6 193.1 145.0 192.3Q143.3 191.4 143.9 189.4Q144.6 187.3 145.5 185.8Q146.5 184.2 148.4 184.4Q150.2 184.5 150.7 186.8Z","ORK":"M254.4 17.5Q255.8 18.9 254.1 20.2Q252.5 21.5 249.2 21.9Q245.9 22.4 243.7 21.3Q241.5 20.2 240.6 18.7Q239.8 17.2 242.8 16.2Q245.8 15.1 249.3 15.6Q252.9 16.1 254.4 17.5Z","ANG":"M206.8 324.0Q207.7 325.1 206.8 326.2Q205.8 327.3 203.7 327.4Q201.5 327.6 200.7 326.3Q200.0 325.1 200.9 324.0Q201.9 323.0 203.9 322.9Q205.9 322.9 206.8 324.0Z","CP_SCO":"-34.5,-91.8 435.9,-91.8 435.9,190.1 277.5,190.1 269.7,207.9 260.3,216.0 247.7,229.5 243.0,232.7 216.4,259.2 -34.5,259.2","CP_WAL":"59.6,307.8 239.9,307.8 246.2,326.7 249.3,342.9 246.2,361.8 244.6,378.0 247.7,396.9 255.6,410.4 258.7,414.7 250.9,429.3 59.6,429.3","CP_NI":"116.0,178.2 116.0,229.5 108.2,245.7 112.9,264.6 122.3,278.1 141.1,283.5 185.0,283.5 185.0,178.2"};
+
+const EMP=(lo,la)=>[(lo+10.9)*54*Math.cos(54.5*Math.PI/180),(59.3-la)*54];
+let EPATH=null;
+function enPaths(){if(EPATH)return EPATH;const pl=s=>{const a=s.split(' ');return new Path2D('M'+a.join('L')+'Z')};
+ EPATH={gb:new Path2D(EMAP.GB),ie:new Path2D(EMAP.IE),isl:['IOM','SKYE','LEWIS','UIST','MULL','ISLAY','ORK','ANG'].map(k=>new Path2D(EMAP[k])),sco:pl(EMAP.CP_SCO),wal:pl(EMAP.CP_WAL),ni:pl(EMAP.CP_NI)};return EPATH}
+function enPat(g,k,w,h){
+ if(k=='eng'){g.fillStyle='#fff';g.fillRect(0,0,w,h);g.fillStyle='#cf142b';g.fillRect(w*.42,0,w*.16,h);g.fillRect(0,h*.4,w,h*.2)}
+ else if(k=='sco'){g.fillStyle='#0065bd';g.fillRect(0,0,w,h);g.strokeStyle='#fff';g.lineWidth=h*.24;g.beginPath();g.moveTo(0,0);g.lineTo(w,h);g.moveTo(w,0);g.lineTo(0,h);g.stroke()}
+ else if(k=='wal'){g.fillStyle='#fff';g.fillRect(0,0,w,h/2);g.fillStyle='#00a651';g.fillRect(0,h/2,w,h/2+1);g.fillStyle='#d30731';g.beginPath();g.ellipse(w*.5,h*.55,w*.2,h*.17,0,0,TAU);g.fill();g.beginPath();g.arc(w*.72,h*.38,h*.12,0,TAU);g.fill();g.beginPath();g.moveTo(w*.38,h*.5);g.lineTo(w*.28,h*.2);g.lineTo(w*.52,h*.42);g.fill();g.beginPath();g.moveTo(w*.32,h*.62);g.quadraticCurveTo(w*.12,h*.8,w*.2,h*.95);g.lineTo(w*.3,h*.7);g.fill()}
+ else if(k=='ire'){g.fillStyle='#169b62';g.fillRect(0,0,w/3,h);g.fillStyle='#fff';g.fillRect(w/3,0,w/3+1,h);g.fillStyle='#ff883e';g.fillRect(w*2/3,0,w/3+1,h)}
+ else{g.fillStyle='#012169';g.fillRect(0,0,w,h);g.lineCap='butt';const d=(c,lw)=>{g.strokeStyle=c;g.lineWidth=lw;g.beginPath();g.moveTo(0,0);g.lineTo(w,h);g.moveTo(w,0);g.lineTo(0,h);g.stroke()};d('#fff',h*.22);d('#c8102e',h*.09);g.fillStyle='#fff';g.fillRect(w*.4,0,w*.2,h);g.fillRect(0,h*.34,w,h*.32);g.fillStyle='#c8102e';g.fillRect(w*.44,0,w*.12,h);g.fillRect(0,h*.4,w,h*.2)}}
+function enFlag(g,x,y,k,R,t,ph){const w=R*.23,h=w*.64,N=9;g.save();g.translate(x,y);g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1.2,R*.013);g.lineCap='round';g.beginPath();g.moveTo(0,0);g.lineTo(0,-h-R*.05);g.stroke();
+ g.translate(0,-h-R*.05);for(let i=0;i<N;i++){const x0=i*w/N,off=Math.sin(t*5+ph+i*.75)*h*.07*(.25+i/N);g.save();g.beginPath();g.rect(x0,off,w/N+.7,h);g.clip();g.translate(0,off);enPat(g,k,w,h);g.restore()}
+ g.strokeStyle='rgba(43,58,82,.7)';g.lineWidth=Math.max(1,R*.008);g.beginPath();for(let i=0;i<=N;i++){const x0=i*w/N,off=Math.sin(t*5+ph+i*.75)*h*.07*(.25+i/N);i?g.lineTo(x0,off):g.moveTo(x0,off)}g.stroke();g.beginPath();for(let i=0;i<=N;i++){const x0=i*w/N,off=Math.sin(t*5+ph+i*.75)*h*.07*(.25+i/N);i?g.lineTo(x0,off+h):g.moveTo(x0,off+h)}g.stroke();g.restore()}
+function enBoat(g,x,y,R,t,ph,col){const b=Math.sin(t*2.2+ph)*R*.008,s=R*.0075;g.save();g.translate(x,y+b);g.rotate(Math.sin(t*1.6+ph)*.07);g.scale(s,s);g.lineJoin='round';g.strokeStyle='#2b3a52';g.lineWidth=1.3/ s*s;g.fillStyle='#fff';g.beginPath();g.moveTo(-8,0);g.lineTo(8,0);g.lineTo(5,5);g.lineTo(-5,5);g.closePath();g.fill();g.stroke();g.fillStyle=col;g.beginPath();g.moveTo(0,-1);g.lineTo(0,-14);g.lineTo(7,-2);g.closePath();g.fill();g.stroke();g.fillStyle='#fff';g.beginPath();g.moveTo(-1,-1);g.lineTo(-1,-10);g.lineTo(-6,-2);g.closePath();g.fill();g.stroke();g.restore()}
 function szeneEnglisch(g,c,R,t,hov,p){
- const X=v=>c+R*v,ink='#2b3a52',LW=Math.max(1.2,R*.011);g.lineJoin='round';g.lineCap='round';
- let q=g.createLinearGradient(0,c-R,0,c+R);q.addColorStop(0,'#8fd3ff');q.addColorStop(.6,'#dff4ff');q.addColorStop(1,'#f4fbff');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
- g.fillStyle='#ffd84d';g.beginPath();g.arc(X(.58),X(-.58),R*.17,0,TAU);g.fill();g.save();g.globalAlpha=.35;g.strokeStyle='#ffd84d';g.lineWidth=R*.03;for(let i=0;i<10;i++){const a=i/10*TAU+t*.2;g.beginPath();g.moveTo(X(.58)+Math.cos(a)*R*.22,X(-.58)+Math.sin(a)*R*.22);g.lineTo(X(.58)+Math.cos(a)*R*.3,X(-.58)+Math.sin(a)*R*.3);g.stroke()}g.restore();
- for(let i=0;i<3;i++){const cx=X(-1.2+((i*.9+t*.03)%2.8)),cy=X(-.62+.14*i);g.fillStyle='rgba(255,255,255,.92)';g.beginPath();g.ellipse(cx,cy,R*.26,R*.07,0,0,TAU);g.ellipse(cx+R*.12,cy-R*.05,R*.15,R*.065,0,0,TAU);g.ellipse(cx-R*.12,cy-R*.02,R*.14,R*.055,0,0,TAU);g.fill()}
- g.fillStyle='#a9e08f';g.beginPath();g.moveTo(X(-1.3),X(.02));g.quadraticCurveTo(X(-.4),X(-.3),X(.3),X(-.02));g.quadraticCurveTo(X(.8),X(-.2),X(1.3),X(-.05));g.lineTo(X(1.3),X(1.3));g.lineTo(X(-1.3),X(1.3));g.fill();
- g.fillStyle='#6cc25c';g.beginPath();g.moveTo(X(-1.3),X(.3));g.quadraticCurveTo(X(-.2),X(.1),X(1.3),X(.28));g.lineTo(X(1.3),X(1.3));g.lineTo(X(-1.3),X(1.3));g.fill();
- /* Scheune */
- g.strokeStyle=ink;g.lineWidth=LW;g.fillStyle='#d9453b';g.fillRect(X(.5),X(-.2),R*.5,R*.36);g.strokeRect(X(.5),X(-.2),R*.5,R*.36);
- g.fillStyle='#a8332c';g.beginPath();g.moveTo(X(.46),X(-.18));g.lineTo(X(.75),X(-.42));g.lineTo(X(1.04),X(-.18));g.closePath();g.fill();g.stroke();
- g.fillStyle='#f4eee0';g.fillRect(X(.64),X(-.08),R*.22,R*.24);g.strokeRect(X(.64),X(-.08),R*.22,R*.24);g.beginPath();g.moveTo(X(.64),X(-.08));g.lineTo(X(.86),X(.16));g.moveTo(X(.86),X(-.08));g.lineTo(X(.64),X(.16));g.stroke();
- /* Apfelbaum */
- g.fillStyle='#8a5a2b';g.fillRect(X(-.7),X(-.1),R*.1,R*.4);g.strokeRect(X(-.7),X(-.1),R*.1,R*.4);
- g.fillStyle='#4fb040';g.beginPath();g.arc(X(-.65),X(-.28),R*.3,0,TAU);g.arc(X(-.84),X(-.14),R*.2,0,TAU);g.arc(X(-.46),X(-.14),R*.2,0,TAU);g.fill();g.stroke();
- g.fillStyle='#e8434b';[[-.7,-.38],[-.54,-.24],[-.82,-.18],[-.6,-.1]].forEach(a=>{g.beginPath();g.arc(X(a[0]),X(a[1]),R*.05,0,TAU);g.fill();g.stroke()});
- /* Kuh */
- const bob=Math.sin(t*2.2)*R*.012,cx=X(-.05)+Math.sin(t*.6)*R*.05,cy=X(.34)+bob;
- g.fillStyle='#fff';g.beginPath();g.ellipse(cx,cy,R*.3,R*.17,0,0,TAU);g.fill();g.stroke();
- g.fillStyle='#3b3f4a';g.beginPath();g.ellipse(cx-R*.08,cy-R*.04,R*.09,R*.07,.3,0,TAU);g.ellipse(cx+R*.1,cy+R*.05,R*.07,R*.05,0,0,TAU);g.fill();
- g.fillStyle='#fff';[-.2,-.1,.12,.2].forEach(o=>{g.fillRect(cx+R*o-R*.025,cy+R*.1,R*.05,R*.16);g.strokeRect(cx+R*o-R*.025,cy+R*.1,R*.05,R*.16)});
- g.fillStyle='#fff';g.beginPath();g.ellipse(cx+R*.32,cy-R*.1,R*.12,R*.11,0,0,TAU);g.fill();g.stroke();
- g.fillStyle='#f6a6b5';g.beginPath();g.ellipse(cx+R*.4,cy-R*.06,R*.06,R*.045,0,0,TAU);g.fill();g.stroke();
- g.fillStyle='#fff';g.beginPath();g.ellipse(cx+R*.26,cy-R*.2,R*.04,R*.025,-.5,0,TAU);g.fill();g.stroke();
- g.fillStyle=ink;g.beginPath();g.arc(cx+R*.34,cy-R*.13,R*.016,0,TAU);g.fill();
- g.beginPath();g.moveTo(cx-R*.3,cy-R*.05);g.quadraticCurveTo(cx-R*.42,cy+R*.02+Math.sin(t*4)*R*.04,cx-R*.38,cy+R*.14);g.stroke();
- /* Kürbis und Äpfel vorn */
- g.fillStyle='#f07f12';[[-.12,.74,.13],[.04,.76,.13],[.2,.74,.12]].forEach((a,i)=>{g.beginPath();g.ellipse(X(a[0]),X(a[1]),R*a[2],R*a[2]*.82,0,0,TAU);g.fill();g.stroke()});
- g.fillStyle='#4fa03a';g.fillRect(X(.01),X(.62),R*.04,R*.06);
- g.fillStyle='#e8434b';g.beginPath();g.arc(X(-.5),X(.72),R*.07,0,TAU);g.fill();g.stroke();g.fillStyle='#ffd93b';g.beginPath();g.ellipse(X(-.34),X(.74),R*.1,R*.05,-.4,0,TAU);g.fill();g.stroke();
- /* Zaun */
- g.fillStyle='#fff';for(let i=0;i<9;i++){g.fillRect(X(-1+i*.25),X(.2),R*.05,R*.18);g.strokeRect(X(-1+i*.25),X(.2),R*.05,R*.18)}g.fillRect(X(-1),X(.25),R*2,R*.035);g.strokeRect(X(-1),X(.25),R*2,R*.035);
- /* Sprechblase */
- const bp=1+Math.sin(t*3)*.04+hov*.08;g.save();g.translate(X(.12),X(-.34));g.scale(bp,bp);g.fillStyle='#fff';g.strokeStyle=ink;g.beginPath();g.ellipse(0,0,R*.3,R*.15,0,0,TAU);g.fill();g.stroke();g.beginPath();g.moveTo(-R*.1,R*.12);g.lineTo(-R*.2,R*.27);g.lineTo(R*.02,R*.14);g.closePath();g.fillStyle='#fff';g.fill();g.stroke();
- g.fillStyle='#1b8fe6';g.font='800 '+Math.round(R*.14)+'px system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('Hello!',0,R*.005);g.restore();
- q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(1,33,105,0)');q.addColorStop(1,'rgba(1,33,105,.28)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ const E=enPaths(),sc=R*2.02/EMAP.H*(1+hov*.04),ox=c-EMAP.W/2*sc,oy=c-EMAP.H/2*sc,P=(lo,la)=>{const a=EMP(lo,la);return[ox+a[0]*sc,oy+a[1]*sc]};
+ let q=g.createRadialGradient(c,c*.9,R*.1,c,c,R*1.3);q.addColorStop(0,'#9fe2ff');q.addColorStop(.55,'#4fb0ee');q.addColorStop(1,'#1f5fb0');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ /* Glitzern auf dem Meer */
+ g.save();for(let i=0;i<26;i++){const a=i*2.399,r=R*(.25+((i*.37)%1)*.8),x=c+Math.cos(a)*r,y=c+Math.sin(a)*r,s=.5+.5*Math.sin(t*1.8+i*1.7);if(s<.55)continue;g.globalAlpha=(s-.55)*1.7;g.strokeStyle='#fff';g.lineWidth=Math.max(1,R*.012);g.lineCap='round';const l=R*.03*(s);g.beginPath();g.moveTo(x-l,y);g.lineTo(x+l,y);g.moveTo(x,y-l);g.lineTo(x,y+l);g.stroke()}g.restore();
+ g.save();g.translate(ox,oy);g.scale(sc,sc);g.lineJoin='round';
+ /* Wellenringe um die Inseln */
+ const rings=(path)=>{for(let k=0;k<3;k++){const ph=(t*.22+k/3)%1;g.globalAlpha=.42*(1-ph);g.strokeStyle='#fff';g.lineWidth=(8+ph*44);g.stroke(path)}g.globalAlpha=1};
+ rings(E.gb);rings(E.ie);
+ g.strokeStyle='rgba(230,248,255,.55)';g.lineWidth=15;g.stroke(E.gb);g.stroke(E.ie);E.isl.forEach(i=>g.stroke(i));
+ /* Land */
+ g.fillStyle='#a6dc7e';g.fill(E.gb);E.isl.forEach(i=>{g.fill(i)});
+ g.save();g.clip(E.gb);g.save();g.clip(E.sco);g.fillStyle='#86c98d';g.fillRect(0,0,EMAP.W,EMAP.H);g.restore();g.save();g.clip(E.wal);g.fillStyle='#6fcf6a';g.fillRect(0,0,EMAP.W,EMAP.H);g.restore();
+ g.strokeStyle='rgba(255,255,255,.9)';g.lineWidth=1.8;g.setLineDash([4,3]);const bd=(lo,la)=>{const a=EMP(lo,la);return a};
+ g.beginPath();[[-3.2,55.0],[-3.0,55.05],[-2.6,55.3],[-2.3,55.45],[-2.05,55.78]].forEach((a,i)=>{const b=bd(...a);i?g.lineTo(b[0],b[1]):g.moveTo(b[0],b[1])});g.stroke();
+ g.beginPath();[[-3.2,53.35],[-3.05,53.25],[-2.95,52.95],[-3.05,52.6],[-3.1,52.3],[-3.0,51.95],[-2.75,51.7],[-2.65,51.62],[-2.85,51.4]].forEach((a,i)=>{const b=bd(...a);i?g.lineTo(b[0],b[1]):g.moveTo(b[0],b[1])});g.stroke();g.setLineDash([]);g.restore();
+ g.fillStyle='#4fc27c';g.fill(E.ie);g.save();g.clip(E.ie);g.save();g.clip(E.ni);g.fillStyle='#7fd28c';g.fillRect(0,0,EMAP.W,EMAP.H);g.restore();g.restore();
+ g.strokeStyle='#2b3a52';g.lineWidth=Math.max(1.3,1.5);g.stroke(E.gb);g.stroke(E.ie);E.isl.forEach(i=>g.stroke(i));
+ g.restore();
+ /* Berge */
+ g.save();g.lineJoin='round';g.lineWidth=Math.max(1,R*.01);g.strokeStyle='#2b3a52';[[-5.0,56.85,1],[-4.5,57.3,.9],[-4.0,56.95,.85],[-3.6,57.1,.9],[-2.3,54.1,.8],[-2.1,53.7,.7],[-2.5,54.65,.8],[-4.0,53.1,.7]].forEach(a=>{const[x,y]=P(a[0],a[1]),s=R*.045*a[2];g.fillStyle='#a9a3b8';g.beginPath();g.moveTo(x-s,y);g.lineTo(x,y-s*1.5);g.lineTo(x+s,y);g.closePath();g.fill();g.stroke();g.fillStyle='#fff';g.beginPath();g.moveTo(x-s*.38,y-s*.9);g.lineTo(x,y-s*1.5);g.lineTo(x+s*.38,y-s*.9);g.lineTo(x+s*.12,y-s*.78);g.lineTo(x,y-s*.95);g.lineTo(x-s*.12,y-s*.78);g.fill()});g.restore();
+ /* Boote */
+ [[-8.6,50.9,0,'#e8434b'],[1.05,54.4,1.4,'#ffd93b'],[-5.4,53.9,.7,'#ffffff'],[-9.2,56.3,2.1,'#7a5cf6']].forEach(a=>{const[x,y]=P(a[0],a[1]);enBoat(g,x,y,R,t,a[2],a[3])});
+ /* Flaggen */
+ [[-0.6,52.9,'eng',0],[-3.95,57.6,'sco',1.2],[-3.6,52.55,'wal',2.1],[-6.6,54.55,'uk',.6],[-8.6,53.2,'ire',1.7]].forEach(a=>{const[x,y]=P(a[0],a[1]);enFlag(g,x,y,a[2],R,t,a[3])});
+ /* London leuchtet */
+ {const[x,y]=P(-0.12,51.5),ph=(t*.7)%1,pr=1+hov*.4;g.save();g.globalAlpha=.7*(1-ph);g.strokeStyle='#ff4d63';g.lineWidth=Math.max(1.5,R*.02);g.beginPath();g.arc(x,y,R*(.04+ph*.12)*pr,0,TAU);g.stroke();g.globalAlpha=1;g.fillStyle='#e0213b';g.strokeStyle='#fff';g.lineWidth=Math.max(1.5,R*.018);g.beginPath();g.arc(x,y,R*.045*pr,0,TAU);g.fill();g.stroke();g.restore()}
+ /* Wolken */
+ g.save();for(let i=0;i<3;i++){const x=c+((((i*.9+t*.012*(1+i*.3))%2.4)-1.2)*R*1.4),y=c+R*(-.55+.5*i)+Math.sin(t*.3+i)*R*.02;g.globalAlpha=.8;g.fillStyle='#fff';g.beginPath();g.ellipse(x,y,R*.25,R*.06,0,0,TAU);g.ellipse(x+R*.12,y-R*.05,R*.14,R*.055,0,0,TAU);g.ellipse(x-R*.1,y-R*.03,R*.12,R*.05,0,0,TAU);g.fill()}g.restore();
+ q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(1,33,105,0)');q.addColorStop(1,'rgba(1,33,105,.34)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
 }
-const rimEnglisch=['#6bd66b','#ffd93b','#ffffff'];
-const rimLondon=['#e0475c','#a9c0f5','#ffffff'];
+const rimEnglisch=['#e8434b','#ffffff','#2a5bd7'];
 
 
 /* ---------- Portal-Motor: wabernder Rand, schneller und unregelmäßiger bei Hover ---------- */
@@ -741,7 +638,6 @@ neu($('canvas[data-scene=atelier]'),szeneAtelier,rimAtelier);
 neu($('canvas[data-scene=konzert]'),szeneKonzert,rimKonzert);
 neu($('canvas[data-scene=formen]'),szeneFormen,rimFormen);
 neu($('canvas[data-scene=sport]'),szeneSport,rimSport);
-neu($('canvas[data-scene=london]'),szeneLondon,rimLondon);
 neu($('canvas[data-scene=englisch]'),szeneEnglisch,rimEnglisch);
 let last=performance.now();
 let fr=0;
@@ -755,8 +651,8 @@ function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
 if(RM){portals.forEach(p=>zeichne(p,0));addEventListener('resize',()=>portals.forEach(p=>zeichne(p,0)))}else requestAnimationFrame(frame);
 
 /* ---------- Warpantrieb ---------- */
-function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',sp=modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen',lo=modus=='london',en=modus=='englisch';
- const c=document.createElement('canvas');c.className='warp'+(en?' en':lo?' lo':gruen?' gr':sp?' sp':strand?' st':vk?' vk':at?' at':ko?' ko':fo?' fo':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
+function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',sp=modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen',lo=modus=='london'||modus=='englisch';
+ const c=document.createElement('canvas');c.className='warp'+(lo?' lo':gruen?' gr':sp?' sp':strand?' st':vk?' vk':at?' at':ko?' ko':fo?' fo':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext('2d');g.scale(dpr,dpr);
  const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:lo?(Math.random()<.5?222+Math.random()*14:352+Math.random()*10):sp?158+Math.random()*28:fo?190+Math.random()*50:ko?(Math.random()<.6?38+Math.random()*14:350+Math.random()*10):at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:lo?(Math.random()<.4?93:70+Math.random()*14):80+Math.random()*18}));
  const DUR=1700,t0=performance.now();
@@ -806,20 +702,20 @@ let K=0;const KEY='kastner-klasse';
 try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
 function zeigeK(){
  document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
- const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse'],['london','London-Tour','Englisch auf der Bus-Tour','london-klasse'],['englisch','Englisch-Welten','Wörter, Dialoge und Sprechen','englisch-klasse']];
- for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id),low=(id=='london'||id=='englisch')&&K&&K<3;
+ const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse'],['englisch','Englisch-Welten','Karte, Wörter, Dialoge, London','englisch-klasse']];
+ for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id),low=(id=='englisch')&&K&&K<3;
   if(low&&USER){a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': Englisch gibt es ab Klasse 3.');$('#s-'+id).textContent=fach+' · ab Klasse 3';bd.classList.remove('on')}
   else if(K&&USER){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
    $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
   else{a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': '+fach+(USER?'. Wähle zuerst deine Klasse.':'. Melde dich zuerst an.'));
-   $('#s-'+id).textContent=fach+((id=='london'||id=='englisch')?' · Klasse 3 und 4':' · Klasse 1 bis 4');bd.classList.remove('on')}}
+   $('#s-'+id).textContent=fach+((id=='englisch')?' · Klasse 3 und 4':' · Klasse 1 bis 4');bd.classList.remove('on')}}
  $('#kl-hint').textContent=K?'Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.':'Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'
 }
 document.querySelectorAll('.kb').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;try{localStorage.setItem(KEY,String(K))}catch(_){}zeigeK()}));
 zeigeL();zeigeK();
 
 /* ---------- Filter, Suche und Zufall (Filter wird nur in diesem Browser gemerkt) ---------- */
-const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest',london:'London-Tour',englisch:'Englisch-Welten'};
+const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest',englisch:'Englisch-Welten'};
 const FB={Mathe:['🔢','Rechnen & Zahlen','Zeit, Geld & Größen','Geometrie & Formen','Daten & Diagramme','Knobeln & Logik'],
  Deutsch:['📖','Lesen & Verstehen','Rechtschreibung','Wörter & Grammatik'],
  Sachunterricht:['🌍','Natur & Umwelt','Körper & Gesundheit','Zusammenleben','Zeit & Geschichte','Raum & Verkehr','Technik & Bauen'],
@@ -878,36 +774,36 @@ const EN=[
 ['formen','Baupläne & Würfelgebäude','Mathe','Geometrie & Formen','würfel gebäude ansichten würfelnetze bauen raum'],
 ['formen','Formen- und Körper-Akademie','Mathe','Geometrie & Formen','formen ecken körper spiegelachsen quiz'],
 ['formen','Illusionen-Labor','Mathe','Knobeln & Logik','optische täuschungen illusionen schätzen'],
-['london','Bus & Tube','Englisch','Wortschatz & Hören','bus taxi tube ticket street map wörter vokabeln englisch'],
-['london','Bus & Tube','Englisch','Landeskunde','linksverkehr doppeldecker black cab london verkehr'],
-['london','Bus & Tube','Englisch','Dialoge & Sprechen','im bus sprechen dialog fahrkarte'],
-['london','Big Ben','Englisch','Wortschatz & Hören','uhr glocke fluss wetter regen wörter'],
-['london','Big Ben','Englisch','Landeskunde','big ben parlament themse elizabeth tower'],
-['london','Big Ben','Englisch','Dialoge & Sprechen','uhrzeit what time is it dialog'],
-['london','Big Ben','Mathe','Zeit, Geld & Größen','uhrzeit englisch o clock half past'],
-['london','Buckingham Palace','Englisch','Wortschatz & Hören','king queen crown guard palace wörter'],
-['london','Buckingham Palace','Englisch','Landeskunde','royals könig königin wachwechsel palast'],
-['london','Buckingham Palace','Englisch','Dialoge & Sprechen','postkarte kaufen laden dialog'],
-['london','Tower Bridge & Tower','Englisch','Wortschatz & Hören','bridge raven jewel key wörter'],
-['london','Tower Bridge & Tower','Englisch','Landeskunde','tower bridge tower of london raben kronjuwelen beefeater'],
-['london','Tower Bridge & Tower','Englisch','Dialoge & Sprechen','tickets kaufen dialog'],
-['london','London Eye','Englisch','Wortschatz & Hören','stadt kamera himmel wörter'],
-['london','London Eye','Englisch','Landeskunde','london eye riesenrad kapseln'],
-['london','London Eye','Englisch','Dialoge & Sprechen','foto machen dialog'],
-['london','London Eye','Mathe','Rechnen & Zahlen','zahlen englisch numbers zählen'],
-['london','Trafalgar Square','Englisch','Wortschatz & Hören','löwe brunnen links rechts geradeaus wörter'],
-['london','Trafalgar Square','Englisch','Landeskunde','nelson säule löwen weihnachtsbaum norwegen'],
-['london','Trafalgar Square','Englisch','Dialoge & Sprechen','weg beschreiben richtungen dialog'],
-['london','British Museum','Englisch','Wortschatz & Hören','museum vase maske stein wörter'],
-['london','British Museum','Englisch','Landeskunde','british museum mumien rosetta stone'],
-['london','British Museum','Englisch','Dialoge & Sprechen','toilette fragen dialog'],
-['london','Tea & Chips','Englisch','Wortschatz & Hören','tea milk cake fish chips egg bacon essen trinken wörter'],
-['london','Tea & Chips','Englisch','Essen & Trinken','afternoon tea fish and chips full english breakfast scones'],
-['london','Tea & Chips','Englisch','Dialoge & Sprechen','bestellen café dialog'],
-['london','Typically British','Englisch','Landeskunde','queue schlange höflichkeit briefkasten telefonzelle gepflogenheiten bräuche'],
-['london','Typically British','Englisch','Wortschatz & Hören','please thank you sorry wörter'],
-['london','Typically British','Englisch','Dialoge & Sprechen','höflich dialog'],
-['london','Goodbye London','Englisch','Landeskunde','quiz rallye abschluss'],
+['englisch','London · Bus & Tube','Englisch','Wortschatz & Hören','bus taxi tube ticket street map wörter vokabeln englisch'],
+['englisch','London · Bus & Tube','Englisch','Landeskunde','linksverkehr doppeldecker black cab london verkehr'],
+['englisch','London · Bus & Tube','Englisch','Dialoge & Sprechen','im bus sprechen dialog fahrkarte'],
+['englisch','London · Big Ben','Englisch','Wortschatz & Hören','uhr glocke fluss wetter regen wörter'],
+['englisch','London · Big Ben','Englisch','Landeskunde','big ben parlament themse elizabeth tower'],
+['englisch','London · Big Ben','Englisch','Dialoge & Sprechen','uhrzeit what time is it dialog'],
+['englisch','London · Big Ben','Mathe','Zeit, Geld & Größen','uhrzeit englisch o clock half past'],
+['englisch','London · Buckingham Palace','Englisch','Wortschatz & Hören','king queen crown guard palace wörter'],
+['englisch','London · Buckingham Palace','Englisch','Landeskunde','royals könig königin wachwechsel palast'],
+['englisch','London · Buckingham Palace','Englisch','Dialoge & Sprechen','postkarte kaufen laden dialog'],
+['englisch','London · Tower Bridge & Tower','Englisch','Wortschatz & Hören','bridge raven jewel key wörter'],
+['englisch','London · Tower Bridge & Tower','Englisch','Landeskunde','tower bridge tower of london raben kronjuwelen beefeater'],
+['englisch','London · Tower Bridge & Tower','Englisch','Dialoge & Sprechen','tickets kaufen dialog'],
+['englisch','London · London Eye','Englisch','Wortschatz & Hören','stadt kamera himmel wörter'],
+['englisch','London · London Eye','Englisch','Landeskunde','london eye riesenrad kapseln'],
+['englisch','London · London Eye','Englisch','Dialoge & Sprechen','foto machen dialog'],
+['englisch','London · London Eye','Mathe','Rechnen & Zahlen','zahlen englisch numbers zählen'],
+['englisch','London · Trafalgar Square','Englisch','Wortschatz & Hören','löwe brunnen links rechts geradeaus wörter'],
+['englisch','London · Trafalgar Square','Englisch','Landeskunde','nelson säule löwen weihnachtsbaum norwegen'],
+['englisch','London · Trafalgar Square','Englisch','Dialoge & Sprechen','weg beschreiben richtungen dialog'],
+['englisch','London · British Museum','Englisch','Wortschatz & Hören','museum vase maske stein wörter'],
+['englisch','London · British Museum','Englisch','Landeskunde','british museum mumien rosetta stone'],
+['englisch','London · British Museum','Englisch','Dialoge & Sprechen','toilette fragen dialog'],
+['englisch','London · Tea & Chips','Englisch','Wortschatz & Hören','tea milk cake fish chips egg bacon essen trinken wörter'],
+['englisch','London · Tea & Chips','Englisch','Essen & Trinken','afternoon tea fish and chips full english breakfast scones'],
+['englisch','London · Tea & Chips','Englisch','Dialoge & Sprechen','bestellen café dialog'],
+['englisch','London · Typically British','Englisch','Landeskunde','queue schlange höflichkeit briefkasten telefonzelle gepflogenheiten bräuche'],
+['englisch','London · Typically British','Englisch','Wortschatz & Hören','please thank you sorry wörter'],
+['englisch','London · Typically British','Englisch','Dialoge & Sprechen','höflich dialog'],
+['englisch','London · Goodbye London','Englisch','Landeskunde','quiz rallye abschluss'],
 ['englisch','Farm animals','Englisch','Wortschatz & Hören','bauernhof tiere kuh schwein schaf pferd henne ente ziege hund katze kaninchen esel küken farm animals wörter vokabeln'],
 ['englisch','Farm animals','Englisch','Dialoge & Sprechen','bauer farm dialog sprechen nachsprechen tiere'],
 ['englisch','Fruit market','Englisch','Wortschatz & Hören','obst apfel banane orange birne erdbeere weintrauben kirschen zitrone wassermelone pfirsich ananas pflaume fruit market wörter'],
@@ -915,6 +811,14 @@ const EN=[
 ['englisch','Fruit market','Englisch','Dialoge & Sprechen','einkaufen obstmarkt dialog i would like'],
 ['englisch','Halloween','Englisch','Wortschatz & Hören','halloween kürbis gespenst hexe fledermaus spinne skelett süßigkeiten besen kessel mond schwarze katze spukhaus wörter'],
 ['englisch','Halloween','Englisch','Dialoge & Sprechen','trick or treat süßes oder saures dialog halloween nachsprechen'],
+['englisch','Diner (New York)','Englisch','Wortschatz & Hören','diner new york amerika american english burger fries pommes hot dog pizza pancakes salat milkshake soda saft cookie donut pie wörter'],
+['englisch','Diner (New York)','Englisch','Essen & Trinken','essen trinken bestellen imbiss amerikanisch'],
+['englisch','Diner (New York)','Englisch','Dialoge & Sprechen','im diner bestellen i would like a burger please dialog kellnerin'],
+['englisch','Ice cream shop','Englisch','Wortschatz & Hören','eisdiele eis ice cream cone cup scoop vanilla chocolate strawberry mint lemon sprinkles cherry wafer ice lolly wörter'],
+['englisch','Ice cream shop','Englisch','Essen & Trinken','eis sorten kugeln toppings'],
+['englisch','Ice cream shop','Englisch','Dialoge & Sprechen','eis bestellen eisdiele dialog two scoops please'],
+['englisch','School things','Englisch','Wortschatz & Hören','schulsachen schule pencil pen rubber ruler book school bag scissors glue pencil case desk chair board wörter'],
+['englisch','School things','Englisch','Dialoge & Sprechen','klassenzimmer lehrerin unterricht dialog open your book'],
 ['sport','Laufbahn','Sport','Leichtathletik','laufen sprint staffel runden stoppuhr'],
 ['sport','Laufbahn','Mathe','Zeit, Geld & Größen','uhr zeit strecken meter runden'],
 ['sport','Laufbahn','Deutsch','Wörter & Grammatik','wörter silben'],
@@ -1015,12 +919,12 @@ function reise(id,idx,pre){
   if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(going||SH.busy)return;
   if(!USER){nudgeLogin();return}
   if(!K){nudge();return}
-  if((id=='london'||id=='englisch')&&K<3){sag('🇬🇧 Englisch gibt es ab Klasse 3. Tippe auf 3 oder 4.');const k=$('#klasse');k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});return}
+  if((id=='englisch')&&K<3){sag('🇬🇧 Englisch gibt es ab Klasse 3. Tippe auf 3 oder 4.');const k=$('#klasse');k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});return}
   going=true;const href=pre+K+'.html';try{sessionStorage.setItem('warp','1')}catch(_){}
   if(RM){location.href=href;return}
   portals[idx].tg=1;const[cx,cy]=mitte('#c-'+id+' .pt');
   SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href},id)})})}
-reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');reise('london',8,'london-klasse');reise('englisch',9,'englisch-klasse');
+reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');reise('englisch',8,'englisch-klasse');
 addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
 
 </script>
