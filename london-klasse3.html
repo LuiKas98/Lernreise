@@ -363,10 +363,10 @@ const aslug=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-
 const AUD={};let EN_A=null,EN_U=null;
 function stopEN(){try{EN_A&&EN_A.pause()}catch(e){}EN_A=null;window.speechSynthesis&&speechSynthesis.cancel()}
 function enVoice(){if(!window.speechSynthesis)return null;const v=speechSynthesis.getVoices();const gb=v.filter(x=>/^en[-_]GB$/i.test(x.lang));const pref=/(Daniel|Serena|Kate|Libby|Sonia|Ryan|Hazel|Susan|George|Google UK English Female|Google UK English Male|Martha|Oliver)/i;return gb.find(x=>pref.test(x.name))||gb[0]||v.find(x=>/^en/i.test(x.lang))||null}
-function enTTS(t,done){if(!window.speechSynthesis){done&&done();return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(t).replace(/’/g,"'"));u.lang='en-GB';const v=enVoice();if(v)u.voice=v;u.rate=KL==3?.82:.9;u.pitch=1;if(done){u.onend=done;u.onerror=done}EN_U=u;speechSynthesis.speak(u)}
-function enSay(t,done){stopEN();const k=aslug(t);if(!k){done&&done();return}
- if(AUD[k]===false){enTTS(t,done);return}
- const a=new Audio('audio/'+k+'.mp3');EN_A=a;let fell=false;const fb=()=>{if(fell)return;fell=true;AUD[k]=false;if(EN_A===a){EN_A=null;enTTS(t,done)}};
+function enTTS(t,done,role){if(!window.speechSynthesis){done&&done();return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(t).replace(/’/g,"'"));u.lang='en-GB';const v=enVoice();if(v)u.voice=v;u.rate=KL==3?.82:.9;u.pitch=role=='A'?1.18:1;if(done){u.onend=done;u.onerror=done}EN_U=u;speechSynthesis.speak(u)}
+function enSay(t,done,role){stopEN();const s0=aslug(t);if(!s0){done&&done();return}const k=(role=='A'?'a-':'')+s0;
+ if(AUD[k]===false){enTTS(t,done,role);return}
+ const a=new Audio('audio/'+k+'.mp3');EN_A=a;let fell=false;const fb=()=>{if(fell)return;fell=true;AUD[k]=false;if(EN_A===a){EN_A=null;enTTS(t,done,role)}};
  a.onerror=fb;a.onended=()=>{done&&done()};
  const pr=a.play();pr&&pr.then&&pr.then(()=>{AUD[k]=true}).catch(e=>{if(e&&e.name=='NotAllowedError'){done&&done()}else fb()})}
 if(window.speechSynthesis)speechSynthesis.addEventListener&&speechSynthesis.addEventListener('voiceschanged',()=>{});
@@ -779,23 +779,23 @@ const dlgP=st=>Object.assign({t:'dlg',key:'dl|'+st,say:DL[st].title},DL[st]);
 
 /* ===== Dialog-Chat ===== */
 const dlgTurns=p=>p.turns.filter(t=>!t[5]||KL==4);
-const bub=(cls,who,en,de)=>`<div class="bub ${cls}"><span class="bw" aria-hidden="true">${who}</span><div class="bt"><button class="bh" onclick="enSay(this.dataset.t)" data-t="${esc(en)}" aria-label="${esc(en)} anhören"><span class="ben">${esc(en)}</span> <span aria-hidden="true">🔊</span></button>${de?`<small class="bde${G&&G.dlDE?'':' off'}">${esc(de)}</small>`:''}</div></div>`;
+const bub=(cls,who,en,de)=>`<div class="bub ${cls}"><span class="bw" aria-hidden="true">${who}</span><div class="bt"><button class="bh" onclick="enSay(this.dataset.t,null,this.dataset.r)" data-t="${esc(en)}" data-r="${cls=='r'?'A':''}" aria-label="${esc(en)} anhören"><span class="ben">${esc(en)}</span> <span aria-hidden="true">🔊</span></button>${de?`<small class="bde${G&&G.dlDE?'':' off'}">${esc(de)}</small>`:''}</div></div>`;
 function dlgHtml(p){return `<div class="q">${p.who[0]} ${esc(p.title)}</div><p class="mini c dgi">${esc(p.intro)}</p><div class="row"><button class="sm sec" id="dlde" aria-pressed="false" onclick="dlgToggleDE()">🇩🇪 Übersetzung zeigen</button></div><div class="chat" id="chat" aria-live="polite"></div><div class="dopts" id="dopts" role="group" aria-label="Deine Antwort"></div>`}
 function dlgStart(){const p=G.p;G.dl={i:0,miss:false,tries:0,fault:null,sh:[],log:[]};G.dlDE=KL==3;const b=$('#dlde');if(b){b.setAttribute('aria-pressed',G.dlDE?'true':'false');b.textContent=G.dlDE?'🇩🇪 Übersetzung verstecken':'🇩🇪 Übersetzung zeigen'}dlgTurn()}
 function dlgToggleDE(){G.dlDE=!G.dlDE;const b=$('#dlde');b.setAttribute('aria-pressed',G.dlDE?'true':'false');b.textContent=G.dlDE?'🇩🇪 Übersetzung verstecken':'🇩🇪 Übersetzung zeigen';document.querySelectorAll('.bde').forEach(e=>e.classList.toggle('off',!G.dlDE))}
 function dlgTurn(){const p=G.p,T=dlgTurns(p),d=G.dl;if(d.i>=T.length)return dlgEnd();const t=T[d.i];d.tries=0;
  const ch=$('#chat');ch.insertAdjacentHTML('beforeend',bub('l',p.who[0],t[0],t[1]));
  d.sh=sh([0,1,2]);const op=$('#dopts');
- op.innerHTML=d.sh.map((k,j)=>{const o=t[2+k];return `<div class="dop"><button class="sm ph" onclick="enSay(this.dataset.t)" data-t="${esc(o[0])}" aria-label="${esc(o[0])} anhören">🔊</button><button class="o dl" id="d${j}" onclick="dlgPick(${j})"><span>${esc(o[0])}</span></button></div>`}).join('');
+ op.innerHTML=d.sh.map((k,j)=>{const o=t[2+k];return `<div class="dop"><button class="sm ph" onclick="enSay(this.dataset.t,null,'A')" data-t="${esc(o[0])}" aria-label="${esc(o[0])} anhören">🔊</button><button class="o dl" id="d${j}" onclick="dlgPick(${j})"><span>${esc(o[0])}</span></button></div>`}).join('');
  d.lock=false;d.say=t[0];setTimeout(()=>{if(G&&G.p===p&&G.dl===d)enSay(t[0])},250);const f=$('#fb');f.className='fbk';f.textContent='Wähle die passende Antwort.';ch.scrollIntoView&&0}
 function dlgPick(j){if(!G||G.p.t!='dlg'||G.state!='ask'||G.dl.lock)return;const p=G.p,d=G.dl,T=dlgTurns(p),t=T[d.i],k=d.sh[j],b=$('#d'+j),fb=$('#fb');if(!b||b.disabled)return;
- if(k==0){d.lock=true;b.classList.add('ok');fb.className='fbk ok';fb.textContent=d.tries?'✔ Genau!':'✔ Richtig!';lock2();$('#chat').insertAdjacentHTML('beforeend',bub('r','🧒',t[2][0],t[2][1]));d.log.push([t[0],t[1]],[t[2][0],t[2][1]]);enSay(t[2][0],()=>{});d.i++;setTimeout(()=>{if(G&&G.p===p&&G.dl===d)dlgTurn()},1900)}
+ if(k==0){d.lock=true;b.classList.add('ok');fb.className='fbk ok';fb.textContent=d.tries?'✔ Genau!':'✔ Richtig!';lock2();$('#chat').insertAdjacentHTML('beforeend',bub('r','🧒',t[2][0],t[2][1]));d.log.push([t[0],t[1]],[t[2][0],t[2][1],'A']);enSay(t[2][0],()=>{},'A');d.i++;setTimeout(()=>{if(G&&G.p===p&&G.dl===d)dlgTurn()},1900)}
  else{d.miss=true;d.tries++;b.classList.add('no');b.disabled=true;if(!d.fault)d.fault={q:plain(t[0]),a:t[2][0],g:t[2+k][0]};fb.className='fbk no';fb.textContent='Fast! Versuch es noch einmal.';
-  if(d.tries>=2){const c=d.sh.indexOf(0);$('#d'+c).classList.add('ok');d.lock=true;fb.textContent='Die passende Antwort: '+t[2][0];lock2();$('#chat').insertAdjacentHTML('beforeend',bub('r','🧒',t[2][0],t[2][1]));d.log.push([t[0],t[1]],[t[2][0],t[2][1]]);d.i++;setTimeout(()=>{if(G&&G.p===p&&G.dl===d)dlgTurn()},2200)}}}
+  if(d.tries>=2){const c=d.sh.indexOf(0);$('#d'+c).classList.add('ok');d.lock=true;fb.textContent='Die passende Antwort: '+t[2][0];lock2();$('#chat').insertAdjacentHTML('beforeend',bub('r','🧒',t[2][0],t[2][1]));d.log.push([t[0],t[1]],[t[2][0],t[2][1],'A']);d.i++;setTimeout(()=>{if(G&&G.p===p&&G.dl===d)dlgTurn()},2200)}}}
 const lock2=()=>document.querySelectorAll('.dop button').forEach(x=>x.disabled=true);
 function dlgEnd(){const p=G.p,d=G.dl;G.state='x';$('#dopts').innerHTML='';const fb=$('#fb');fb.className='fbk ok';fb.textContent=d.miss?'✔ Geschafft! Hör dir den Dialog noch einmal an.':'🌟 Super! Du hast alles richtig verstanden!';
  $('#fx').innerHTML=`<div class="row"><button class="sec" onclick="dlgReplay()">🔊 Ganzen Dialog anhören</button></div>`;if(!d.miss)confetti(14);resolve(!d.miss,d.fault||undefined)}
-function dlgReplay(){if(!G||!G.dl)return;const L=G.dl.log.map(x=>x[0]).slice();stopEN();const nx=()=>{const t=L.shift();t&&enSay(t,nx)};nx()}
+function dlgReplay(){if(!G||!G.dl)return;const L=G.dl.log.slice();stopEN();const nx=()=>{const x=L.shift();x&&enSay(x[0],nx,x[2])};nx()}
 /* ===== Satzbau ===== */
 function sentHtml(p){const ear=p.mode=='ear';return `<div class="q">${ear?'Hör zu und baue den Satz.':'Baue den Satz auf Englisch.'}</div>${ear?`<div class="c"><button class="big hear" onclick="enSay(G.p.target)" aria-label="Satz anhören">🔊 Anhören</button></div>`:`<p class="sde c">„${esc(p.de)}“</p><div class="c"><button class="sm" onclick="enSay(G.p.target)">🔊 Beispiel anhören</button></div>`}<div class="sslots" id="sslots" aria-label="Dein Satz"></div><div class="spool" id="spool" role="group" aria-label="Wörter"></div>${ear?`<div class="row"><button class="sm sec" onclick="sentHint()">🇩🇪 Übersetzung</button></div>`:''}`}
 function sentInit(){const p=G.p;G.sb={ans:[],pool:p.pool.map((w,i)=>({w,i,used:false})),wr:0};sentDraw();if(p.mode=='ear')setTimeout(()=>{if(G&&G.p===p)enSay(p.target)},300)}
