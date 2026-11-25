@@ -1865,10 +1865,16 @@ function shopHtml(p){return `<div class="q">${p.who[0]} ${esc(p.title)}</div><p 
 /* ---------- Zeichnung: Eiskugeln ---------- */
 const SH_DOT={vanilla:'#c9a24a',chocolate:'#a4683a',strawberry:'#e8436b',mint:'#2f7a5e',lemon:'#fff7b0',raspberry:'#8a1c45',blueberry:'#3b4aa8',caramel:'#8a5320'};
 const SH_DP=[[-.45,-.1],[.2,-.5],[.5,.1],[-.1,.3],[.12,-.12],[-.5,.45],[.42,.52],[-.28,-.55]];
-function shScoop(cx,cy,f,r=30){const o=`stroke="${SH_INK}" stroke-width="3"`,dc=SH_DOT[f.k]||f.c2;let d='';
- if(f.k=='caramel')d=`<path d="M${cx-r*.7} ${cy-r*.1} q${r*.35} ${-r*.5} ${r*.7} 0 t${r*.7} 0" fill="none" stroke="${dc}" stroke-width="3" stroke-linecap="round"/><path d="M${cx-r*.5} ${cy+r*.4} q${r*.3} ${-r*.4} ${r*.5} 0 t${r*.5} 0" fill="none" stroke="${dc}" stroke-width="3" stroke-linecap="round"/>`;
- else d=SH_DP.map(([x,y],i)=>`<circle cx="${(cx+x*r).toFixed(1)}" cy="${(cy+y*r).toFixed(1)}" r="${(r*(f.k=='vanilla'||f.k=='raspberry'?.05:.08)).toFixed(1)}" fill="${dc}"/>`).join('');
- return `<path d="M${cx-r-3} ${cy+r-8} q${(r+3)*.25} ${14} ${(r+3)*.5} 3 t${(r+3)*.5} 3 t${(r+3)*.5} -3 t${(r+3)*.5} -3 q-4 -10 -${r*.12} -14Z" fill="${f.c2}" ${o}/><circle cx="${cx}" cy="${cy}" r="${r}" fill="${f.c}" ${o}/>${d}<path d="M${cx-r*.62} ${cy+r*.05} q${r*.2} ${r*.22} ${r*.5} ${r*.1}" fill="none" stroke="${f.c2}" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><ellipse cx="${cx-r*.42}" cy="${cy-r*.45}" rx="${r*.24}" ry="${r*.13}" fill="#fff" opacity=".8" transform="rotate(-35 ${cx-r*.42} ${cy-r*.45})"/>`}
+const shDk=(h,k)=>'#'+[1,3,5].map(i=>Math.max(0,Math.min(255,Math.round(parseInt(h.substr(i,2),16)*k))).toString(16).padStart(2,'0')).join('');
+/* Eiskugel im Stil von Eisdielen-Illustrationen: Kuppel + gewellter Rand, Kontur in dunklerem Ton der Sorte */
+function shScoop(cx,cy,f,r=30){const oc=shDk(f.c2,.72),sw=Math.max(2.2,r*.075),dc=SH_DOT[f.k]||f.c2;
+ const R=r+5,yt=cy+r*.4,yb=cy+r*.98,n=5,w=2*R/n;let sk=`M${cx+R} ${yt+3} L${cx+R} ${yb}`;
+ for(let k=0;k<n;k++){const x1=cx+R-k*w,x2=x1-w;sk+=` Q${(x1-w/2).toFixed(1)} ${(yb+r*.3).toFixed(1)} ${x2.toFixed(1)} ${yb}`}
+ sk+=` L${cx-R} ${yt+3} Q${cx} ${(yt+r*.34).toFixed(1)} ${cx+R} ${yt+3}Z`;
+ let d='';
+ if(f.k=='caramel')d=`<path d="M${cx-r*.62} ${cy-r*.3} q${r*.3} ${-r*.4} ${r*.62} 0 t${r*.62} 0" fill="none" stroke="${dc}" stroke-width="${(r*.09).toFixed(1)}" stroke-linecap="round"/><path d="M${cx-r*.45} ${cy+r*.12} q${r*.27} ${-r*.34} ${r*.45} 0 t${r*.45} 0" fill="none" stroke="${dc}" stroke-width="${(r*.09).toFixed(1)}" stroke-linecap="round"/>`;
+ else d=SH_DP.filter(([x,y])=>y<.28).map(([x,y],i)=>`<ellipse cx="${(cx+x*r).toFixed(1)}" cy="${(cy+y*r-r*.05).toFixed(1)}" rx="${(r*(f.k=='vanilla'||f.k=='raspberry'?.055:.1)).toFixed(1)}" ry="${(r*(f.k=='vanilla'||f.k=='raspberry'?.055:.065)).toFixed(1)}" fill="${dc}" transform="rotate(${(i*47)%180} ${(cx+x*r).toFixed(1)} ${(cy+y*r-r*.05).toFixed(1)})"/>`).join('');
+ return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f.c}" stroke="${oc}" stroke-width="${sw}"/>${d}<path d="${sk}" fill="${f.c}" stroke="${oc}" stroke-width="${sw}" stroke-linejoin="round"/>`}
 function shTop(k,cx,cy,cl,f=1){const o=`stroke="${SH_INK}" stroke-width="3" stroke-linecap="round"`;let g;
  if(k=='cherry')g=`<path d="M${cx} ${cy-30} Q${cx+8} ${cy-52} ${cx+22} ${cy-54}" fill="none" ${o}/><circle cx="${cx}" cy="${cy-32}" r="12" fill="#d81e3a" ${o}/><ellipse cx="${cx-4}" cy="${cy-36}" rx="3.4" ry="2.2" fill="#fff" opacity=".85"/>`;
  else if(k=='wafer')g=`<g transform="rotate(20 ${cx+8} ${cy-22})"><rect x="${cx-2}" y="${cy-92}" width="20" height="72" rx="5" fill="#f1cf8a" ${o}/><path d="M${cx-2} ${cy-78} l20 8 M${cx-2} ${cy-62} l20 8 M${cx-2} ${cy-46} l20 8 M${cx-2} ${cy-30} l20 8" stroke="#c0903f" stroke-width="2.4"/></g>`;
@@ -1961,10 +1967,10 @@ function shScene(S){if(S.c.kind!='ice'&&S.c.kind!='sand')return shSceneN(S);cons
   s+=`<ellipse cx="472" cy="442" rx="62" ry="9" fill="#e8edf4" ${o2}/>`;
   const topEx=v.ex=='sprinkles'||v.ex=='cherry'||v.ex=='wafer';
   if(v.ves=='cup'){
-   v.sc.forEach((f,i)=>{s+=`<g${cl('s'+i)}>${shScoop(472,354-step*i,f,r)}</g>`});
-   if(n&&topEx)s+=shTop(v.ex,472,354-step*(n-1),cl('top'),1.4);
    let st='';for(let i=0;i<5;i++){const xt=422+20*i,xb=436+14.4*i;st+=`<path d="M${xt} 382 H${xt+10} L${xb+7.2} 440 H${xb}Z" fill="#f48fb1"/>`}
    s+=`<g${cl('ves')}><path d="M422 380 H522 L508 440 H436Z" fill="#fff" ${o}/>${st}<path d="M422 380 H522 L508 440 H436Z" fill="none" ${o}/><ellipse cx="472" cy="380" rx="50" ry="8" fill="#fff" ${o}/></g>`;
+   v.sc.forEach((f,i)=>{s+=`<g${cl('s'+i)}>${shScoop(472,342-step*i,f,r)}</g>`});
+   if(n&&topEx)s+=shTop(v.ex,472,342-step*(n-1),cl('top'),1.4);
   }else if(v.ves=='cone'){
    s+=`<g${cl('ves')}><path d="M432 340 H512 L472 440Z" fill="#e6b25a" ${o}/><g clip-path="url(#shcc)" stroke="#b9813a" stroke-width="2.4"><path d="M420 350 L520 410 M420 372 L520 432 M420 394 L500 442 M520 350 L420 410 M520 372 L420 432 M520 394 L440 442"/></g><path d="M432 340 H512 L472 440Z" fill="none" ${o}/><rect x="428" y="334" width="88" height="16" rx="7" fill="#f1c97a" ${o}/></g>`;
    v.sc.forEach((f,i)=>{s+=`<g${cl('s'+i)}>${shScoop(472,322-step*i,f,r)}</g>`});
@@ -2051,9 +2057,8 @@ async function shRunDiner(S){const c=S.c,v=S.v;
 function shDraw(S){const e=$('#shsc');if(!e)return;e.innerHTML=shScene(S);S.v.nw=''}
 
 /* ---------- Kacheln-Icons ---------- */
-function shTubIcon(f){const I=SH_INK,dc=SH_DOT[f.k]||f.c2;
- const dots=SH_DP.map(([x,y])=>`<circle cx="${(50+x*26).toFixed(1)}" cy="${(40+y*14).toFixed(1)}" r="2.1" fill="${dc}"/>`).join('');
- return `<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M15 60 H85 L78 94 Q77 97 74 97 H26 Q23 97 22 94Z" fill="#e3e9f1" stroke="${I}" stroke-width="2.6" stroke-linejoin="round"/><rect x="29" y="72" width="42" height="15" rx="4" fill="${f.c}" stroke="${I}" stroke-width="2"/><ellipse cx="50" cy="60" rx="35" ry="7" fill="#c8d2df" stroke="${I}" stroke-width="2.6"/><path d="M14 60 Q10 28 50 22 Q90 28 86 60 Q77 68 68 61 Q59 69 50 61 Q41 69 32 61 Q23 68 14 60Z" fill="${f.c}" stroke="${I}" stroke-width="2.6" stroke-linejoin="round"/>${dots}<path d="M26 46 Q38 38 50 44" fill="none" stroke="${f.c2}" stroke-width="2.4" stroke-linecap="round" opacity=".8"/><ellipse cx="34" cy="34" rx="7" ry="3.6" fill="#fff" opacity=".8" transform="rotate(-30 34 34)"/></svg>`}
+function shTubIcon(f){const I=SH_INK;
+ return `<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M16 62 H84 L77 93 Q76 96 73 96 H27 Q24 96 23 93Z" fill="#fff" stroke="#8d93a3" stroke-width="2.6" stroke-linejoin="round"/><path d="M26 72 H74" stroke="#d9dde6" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="56" width="78" height="10" rx="5" fill="#fff" stroke="#8d93a3" stroke-width="2.6"/>${shScoop(50,36,f,29)}</svg>`}
 const shNumIcon=n=>`<svg viewBox="0 0 60 60" aria-hidden="true" focusable="false"><circle cx="30" cy="30" r="25" fill="#fff3c4" stroke="${SH_INK}" stroke-width="2.6"/><text x="30" y="41" text-anchor="middle" font-size="32" font-weight="900" fill="${SH_INK}" font-family="inherit">${n}</text></svg>`;
 const shBreadIcon=k=>{const [bc,bk]=shBreadCol(k);return `<svg viewBox="0 0 60 60" aria-hidden="true" focusable="false"><path d="M10 26 Q4 12 17 8 Q30 3 43 8 Q56 12 50 26 V50 Q50 55 45 55 H15 Q10 55 10 50Z" fill="${bc}" stroke="${bk}" stroke-width="4"/><path d="M10 26 Q4 12 17 8 Q30 3 43 8 Q56 12 50 26 V50 Q50 55 45 55 H15 Q10 55 10 50Z" fill="none" stroke="${SH_INK}" stroke-width="2"/>${k=='toast'?`<path d="M20 22 V46 M30 22 V46 M40 22 V46" stroke="${bk}" stroke-width="3" stroke-linecap="round"/>`:''}</svg>`};
 const shNoIcon=()=>`<svg viewBox="0 0 60 60" aria-hidden="true" focusable="false"><circle cx="30" cy="30" r="22" fill="#fff" stroke="${SH_INK}" stroke-width="2.6"/><path d="M14 46 L46 14" stroke="#e8434b" stroke-width="5" stroke-linecap="round"/></svg>`;
