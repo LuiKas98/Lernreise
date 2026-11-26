@@ -43,6 +43,20 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 .go{display:inline-block;font-weight:800;padding:10px 26px;border-radius:999px;background:#ffd23f;color:#1b1464;border:3px solid #1b1464;box-shadow:0 4px 0 #1b1464;transition:transform .2s,box-shadow .2s,background .2s}
 .pcard:hover .go,.pcard:focus-visible .go{background:#ffe680;transform:translateY(-2px);box-shadow:0 6px 0 #1b1464}
 .foot{margin-top:10px;font-size:.78em;opacity:.7}
+.off{max-width:620px;margin:6px auto 18px;text-align:left}
+.off summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:8px 20px;border-radius:999px;background:#ffffff1f;border:2px solid #ffffff66;box-shadow:0 4px 0 #0006;font-weight:800;font-size:.95em;width:fit-content;margin:0 auto}
+.off summary::-webkit-details-marker{display:none}
+.off summary:focus-visible{outline:4px solid #ff4d6d;outline-offset:3px}
+.off[open] summary{background:#ffd23f;color:#1b1464;border-color:#1b1464;box-shadow:0 4px 0 #1b1464}
+.off .dot{width:12px;height:12px;border-radius:50%;background:#ffd23f;flex:none}
+.off.ok .dot{background:#4ade80}.off.upd .dot{background:#ff9f43}
+.offb{margin-top:14px;padding:18px 22px;border-radius:22px;background:linear-gradient(135deg,#ffffff26,#ffffff0d);border:1px solid #ffffff40;box-shadow:0 10px 30px #0005;font-size:.9em;line-height:1.55}
+.offb p{margin:.2em 0 .8em}.offb p:last-child{margin-bottom:0}
+.offb progress{width:100%;height:16px;margin:.2em 0 .6em;accent-color:#ffd23f}
+.offbtns{display:flex;flex-wrap:wrap;gap:10px;margin:.4em 0 .8em}
+.offbtns .fbtn{font-size:.95em}.offbtns .fbtn[hidden]{display:none}
+.offb .hint{opacity:.85;font-size:.92em}
+.offb b{color:#ffe566}
 #toast{position:fixed;left:50%;width:max-content;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#fff;color:#1b1464;font-weight:800;padding:12px 22px;border-radius:18px;border:3px solid #ffd23f;box-shadow:0 8px 0 #0004;transition:opacity .3s,transform .3s;z-index:50;max-width:92vw}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
@@ -134,6 +148,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
 @media(prefers-reduced-motion:reduce){.fpan,.pcard.pick1 .pt{animation:none}.owl{animation:none}.page{transition:none}.kb,.kb:hover{transition:none}.kl.nudge .row{animation:none}}
 </style>
 <!--KFAV--><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"><link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png?v=2"><link rel="shortcut icon" href="favicon.ico?v=2"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2"><!--/KFAV-->
+<!--KPWA--><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0a1040"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Lernreise"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><script>if('serviceWorker'in navigator&&location.protocol!=='file:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})</script><!--/KPWA-->
 </head>
 <body>
 <main class="page" id="pg">
@@ -253,7 +268,23 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <p class="sub" id="s-englisch">Karte, Wörter, Dialoge · Klasse 3 und 4</p>
   <span class="go">Los geht’s!</span>
  </a>
+ <a class="pcard" id="c-buchstaben" href="#klasse" aria-label="Buchstabenland: Buchstaben und Schrift schreiben lernen. Wähle zuerst deine Klasse.">
+  <div class="pt"><canvas data-scene="buchstaben" aria-hidden="true"></canvas><span class="badge" id="b-buchstaben" aria-hidden="true"><small>Klasse</small><b></b></span></div>
+  <h3>✏️ Buchstabenland</h3>
+  <p class="sub" id="s-buchstaben">Buchstaben und Schrift schreiben · Klasse 1 und 2</p>
+  <span class="go">Los geht’s!</span>
+ </a>
  </div>
+
+ <!--KOFF--><details class="off" id="off">
+  <summary><span class="dot" aria-hidden="true"></span><span id="offSum">Offline nutzen</span></summary>
+  <div class="offb">
+   <p id="offTxt">Einen Moment …</p>
+   <progress id="offBar" max="100" value="0" hidden aria-label="Fortschritt des Downloads"></progress>
+   <div class="offbtns"><button type="button" class="fbtn" id="offGo" hidden>Für offline herunterladen</button><button type="button" class="fbtn" id="offDel" hidden>Offline-Speicher löschen</button></div>
+   <p class="hint" id="offHint"><b>Auf dem iPad als App ablegen:</b> In Safari unten auf Teilen tippen, dann „Zum Home-Bildschirm“. Die App merkt sich Namen und Fortschritt getrennt von Safari. Wer in Safari geübt hat, fängt in der App neu an.</p>
+  </div>
+ </details><!--/KOFF-->
 
  <p class="foot">Alles läuft nur auf diesem Gerät. Es gibt keine Anmeldung und kein Tracking. Dein Fortschritt wird für jede Klasse getrennt gespeichert.</p>
 </main>
@@ -284,6 +315,7 @@ h2.pick{margin:2.2em 0 .4em;font-size:1.1em;font-weight:700;letter-spacing:.08em
   <p id="lg-err" role="alert"></p>
   <div id="lg-names"></div>
   <p><button class="lb s" id="lg-cancel" type="button" hidden>Abbrechen</button></p>
+  <p class="lg-off"><button class="lb s" id="lg-off" type="button">📲 Gerät für Offline einrichten</button></p>
  </div>
 </div>
 
@@ -601,6 +633,26 @@ function szeneEnglisch(g,c,R,t,hov,p){
 }
 const rimEnglisch=['#e8434b','#ffffff','#2a5bd7'];
 
+const BUPTS={"A":[[[6,100],[8,94],[9,89],[11,83],[12,77],[14,71],[15,66],[17,60],[18,54],[20,49],[21,43],[23,37],[25,31],[26,26],[28,20],[29,14],[31,9],[32,3],[35,9],[37,14],[38,20],[40,26],[41,31],[43,37],[45,43],[46,49],[48,54],[49,60],[51,66],[52,71],[54,77],[55,83],[57,89],[58,94],[60,100]],[[16,68],[22,68],[27,68],[33,68],[39,68],[44,68],[50,68]]],"B":[[[8,0],[8,6],[8,12],[8,18],[8,24],[8,29],[8,35],[8,41],[8,47],[8,53],[8,59],[8,65],[8,71],[8,76],[8,82],[8,88],[8,94],[8,100]],[[8,0],[14,0],[19,0],[25,0],[30,0],[36,1],[41,4],[45,9],[47,15],[48,22],[48,28],[46,35],[44,41],[39,45],[34,47],[27,48],[22,48],[16,48],[11,48],[8,48]],[[8,48],[14,48],[20,48],[25,48],[31,48],[36,48],[42,50],[47,53],[51,58],[53,63],[55,70],[55,76],[54,83],[52,88],[49,93],[44,97],[38,100],[31,100],[25,100],[20,100],[14,100],[8,100]]],"C":[[[57,18],[53,11],[48,5],[43,2],[37,0],[31,1],[26,3],[21,8],[16,15],[12,23],[10,32],[9,37],[8,42],[8,47],[8,53],[8,58],[9,63],[10,68],[12,77],[16,85],[21,92],[26,97],[31,99],[37,100],[43,98],[48,95],[53,89],[57,82]]],"a":[[[45,47],[41,44],[37,41],[32,40],[27,40],[22,42],[17,45],[13,48],[10,53],[8,59],[6,65],[6,71],[7,77],[8,83],[11,88],[15,93],[19,96],[23,99],[28,100],[33,100],[38,98],[43,95],[47,92],[50,87],[52,81],[54,75],[54,69],[53,63],[52,57],[49,52],[45,47]],[[54,40],[54,46],[54,52],[54,58],[54,64],[54,70],[54,76],[54,82],[54,88],[54,94],[54,100]]],"m":[[[8,40],[8,46],[8,52],[8,58],[8,64],[8,70],[8,76],[8,82],[8,88],[8,94],[8,100]],[[8,68],[9,63],[11,56],[14,51],[19,47],[25,45],[31,46],[37,50],[40,55],[42,61],[42,66],[42,72],[42,77],[42,83],[42,89],[42,94],[42,100]],[[42,66],[43,61],[45,54],[49,50],[53,46],[58,45],[65,46],[69,48],[73,53],[75,58],[76,66],[76,72],[76,77],[76,83],[76,89],[76,94],[76,100]]]};
+function szeneBuchstaben(g,c,R,t,hov,p){
+ let q=g.createRadialGradient(c,c*.9,R*.1,c,c,R*1.3);q.addColorStop(0,'#fffdf2');q.addColorStop(1,'#ffe39a');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+ const L=['A','B','C'],W={A:66,B:62,C:64},GAP=14,tot=66+62+64+GAP*2,s=R*1.62/tot,x0=c-tot/2*s,yb=c+R*.3,Y=y=>yb+(y-100)*s;
+ /* Lineatur */
+ g.fillStyle='rgba(255,210,63,.35)';g.fillRect(c-R*1.3,Y(40),R*2.6,60*s);
+ g.lineWidth=Math.max(1,R*.012);g.setLineDash([R*.04,R*.04]);g.strokeStyle='rgba(60,90,200,.45)';[0,40,150].forEach(y=>{g.beginPath();g.moveTo(c-R*1.3,Y(y));g.lineTo(c+R*1.3,Y(y));g.stroke()});g.setLineDash([]);
+ g.strokeStyle='#e0525a';g.lineWidth=Math.max(1.4,R*.02);g.beginPath();g.moveTo(c-R*1.3,Y(100));g.lineTo(c+R*1.3,Y(100));g.stroke();
+ /* Strichfolgen mit Gesamtlänge */
+ const segs=[];let ox=x0,total=0;L.forEach(k=>{BUPTS[k].forEach(st=>{let len=0;const pts=st.map(a=>[ox+a[0]*s,Y(a[1])]);for(let i=1;i<pts.length;i++)len+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);segs.push({pts,len,from:total});total+=len});ox+=(W[k]+GAP)*s});
+ const cyc=(t*.32*(1+hov*.8))%1.5,prog=Math.min(1,cyc/1.0)*total,pw=Math.max(3,R*.085);
+ g.lineCap='round';g.lineJoin='round';
+ segs.forEach(sg=>{g.strokeStyle='rgba(120,140,210,.28)';g.lineWidth=pw*1.15;g.beginPath();sg.pts.forEach((a,i)=>i?g.lineTo(a[0],a[1]):g.moveTo(a[0],a[1]));g.stroke()});
+ let tip=null;
+ segs.forEach(sg=>{const d=prog-sg.from;if(d<=0)return;g.strokeStyle='#2447d6';g.lineWidth=pw;g.beginPath();let acc=0;g.moveTo(sg.pts[0][0],sg.pts[0][1]);for(let i=1;i<sg.pts.length;i++){const a=sg.pts[i-1],b=sg.pts[i],l=Math.hypot(b[0]-a[0],b[1]-a[1]);if(acc+l>=d){const u=(d-acc)/l;tip=[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u];g.lineTo(tip[0],tip[1]);break}g.lineTo(b[0],b[1]);acc+=l;tip=b}g.stroke()});
+ if(tip&&cyc<1.0){g.fillStyle='#ef476f';g.beginPath();g.arc(tip[0],tip[1],R*.055,0,TAU);g.fill();g.fillStyle='#fff';g.beginPath();g.arc(tip[0],tip[1],R*.02,0,TAU);g.fill()}
+ q=g.createRadialGradient(c,c,R*.62,c,c,R*1.08);q.addColorStop(0,'rgba(180,120,0,0)');q.addColorStop(1,'rgba(180,120,0,.22)');g.fillStyle=q;g.fillRect(c-R*1.3,c-R*1.3,R*2.6,R*2.6);
+}
+const rimBuchstaben=['#ffb703','#fff3c4','#2447d6'];
+
 
 /* ---------- Portal-Motor: wabernder Rand, schneller und unregelmäßiger bei Hover ---------- */
 const portals=[];
@@ -640,6 +692,7 @@ neu($('canvas[data-scene=konzert]'),szeneKonzert,rimKonzert);
 neu($('canvas[data-scene=formen]'),szeneFormen,rimFormen);
 neu($('canvas[data-scene=sport]'),szeneSport,rimSport);
 neu($('canvas[data-scene=englisch]'),szeneEnglisch,rimEnglisch);
+neu($('canvas[data-scene=buchstaben]'),szeneBuchstaben,rimBuchstaben);
 let last=performance.now();
 let fr=0;
 function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
@@ -652,7 +705,7 @@ function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;fr++;
 if(RM){portals.forEach(p=>zeichne(p,0));addEventListener('resize',()=>portals.forEach(p=>zeichne(p,0)))}else requestAnimationFrame(frame);
 
 /* ---------- Warpantrieb ---------- */
-function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',sp=modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier',ko=modus=='konzert',fo=modus=='formen',lo=modus=='london'||modus=='englisch';
+function warp(cx,cy,fertig,modus){const gruen=modus=='dschungel',sp=modus=='sport',strand=modus=='strand',vk=modus=='vulkan',at=modus=='atelier'||modus=='buchstaben',ko=modus=='konzert',fo=modus=='formen',lo=modus=='london'||modus=='englisch';
  const c=document.createElement('canvas');c.className='warp'+(lo?' lo':gruen?' gr':sp?' sp':strand?' st':vk?' vk':at?' at':ko?' ko':fo?' fo':'');c.style.setProperty('--x',cx+'px');c.style.setProperty('--y',cy+'px');document.body.appendChild(c);
  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;const g=c.getContext('2d');g.scale(dpr,dpr);
  const diag=Math.hypot(W,H),S=Array.from({length:320},()=>({a:Math.random()*TAU,r:Math.random()*diag*.5,v:.4+Math.random()*.9,h:lo?(Math.random()<.5?222+Math.random()*14:352+Math.random()*10):sp?158+Math.random()*28:fo?190+Math.random()*50:ko?(Math.random()<.6?38+Math.random()*14:350+Math.random()*10):at?(Math.random()<.5?300+Math.random()*50:40+Math.random()*20):vk?4+Math.random()*44:strand?(Math.random()<.5?168+Math.random()*22:38+Math.random()*18):(gruen?80:190)+Math.random()*(gruen?75:80),l:lo?(Math.random()<.4?93:70+Math.random()*14):80+Math.random()*18}));
@@ -703,22 +756,22 @@ let K=0;const KEY='kastner-klasse';
 try{const v=+localStorage.getItem(KEY);if(v>=1&&v<=4)K=v}catch(_){}
 function zeigeK(){
  document.querySelectorAll('.kb').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.k===K)));
- const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse'],['englisch','Englisch-Welten','Karte, Wörter, Dialoge, London','englisch-klasse']];
- for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id),low=(id=='englisch')&&K&&K<3;
-  if(low&&USER){a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': Englisch gibt es ab Klasse 3.');$('#s-'+id).textContent=fach+' · ab Klasse 3';bd.classList.remove('on')}
+ const T=[['weltall','Lernreise im All','Mathe und Deutsch','weltall-klasse'],['dschungel','Dschungel-Abenteuer','Heimat- und Sachunterricht','dschungel-klasse'],['strand','Strand-Abenteuer','Mathe am Strand','strand-klasse'],['vulkan','Vulkan-Rätsel','Schnelle Rätsel gegen die Zeit','vulkan-klasse'],['atelier','Atelier Montmartre','Farben, Künstler und Kunst','atelier-klasse'],['konzert','Konzerthaus','Musik hören, spielen und erfinden','konzerthaus-klasse'],['formen','Formenland','Geometrie, Tangram und Würfelbauten','formen-klasse'],['sport','Sportfest','Rechnen, Wissen und Bewegen','sport-klasse'],['englisch','Englisch-Welten','Karte, Wörter, Dialoge, London','englisch-klasse'],['buchstaben','Buchstabenland','Buchstaben und Schrift schreiben','buchstaben-klasse']];
+ for(const [id,nm,fach,pre] of T){const a=$('#c-'+id),bd=$('#b-'+id),low=((id=='englisch')&&K&&K<3)||((id=='buchstaben')&&K>2);
+  if(low&&USER){a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+(id=='buchstaben'?': Das gibt es für Klasse 1 und 2.':': Englisch gibt es ab Klasse 3.'));$('#s-'+id).textContent=fach+(id=='buchstaben'?' · Klasse 1 und 2':' · ab Klasse 3');bd.classList.remove('on')}
   else if(K&&USER){a.setAttribute('href',pre+K+'.html');a.setAttribute('aria-label',nm+' starten: '+fach+', Klasse '+K);
    $('#s-'+id).textContent=fach+' · Klasse '+K;bd.querySelector('b').textContent=K;bd.classList.add('on')}
   else{a.setAttribute('href','#klasse');a.setAttribute('aria-label',nm+': '+fach+(USER?'. Wähle zuerst deine Klasse.':'. Melde dich zuerst an.'));
-   $('#s-'+id).textContent=fach+((id=='englisch')?' · Klasse 3 und 4':' · Klasse 1 bis 4');bd.classList.remove('on')}}
+   $('#s-'+id).textContent=fach+((id=='englisch')?' · Klasse 3 und 4':(id=='buchstaben')?' · Klasse 1 und 2':' · Klasse 1 bis 4');bd.classList.remove('on')}}
  $('#kl-hint').textContent=K?'Prima! Die Aufgaben passen jetzt zu Klasse '+K+'. Du kannst jederzeit wechseln.':'Tippe auf deine Klasse. Dann passen die Aufgaben zu dir.'
 }
 document.querySelectorAll('.kb').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;try{localStorage.setItem(KEY,String(K))}catch(_){}zeigeK()}));
 zeigeL();zeigeK();
 
 /* ---------- Filter, Suche und Zufall (Filter wird nur in diesem Browser gemerkt) ---------- */
-const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest',englisch:'Englisch-Welten'};
+const PT={weltall:'Lernreise im All',dschungel:'Dschungel-Abenteuer',strand:'Strand-Abenteuer',vulkan:'Vulkan-Rätsel',atelier:'Atelier Montmartre',konzert:'Konzerthaus',formen:'Formenland',sport:'Sportfest',englisch:'Englisch-Welten',buchstaben:'Buchstabenland'};
 const FB={Mathe:['🔢','Rechnen & Zahlen','Zeit, Geld & Größen','Geometrie & Formen','Daten & Diagramme','Knobeln & Logik'],
- Deutsch:['📖','Lesen & Verstehen','Rechtschreibung','Wörter & Grammatik'],
+ Deutsch:['📖','Lesen & Verstehen','Rechtschreibung','Wörter & Grammatik','Schreiben & Schrift'],
  Sachunterricht:['🌍','Natur & Umwelt','Körper & Gesundheit','Zusammenleben','Zeit & Geschichte','Raum & Verkehr','Technik & Bauen'],
  Kunst:['🎨','Farben & Mischen','Künstler & Bilder','Selbst gestalten'],
  Musik:['🎵','Instrumente & Klang','Noten & Töne','Rhythmus & Tempo','Komponisten & Lieder','Selbst musizieren'],
@@ -843,6 +896,9 @@ const EN=[
 ['englisch','Ice cream shop','Englisch','Dialoge & Sprechen','eis bestellen eisdiele dialog two scoops please'],
 ['englisch','School things','Englisch','Wortschatz & Hören','schulsachen schule pencil pen rubber ruler book school bag scissors glue pencil case desk chair board wörter'],
 ['englisch','School things','Englisch','Dialoge & Sprechen','klassenzimmer lehrerin unterricht dialog open your book'],
+['buchstaben','Buchstaben-Weg','Deutsch','Schreiben & Schrift','buchstaben abc schreiben schrift druckschrift schreibschrift vereinfachte ausgangsschrift va nachspuren spuren anlaut laute hören finden fibel erstklässler zweitklässler sätze'],
+['buchstaben','Wörter und Sätze schreiben','Deutsch','Schreiben & Schrift','wörter sätze schreiben mit dem finger buchstaben wörterschreiben schreibschrift'],
+['buchstaben','Buchstaben-Weg','Deutsch','Wörter & Grammatik','anlaut inlaut endlaut laute heraushören'],
 ['sport','Laufbahn','Sport','Leichtathletik','laufen sprint staffel runden stoppuhr'],
 ['sport','Laufbahn','Mathe','Zeit, Geld & Größen','uhr zeit strecken meter runden'],
 ['sport','Laufbahn','Deutsch','Wörter & Grammatik','wörter silben'],
@@ -944,13 +1000,122 @@ function reise(id,idx,pre){
   if(!USER){nudgeLogin();return}
   if(!K){nudge();return}
   if((id=='englisch')&&K<3){sag('🇬🇧 Englisch gibt es ab Klasse 3. Tippe auf 3 oder 4.');const k=$('#klasse');k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});return}
+  if((id=='buchstaben')&&K>2){sag('✏️ Buchstabenland gibt es für Klasse 1 und 2. Tippe auf 1 oder 2.');const k=$('#klasse');k.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});return}
   going=true;const href=pre+K+'.html';try{sessionStorage.setItem('warp','1')}catch(_){}
   if(RM){location.href=href;return}
   portals[idx].tg=1;const[cx,cy]=mitte('#c-'+id+' .pt');
   SH.fly(cx,cy,()=>{document.body.classList.add('warping');warp(cx,cy,()=>{location.href=href},id)})})}
-reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');reise('englisch',8,'englisch-klasse');
+reise('weltall',0,'weltall-klasse');reise('dschungel',1,'dschungel-klasse');reise('strand',2,'strand-klasse');reise('vulkan',3,'vulkan-klasse');reise('atelier',4,'atelier-klasse');reise('konzert',5,'konzerthaus-klasse');reise('formen',6,'formen-klasse');reise('sport',7,'sport-klasse');reise('englisch',8,'englisch-klasse');reise('buchstaben',9,'buchstaben-klasse');
 addEventListener('pageshow',e=>{if(e.persisted){going=false;SH.busy=false;SH.mode='idle';SH.o=0;document.body.classList.remove('warping');document.querySelectorAll('.warp').forEach(x=>x.remove());portals.forEach(p=>p.tg=0)}});
 
 </script>
+<!--KOFFJS--><script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)},box=$('#off');if(!box)return;
+var sum=$('#offSum'),txt=$('#offTxt'),bar=$('#offBar'),go=$('#offGo'),del=$('#offDel'),hint=$('#offHint');
+var APP='kl-app',AUD='kl-audio',KEY='kl-off',busy=false,LIST=null;
+var okEnv=('serviceWorker' in navigator)&&('caches' in window)&&location.protocol!=='file:';
+function mb(b){return (b/1e6).toLocaleString('de-DE',{maximumFractionDigits:0})}
+function num(n){return n.toLocaleString('de-DE')}
+function st(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+function sv(o){try{o?localStorage.setItem(KEY,JSON.stringify(o)):localStorage.removeItem(KEY)}catch(e){}}
+function url(p){return new URL(p,location.href).href}
+function set(cls,s,t,b,d){box.className='off'+(cls?' '+cls:'');sum.textContent=s;txt.innerHTML=t;
+ if(b!==undefined){go.hidden=!b;if(b)go.textContent=b}del.hidden=!d}
+async function getList(){
+ var r=await fetch('offline-liste.json',{cache:'no-store'});if(!r.ok)throw new Error('liste');
+ var j=await r.json();if(!j||!j.dateien)throw new Error('liste');return j}
+async function cached(){ // welche Dateien liegen schon im Speicher?
+ var a=await caches.open(APP),u=await caches.open(AUD),set={};
+ var ka=await a.keys(),ku=await u.keys();ka.concat(ku).forEach(function(r){set[r.url]=1});return set}
+async function status(){
+ if(!okEnv){set('','Offline nutzen','Die Offline-Funktion geht nur, wenn diese Seite über ihre Internetadresse (https) geöffnet wird, in einem aktuellen Browser. Hier ist sie nicht verfügbar.',false,false);hint.hidden=true;return}
+ var s=st();
+ try{
+  if(!navigator.onLine)throw new Error('offline');
+  LIST=await getList();
+ }catch(e){LIST=null}
+ if(!s){
+  if(LIST)set('','Offline nutzen','Lade die Lernapps einmal herunter (etwa <b>'+mb(LIST.dateien.reduce(function(a,e){return a+e[1]},0))+' MB</b>, am besten im WLAN). Danach laufen alle Welten, auch mit Ton, ganz ohne Internet.',
+   'Für offline herunterladen',false);
+  else set('','Offline nutzen','Zum Herunterladen brauchst du gerade eine Internetverbindung.',false,false);
+  return}
+ // schon einmal geladen: prüfen, ob noch alles da ist und ob es Neues gibt
+ var have=await cached(),miss=0;
+ if(LIST){LIST.dateien.forEach(function(e){if(!have[url(e[0])])miss++})}
+ var neu=LIST&&LIST.version!==s.v;
+ if(LIST&&(neu||miss)){
+  set('upd','Offline nutzen: Update',neu?'Es gibt neue Inhalte. Tippe auf „Aktualisieren“, damit sie auch offline bereitliegen. Schon geladene Audiodateien werden nicht noch einmal geladen.':
+   'Es fehlen noch '+num(miss)+' Dateien (z. B. nach einem unterbrochenen Download oder weil das Gerät Speicher freigegeben hat). Tippe auf „Fertig laden“.',neu?'Aktualisieren':'Fertig laden',true);
+ }else{
+  set('ok','Offline bereit',
+   '✓ Alles liegt offline bereit'+(s.n?' ('+num(s.n)+' Dateien, '+mb(s.b||0)+' MB)':'')+'. Stand: '+(s.t||'')+'.'+(LIST?'':' <i>(Updates kann ich gerade nicht prüfen, weil keine Verbindung besteht.)</i>'),
+   LIST?'Auf Updates prüfen':false,true);
+ }
+}
+async function put(cache,u,resp){await cache.put(u,resp)}
+async function run(){
+ if(busy)return;busy=true;go.disabled=true;del.disabled=true;
+ var wl=null;try{if(navigator.wakeLock)wl=await navigator.wakeLock.request('screen')}catch(e){}
+ try{
+  var L=await getList(),old=st(),neu=!old||old.v!==L.version;
+  var quota=0,use=0;try{var es=await navigator.storage.estimate();quota=es.quota||0;use=es.usage||0}catch(e){}
+  var total=L.dateien.reduce(function(a,e){return a+e[1]},0);
+  if(quota&&quota-use<total*1.1){set('','Offline nutzen','Auf diesem Gerät ist nicht genug Speicherplatz frei (nötig sind etwa '+mb(total)+' MB). Bitte erst Platz schaffen.',false,st()?true:false);busy=false;go.disabled=false;del.disabled=false;return}
+  var A=await caches.open(APP),U=await caches.open(AUD),have=await cached(),todo=[];
+  // Seiten und feste Dateien: bei neuer Version komplett frisch holen, sonst nur fehlende
+  L.dateien.forEach(function(e){var u=url(e[0]);
+   if(e[2]==='audio'){if(!have[u])todo.push(e)}else if(neu||!have[u])todo.push(e)});
+  if(neu||!have[url('./')])todo.push(['./',0,'seite']);
+  // Audio, das nicht mehr in der Liste steht, aufräumen
+  var inL={};L.dateien.forEach(function(e){inL[url(e[0])]=1});
+  (await U.keys()).forEach(function(r){if(!inL[r.url])U.delete(r)});
+  var done=0,bytes=0,fail=0,gone=0,all=todo.length,sumB=todo.reduce(function(a,e){return a+(e[1]||20000)},0),i=0;
+  bar.hidden=false;bar.value=0;go.hidden=true;del.hidden=true;
+  function show(){var p=sumB?Math.min(99,Math.round(bytes/sumB*100)):0;bar.value=p;
+   set('upd','Lädt … '+p+' %','Lädt … <b>'+p+' %</b> ('+num(done)+' von '+num(all)+' Dateien). Bitte den Bildschirm anlassen und diese Seite offen lassen.',false,false)}
+  show();
+  async function one(e){
+   var u=url(e[0]),c=e[2]==='audio'?U:A;
+   for(var t=0;t<3;t++){
+    try{
+     var r=await fetch(u,{cache:e[2]==='audio'?'default':'reload'});
+     if(r.status===404){gone++;return}
+     if(!r.ok)throw new Error(r.status);
+     await put(c,u,r);return
+    }catch(err){if(t===2){fail++;return}await new Promise(function(s){setTimeout(s,600*(t+1))})}
+   }}
+  async function worker(){while(i<todo.length){var e=todo[i++];await one(e);done++;bytes+=(e[1]||20000);if(done%8===0||done===all)show()}}
+  var ws=[];for(var k=0;k<6;k++)ws.push(worker());await Promise.all(ws);
+  bar.hidden=true;
+  var mbT=total,nT=L.dateien.length;
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+  var d=new Date(),ts=d.toLocaleDateString('de-DE')+', '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  if(!fail){sv({v:L.version,n:nT-gone,b:mbT,t:ts})}
+  else sv({v:old?old.v:'unvollstaendig',n:0,b:0,t:ts});
+  await status();
+  if(fail)txt.innerHTML='Es konnten <b>'+num(fail)+'</b> Dateien nicht geladen werden (schwache Verbindung?). Tippe auf „Fertig laden“, dann werden nur diese noch geholt.';
+ }catch(err){
+  bar.hidden=true;set('','Offline nutzen','Das hat leider nicht geklappt. Prüfe die Internetverbindung und versuche es noch einmal.','Noch einmal versuchen',st()?true:false);
+ }finally{busy=false;go.disabled=false;del.disabled=false;try{wl&&wl.release()}catch(e){}}
+}
+go.addEventListener('click',run);
+del.addEventListener('click',async function(){
+ if(busy)return;if(!confirm('Alle offline gespeicherten Dateien auf diesem Gerät löschen? Dein Lernfortschritt bleibt erhalten.'))return;
+ await caches.delete(APP);await caches.delete(AUD);sv(null);await status()});
+box.addEventListener('toggle',function(){if(box.open&&!busy)status()});
+// Einrichten ohne Anmeldung: Anmeldefenster schließen und Offline-Bereich zeigen
+function einrichten(){var l=$('#lgov');if(l)l.hidden=true;document.body.style.overflow='';
+ for(var i=0;i<document.body.children.length;i++)document.body.children[i].removeAttribute('inert');
+ box.open=true;setTimeout(function(){box.scrollIntoView({block:'center'})},60)}
+var lo=$('#lg-off');if(lo)lo.addEventListener('click',einrichten);
+if(location.hash==='#offline')setTimeout(einrichten,150);
+// Ohne Aufklappen: nur Hinweis in der Überschrift, falls schon einmal geladen
+if(okEnv&&st()){status().catch(function(){})}
+else if(!okEnv){hint.hidden=true}
+})();
+</script><!--/KOFFJS-->
+
 </body>
 </html>
