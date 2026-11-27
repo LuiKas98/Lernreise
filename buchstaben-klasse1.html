@@ -87,6 +87,26 @@ main{max-width:980px;margin:0 auto;padding:18px 16px 60px}
 .fl:focus{outline:none}.fl:focus-visible{outline:none}
 .fl.hit{color:#12a56b}.fl.no{color:#e0525a}.fl.lk{cursor:default}
 .unl{margin:6px 0 0;font-weight:800;color:#0b8f6a}.tile.lock{opacity:.55;cursor:not-allowed}
+/* Zusatz-Übungen: Silben schwingen, Vokale markieren */
+.hubbtn{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.syrow{display:flex;justify-content:center;align-items:flex-end;gap:10px;flex-wrap:wrap;min-height:128px;margin:6px 0 10px}
+.sy{display:inline-flex;flex-direction:column;align-items:center;color:#2447d6}
+.sy .arc{width:96px;height:46px;display:block}
+.sy.off{color:#cfd7ee}.sy.on{color:#ff9f1c}.sy.ok{color:#12a56b}
+.sy.pop{animation:pu .35s}
+.sy .sl{margin-top:12px;color:#1d2a5b;display:block}.sysv{height:84px;width:auto;display:block}
+.swing{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:200px;min-height:104px;padding:12px 30px;border-radius:30px;border:3px solid #1d2a5b;background:#e6f0ff;color:#1d2a5b;font-weight:900;font-size:1.3em;box-shadow:0 7px 0 #1d2a5b;cursor:pointer}
+.swing span{font-size:1.8em;line-height:1}.swing:active:not(:disabled){transform:translateY(4px);box-shadow:0 3px 0 #1d2a5b}.swing:disabled{opacity:.5}
+.vleg{text-align:center;color:var(--mut);font-size:.95em;margin:2px 0 8px}.vleg b{color:#e63946}
+.vr{color:#e63946}
+.vrow{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px 0}
+.vt{border:3px solid #1d2a5b;border-radius:20px;background:#fff;color:#2447d6;box-shadow:0 6px 0 #1d2a5b;padding:8px 14px;min-width:72px;min-height:124px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.vt .vsv{height:104px;width:auto;display:block}
+.vt.on{background:#ffe3e6;border-color:#e63946;color:#e63946;box-shadow:0 6px 0 #e63946}
+.vt.con{color:#2447d6}
+.vt.bad{background:#ffe9cf;border-color:#e8590c;box-shadow:0 6px 0 #e8590c;animation:sk .35s}
+.vt:disabled{cursor:default}
+@media(prefers-reduced-motion:reduce){.sy.pop,.vt.bad{animation:none}}
 /* ===== Modernes Erscheinungsbild (passend zu den anderen Portalen) ===== */
 :root{--ink:#1b2559;--mut:#5d6896;--glass:rgba(255,255,255,.96);--edge:rgba(36,71,214,.14);--sh:0 10px 30px rgba(36,71,214,.12)}
 html{background:#eef2ff}
@@ -671,7 +691,9 @@ function hub(){
  h+='<div class="tiles">'+o.map((id,i)=>{const u=UNITS[id],lock=!kn.has(id);
   return '<button class="tile'+(lock?' lock':'')+(doneN(id)===stationsOf(id).length?' full':'')+'" data-letter="'+id+'" aria-label="Buchstabe '+esc(unitLabel(id))+(lock?', noch gesperrt':'')+'"'+(lock?' aria-disabled="true"':'')+'><span class="tl">'+glyphSvg(u.up?u.up+u.lo:u.lo,'#2447d6','tls')+'</span><span class="te" aria-hidden="true">'+keyOf(id).e+'</span>'+(lock?'<span class="lk" aria-hidden="true">🔒</span>':stars(id))+'</button>'}).join('')+'</div>';
  const nw=wordsFor(null).length;
- h+='<div class="hubbtn"><button class="big" data-act="words"'+(nw?'':' disabled')+'>📝 Wörter schreiben<small>mit allen Buchstaben, die ihr schon kennt</small></button></div></main>';
+ h+='<div class="hubbtn"><button class="big" data-act="words"'+(nw?'':' disabled')+'>📝 Wörter schreiben<small>mit allen Buchstaben, die ihr schon kennt</small></button>'+
+  '<button class="big" data-act="silben">🌊 Silben schwingen<small>Wörter in Silben zerlegen</small></button>'+
+  '<button class="big" data-act="vokale"'+(nw?'':' disabled')+'>🔴 Vokale markieren<small>Selbstlaute in Wörtern finden</small></button></div></main>';
  setMain(h);bindTop()}
 function bindTop(){
  $$('[data-act]',app).forEach(b=>b.addEventListener('click',()=>act(b.dataset.act)));
@@ -679,7 +701,7 @@ function bindTop(){
  const w=$('#wech');w&&w.addEventListener('click',()=>wechseln())}
 function act(a){
  if(a==='hub')hub();else if(a==='home')location.href='index.html';else if(a==='settings')settings();
- else if(a==='letter')openLetter(V.unit);else if(a==='words')wordsGame(null)}
+ else if(a==='letter')openLetter(V.unit);else if(a==='words')wordsGame(null);else if(a==='silben')sylGame(null);else if(a==='vokale')vokGame(null)}
 /* ---- Einstellungen ---- */
 function settings(){
  const ov=document.createElement('div');ov.className='ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-labelledby','sth');
@@ -712,7 +734,12 @@ function openLetter(id){
  h+='<div class="show"><div class="big-l" aria-hidden="true">'+glyphSvg(u.up?u.up+u.lo:u.lo,'#2447d6','bls')+'</div><button class="key" data-say="1"><span class="ke" aria-hidden="true">'+keyOf(id).e+'</span><span><b>'+esc(u.up?u.up:u.lo.toUpperCase())+'</b> wie '+esc(keyOf(id).w)+'</span><span class="sp" aria-hidden="true">🔊</span></button></div>';
  h+='<h2 class="sh">Deine Stationen</h2><div class="stations">';
  stationsOf(id).forEach((s,i)=>{const d=(P()[id]||{})[s.k];h+='<button class="stn'+(d?' ok':'')+'" data-st="'+s.k+'"><span class="si">'+s.i+'</span><span class="stx"><b>'+(i+1)+'. '+s.t+'</b>'+(d?'<small>geschafft ★</small>':'<small>los geht’s</small>')+'</span></button>'});
- h+='</div></main>';setMain(h);bindTop();
+ h+='</div>';
+ const ex=extrasOf(id);
+ if(ex.length){h+='<h2 class="sh">Zusatz-Übungen</h2><div class="stations">';
+  ex.forEach(s=>{const d=(P()[id]||{})[s.k];h+='<button class="stn'+(d?' ok':'')+'" data-st="'+s.k+'"><span class="si">'+s.i+'</span><span class="stx"><b>'+s.t+'</b>'+(d?'<small>geschafft ★</small>':'<small>zusätzlich, zum Üben</small>')+'</span></button>'});
+  h+='</div>'}
+ h+='</main>';setMain(h);bindTop();
  $('[data-say]',app).addEventListener('click',()=>say((UNITS[id].up||UNITS[id].lo)+' wie '+keyOf(id).w));
  $$('[data-st]',app).forEach(b=>b.addEventListener('click',()=>startStation(id,b.dataset.st)))}
 function info(msg){const ov=document.createElement('div');ov.className='ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
@@ -720,13 +747,13 @@ function info(msg){const ov=document.createElement('div');ov.className='ov';ov.s
  const c=()=>{ov.remove()};$('#iok',ov).addEventListener('click',c);$('#iok',ov).focus();ov.addEventListener('keydown',e=>{if(e.key==='Escape')c()})}
 function mark(id,k){const p=P();(p[id]=p[id]||{})[k]=1;save()}
 function startStation(id,k){
- if(k==='ks')traceGame(id,false);else if(k==='gs')traceGame(id,true);else if(k==='f')findGame(id);else if(k==='h')hearGame(id);else wordsGame(id)}
+ if(k==='ks')traceGame(id,false);else if(k==='gs')traceGame(id,true);else if(k==='f')findGame(id);else if(k==='h')hearGame(id);else if(k==='sb')sylGame(id);else if(k==='vo')vokGame(id);else wordsGame(id)}
 /* ---- Abschlussbild ---- */
 function result(id,k,msg,again){
  const before=unlockedSet();mark(id,k);sfx.star();const nw=[...unlockedSet()].filter(x=>!before.has(x));
  const ov=document.createElement('div');ov.className='ov res';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
- const n=doneN(id),t=stationsOf(id).length;
- ov.innerHTML='<div class="dlg ce"><div class="bigstar" aria-hidden="true">⭐</div><h2>Geschafft!</h2><p>'+msg+'</p><p class="sm2">'+n+' von '+t+' Stationen bei '+esc(unitLabel(id))+'</p>'+(nw.length?'<p class="unl">🔓 Neu freigeschaltet: <b>'+esc(unitLabel(nw[0]))+'</b></p>':'')+'<div class="dbtn"><button class="big sm" id="rb">Weiter</button><button class="chip" id="ra">Nochmal</button></div></div>';
+ const n=doneN(id),t=stationsOf(id).length,ex=EXTRA.some(e=>e.k===k);
+ ov.innerHTML='<div class="dlg ce"><div class="bigstar" aria-hidden="true">⭐</div><h2>Geschafft!</h2><p>'+msg+'</p><p class="sm2">'+(ex?'Zusatz-Übung bei '+esc(unitLabel(id))+' geschafft':n+' von '+t+' Stationen bei '+esc(unitLabel(id)))+'</p>'+(nw.length?'<p class="unl">🔓 Neu freigeschaltet: <b>'+esc(unitLabel(nw[0]))+'</b></p>':'')+'<div class="dbtn"><button class="big sm" id="rb">Weiter</button><button class="chip" id="ra">Nochmal</button></div></div>';
  document.body.appendChild(ov);$('#rb',ov).focus();
  $('#rb',ov).addEventListener('click',()=>{ov.remove();openLetter(id)});$('#ra',ov).addEventListener('click',()=>{ov.remove();again()})}
 const stageHTML=(id,title,sub)=>tb(esc(unitLabel(id))+' · '+title,'letter')+'<main class="stage"><p class="task" id="task" aria-live="polite">'+sub+'</p><div id="bhost"></div><div class="ctr" id="ctr"></div><div class="dots" id="dots" aria-hidden="true"></div></main>';
@@ -825,16 +852,20 @@ function Arbeitsblatt(mode,opt){
   a:{w:.9,p:[[0,2],[.2,1.6],[.45,1.05],[.3,1.0],[.14,1.3],[.2,1.8],[.4,2],[.6,1.5],[.62,1.0],[.62,1.7],[.7,1.95],[.9,2]]},
   u:{w:.9,p:[[0,2],[.2,1.2],[.26,1.0],[.3,1.6],[.45,1.95],[.62,1.8],[.68,1.0],[.7,1.6],[.72,1.95],[.9,2]]}
  };
- function curWord(word,px,py){var x=0,S=[],dots=[];for(var k=0;k<word.length;k++){var g=CUR[word[k]];if(!g)continue;
-   var q=g.p.map(function(a){return [a[0]+x,a[1]]});S.push(pushLen({pts:smooth(q,px,py)}));if(g.dot)dots.push([x+g.dot[0],g.dot[1]]);x+=g.w}
-  dots.forEach(function(d){var cx=px+d[0]*b,cy=py+d[1]*b;S.push(pushLen({pts:[[cx-b*.03,cy-b*.05],[cx+b*.04,cy+b*.1]]}))});
-  return {s:S,w:x*b}}
- function curExercise(kind,px,py,n){var S=[],x=0;
-  if(kind==='schlaufen'){for(var i=0;i<n;i++){var g=CUR.l,q=g.p.map(function(a){return [a[0]+x,a[1]]});S.push(pushLen({pts:smooth(q,px,py)}));x+=g.w}}
-  else if(kind==='boegen'){var q=[[0,2]];for(var i=0;i<n;i++){q.push([x+.15,1.3],[x+.3,1.0],[x+.5,1.05],[x+.62,1.5],[x+.6,2]);x+=.6;}S.push(pushLen({pts:smooth(q,px,py)}));}
-  else if(kind==='girlanden'){var q=[[0,1]];for(var i=0;i<n;i++){q.push([x+.15,1.7],[x+.35,2],[x+.55,1.7],[x+.7,1]);x+=.7}S.push(pushLen({pts:smooth(q,px,py)}))}
-  else{var q=[[0,1.5]];for(var i=0;i<n*2;i++){q.push([x+.25,i%2?1.8:1.2]);x+=.25}S.push(pushLen({pts:smooth(q,px,py)}))}
-  return {s:S,w:x*b}}
+ /* Klasse 2: echte Vereinfachte Ausgangsschrift aus den Buchstabenformen der App (GL/layoutWord, mit Verbindungen).
+    Vor-Scherung: Mittelband y 38..102 => Zeile b..2b (Grundlinie rot), Dach nach oben, Keller nach unten. */
+ function vaWord(word,px,py){
+  if(typeof layoutWord!=='function'||typeof GL==='undefined')return null;
+  var lay;try{lay=layoutWord(word)}catch(e){return null}
+  if(!lay||!lay.strokes||!lay.strokes.length)return null;
+  var k=b/64,S=[];
+  lay.strokes.forEach(function(s){var pts=s.pts.map(function(p){return [px+(p[0]-lay.x0)*k,py+b+(p[1]-38)*k]});
+   if(pts.length<3&&s.len<3){var c=pts[0];pts=[[c[0]-b*.02,c[1]-b*.04],[c[0]+b*.04,c[1]+b*.08]]}
+   S.push(pushLen({pts:pts}))});
+  return {s:S,w:lay.w*k}}
+ function curWord(word,px,py){var o=vaWord(word,px,py);return o||{s:[],w:0}}
+ function curExercise(kind,px,py,n){var u=pick({schlaufen:['l'],boegen:['n','u'],girlanden:['u','e'],wellen:['m','e']}[kind]||['l']);
+  var o=vaWord(new Array(n+1).join(u),px,py);return o||{s:[],w:0}}
  /* Druckschrift aus den Buchstabenformen der App (GL), skaliert auf die Zeile: y -35..175 => 0..3 b */
  function printWord(word,px,py){
   if(typeof layoutText!=='function'||typeof GL==='undefined')return null;
@@ -849,7 +880,7 @@ function Arbeitsblatt(mode,opt){
   else{for(var i=0;i<n;i++){var c=[],cx=px+x+b*.4;for(var a=-70;a>=-430;a-=12)c.push([cx+b*.38*Math.cos(a*Math.PI/180),py+b*1.55+b*.5*Math.sin(a*Math.PI/180)]);S.push(pushLen({pts:c}));x+=b*.95}}
   return {s:S,w:x}}
  var WORDS_P=['Lola','Oma','Opa','Ofen','Uhr','Igel','Wal','Hase','Maus','Insel','Buch','Tiger','Mama','Papa','Eis'];
- var WORDS_C=['mama','mein','nein','alle','male','leine','mine','amulin'.slice(0,4),'lena','nie','eile'];
+ var WORDS_C=['Lola','Oma','Hase','Maus','Eule','Igel','Wiese','Mond','Buch','Fuß','Katze','Zebra','lesen','Blume','Schule','Affe','Tiger','Mama','Papa','Insel'];
  function makeTask(r){
   var ml=Math.round(Math.max(46,b*1.5)),px=ml+b*.6,py=r.y,S=[],maxX=W-b;
   var kinds=pen?['w','w','x','w']:['w','w','x','w'];
@@ -957,6 +988,127 @@ function Arbeitsblatt(mode,opt){
  var rt=0;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){if(!alive)return;cancelAnimationFrame(raf);gI.setTransform(1,0,0,1,0,0);pencil.mode='idle';pencil.pos=null;pencil.wait=.8;eraser.mode='idle';eraser.wait=rnd(1.5,3);crumbs.length=0;start()},250)});
  start();
  return {destroy:function(){alive=false;cancelAnimationFrame(raf);box.remove()},setOn:function(on){box.style.display=on?'':'none';if(!on){cancelAnimationFrame(raf);alive=false}else if(!alive){alive=true;start()}}}}
+
+/* ===== Zusatz-Übungen: Silben schwingen und Vokale markieren ===== */
+const EXTRA=[{k:'sb',t:'Silben schwingen',i:'🌊'},{k:'vo',t:'Vokale markieren',i:'🔴'}];
+const VOWELU=['a','e','i','o','u','ä','ö','ü','au','äu','ei','eu','ie'];
+const isVowU=x=>VOWELU.indexOf(x)>=0;
+/* Silben aus den Schreib-Einheiten: Selbstlaute bilden den Kern, Mitlaute werden aufgeteilt (Lam-pe, Kran-ken, Zi-tro-ne) */
+function sylsOf(w){
+ const us=w.u,items=[];let pos=0;
+ us.forEach(function(x){
+  if(x==='ng'||x==='nk'){items.push({c:x[0],v:0,p:pos,l:1});items.push({c:x[1],v:0,p:pos+1,l:1})}
+  else items.push({c:x,v:isVowU(x)?1:0,p:pos,l:x.length});
+  pos+=x.length});
+ const nuc=[];items.forEach(function(it,i){if(it.v)nuc.push(i)});
+ if(nuc.length<2)return [w.w];
+ const cuts=[0];
+ for(let k=0;k+1<nuc.length;k++){
+  const a=nuc[k],b=nuc[k+1],n=b-a-1;let cut;
+  if(n===0)cut=b;
+  else if(n===1)cut=a+1;
+  else{
+   const l1=items[b-1].c,l0=items[b-2].c;
+   cut=(n>=2&&'bdgkpt'.indexOf(l0)>=0&&'lr'.indexOf(l1)>=0)?b-2:b-1}
+  cuts.push(cut)}
+ const out=[];
+ for(let k=0;k<cuts.length;k++){
+  const from=items[cuts[k]].p,to=k+1<cuts.length?items[cuts[k+1]].p:w.w.length;
+  out.push(w.w.slice(from,to))}
+ return out}
+WORDS.forEach(function(x){x.sy=sylsOf(x)});
+const dispCase=(w,s)=>{const t=DB.cfg.gross?s:s.toLowerCase();return t};
+/* ---- gemeinsamer Abschluss, auch ohne Buchstaben ---- */
+function finish(id,k,msg,again,n){
+ if(id){result(id,k,msg,again);return}
+ sfx.star();const o=document.createElement('div');o.className='ov res';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+ o.innerHTML='<div class="dlg ce"><div class="bigstar" aria-hidden="true">⭐</div><h2>Geschafft!</h2><p>'+msg+'</p><div class="dbtn"><button class="big sm" id="rb">Zur Übersicht</button><button class="chip" id="ra">Nochmal</button></div></div>';
+ document.body.appendChild(o);$('#rb',o).addEventListener('click',()=>{o.remove();hub()});$('#ra',o).addEventListener('click',()=>{o.remove();again()});$('#rb',o).focus()}
+/* ---- Wörterauswahl ---- */
+function sybWords(id){
+ let pool;
+ if(id)pool=WORDS.filter(w=>w.u.includes(id)||w.lt.includes(id));
+ else{pool=wordsFor(null);if(pool.length<4)pool=WORDS.slice()}
+ if(pool.length<3)pool=WORDS.slice();
+ /* Wörter mit unterschiedlicher Silbenzahl mischen: erst je Silbenzahl eines, dann auffüllen */
+ const by={};sh(pool).forEach(w=>{(by[w.sy.length]=by[w.sy.length]||[]).push(w)});
+ const out=[];Object.keys(by).sort().forEach(k=>{if(by[k].length)out.push(by[k].shift())});
+ const rest=sh([].concat.apply([],Object.keys(by).map(k=>by[k])));
+ while(out.length<5&&rest.length)out.push(rest.shift());
+ return sh(out).slice(0,5)}
+function vokWords(id){
+ let pool=id?wordsFor(id):wordsFor(null);
+ pool=pool.filter(w=>w.u.some(isVowU)&&w.u.length<=9);
+ return sh(pool).slice(0,5)}
+const hasVok=id=>wordsFor(id).filter(w=>w.u.some(isVowU)&&w.u.length<=9).length>=2;
+function extrasOf(id){return EXTRA.filter(s=>s.k==='sb'||(s.k==='vo'&&hasVok(id)))}
+/* ---- Silben schwingen ---- */
+function arcSvg(cls){return '<svg class="'+(cls||'arc')+'" viewBox="0 0 100 46" aria-hidden="true" focusable="false"><path d="M6 44 C6 6 94 6 94 44" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/></svg>'}
+function sylGame(id){
+ const list=sybWords(id),u=id?UNITS[id]:null;let i=0;
+ setMain(id?stageHTML(id,'Silben schwingen',''):tb('Silben schwingen','hub')+'<main class="stage"><p class="task" id="task" aria-live="polite"></p><div id="bhost"></div><div class="ctr" id="ctr"></div><div class="dots" id="dots" aria-hidden="true"></div></main>');bindTop();
+ function next(){
+  dotsBar(list.length,i);const w=list[i],n=w.sy.length,bh=$('#bhost'),ctr=$('#ctr');bh.innerHTML='';ctr.innerHTML='';
+  $('#task').innerHTML='Höre das Wort und <b>schwinge die Silben</b>: Tippe bei jeder Silbe einmal auf den Schwinger.';
+  bh.innerHTML='<div class="hw"><div class="hp" aria-hidden="true">'+w.e+'</div><button class="chip hs" id="hs">🔊 Hören</button><button class="chip" id="dm">👀 Vormachen</button></div>'+
+   '<div class="syrow" id="syrow" role="img" aria-label="Deine Silbenbögen"></div>'+
+   '<div class="dbtn"><button class="swing" id="sw" aria-label="Silbe schwingen: einmal tippen pro Silbe"><span aria-hidden="true">🌊</span><b>Schwingen</b></button></div>';
+  ctr.innerHTML='<button class="big sm" id="pb" disabled>✔ Prüfen</button><button class="chip" id="cl">↺ Nochmal</button><p class="fb" id="fb" role="status"></p>';
+  const row=$('#syrow'),pb=$('#pb'),fb=$('#fb');let cnt=0,lock=false,fails=0,timers=[];
+  const clr=()=>{timers.forEach(clearTimeout);timers=[]};
+  const play=()=>sayWord(w);setTimeout(play,250);$('#hs').addEventListener('click',play);
+  const paint=(k,cls)=>{row.innerHTML=Array.from({length:k},(_,j)=>'<span class="sy '+(cls||'')+'">'+arcSvg()+'</span>').join('');row.setAttribute('aria-label',k+' Silbenbögen')};
+  const demo=()=>{if(lock)return;clr();paint(n,'off');fb.textContent='';fb.className='fb';
+   sayWord(w);const els=[...row.children];
+   els.forEach((e,j)=>timers.push(setTimeout(()=>{e.classList.remove('off');e.classList.add('on');sfx.tick();
+    if(j===n-1)timers.push(setTimeout(()=>{if(!lock){paint(0);cnt=0;pb.disabled=true}},RM?1200:1500))},(RM?900:650)*(j+1)+350)));
+   fb.textContent='Schau und sprich mit: '+n+' Silben.'};
+  $('#dm').addEventListener('click',demo);
+  $('#sw').addEventListener('click',()=>{if(lock)return;if(cnt>=7)return;clr();cnt++;paint(cnt,'on');const l=row.lastChild;l.classList.add('pop');tone(440+cnt*70,.14);pb.disabled=false;fb.textContent='';fb.className='fb'});
+  $('#cl').addEventListener('click',()=>{if(lock)return;clr();cnt=0;paint(0);pb.disabled=true;fb.textContent=''});
+  pb.addEventListener('click',()=>{if(lock||!cnt)return;
+   if(cnt===n){lock=true;clr();sfx.ok();pb.disabled=true;$('#cl').disabled=true;$('#sw').disabled=true;
+    row.innerHTML=w.sy.map(s=>'<span class="sy ok">'+arcSvg()+'<span class="sl">'+glyphSvg(dispCase(w,s),'currentColor','sysv')+'</span></span>').join('');
+    row.setAttribute('aria-label',w.w+' hat '+n+' Silben: '+w.sy.join(' ')); /* Lesehilfe */
+    fb.className='fb ok';fb.textContent=n===1?'Richtig! Das Wort hat eine Silbe.':'Richtig! '+w.sy.join(' – ');
+    timers.push(setTimeout(()=>{i++;if(i<list.length)next();else finish(id,'sb',id?'Du kannst jetzt Wörter mit dem <b>'+esc(u.lo)+'</b> in Silben schwingen.':'Du kannst Wörter in Silben schwingen.',()=>sylGame(id))},2200))}
+   else{fails++;sfx.no();fb.className='fb';
+    fb.textContent=cnt>n?'Das waren zu viele. Sprich das Wort langsam und klatsche bei jeder Silbe.':'Das waren zu wenige. Sprich das Wort langsam und klatsche bei jeder Silbe.';
+    cnt=0;pb.disabled=true;paint(0);if(fails>=2)timers.push(setTimeout(demo,900))}});
+  paint(0)}
+ next()}
+/* ---- Vokale markieren ---- */
+function vokGame(id){
+ const list=vokWords(id),u=id?UNITS[id]:null;let i=0;
+ if(!list.length){info('Für diesen Buchstaben gibt es noch keine Wörter zum Markieren.');return}
+ setMain(id?stageHTML(id,'Vokale markieren',''):tb('Vokale markieren','hub')+'<main class="stage"><p class="task" id="task" aria-live="polite"></p><div id="bhost"></div><div class="ctr" id="ctr"></div><div class="dots" id="dots" aria-hidden="true"></div></main>');bindTop();
+ function next(){
+  dotsBar(list.length,i);const w=list[i],bh=$('#bhost'),ctr=$('#ctr');bh.innerHTML='';ctr.innerHTML='';
+  const txt=DB.cfg.gross?w.w:w.w.toLowerCase();
+  $('#task').innerHTML='Tippe alle <b>Vokale</b> (Selbstlaute) an. Sie werden <b class="vr">rot</b>.';
+  const tiles=[];let pos=0;w.u.forEach(x=>{const t=txt.slice(pos,pos+x.length);pos+=x.length;tiles.push({x:x,t:t,v:isVowU(x)})});
+  bh.innerHTML='<div class="hw"><div class="hp" aria-hidden="true">'+w.e+'</div><button class="chip hs" id="hs">🔊 Hören</button></div>'+
+   '<p class="vleg" aria-label="Vokale: a, e, i, o, u, ä, ö, ü, au, äu, ei, eu, ie"><span aria-hidden="true">Vokale: <b>a e i o u</b> · <b>ä ö ü</b> · <b>au äu ei eu ie</b></span></p>'+
+   '<div class="vrow" role="group" aria-label="Buchstaben des Wortes">'+tiles.map((t,j)=>'<button class="vt" data-j="'+j+'" aria-pressed="false" aria-label="Buchstabe '+esc(t.t)+'">'+glyphSvg(t.t,'currentColor','vsv')+'</button>').join('')+'</div>';
+  ctr.innerHTML='<button class="big sm" id="pb" disabled>✔ Prüfen</button><button class="chip" id="cl">↺ Neu</button><button class="chip" id="hl" hidden>👀 Zeig’s mir</button><p class="fb" id="fb" role="status"></p>';
+  const pb=$('#pb'),fb=$('#fb'),ts=$$('.vt',bh);let fails=0,lock=false;
+  const play=()=>sayWord(w);setTimeout(play,250);$('#hs').addEventListener('click',play);
+  const upd=()=>{pb.disabled=!ts.some(b=>b.classList.contains('on'))};
+  ts.forEach(b=>b.addEventListener('click',()=>{if(lock)return;const on=!b.classList.contains('on');b.classList.toggle('on',on);b.classList.remove('bad','miss');b.setAttribute('aria-pressed',on);sfx.tick();fb.textContent='';upd()}));
+  $('#cl').addEventListener('click',()=>{if(lock)return;ts.forEach(b=>{b.classList.remove('on','bad','miss');b.setAttribute('aria-pressed','false')});fb.textContent='';upd()});
+  const reveal=(final)=>{ts.forEach((b,j)=>{b.classList.remove('bad','miss');b.classList.toggle('on',tiles[j].v);b.classList.toggle('con',!tiles[j].v);b.setAttribute('aria-pressed',tiles[j].v)})};
+  $('#hl').addEventListener('click',()=>{if(lock)return;reveal();fb.className='fb';fb.textContent='So sieht es richtig aus. Probiere das nächste Wort allein.';lock=true;pb.disabled=true;setTimeout(go,2600)});
+  const go=()=>{i++;if(i<list.length)next();else finish(id,'vo',id?'Du erkennst die Vokale in Wörtern mit dem <b>'+esc(u.lo)+'</b>.':'Du erkennst die Vokale in Wörtern.',()=>vokGame(id))};
+  pb.addEventListener('click',()=>{if(lock)return;
+   const wrong=[],miss=[];ts.forEach((b,j)=>{const on=b.classList.contains('on');if(on&&!tiles[j].v)wrong.push(j);if(!on&&tiles[j].v)miss.push(j)});
+   if(!wrong.length&&!miss.length){lock=true;sfx.ok();reveal();ts.forEach(b=>b.disabled=true);pb.disabled=true;$('#cl').disabled=true;fb.className='fb ok';
+    const vs=tiles.filter(t=>t.v).map(t=>t.t.toLowerCase());fb.textContent='Richtig! '+(vs.length===1?'Der Vokal ist ':'Die Vokale sind ')+vs.join(', ')+'.';setTimeout(go,2000)}
+   else{fails++;sfx.no();fb.className='fb';
+    wrong.forEach(j=>ts[j].classList.add('bad'));
+    fb.textContent=wrong.length?'Dieser Buchstabe ist kein Vokal (orange). Vokale sind a, e, i, o, u, ä, ö, ü, au, äu, ei, eu und ie.':'Schon gut! Es fehlt noch ein Vokal. Sprich das Wort langsam: Welcher Laut klingt offen und lang?';
+    if(fails>=2){$('#hl').hidden=false;$('#hl').classList.add('pulse')}}})
+  }
+ next()}
 
 /* ---- Buchstaben finden ---- */
 const CONF={a:'o e d q u',b:'d p q h l',c:'e o s a',d:'b q p a g',e:'c o a s',f:'t l i k',g:'q y p a',h:'n b k l',i:'l j t f',j:'i y g l',k:'h x r y',l:'i t j f',m:'n w r u',n:'m h r u',o:'a c e d',p:'q b d g',q:'p g d a',r:'n m v t',s:'z c e a',t:'f l i k',u:'n v y a',v:'w y u x',w:'v m u x',x:'k v y z',y:'v g j x',z:'s x n',ä:'a ö ü o',ö:'o ä ü c',ü:'u ä ö n',ß:'b s f h',
