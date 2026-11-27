@@ -252,7 +252,7 @@ body{background:transparent;font-family:"Inter","Avenir Next","Segoe UI","Trebuc
  J:{w:50,s:['M 40 0 L 40 70 C 40 100 10 106 4 82']},
  K:{w:62,s:['M 8 0 L 8 100','M 8 50 L 54 0','M 8 50 L 58 100']},
  L:{w:52,s:['M 8 0 L 8 100 L 48 100']},
- M:{w:80,s:['M 8 100 L 8 0 L 38 72 L 68 0 L 68 100']},
+ M:{w:80,s:['M 8 100 L 8 0 L 38 100 L 68 0 L 68 100']},
  N:{w:68,s:['M 8 100 L 8 0 L 58 100 L 58 0']},
  O:{w:70,s:[O]},
  P:{w:58,s:['M 8 0 L 8 100','M 8 0 L 30 0 C 58 0 58 52 30 52 L 8 52']},
@@ -379,8 +379,13 @@ function recognize(drawn,ch,opt){
    if(isLine(TS[pm[i]])&&angDiff(DS[i],TS[pm[i]])>REC.ANG)sum+=200}
   var m=sum/DS.length;if(!best||m<best.mean)best={mean:m,max:mx,rev:rev,ordered:ordered}});
  var shapeOk=best.mean<=REC.T&&best.max<=REC.TMAX&&dotsOk(),dirOk=best.rev===0;
+ /* Spitzen in der Mitte von M (bis zur Grundlinie) und W (bis ganz nach oben) müssen die Linie wirklich erreichen */
+ if(shapeOk&&(ch==='M'||ch==='W')){var TT=[];tmpl.forEach(function(s){TT=TT.concat(s)});
+  var tp=ch==='M'?TT.reduce(function(a,q){return Math.abs(q[0]-bt.cx)<14&&q[1]>a[1]?q:a},[0,-1e9]):TT.reduce(function(a,q){return Math.abs(q[0]-bt.cx)<14&&q[1]<a[1]?q:a},[0,1e9]);
+  var hit=dd.some(function(q){return q.p.some(function(p){return dist(fix(p),tp)<=15})});
+  if(!hit)return {ok:false,shapeOk:false,mean:best.mean,max:best.max,dirOk:dirOk,orderOk:best.ordered,why:'mitte'+ch}}
  return {ok:shapeOk&&dirOk,shapeOk:shapeOk,mean:best.mean,max:best.max,dirOk:dirOk,orderOk:best.ordered,why:!shapeOk?'form':!dirOk?'richtung':''}}
-const costOf=function(r){return r.ok?(r.mean||0):r.why==='leer'?55:(r.why==='form'||r.why==='richtung'||r.why==='offen'||r.why==='start'||r.why==='absetzen'||/^(klein|gross|top_|bot_)/.test(r.why||''))?30+Math.min(r.mean||0,60):80};
+const costOf=function(r){return r.ok?(r.mean||0):r.why==='leer'?55:(r.why==='form'||r.why==='mitteM'||r.why==='mitteW'||r.why==='richtung'||r.why==='offen'||r.why==='start'||r.why==='absetzen'||/^(klein|gross|top_|bot_)/.test(r.why||''))?30+Math.min(r.mean||0,60):80};
 /* Ganzes Wort: Striche den Buchstaben zuordnen. Zwei Wege: nach Lage von links nach rechts oder in Schreibreihenfolge (Punkte und
    Querstriche kommen oft zum Schluss). Es gewinnt die bessere Zuordnung. Lage und Abstand der Buchstaben sind egal. */
 function recognizeWord(inks,lay,ox,oy){
@@ -759,7 +764,7 @@ function result(id,k,msg,again){
 const stageHTML=(id,title,sub)=>tb(esc(unitLabel(id))+' · '+title,'letter')+'<main class="stage"><p class="task" id="task" aria-live="polite">'+sub+'</p><div id="bhost"></div><div class="ctr" id="ctr"></div><div class="dots" id="dots" aria-hidden="true"></div></main>';
 function dotsBar(n,i){const d=$('#dots');if(d)d.innerHTML=Array.from({length:n},(_,k)=>'<i class="'+(k<i?'d':k===i?'c':'')+'"></i>').join('')}
 /* ---- Nachspuren ---- */
-const WHYMSG={punkt:'Da fehlt noch ein Punkt.',zuviel:'Da ist ein Strich zu viel.',striche:'Schau dir den Buchstaben noch einmal an. Probiere es nochmal.',klein:'Schreibe größer: Der Buchstabe soll die Zeile ausfüllen.',gross:'Schreibe kleiner: Der Buchstabe soll in die Zeile passen.',leer:'Da fehlt noch ein Buchstabe.',form:'Fast! Schreibe die Striche etwas genauer. Probiere es nochmal.',richtung:'Achte auf die Schreibrichtung: Folge den Startpunkten und Pfeilen.',start:'Fange oben an: Der Kringel beginnt immer oben, dann geht es gegen den Uhrzeigersinn.',offen:'Der Kringel ist noch nicht ganz zu. Schließe ihn, dann kann nichts hineinregnen.',absetzen:'Schreibe den Buchstaben in einem Zug: Setze den Finger nicht ab.'};
+const WHYMSG={punkt:'Da fehlt noch ein Punkt.',zuviel:'Da ist ein Strich zu viel.',striche:'Schau dir den Buchstaben noch einmal an. Probiere es nochmal.',klein:'Schreibe größer: Der Buchstabe soll die Zeile ausfüllen.',gross:'Schreibe kleiner: Der Buchstabe soll in die Zeile passen.',leer:'Da fehlt noch ein Buchstabe.',form:'Fast! Schreibe die Striche etwas genauer. Probiere es nochmal.',richtung:'Achte auf die Schreibrichtung: Folge den Startpunkten und Pfeilen.',start:'Fange oben an: Der Kringel beginnt immer oben, dann geht es gegen den Uhrzeigersinn.',offen:'Der Kringel ist noch nicht ganz zu. Schließe ihn, dann kann nichts hineinregnen.',mitteM:'Die Spitze in der Mitte vom M muss ganz nach unten bis zur roten Linie gehen.',mitteW:'Die Spitze in der Mitte vom W muss ganz nach oben bis zum Ende des Daches gehen.',absetzen:'Schreibe den Buchstaben in einem Zug: Setze den Finger nicht ab.'};
 /* Zeilen-Hinweise: sagen genau, wo es nicht gepasst hat */
 function whyMsg(r){
  if(!r)return '';
